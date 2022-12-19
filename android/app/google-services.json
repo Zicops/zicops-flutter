@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "142488541576",
+    "project_id": "zicops-23e57",
+    "storage_bucket": "zicops-23e57.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142488541576:android:c9679a13c1c7013499423d",
+        "android_client_info": {
+          "package_name": "com.example.zicops"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142488541576-lij4khienoh0sq6i2igmkvhvsk3u4j3a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHfUSlwaoEeTUBoGbFT8iLWdwCEUnk-9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142488541576-lij4khienoh0sq6i2igmkvhvsk3u4j3a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "142488541576-qsh42pbeo7f39pupjpvk976m63h68ppf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.zicops"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
