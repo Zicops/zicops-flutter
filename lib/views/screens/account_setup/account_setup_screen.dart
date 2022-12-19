@@ -22,17 +22,18 @@ class _AccountSetupScreen extends State<AccountSetupScreen> {
   String errorMsgP = "";
   int _selectedTab = 0;
 
-  changeTab(){
+  changeTab() {
     setState(() {
-      _selectedTab = _selectedTab +1;
+      _selectedTab = _selectedTab + 1;
     });
   }
+
   getScreen() {
     switch (_selectedTab) {
       case 0:
         return PersonalTabScreen(changeTab);
       case 1:
-        return OrganizationTabScreen();
+        return OrganizationTabScreen(changeTab);
       case 2:
         return PreferencesTabScreen();
       default:
@@ -40,11 +41,23 @@ class _AccountSetupScreen extends State<AccountSetupScreen> {
     }
   }
 
+  getTitle() {
+    switch (_selectedTab) {
+      case 0:
+        return "Enter Your Details";
+      case 1:
+        return "Enter Organization Details";
+      case 2:
+        return "Enter Profile Preferences";
+      default:
+        return "Enter Your Details";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
-    // final width = MediaQuery.of(context).size.width;
+    final _width = MediaQuery.of(context).size.width;
     // _keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
     return Scaffold(
@@ -53,57 +66,71 @@ class _AccountSetupScreen extends State<AccountSetupScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Enter Your Details",
-              style: TextStyle(fontSize: 20),
+            Container(
+              width: double.infinity,
+              color: secondaryColorDark,
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, top: 10, bottom: 14),
+              child: Text(
+                getTitle(),
+                style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: textPrimary),
+              ),
             ),
-            const SizedBox(
-              height: 14,
+            Container(
+              color: secondaryColorDark,
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: _width * 0.25,
+                    child: tab("Personal", 0, _selectedTab),
+                  ),
+                  SizedBox(
+                    width: _width * 0.25,
+                    child: tab("Organisation", 1, _selectedTab),
+                  ),
+                  SizedBox(
+                    width: _width * 0.25,
+                    child: tab("Preferences", 2, _selectedTab),
+                  ),
+                ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedTab = 0;
-                    });
-                  },
-                  child: tab("Personal", 0, _selectedTab),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedTab = 1;
-                    });
-                  },
-                  child: tab("Organisation", 1, _selectedTab),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedTab = 2;
-                    });
-                  },
-                  child: tab("Preferences", 2, _selectedTab),
-                ),
-              ],
-            ),
-            Expanded(child: getScreen(),)
+            Expanded(
+              child: getScreen(),
+            )
           ]),
     ));
   }
 }
 
-Widget tab(tabTitle, index, selectedTab) {
+Widget tab(String tabTitle, int index, int selectedTab) {
   return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
         tabTitle,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
-            color: index == selectedTab ? primaryColor : Colors.white,
-            fontSize: 16),
+            color: index == selectedTab ? primaryColor : textPrimary,
+            fontSize: 14,
+            letterSpacing: 1,
+            fontWeight: FontWeight.w600),
       ),
+      Container(
+        height: 4,
+        width: 100,
+        margin: const EdgeInsets.only(top: 4),
+        decoration: BoxDecoration(
+            color: index == selectedTab || selectedTab > index
+                ? primaryColor
+                : textGrey,
+            borderRadius: BorderRadius.circular(5)),
+      )
     ],
   );
 }
