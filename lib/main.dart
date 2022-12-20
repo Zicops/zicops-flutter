@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: SafeArea(
-          child: LoginScreen(),
+          child: HomeScreen(),
         ),
       ),
     );

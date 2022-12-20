@@ -47,24 +47,21 @@ class _HomeScreen extends State<HomeScreen> {
   String getTitle() {
     switch (_bottomNavIndex) {
       case 0:
-        return "Dashboard";
+        return "Self";
       case 1:
-        return "My cars";
+        return "Classroom";
       case 2:
-        return "My Drivers";
+        return "Home";
 
       case 3:
-        return "Revenue";
+        return "My Course";
 
       case 4:
-        return "Settings";
-
-      case 5:
-        return "Support";
+        return "Calender";
 
       default:
         {
-          return "Global Transporter";
+          return "Zicops";
         }
     }
   }
@@ -76,16 +73,17 @@ class _HomeScreen extends State<HomeScreen> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(50),
           child: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: secondaryColorDark,
             centerTitle: true,
             title: Text(
               getTitle(),
-              style: const TextStyle(color: Colors.black),
+              style: const TextStyle(color: textPrimary),
             ),
           ),
         ),
         body: SafeArea(child: Text("Home")),
         drawer: Drawer(
+          backgroundColor: secondaryColor,
           child: ListView(
             children: [
               Stack(
@@ -93,43 +91,170 @@ class _HomeScreen extends State<HomeScreen> {
                   Image.asset(
                     "assets/images/personal_bg.png",
                     fit: BoxFit.fill,
-                    height: 155,
+                    height: 165,
                     width: double.infinity,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      CircleAvatar(
-                        foregroundImage:
-                            AssetImage("assets/images/personal+bg.png"),
-                        radius: 32,
-                      ),
-                      Text("Akash Chowdry"),
-                      ExpansionTile(
-                        title: Text("Accenture"),
-                        children: [Text("Saleforce"), Text("SalesForce")],
-                      ),
-                      // ExpandablePanel(
-                      //   header: const Padding(
-                      //     padding: EdgeInsets.only(top: 20),
-                      //     child: Text(
-                      //       "Car Info",
-                      //       style: TextStyle(fontSize: 16),
-                      //     ),
-                      //   ),
-                      //   collapsed: Text(""),
-                      //   expanded: Text("Expandeddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"),
-                      // ),
-                    ],
-                  )
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: const [
+                  //     CircleAvatar(
+                  //       foregroundImage:
+                  //           AssetImage("assets/images/personal_bg.png"),
+                  //       radius: 32,
+                  //     ),
+                  //     Text("Akash Chowdry"),
+                  //     ExpansionTile(
+                  //       backgroundColor: secondaryColorLight,
+                  //       title: Text("Accenture"),
+                  //       children: [Text("Saleforce"), Text("SalesForce")],
+                  //     ),
+                  //   ],
+                  // )
                 ],
               ),
               ListTile(
-                leading: Icon(
-                  Icons.home,
+                leading: Image.asset(
+                  "assets/images/person.png",
+                  width: 16,
+                  height: 16,
                 ),
-                title: Text("Profile"),
-              )
+                title: const Text(
+                  "Profile",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary),
+                ),
+              ),
+              ListTile(
+                leading: Image.asset(
+                  "assets/images/flag.png",
+                  width: 16,
+                  height: 16,
+                ),
+                title: const Text(
+                  "Events",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary),
+                ),
+              ),
+              ListTile(
+                leading: Image.asset(
+                  "assets/images/labs.png",
+                  width: 16,
+                  height: 16,
+                ),
+                title: const Text(
+                  "Labs",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary),
+                ),
+              ),
+              ListTile(
+                leading: Image.asset(
+                  "assets/images/exams.png",
+                  width: 16,
+                  height: 16,
+                ),
+                title: const Text(
+                  "Exams",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary),
+                ),
+              ),
+              ListTile(
+                leading: Image.asset(
+                  "assets/images/heart.png",
+                  width: 16,
+                  height: 16,
+                ),
+                title: const Text(
+                  "Favourites",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary),
+                ),
+              ),
+              const Divider(),
+              ListTile(
+                leading: Image.asset(
+                  "assets/images/preference.png",
+                  width: 16,
+                  height: 16,
+                ),
+                title: const Text(
+                  "Preferences",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary),
+                ),
+              ),
+              ListTile(
+                leading: Image.asset(
+                  "assets/images/settings.png",
+                  width: 16,
+                  height: 16,
+                ),
+                title: const Text(
+                  "Settings",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary),
+                ),
+              ),
+              const Divider(),
+              ListTile(
+                leading: Image.asset(
+                  "assets/images/about.png",
+                  width: 16,
+                  height: 16,
+                ),
+                title: const Text(
+                  "About",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary),
+                ),
+              ),
+              ListTile(
+                leading: Image.asset(
+                  "assets/images/help.png",
+                  width: 16,
+                  height: 16,
+                ),
+                title: const Text(
+                  "Help and Feedback",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary),
+                ),
+              ),
+              ListTile(
+                leading: Image.asset(
+                  "assets/images/logout.png",
+                  width: 16,
+                  height: 16,
+                ),
+                title: const Text(
+                  "Logout",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary),
+                ),
+              ),
+
             ],
           ),
         ),
