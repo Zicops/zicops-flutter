@@ -23,9 +23,10 @@ class _ChangePassScreen extends State<ChangePassScreen> {
     return SizedBox(
         width: double.infinity,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          TextField(
+          SizedBox(height:48,child: TextField(
             controller: _passwordController,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.zero,
               enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: lightGrey),
                   borderRadius: BorderRadius.circular(4)),
@@ -62,7 +63,7 @@ class _ChangePassScreen extends State<ChangePassScreen> {
             cursorColor: textPrimary,
             style: const TextStyle(color: textPrimary, fontSize: 16),
             obscureText: !_passwordVisible,
-          ),
+          )),
           showErrorP
               ? Container(
                   margin: const EdgeInsets.only(top: 10),

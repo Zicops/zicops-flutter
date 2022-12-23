@@ -89,10 +89,11 @@ class _LoginScreen extends State<LoginScreen> {
     return SizedBox(
         width: double.infinity,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          TextField(
+          SizedBox(height:48,child: TextField(
             controller: _passwordController,
             focusNode: _focusNodes[1],
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.zero,
               enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: lightGrey),
                   borderRadius: BorderRadius.circular(4)),
@@ -108,7 +109,7 @@ class _LoginScreen extends State<LoginScreen> {
                   child: ImageIcon(
                     AssetImage("assets/images/lock.png"),
                     color: _focusNodes[1].hasFocus ? textPrimary : textGrey,
-                    size: 20,
+                    size: 16,
                   )),
               prefixIconConstraints:
                   const BoxConstraints(minHeight: 24, minWidth: 24),
@@ -123,7 +124,7 @@ class _LoginScreen extends State<LoginScreen> {
                       child: ImageIcon(
                         const AssetImage("assets/images/hidden.png"),
                         color: _focusNodes[1].hasFocus ? textPrimary : textGrey,
-                        size: 20,
+                        size: 18,
                       ))),
               suffixIconConstraints:
                   const BoxConstraints(minHeight: 24, minWidth: 24),
@@ -131,7 +132,7 @@ class _LoginScreen extends State<LoginScreen> {
             cursorColor: textPrimary,
             style: const TextStyle(color: textPrimary),
             obscureText: !_passwordVisible,
-          ),
+          )),
           showErrorP
               ? Container(
                   margin: const EdgeInsets.only(top: 10),
@@ -200,7 +201,9 @@ class _LoginScreen extends State<LoginScreen> {
                                 _keyboardVisible
                                     ? const Text(
                                         'Welcome!',
-                                        style: TextStyle(fontSize: 24),
+                                        style: TextStyle(fontSize: 24,fontWeight:
+                                        FontWeight.w500,
+                                            color: textPrimary),
                                         textAlign: TextAlign.start,
                                       )
                                     : Column(
@@ -228,14 +231,14 @@ class _LoginScreen extends State<LoginScreen> {
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       fontSize: 28,
-                                                      color: Colors.white),
+                                                      color: textPrimary),
                                                   textAlign: TextAlign.center,
                                                 )),
                                           ])
                               ]),
                           const SizedBox(height: 4),
                           SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.5,
+                              width:_keyboardVisible?double.infinity: MediaQuery.of(context).size.width * 0.5,
                               child: Text(
                                 "Start your first step to learning here!",
                                 style: const TextStyle(
@@ -247,10 +250,12 @@ class _LoginScreen extends State<LoginScreen> {
                                     : TextAlign.center,
                               )),
                           const SizedBox(height: 28),
+                          SizedBox(height:48, child:
                           TextField(
                             controller: _emailController,
                             focusNode: _focusNodes[0],
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.zero,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide:
                                         const BorderSide(color: lightGrey),
@@ -269,7 +274,7 @@ class _LoginScreen extends State<LoginScreen> {
                                       color: _focusNodes[0].hasFocus
                                           ? textPrimary
                                           : textGrey,
-                                      size: 20,
+                                      size: 18,
                                     )),
                                 prefixIconConstraints: const BoxConstraints(
                                     minHeight: 24, minWidth: 24),
@@ -280,7 +285,7 @@ class _LoginScreen extends State<LoginScreen> {
                             cursorColor: textPrimary,
                             style: const TextStyle(
                                 color: textPrimary, fontSize: 16),
-                          ),
+                          )),
                           const SizedBox(height: 12),
                           // customPassword(
                           //     _passwordController,

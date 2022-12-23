@@ -79,9 +79,10 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
           width: double.infinity,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            TextField(
+                SizedBox(height:48,child: TextField(
               focusNode: _focusNodes[index],
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.zero,
                 enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: lightGrey),
                     borderRadius: BorderRadius.circular(4)),
@@ -97,7 +98,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                       const AssetImage("assets/images/lock.png"),
                       color:
                           _focusNodes[index].hasFocus ? textPrimary : textGrey,
-                      size: 20,
+                      size: 16,
                     )),
                 prefixIconConstraints:
                     const BoxConstraints(minHeight: 24, minWidth: 24),
@@ -114,7 +115,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                           color: _focusNodes[index].hasFocus
                               ? textPrimary
                               : textGrey,
-                          size: 20,
+                          size: 18,
                         ))),
                 suffixIconConstraints:
                     const BoxConstraints(minHeight: 24, minWidth: 24),
@@ -122,7 +123,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
               cursorColor: textPrimary,
               style: const TextStyle(color: textPrimary),
               obscureText: !_passwordVisible,
-            ),
+            )),
             showErrorP
                 ? Container(
                     margin: const EdgeInsets.only(top: 10),
@@ -163,7 +164,6 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              SizedBox(height: height * 0.23),
                                               Image.asset(
                                                 "assets/images/zicops_logo.png",
                                                 width: 40,
@@ -196,10 +196,11 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                           ),
                                           textAlign: TextAlign.start)),
                                   const SizedBox(height: 20),
-                                  TextField(
+                                SizedBox(height:48,child: TextField(
                                     controller: _emailController,
                                     focusNode: _focusNodes[0],
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.zero,
                                         enabledBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
                                                 color: lightGrey),
@@ -220,7 +221,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                               color: _focusNodes[0].hasFocus
                                                   ? textPrimary
                                                   : textGrey,
-                                              size: 20,
+                                              size: 18,
                                             )),
                                         prefixIconConstraints:
                                             const BoxConstraints(
@@ -232,7 +233,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                     style: const TextStyle(
                                         color: textPrimary, fontSize: 16),
                                     cursorColor: textGrey,
-                                  ),
+                                  )),
                                   const SizedBox(height: 20),
                                   InkWell(
                                     onTap: () {
@@ -306,8 +307,6 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  SizedBox(
-                                                      height: height * 0.23),
                                                   Image.asset(
                                                     "assets/images/zicops_logo.png",
                                                     width: 40,
@@ -351,7 +350,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                         outlineBorderRadius: 4,
                                         contentPadding:
                                             const EdgeInsets.symmetric(
-                                                vertical: 20),
+                                                vertical: 16),
                                         otpFieldStyle: OtpFieldStyle(
                                             borderColor: textGrey,
                                             enabledBorderColor: textPrimary,
@@ -471,8 +470,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  SizedBox(
-                                                      height: height * 0.23),
+
                                                   Image.asset(
                                                     "assets/images/zicops_logo.png",
                                                     width: 40,

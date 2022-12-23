@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/colors.dart';
@@ -7,9 +8,10 @@ Widget prefixInputField(FocusNode focusNode, TextEditingController controller,
   return SizedBox(
       height: 48,
       child: TextField(
-          controller: controller,
           focusNode: focusNode,
+
           decoration: InputDecoration(
+            contentPadding: EdgeInsets.zero,
               enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: lightGrey),
                   borderRadius: BorderRadius.circular(4)),
@@ -30,5 +32,6 @@ Widget prefixInputField(FocusNode focusNode, TextEditingController controller,
               hintText: hint,
               hintStyle: const TextStyle(color: textGrey, fontSize: 16)),
           cursorColor: textPrimary,
+
           style: const TextStyle(color: textPrimary, fontSize: 16)));
 }

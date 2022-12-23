@@ -77,8 +77,8 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
         child: Column(
           children: [
             Stack(
-              clipBehavior: Clip.none,
               children: [
+                Padding(padding: const EdgeInsets.only(bottom: 85),child:
                 bgImage != null
                     ? Image.file(
                         bgImage!,
@@ -91,11 +91,12 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: 120,
-                      ),
+                      )),
                 Positioned(
-                    bottom: -56,
+                    top: 64,
                     left: 20,
                     child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                         onTap: () {
                           setState(() {
                             pickProfileImage();
@@ -107,10 +108,10 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                               : const AssetImage(
                                   "assets/images/avatar_default.png")
                           ,
-                          radius: 56,
+                          radius: 60,
                         ))),
                 Positioned(
-                    bottom: 25,
+                    top: 82,
                     right: 20,
                     child: GestureDetector(
                       onTap: () {
@@ -125,9 +126,10 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                       ),
                     )),
                 Positioned(
-                    bottom: -45,
-                    left: 98,
+                    top: 146,
+                    left: 105,
                     child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                       onTap: () {
                         setState(() {
                           pickProfileImage();
@@ -182,6 +184,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                     ),
                   ],
                 ))
+
           ],
         ),
       )

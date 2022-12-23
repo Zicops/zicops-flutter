@@ -314,6 +314,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                       controller: _searchController,
                       focusNode: _focusNodes[0],
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.zero,
                           enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: lightGrey),
                               borderRadius: BorderRadius.circular(4)),
