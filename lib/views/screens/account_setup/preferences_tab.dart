@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,168 +49,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     } else {
       selectedCategories.add(id);
     }
-    if (selectedCategories.isNotEmpty) {
-      showModalBottomSheet<void>(
-        // context and builder are
-        // required properties in this widget
-        context: context,
-        backgroundColor: secondaryColorDark,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(16), topLeft: Radius.circular(16))),
-
-        isScrollControlled: true,
-        isDismissible: false,
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setModalState) {
-            return Container(
-                height: openSubCatModal ? height * 0.8 : 250,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 22),
-                        child: GestureDetector(
-                            onTap: () {
-                              setModalState(() {
-                                openSubCatModal = !openSubCatModal;
-                              });
-                            },
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Selected Sub-Categories",
-                                        style: TextStyle(
-                                            color: textPrimary, fontSize: 18),
-                                      ),
-                                      Text(
-                                        "Select 5 more sub categories(${selectedSubCategories.length})",
-                                        style: const TextStyle(
-                                            color: textPrimary, fontSize: 16),
-                                      )
-                                    ],
-                                  ),
-                                  openSubCatModal
-                                      ? Image.asset(
-                                          "assets/images/up_arrow.png",
-                                          width: 20,
-                                          height: 20)
-                                      : Image.asset(
-                                          "assets/images/down_arrow.png",
-                                          width: 20,
-                                          height: 20,
-                                        )
-                                ]))),
-                    openSubCatModal
-                        ? Flexible(
-                            child: ListView(
-                            children: [
-                              ...subCategories.map((cat) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 35),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        cat.category,
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: textGrey),
-                                      ),
-                                      Checkbox(
-                                          value: checkIfSelectedSubCat(cat),
-                                          onChanged: (val) {
-                                            setState(() {
-                                              setModalState(() {
-                                                updateSelectSubCategory(cat);
-                                              });
-                                            });
-                                          })
-                                    ],
-                                  )))
-                            ],
-                          ))
-                        : const Text(""),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        selectedSubCategories.length == 5
-                            ? Expanded(
-                                child: InkWell(
-                                onTap: () {
-
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const HomeScreen()),
-                                  );
-                                },
-                                child: Ink(
-                                  decoration: const BoxDecoration(
-                                    gradient: LinearGradient(
-                                        colors: [primaryColor, gradientTwo]),
-                                  ),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12),
-                                    child: Text(
-                                      'Save'.toUpperCase(),
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                          letterSpacing: 2),
-                                    ),
-                                  ),
-                                ),
-                              ))
-                            : Expanded(
-                                child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Container(
-                                        padding: const EdgeInsets.all(12),
-                                        margin:
-                                            const EdgeInsets.only(right: 12),
-                                        decoration: BoxDecoration(
-                                            border:
-                                                Border.all(color: textPrimary)),
-                                        child: Text(
-                                          "Select Sub-Categories".toUpperCase(),
-                                          textAlign: TextAlign.center,
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 14,
-                                            color: textPrimary,
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: 2,
-                                          ),
-                                        ))),
-                              ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    )
-                  ],
-                ));
-          });
-        },
-      );
-    }
+    showModal(height);
   }
 
   updateFilterCategory(int id) {
@@ -221,15 +61,14 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
   }
 
   updateSelectSubCategory(Category cat) {
-
     if (selectedSubCategories.contains(cat)) {
       selectedSubCategories.remove(cat);
     } else {
-      if(selectedSubCategories.length < 5) {
+      if (selectedSubCategories.length < 5) {
         selectedSubCategories.add(cat);
       }
     }
-    if (selectedSubCategories.length >= 5) {
+    if (selectedSubCategories.length > 5) {
       Fluttertoast.showToast(
           msg: "No more sub-categories can be selected",
           toastLength: Toast.LENGTH_SHORT,
@@ -240,6 +79,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
           fontSize: 16.0);
       return;
     }
+
   }
 
   checkIfSelectedFilter(int id) {
@@ -255,9 +95,201 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
         categories.where((cat) => filter.contains(cat.id)).toList();
   }
 
+  showModal(double height){
+    if (selectedCategories.isNotEmpty) {
+      showModalBottomSheet<void>(
+        // context and builder are
+        // required properties in this widget
+        context: context,
+        backgroundColor: secondaryColorDark,
+        shape: const RoundedRectangleBorder(
+            side: BorderSide(color: lightGrey),
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(16), topLeft: Radius.circular(16))),
+
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setModalState) {
+                return Container(
+                    height: openSubCatModal ? height * 0.8 : 185,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 4,
+                          width: 36,
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.only(top: 8, bottom: 16),
+                          decoration: BoxDecoration(
+                              color: secondaryColor,
+                              borderRadius: BorderRadius.circular(4)),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              setModalState(() {
+                                openSubCatModal = !openSubCatModal;
+                              });
+                            },
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Selected Sub-Categories",
+                                        style: TextStyle(
+                                            color: textPrimary,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        "Select ${5 - selectedSubCategories.length} more sub categories(${selectedSubCategories.length})",
+                                        style: const TextStyle(
+                                            color: textGrey, fontSize: 14),
+                                      )
+                                    ],
+                                  ),
+                                  openSubCatModal
+                                      ? Image.asset("assets/images/up_arrow.png",
+                                      width: 16, height: 16)
+                                      : Image.asset(
+                                    "assets/images/down_arrow.png",
+                                    width: 16,
+                                    height: 16,
+                                  )
+                                ])),
+                        openSubCatModal
+                            ? Flexible(
+                            child: ListView(
+                              children: [
+                                const SizedBox(
+                                  height: 26,
+                                ),
+                                ...subCategories.map((cat) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 35),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          cat.category,
+                                          style:  TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: checkIfSelectedSubCat(cat)?textPrimary:textGrey),
+                                        ),
+                                        Checkbox(
+                                            value: checkIfSelectedSubCat(cat),
+                                            onChanged: (val) {
+                                              setState(() {
+                                                setModalState(() {
+                                                  updateSelectSubCategory(cat);
+                                                });
+                                              });
+                                            })
+                                      ],
+                                    )))
+                              ],
+                            ))
+                            : const Text(""),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            selectedSubCategories.length == 5
+                                ? Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const HomeScreen()),
+                                    );
+                                  },
+                                  child: Ink(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 48,
+                                      decoration: BoxDecoration(
+                                          gradient: const LinearGradient(colors: [
+                                            primaryColor,
+                                            gradientTwo
+                                          ]),
+                                          borderRadius: BorderRadius.circular(4)),
+                                      child: Text(
+                                        'Save'.toUpperCase(),
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                            letterSpacing: 2),
+                                      ),
+                                    ),
+                                  ),
+                                ))
+                                : Expanded(
+                              child: GestureDetector(
+                                  onTap: () {
+                                    setModalState(() {
+                                      openSubCatModal = true;
+                                    });
+                                  },
+                                  child: Container(
+                                      height: 48,
+                                      alignment: Alignment.center,
+                                      margin:
+                                      const EdgeInsets.only(right: 12),
+                                      decoration: BoxDecoration(
+                                          color: secondaryColor,
+                                          borderRadius:
+                                          BorderRadius.circular(4)),
+                                      child: Text(
+                                        "Select Sub-Categories".toUpperCase(),
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          color: const Color(0xFF919191),
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 2,
+                                        ),
+                                      ))),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        )
+                      ],
+                    ));
+              });
+        },
+      );
+    }
+
+  }
+  final List<FocusNode> _focusNodes = [FocusNode()];
+
+  @override
+  void dispose() {
+    for (var node in _focusNodes) {
+      node.removeListener(() {});
+    }
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
+    for (var node in _focusNodes) {
+      node.addListener(() {
+        setState(() {});
+      });
+    }
+    ;
     filteredCategories = categories;
   }
 
@@ -276,212 +308,258 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                 color: secondaryColorDark,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: textGrey)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5)),
-                      filled: true,
-                      prefixIcon: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: ImageIcon(
-                            AssetImage("assets/images/search.png"),
-                            color: textGrey,
-                            size: 24,
-                          )),
-                      prefixIconConstraints:
-                          const BoxConstraints(minHeight: 24, minWidth: 24),
-                      suffixIcon: GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet<void>(
-                              // context and builder are
-                              // required properties in this widget
-                              context: context,
-                              backgroundColor: secondaryColorDark,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(16),
-                                      topLeft: Radius.circular(16))),
-                              constraints:
-                                  BoxConstraints(maxHeight: height * 0.7),
-                              isScrollControlled: true,
+                child: SizedBox(
+                    height: 48,
+                    child: TextField(
+                      controller: _searchController,
+                      focusNode: _focusNodes[0],
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: lightGrey),
+                              borderRadius: BorderRadius.circular(4)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: lightGrey),
+                              borderRadius: BorderRadius.circular(4)),
+                          filled: true,
+                          fillColor: secondaryColorLight,
+                          prefixIcon: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: ImageIcon(
+                                const AssetImage("assets/images/search.png"),
+                                color: _focusNodes[0].hasFocus
+                                    ? textPrimary
+                                    : textGrey,
+                                size: 18,
+                              )),
+                          prefixIconConstraints:
+                              const BoxConstraints(minHeight: 24, minWidth: 24),
+                          suffixIcon: GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet<void>(
+                                  // context and builder are
+                                  // required properties in this widget
+                                  context: context,
+                                  backgroundColor: secondaryColorDark,
+                                  shape: const RoundedRectangleBorder(
+                                      side: BorderSide(color: lightGrey),
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(16),
+                                          topLeft: Radius.circular(16))),
+                                  constraints:
+                                      BoxConstraints(maxHeight: height * 0.7),
+                                  isScrollControlled: true,
 
-                              builder: (BuildContext context) {
-                                return StatefulBuilder(builder:
-                                    (BuildContext context,
-                                        StateSetter setModalState) {
-                                  return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 22),
-                                              child: Text(
-                                                "Filter",
-                                                style: TextStyle(
-                                                    color: textPrimary,
-                                                    fontSize: 18),
-                                              )),
-                                          Flexible(
-                                              child: ListView(
+                                  builder: (BuildContext context) {
+                                    return StatefulBuilder(builder:
+                                        (BuildContext context,
+                                            StateSetter setModalState) {
+                                      return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
-                                              ...categories.map((cat) =>
-                                                  Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              bottom: 35),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                            cat.category,
-                                                            style: const TextStyle(
+                                              Container(
+                                                height: 4,
+                                                width: 36,
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(top: 8, bottom: 16),
+                                                decoration: BoxDecoration(
+                                                    color: secondaryColor,
+                                                    borderRadius: BorderRadius.circular(4)),
+                                              ),
+
+                                               Container(
+                                                alignment: Alignment.topLeft,
+                                                  padding: const EdgeInsets.symmetric(
+                                                      vertical: 22),
+                                                  child: const Text(
+                                                    "Filter",
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+
+                                                        color: textPrimary,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )),
+                                              Flexible(
+                                                  child: ListView(
+                                                children: [
+                                                  ...categories.map((cat) =>
+                                                      Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 32),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(
+                                                                cat.category
+                                                                    .toUpperCase(),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: checkIfSelectedFilter(
+                                                                            cat.id)
+                                                                        ? textPrimary
+                                                                        : textGrey),
+                                                              ),
+                                                              Checkbox(
+                                                                  value: checkIfSelectedFilter(
+                                                                      cat.id),
+                                                                  onChanged:
+                                                                      (val) {
+                                                                    setModalState(
+                                                                        () {
+                                                                      updateFilterCategory(
+                                                                          cat.id);
+                                                                    });
+                                                                  })
+                                                            ],
+                                                          )))
+                                                ],
+                                              )),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            filteredCategories =
+                                                                categories;
+                                                          });
+                                                          setModalState(() {
+                                                            filter = [];
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                            height: 36,
+                                                            alignment: Alignment.center,
+                                                            margin:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 12),
+                                                            decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                    color:
+                                                                        lightGrey)),
+                                                            child: Text(
+                                                              "Reset"
+                                                                  .toUpperCase(),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: GoogleFonts
+                                                                  .poppins(
                                                                 fontSize: 14,
+                                                                color:
+                                                                    primaryColor,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600,
-                                                                color:
-                                                                    textGrey),
-                                                          ),
-                                                          Checkbox(
-                                                              value:
-                                                                  checkIfSelectedFilter(
-                                                                      cat.id),
-                                                              onChanged: (val) {
-                                                                setModalState(
-                                                                    () {
-                                                                  updateFilterCategory(
-                                                                      cat.id);
-                                                                });
-                                                              })
-                                                        ],
-                                                      )))
-                                            ],
-                                          )),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: GestureDetector(
+                                                                letterSpacing:
+                                                                    2,
+                                                              ),
+                                                            ))),
+                                                  ),
+                                                  Expanded(
+                                                      child: InkWell(
                                                     onTap: () {
                                                       setState(() {
-                                                        filteredCategories =
-                                                            categories;
+                                                        setFilteredCategories();
                                                       });
-                                                      setModalState(() {
-                                                        filter = [];
-                                                      });
+                                                      Navigator.pop(context);
                                                     },
-                                                    child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(12),
-                                                        margin: const EdgeInsets
-                                                            .only(right: 12),
-                                                        decoration: BoxDecoration(
-                                                            border: Border.all(
-                                                                color:
-                                                                    textPrimary)),
+                                                    child: Ink(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        gradient:
+                                                            LinearGradient(
+                                                                colors: [
+                                                              primaryColor,
+                                                              gradientTwo
+                                                            ]),
+                                                      ),
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        height: 36,
                                                         child: Text(
-                                                          "Reset".toUpperCase(),
+                                                          'Apply'.toUpperCase(),
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 14,
-                                                            color: primaryColor,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            letterSpacing: 2,
-                                                          ),
-                                                        ))),
-                                              ),
-                                              Expanded(
-                                                  child: InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    setFilteredCategories();
-                                                  });
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Ink(
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                        colors: [
-                                                          primaryColor,
-                                                          gradientTwo
-                                                        ]),
-                                                  ),
-                                                  child: Container(
-                                                    alignment: Alignment.center,
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 12),
-                                                    child: Text(
-                                                      'Apply'.toUpperCase(),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 14,
-                                                              letterSpacing: 2),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize: 14,
+                                                                  letterSpacing:
+                                                                      2),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                              )),
+                                                  )),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              )
                                             ],
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          )
-                                        ],
-                                      ));
-                                });
+                                          ));
+                                    });
+                                  },
+                                );
                               },
-                            );
-                          },
-                          child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 12),
-                              child: ImageIcon(
-                                AssetImage("assets/images/filter.png"),
-                                color: textGrey,
-                                size: 24,
-                              ))),
-                      suffixIconConstraints:
-                          const BoxConstraints(minHeight: 24, minWidth: 24),
-                      hintText: "Search Category/Sub-Category"),
-                  cursorColor: textGrey,
-                  onChanged: (val) {
-                    setState(() {
-                      filteredCategories = categories
-                          .where((cat) => cat.category
-                              .toLowerCase()
-                              .contains(val.toLowerCase()))
-                          .toList();
-                    });
-                  },
-                ),
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
+                                  child: ImageIcon(
+                                    const AssetImage(
+                                        "assets/images/filter.png"),
+                                    color: _focusNodes[0].hasFocus
+                                        ? textPrimary
+                                        : textGrey,
+                                    size: 18,
+                                  ))),
+                          suffixIconConstraints:
+                              const BoxConstraints(minHeight: 24, minWidth: 24),
+                          hintText: "Search Category/Sub-Category",
+                          hintStyle:
+                              const TextStyle(fontSize: 16, color: textGrey)),
+                      cursorColor: textPrimary,
+                      onChanged: (val) {
+                        setState(() {
+                          filteredCategories = categories
+                              .where((cat) => cat.category
+                                  .toLowerCase()
+                                  .contains(val.toLowerCase()))
+                              .toList();
+                        });
+                      },
+                    )),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 child: Text(
                   "Categories".toUpperCase(),
-                  style: TextStyle(fontSize: 12, color: textGrey),
+                  style: const TextStyle(
+                      fontSize: 12,
+                      color: textGrey,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1),
                 ),
               ),
               Padding(
@@ -498,17 +576,19 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                             });
                           },
                           child: Container(
-                              padding: const EdgeInsets.all(12),
+                              height: 40,
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                               margin: const EdgeInsets.only(right: 12),
                               color: selectedCategories.contains(cat.id)
                                   ? primaryColor
                                   : secondaryColor,
                               child: Text(
                                 cat.category.toUpperCase(),
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     color: selectedCategories.contains(cat.id)
-                                        ? Colors.black
+                                        ? secondaryColorDark
                                         : textPrimary,
                                     fontWeight: FontWeight.w600,
                                     letterSpacing: 2),
@@ -523,7 +603,8 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                           horizontal: 20, vertical: 12),
                       child: Text(
                         "Sub-Categories".toUpperCase(),
-                        style: const TextStyle(fontSize: 12, color: textGrey),
+                        style: const TextStyle(fontSize: 12, color: textGrey,fontWeight: FontWeight.w600,
+                            letterSpacing: 1),
                       ),
                     )
                   : const Text(""),
@@ -539,11 +620,13 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                             (cat) => GestureDetector(
                                 onTap: () {
                                   setState(() {
+                                    showModal(height);
                                     updateSelectSubCategory(cat);
                                   });
                                 },
                                 child: Container(
-                                    padding: const EdgeInsets.all(12),
+                                    height: 40,
+                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                                     margin: const EdgeInsets.only(right: 12),
                                     decoration: BoxDecoration(
                                         border: Border.all(
@@ -551,18 +634,18 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                     .contains(cat)
                                                 ? primaryColor
                                                 : textGrey,
-                                            width: selectedSubCategories
-                                                    .contains(cat)
-                                                ? 2
-                                                : 1)),
+                                            )),
                                     child: Text(
                                       cat.category.toUpperCase(),
-                                      style: GoogleFonts.poppins(
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
                                           fontSize: 14,
+
                                           color: selectedSubCategories
                                                   .contains(cat)
                                               ? textPrimary
                                               : textGrey,
+
                                           fontWeight: FontWeight.w600,
                                           letterSpacing: 2),
                                     ))),

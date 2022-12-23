@@ -42,6 +42,31 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
     }
   }
 
+  final List<FocusNode> _focusNodes = [
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode()
+  ];
+
+  @override
+  void initState() {
+    for (var node in _focusNodes) {
+      node.addListener(() {
+        setState(() {});
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (var node in _focusNodes) {
+      node.removeListener(() {});
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
@@ -59,16 +84,16 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                         bgImage!,
                         fit: BoxFit.cover,
                         width: double.infinity,
-                        height: _height * 0.25,
+                        height: 120,
                       )
                     : Image.asset(
                         "assets/images/personal_bg.png",
                         fit: BoxFit.cover,
                         width: double.infinity,
-                        height: _height * 0.25,
+                        height: 120,
                       ),
                 Positioned(
-                    bottom: -50,
+                    bottom: -56,
                     left: 20,
                     child: GestureDetector(
                         onTap: () {
@@ -80,11 +105,12 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                           foregroundImage: profileImage != null
                               ? FileImage(profileImage!) as ImageProvider
                               : const AssetImage(
-                                  "assets/images/personal_bg.png"),
+                                  "assets/images/avatar_default.png")
+                          ,
                           radius: 56,
                         ))),
                 Positioned(
-                    bottom: 20,
+                    bottom: 25,
                     right: 20,
                     child: GestureDetector(
                       onTap: () {
@@ -99,19 +125,19 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                       ),
                     )),
                 Positioned(
-                    bottom: -40,
-                    left: 108,
+                    bottom: -45,
+                    left: 98,
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
                           pickProfileImage();
                         });
                       },
-                      child: Image.asset(
+                      child: Container(padding:const EdgeInsets.all(5), decoration:BoxDecoration(color:textGrey.withOpacity(0.2),borderRadius: BorderRadius.circular(50)),child: Image.asset(
                         "assets/images/camera.png",
                         width: 20,
                         height: 20,
-                      ),
+                      )),
                     )),
               ],
             ),
@@ -121,39 +147,36 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                     left: 20, right: 20, bottom: 20, top: 80),
                 child: Column(
                   children: [
-                    prefixInputField(
-                        _controller, "assets/images/person.png", "Firstname"),
+                    prefixInputField(_focusNodes[0], _controller,
+                        "assets/images/person.png", "Firstname"),
                     const SizedBox(height: 12),
-                    prefixInputField(
-                        _controller, "assets/images/person.png", "Lastname"),
+                    prefixInputField(_focusNodes[1], _controller,
+                        "assets/images/person.png", "Lastname"),
                     const SizedBox(height: 12),
-                    prefixInputField(
-                        _controller, "assets/images/email.png", "Email"),
+                    prefixInputField(_focusNodes[2], _controller,
+                        "assets/images/email.png", "Email"),
                     const SizedBox(height: 12),
-                    prefixInputField(_controller, "assets/images/phone.png",
-                        "+91| Contact Number"),
+                    prefixInputField(_focusNodes[3], _controller,
+                        "assets/images/phone.png", "+91| Contact Number"),
                     const SizedBox(height: 12),
                     InkWell(
                       onTap: () {
-                        print("on login");
                         widget.changeTab();
                       },
-                      child: Ink(
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 48,
                         decoration: BoxDecoration(
                             gradient: const LinearGradient(
                                 colors: [primaryColor, gradientTwo]),
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            'Next'.toUpperCase(),
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                                letterSpacing: 2),
-                          ),
+                            borderRadius: BorderRadius.circular(4)),
+                        child: Text(
+                          'Next'.toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              letterSpacing: 2),
                         ),
                       ),
                     ),

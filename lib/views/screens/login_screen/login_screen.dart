@@ -85,25 +85,30 @@ class _LoginScreen extends State<LoginScreen> {
     }
   }
 
-
   Widget customTextField() {
     return SizedBox(
         width: double.infinity,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           TextField(
             controller: _passwordController,
+            focusNode: _focusNodes[1],
             decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: textGrey)),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: lightGrey),
+                  borderRadius: BorderRadius.circular(4)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: primaryColor),
+                  borderRadius: BorderRadius.circular(4)),
               hintText: "Password",
               filled: true,
-              prefixIcon: const Padding(
+              fillColor: secondaryColorLight,
+              hintStyle: const TextStyle(color: textGrey, fontSize: 16),
+              prefixIcon: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12),
                   child: ImageIcon(
                     AssetImage("assets/images/lock.png"),
-                    color: textGrey,
-                    size: 24,
+                    color: _focusNodes[1].hasFocus ? textPrimary : textGrey,
+                    size: 20,
                   )),
               prefixIconConstraints:
                   const BoxConstraints(minHeight: 24, minWidth: 24),
@@ -113,17 +118,18 @@ class _LoginScreen extends State<LoginScreen> {
                       _passwordVisible = !_passwordVisible;
                     });
                   },
-                  child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: ImageIcon(
-                        AssetImage("assets/images/hidden.png"),
-                        color: textGrey,
-                        size: 24,
+                        const AssetImage("assets/images/hidden.png"),
+                        color: _focusNodes[1].hasFocus ? textPrimary : textGrey,
+                        size: 20,
                       ))),
               suffixIconConstraints:
                   const BoxConstraints(minHeight: 24, minWidth: 24),
             ),
-            cursorColor: textGrey,
+            cursorColor: textPrimary,
+            style: const TextStyle(color: textPrimary),
             obscureText: !_passwordVisible,
           ),
           showErrorP
@@ -143,6 +149,26 @@ class _LoginScreen extends State<LoginScreen> {
     });
   }
 
+  final List<FocusNode> _focusNodes = [FocusNode(), FocusNode()];
+
+  @override
+  void initState() {
+    for (var node in _focusNodes) {
+      node.addListener(() {
+        setState(() {});
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (var node in _focusNodes) {
+      node.removeListener(() {});
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -150,159 +176,195 @@ class _LoginScreen extends State<LoginScreen> {
     _keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
     return Scaffold(
-        body: Container(
-          height: height,
-            padding: const EdgeInsets.all(20),
-            child: CustomScrollView(slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child:
-                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      const Spacer(),
-                  Row(
-                      mainAxisAlignment: _keyboardVisible
-                          ? MainAxisAlignment.start
-                          : MainAxisAlignment.center,
-                      children: [
-                        _keyboardVisible
-                            ? const Text(
-                                'Welcome!',
-                                style: TextStyle(fontSize: 24),
-                                textAlign: TextAlign.start,
-                              )
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                    Image.asset(
-                                      "assets/images/zicops_logo.png",
-                                      width: 40,
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Image.asset(
-                                      "assets/images/zicops_name.png",
-                                      width: 120,
-                                    ),
-                                    const SizedBox(height: 20),
-                                    SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.70,
-                                        child: Text(
-                                          "Sign Into your Learning Space!",
-                                          style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 28,
-                                              color: Colors.white),
-                                          textAlign: TextAlign.center,
-                                        )),
-                                  ])
-                      ]),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: Text(
-                        "Start your first step to learning here!",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: textGrey,
-                        ),
-                        textAlign: _keyboardVisible
-                            ? TextAlign.start
-                            : TextAlign.center,
-                      )),
-                  const SizedBox(height: 25),
-                  TextField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: textGrey)),
-                        filled: true,
-                        prefixIcon: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 12),
-                            child: ImageIcon(
-                              AssetImage("assets/images/email.png"),
-                              color: textGrey,
-                              size: 24,
-                            )),
-                        prefixIconConstraints:
-                            BoxConstraints(minHeight: 24, minWidth: 24),
-                        hintText: "Email"),
-                    cursorColor: textGrey,
-                  ),
-                  const SizedBox(height: 12),
-                  // customPassword(
-                  //     _passwordController,
-                  //     "Password",
-                  //     _changeVisibility,
-                  //     _passwordVisible,
-                  //     showErrorP,
-                  //     errorMsgP),
-                      customTextField(),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ForgetPassScreen()));
-                        },
-                        child: const Text(
-                          "Forgot Password?",
-                          style: TextStyle(color: textGrey, fontSize: 14),
-                        ),
-                      )),
-                  const SizedBox(height: 20),
-                  InkWell(
-                    onTap: () {
-                      print("on login");
-                      firebaseLogin();
-                    },
-                    child: Ink(
-                      decoration: const BoxDecoration(
-                        gradient:
-                            LinearGradient(colors: [primaryColor, gradientTwo]),
-                      ),
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: isLoading
-                            ? const SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ))
-                            : Text(
-                                'Login'.toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    letterSpacing: 2),
+        body: SafeArea(
+            child: Container(
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/login_bg.png"),
+                      fit: BoxFit.fill,
+                    )),
+                height: height,
+                padding: const EdgeInsets.all(20),
+                child: CustomScrollView(slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Spacer(),
+                          Row(
+                              mainAxisAlignment: _keyboardVisible
+                                  ? MainAxisAlignment.start
+                                  : MainAxisAlignment.center,
+                              children: [
+                                _keyboardVisible
+                                    ? const Text(
+                                        'Welcome!',
+                                        style: TextStyle(fontSize: 24),
+                                        textAlign: TextAlign.start,
+                                      )
+                                    : Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                            Image.asset(
+                                              "assets/images/zicops_logo.png",
+                                              width: 40,
+                                            ),
+                                            const SizedBox(height: 20),
+                                            Image.asset(
+                                              "assets/images/zicops_name.png",
+                                              width: 120,
+                                            ),
+                                            const SizedBox(height: 20),
+                                            SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.70,
+                                                child: Text(
+                                                  "Sign Into your Learning Space!",
+                                                  style: GoogleFonts.poppins(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 28,
+                                                      color: Colors.white),
+                                                  textAlign: TextAlign.center,
+                                                )),
+                                          ])
+                              ]),
+                          const SizedBox(height: 4),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: Text(
+                                "Start your first step to learning here!",
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: textGrey,
+                                ),
+                                textAlign: _keyboardVisible
+                                    ? TextAlign.start
+                                    : TextAlign.center,
+                              )),
+                          const SizedBox(height: 28),
+                          TextField(
+                            controller: _emailController,
+                            focusNode: _focusNodes[0],
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: lightGrey),
+                                    borderRadius: BorderRadius.circular(4)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: primaryColor),
+                                    borderRadius: BorderRadius.circular(4)),
+                                filled: true,
+                                prefixIcon: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12),
+                                    child: ImageIcon(
+                                      const AssetImage(
+                                          "assets/images/email.png"),
+                                      color: _focusNodes[0].hasFocus
+                                          ? textPrimary
+                                          : textGrey,
+                                      size: 20,
+                                    )),
+                                prefixIconConstraints: const BoxConstraints(
+                                    minHeight: 24, minWidth: 24),
+                                hintText: "Email",
+                                fillColor: secondaryColorLight,
+                                hintStyle: const TextStyle(
+                                    color: textGrey, fontSize: 16)),
+                            cursorColor: textPrimary,
+                            style: const TextStyle(
+                                color: textPrimary, fontSize: 16),
+                          ),
+                          const SizedBox(height: 12),
+                          // customPassword(
+                          //     _passwordController,
+                          //     "Password",
+                          //     _changeVisibility,
+                          //     _passwordVisible,
+                          //     showErrorP,
+                          //     errorMsgP),
+                          customTextField(),
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ForgetPassScreen()));
+                                },
+                                child: const Text(
+                                  "Forgot Password?",
+                                  style: TextStyle(
+                                      color: textGrey,
+                                      fontSize: 14,
+                                      decoration: TextDecoration.underline),
+                                ),
+                              )),
+                          const SizedBox(height: 20),
+                          InkWell(
+                            onTap: () {
+                              firebaseLogin();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 48,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                gradient: const LinearGradient(
+                                    colors: [primaryColor, gradientTwo]),
                               ),
-                      ),
-                    ),
+                              child: isLoading
+                                  ? const SizedBox(
+                                      height: 24,
+                                      width: 24,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ))
+                                  : Text(
+                                      'Login'.toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
+                                          letterSpacing: 2),
+                                    ),
+                            ),
+                          ),
+                          const SizedBox(height: 35),
+                          _keyboardVisible
+                              ? const Text("")
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Text(
+                                      "Privacy Policy",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: textGrey,
+                                          decoration: TextDecoration.underline),
+                                    ),
+                                    SizedBox(
+                                      width: 24,
+                                    ),
+                                    Text(
+                                      "Contact Us",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: textGrey,
+                                          decoration: TextDecoration.underline),
+                                    )
+                                  ],
+                                )
+                        ]),
                   ),
-                  const SizedBox(height: 35),
-                  _keyboardVisible? const Text(""):Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "Privacy Policy",
-                        style: TextStyle(fontSize: 12, color: textGrey),
-                      ),
-                      SizedBox(width: 24,),
-                      Text(
-                        "Contact Us",
-                        style: TextStyle(fontSize: 12, color: textGrey),
-                      )
-                    ],
-                  )
-                ]),
-              ),
-            ])));
+                ]))));
   }
 }

@@ -41,14 +41,17 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.black,
+        scaffoldBackgroundColor: Colors.transparent,
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
             .copyWith(subtitle1: const TextStyle(color: textPrimary)),
       ),
-      home: Scaffold(
-        body: SafeArea(
-          child: HomeScreen(),
-        ),
+      home: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage("assets/images/login_bg.png"),
+          fit: BoxFit.fill,
+        )),
+        child: PreferencesTabScreen(),
       ),
     );
   }

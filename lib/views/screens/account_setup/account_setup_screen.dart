@@ -62,6 +62,12 @@ class _AccountSetupScreen extends State<AccountSetupScreen> {
 
     return Scaffold(
         body: SafeArea(
+            child: Container(
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+        image: AssetImage("assets/images/login_bg.png"),
+        fit: BoxFit.fill,
+      )),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,18 +91,20 @@ class _AccountSetupScreen extends State<AccountSetupScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: _width * 0.25,
+                  Expanded(
+                      child: SizedBox(
                     child: tab("Personal", 0, _selectedTab),
-                  ),
-                  SizedBox(
-                    width: _width * 0.25,
+                  )),
+                  const SizedBox(width: 8),
+                  Expanded(
+                      child: SizedBox(
                     child: tab("Organisation", 1, _selectedTab),
-                  ),
-                  SizedBox(
-                    width: _width * 0.25,
+                  )),
+                  const SizedBox(width: 8),
+                  Expanded(
+                      child: SizedBox(
                     child: tab("Preferences", 2, _selectedTab),
-                  ),
+                  )),
                 ],
               ),
             ),
@@ -104,7 +112,7 @@ class _AccountSetupScreen extends State<AccountSetupScreen> {
               child: getScreen(),
             )
           ]),
-    ));
+    )));
   }
 }
 
@@ -113,23 +121,22 @@ Widget tab(String tabTitle, int index, int selectedTab) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
-        tabTitle,
+        tabTitle.toUpperCase(),
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-            color: index == selectedTab ? primaryColor : textPrimary,
-            fontSize: 14,
+            color: index == selectedTab ? primaryColor :selectedTab > index? textPrimary: textGrey,
+            fontSize: 12,
             letterSpacing: 1,
             fontWeight: FontWeight.w600),
       ),
       Container(
         height: 4,
-        width: 100,
         margin: const EdgeInsets.only(top: 4),
         decoration: BoxDecoration(
-            color: index == selectedTab || selectedTab > index
-                ? primaryColor
-                : textGrey,
-            borderRadius: BorderRadius.circular(5)),
+          color: index == selectedTab || selectedTab > index
+              ? primaryColor
+              : textGrey,
+        ),
       )
     ],
   );

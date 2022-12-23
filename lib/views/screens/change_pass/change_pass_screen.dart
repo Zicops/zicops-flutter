@@ -19,16 +19,19 @@ class _ChangePassScreen extends State<ChangePassScreen> {
   String errorMsgP = "";
   bool _keyboardVisible = false;
 
-  Widget customTextField(hint) {
+  Widget customTextField(index,hint) {
     return SizedBox(
         width: double.infinity,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           TextField(
             controller: _passwordController,
             decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: textGrey)),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: lightGrey),
+                  borderRadius: BorderRadius.circular(4)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: primaryColor),
+                  borderRadius: BorderRadius.circular(4)),
               hintText: hint,
               filled: true,
               prefixIcon: const Padding(
@@ -56,7 +59,8 @@ class _ChangePassScreen extends State<ChangePassScreen> {
               suffixIconConstraints:
                   const BoxConstraints(minHeight: 24, minWidth: 24),
             ),
-            cursorColor: textGrey,
+            cursorColor: textPrimary,
+            style: const TextStyle(color: textPrimary, fontSize: 16),
             obscureText: !_passwordVisible,
           ),
           showErrorP
@@ -126,11 +130,11 @@ class _ChangePassScreen extends State<ChangePassScreen> {
                             )),
                         const SizedBox(height: 25),
                         const SizedBox(height: 12),
-                        customTextField("Current Password"),
+                        customTextField(0,"Current Password"),
                         const SizedBox(height: 12),
-                        customTextField("Enter New Password"),
+                        customTextField(1,"Enter New Password"),
                         const SizedBox(height: 12),
-                        customTextField("Re-enter New Password"),
+                        customTextField(2,"Re-enter New Password"),
                         const SizedBox(height: 20),
                         InkWell(
                           onTap: () {

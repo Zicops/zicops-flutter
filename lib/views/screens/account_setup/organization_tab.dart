@@ -15,6 +15,32 @@ class OrganizationTabScreen extends StatefulWidget {
 
 class _OrganizationTabScreen extends State<OrganizationTabScreen> {
   TextEditingController _controller = TextEditingController();
+  final List<FocusNode> _focusNodes = [
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode()
+  ];
+
+  @override
+  void initState() {
+    for (var node in _focusNodes) {
+      node.addListener(() {
+        setState(() {});
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (var node in _focusNodes) {
+      node.removeListener(() {});
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(slivers: [
@@ -25,41 +51,43 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 20),
+                  prefixInputField(_focusNodes[0], _controller,
+                      "assets/images/organization.png", "Organisation"),
+                  const SizedBox(height: 12),
+                  prefixInputField(_focusNodes[1], _controller,
+                      "assets/images/location.png", "Organization Unit"),
+                  const SizedBox(height: 12),
                   prefixInputField(
-                      _controller, "assets/images/organization.png", "Organisation"),
-                  const SizedBox(height: 12),
-                  prefixInputField(_controller, "assets/images/location.png",
-                      "Organization Unit"),
-                  const SizedBox(height: 12),
-                  prefixInputField(_controller, "assets/images/learning_space.png",
+                      _focusNodes[2],
+                      _controller,
+                      "assets/images/learning_space.png",
                       "Learning Space Role"),
                   const SizedBox(height: 12),
-                  prefixInputField(_controller, "assets/images/role.png",
-                      "Role in Organization"),
+                  prefixInputField(_focusNodes[3], _controller,
+                      "assets/images/role.png", "Role in Organization"),
                   const SizedBox(height: 12),
-                  prefixInputField(
-                      _controller, "assets/images/other_role.png", "Other Role"),
+                  prefixInputField(_focusNodes[4], _controller,
+                      "assets/images/other_role.png", "Other Role"),
                   const SizedBox(height: 12),
                   const Spacer(),
                   InkWell(
                     onTap: () {
                       widget.changeTab();
                     },
-                    child: Ink(
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 48,
                       decoration: BoxDecoration(
                           gradient: const LinearGradient(
                               colors: [primaryColor, gradientTwo]),
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: Text(
-                          'Next'.toUpperCase(),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              letterSpacing: 2),
-                        ),
+                          borderRadius: BorderRadius.circular(4)),
+                      child: Text(
+                        'Next'.toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            letterSpacing: 2),
                       ),
                     ),
                   ),
