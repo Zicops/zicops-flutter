@@ -35,6 +35,20 @@ fragment UserFragment on User {
 
 mutation login {
   login {
-    ...UserFragment
+    id
+    first_name
+    last_name
+    status
+    role
+    is_verified
+    is_active
+    gender
+    created_by
+    updated_by
+    created_at
+    updated_at
+    email
+    phone
+    photo_url
   }
 }

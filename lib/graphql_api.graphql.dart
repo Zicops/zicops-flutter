@@ -26,32 +26,6 @@ mixin UserLspFragmentMixin {
   @JsonKey(name: 'updated_by')
   String? updatedBy;
 }
-mixin UserFragmentMixin {
-  String? id;
-  @JsonKey(name: 'first_name')
-  late String firstName;
-  @JsonKey(name: 'last_name')
-  late String lastName;
-  late String status;
-  late String role;
-  @JsonKey(name: 'is_verified')
-  late bool isVerified;
-  @JsonKey(name: 'is_active')
-  late bool isActive;
-  late String gender;
-  @JsonKey(name: 'created_by')
-  String? createdBy;
-  @JsonKey(name: 'updated_by')
-  String? updatedBy;
-  @JsonKey(name: 'created_at')
-  late String createdAt;
-  @JsonKey(name: 'updated_at')
-  late String updatedAt;
-  late String email;
-  late String phone;
-  @JsonKey(name: 'photo_url')
-  String? photoUrl;
-}
 
 @JsonSerializable(explicitToJson: true)
 class GetUserLsps$QueryRoot$UserLspMap extends JsonSerializable
@@ -94,12 +68,50 @@ class GetUserLsps$QueryRoot extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Login$MutationRoot$User extends JsonSerializable
-    with EquatableMixin, UserFragmentMixin {
+class Login$MutationRoot$User extends JsonSerializable with EquatableMixin {
   Login$MutationRoot$User();
 
   factory Login$MutationRoot$User.fromJson(Map<String, dynamic> json) =>
       _$Login$MutationRoot$UserFromJson(json);
+
+  String? id;
+
+  @JsonKey(name: 'first_name')
+  late String firstName;
+
+  @JsonKey(name: 'last_name')
+  late String lastName;
+
+  late String status;
+
+  late String role;
+
+  @JsonKey(name: 'is_verified')
+  late bool isVerified;
+
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+
+  late String gender;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+
+  late String email;
+
+  late String phone;
+
+  @JsonKey(name: 'photo_url')
+  String? photoUrl;
 
   @override
   List<Object?> get props => [
@@ -294,130 +306,115 @@ final LOGIN_MUTATION_DOCUMENT = DocumentNode(definitions: [
         arguments: [],
         directives: [],
         selectionSet: SelectionSetNode(selections: [
-          FragmentSpreadNode(
-            name: NameNode(value: 'UserFragment'),
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
             directives: [],
-          )
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'first_name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'last_name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'role'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_verified'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'gender'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'email'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'phone'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'photo_url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
         ]),
       )
     ]),
-  ),
-  FragmentDefinitionNode(
-    name: NameNode(value: 'UserFragment'),
-    typeCondition: TypeConditionNode(
-        on: NamedTypeNode(
-      name: NameNode(value: 'User'),
-      isNonNull: false,
-    )),
-    directives: [],
-    selectionSet: SelectionSetNode(selections: [
-      FieldNode(
-        name: NameNode(value: 'id'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'first_name'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'last_name'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'status'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'role'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'is_verified'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'is_active'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'gender'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'created_by'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'updated_by'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'created_at'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'updated_at'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'email'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'phone'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'photo_url'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-    ]),
-  ),
+  )
 ]);
 
 class LoginMutation extends GraphQLQuery<Login$MutationRoot, JsonSerializable> {
