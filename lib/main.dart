@@ -5,14 +5,13 @@ import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
 import 'package:zicops/views/screens/account_setup/organization_tab.dart';
 import 'package:zicops/views/screens/account_setup/personal_tab.dart';
-import 'package:zicops/views/screens/account_setup/preferences_tab.dart';
-import 'package:zicops/views/screens/change_pass/change_pass_screen.dart';
-import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
-import 'package:zicops/views/screens/home/home.dart';
+import 'package:artemis/artemis.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 
 import 'firebase_options.dart';
 
+//TODO: Initialize clients for um and cq here with interceptor to inject token
+//final ArtemisClient userClient = ArtemisClient("https://demo.zicops.com/um/api/v1/query");
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
