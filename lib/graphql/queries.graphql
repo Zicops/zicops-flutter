@@ -1,0 +1,40 @@
+fragment UserLspFragment on UserLspMap {
+  user_lsp_id
+  user_id
+  lsp_id
+  status
+  created_at
+  updated_at
+  created_by
+  updated_by
+}
+
+query getUserLsps($userId: ID!) {
+  getUserLsps(id: $userId) {
+    ...UserLspFragment
+  }
+}
+
+fragment UserFragment on User {
+  id
+  first_name
+  last_name
+  status
+  role
+  is_verified
+  is_active
+  gender
+  created_by
+  updated_by
+  created_at
+  updated_at
+  email
+  phone
+  photo_url
+}
+
+mutation login {
+  login {
+    ...UserFragment
+  }
+}
