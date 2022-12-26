@@ -128,8 +128,8 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     return Scaffold(
         key: _scaffoldKey,
         body: SlidingUpPanel(
-            minHeight: 185,
-            maxHeight: selectedCategories.isNotEmpty ? height * 0.6 : 185,
+            minHeight: 165,
+            maxHeight: selectedCategories.isNotEmpty ? height * 0.65 : 165,
             color: Colors.transparent,
             controller: _panelController,
             backdropEnabled: openSubCatModal,
@@ -237,7 +237,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                           ))
                         : const Text(""),
                     const SizedBox(
-                      height: 35,
+                      height: 24,
                     ),
                   ],
                 )),
