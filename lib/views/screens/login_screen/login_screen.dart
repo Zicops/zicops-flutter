@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zicops/main.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/CustomPassword.dart';
 
@@ -48,6 +50,14 @@ class _LoginScreen extends State<LoginScreen> {
       });
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const AccountSetupScreen()));
+      IdTokenResult? tokenResult =
+          await FirebaseAuth.instance.currentUser?.getIdTokenResult();
+      String? token = tokenResult?.token;
+      if (token != null) {
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        sharedPreferences.setString("token", token);
+      }
       return credential;
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -89,50 +99,54 @@ class _LoginScreen extends State<LoginScreen> {
     return SizedBox(
         width: double.infinity,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(height:48,child: TextField(
-            controller: _passwordController,
-            focusNode: _focusNodes[1],
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.zero,
-              enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: lightGrey),
-                  borderRadius: BorderRadius.circular(4)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: primaryColor),
-                  borderRadius: BorderRadius.circular(4)),
-              hintText: "Password",
-              filled: true,
-              fillColor: secondaryColorLight,
-              hintStyle: const TextStyle(color: textGrey, fontSize: 16),
-              prefixIcon: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: ImageIcon(
-                    AssetImage("assets/images/lock.png"),
-                    color: _focusNodes[1].hasFocus ? textPrimary : textGrey,
-                    size: 16,
-                  )),
-              prefixIconConstraints:
-                  const BoxConstraints(minHeight: 24, minWidth: 24),
-              suffixIcon: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _passwordVisible = !_passwordVisible;
-                    });
-                  },
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+          SizedBox(
+              height: 48,
+              child: TextField(
+                controller: _passwordController,
+                focusNode: _focusNodes[1],
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.zero,
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: lightGrey),
+                      borderRadius: BorderRadius.circular(4)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: primaryColor),
+                      borderRadius: BorderRadius.circular(4)),
+                  hintText: "Password",
+                  filled: true,
+                  fillColor: secondaryColorLight,
+                  hintStyle: const TextStyle(color: textGrey, fontSize: 16),
+                  prefixIcon: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
                       child: ImageIcon(
-                        const AssetImage("assets/images/hidden.png"),
+                        AssetImage("assets/images/lock.png"),
                         color: _focusNodes[1].hasFocus ? textPrimary : textGrey,
-                        size: 18,
-                      ))),
-              suffixIconConstraints:
-                  const BoxConstraints(minHeight: 24, minWidth: 24),
-            ),
-            cursorColor: textPrimary,
-            style: const TextStyle(color: textPrimary),
-            obscureText: !_passwordVisible,
-          )),
+                        size: 16,
+                      )),
+                  prefixIconConstraints:
+                      const BoxConstraints(minHeight: 24, minWidth: 24),
+                  suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: ImageIcon(
+                            const AssetImage("assets/images/hidden.png"),
+                            color: _focusNodes[1].hasFocus
+                                ? textPrimary
+                                : textGrey,
+                            size: 18,
+                          ))),
+                  suffixIconConstraints:
+                      const BoxConstraints(minHeight: 24, minWidth: 24),
+                ),
+                cursorColor: textPrimary,
+                style: const TextStyle(color: textPrimary),
+                obscureText: !_passwordVisible,
+              )),
           showErrorP
               ? Container(
                   margin: const EdgeInsets.only(top: 10),
@@ -181,9 +195,9 @@ class _LoginScreen extends State<LoginScreen> {
             child: Container(
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/login_bg.png"),
-                      fit: BoxFit.fill,
-                    )),
+                  image: AssetImage("assets/images/login_bg.png"),
+                  fit: BoxFit.fill,
+                )),
                 height: height,
                 padding: const EdgeInsets.all(20),
                 child: CustomScrollView(slivers: [
@@ -201,8 +215,9 @@ class _LoginScreen extends State<LoginScreen> {
                                 _keyboardVisible
                                     ? const Text(
                                         'Welcome!',
-                                        style: TextStyle(fontSize: 24,fontWeight:
-                                        FontWeight.w500,
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w500,
                                             color: textPrimary),
                                         textAlign: TextAlign.start,
                                       )
@@ -238,7 +253,9 @@ class _LoginScreen extends State<LoginScreen> {
                               ]),
                           const SizedBox(height: 4),
                           SizedBox(
-                              width:_keyboardVisible?double.infinity: MediaQuery.of(context).size.width * 0.5,
+                              width: _keyboardVisible
+                                  ? double.infinity
+                                  : MediaQuery.of(context).size.width * 0.5,
                               child: Text(
                                 "Start your first step to learning here!",
                                 style: const TextStyle(
@@ -250,42 +267,43 @@ class _LoginScreen extends State<LoginScreen> {
                                     : TextAlign.center,
                               )),
                           const SizedBox(height: 28),
-                          SizedBox(height:48, child:
-                          TextField(
-                            controller: _emailController,
-                            focusNode: _focusNodes[0],
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.zero,
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: lightGrey),
-                                    borderRadius: BorderRadius.circular(4)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: primaryColor),
-                                    borderRadius: BorderRadius.circular(4)),
-                                filled: true,
-                                prefixIcon: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12),
-                                    child: ImageIcon(
-                                      const AssetImage(
-                                          "assets/images/email.png"),
-                                      color: _focusNodes[0].hasFocus
-                                          ? textPrimary
-                                          : textGrey,
-                                      size: 18,
-                                    )),
-                                prefixIconConstraints: const BoxConstraints(
-                                    minHeight: 24, minWidth: 24),
-                                hintText: "Email",
-                                fillColor: secondaryColorLight,
-                                hintStyle: const TextStyle(
-                                    color: textGrey, fontSize: 16)),
-                            cursorColor: textPrimary,
-                            style: const TextStyle(
-                                color: textPrimary, fontSize: 16),
-                          )),
+                          SizedBox(
+                              height: 48,
+                              child: TextField(
+                                controller: _emailController,
+                                focusNode: _focusNodes[0],
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.zero,
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            const BorderSide(color: lightGrey),
+                                        borderRadius: BorderRadius.circular(4)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: primaryColor),
+                                        borderRadius: BorderRadius.circular(4)),
+                                    filled: true,
+                                    prefixIcon: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12),
+                                        child: ImageIcon(
+                                          const AssetImage(
+                                              "assets/images/email.png"),
+                                          color: _focusNodes[0].hasFocus
+                                              ? textPrimary
+                                              : textGrey,
+                                          size: 18,
+                                        )),
+                                    prefixIconConstraints: const BoxConstraints(
+                                        minHeight: 24, minWidth: 24),
+                                    hintText: "Email",
+                                    fillColor: secondaryColorLight,
+                                    hintStyle: const TextStyle(
+                                        color: textGrey, fontSize: 16)),
+                                cursorColor: textPrimary,
+                                style: const TextStyle(
+                                    color: textPrimary, fontSize: 16),
+                              )),
                           const SizedBox(height: 12),
                           // customPassword(
                           //     _passwordController,
