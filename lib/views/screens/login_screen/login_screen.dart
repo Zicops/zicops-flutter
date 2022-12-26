@@ -9,6 +9,7 @@ import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../graphql_api.graphql.dart';
 import '../../widgets/CustomPassword.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -57,6 +58,8 @@ class _LoginScreen extends State<LoginScreen> {
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
         sharedPreferences.setString("token", token);
+        final result = await userClient.client().execute(LoginMutation());
+        log(result.data.toString());
       }
       return credential;
     } on FirebaseAuthException catch (e) {
