@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zicops/gql_client.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
 import 'package:zicops/views/screens/account_setup/organization_tab.dart';
@@ -10,8 +11,9 @@ import 'package:zicops/views/screens/login_screen/login_screen.dart';
 
 import 'firebase_options.dart';
 
-//TODO: Initialize clients for um and cq here with interceptor to inject token
-//final ArtemisClient userClient = ArtemisClient("https://demo.zicops.com/um/api/v1/query");
+final GQL userClient = GQL('https://demo.zicops.com/um/api/v1/query');
+final GQL courseQClient = GQL('https://demo.zicops.com/cq/api/v1/query');
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
