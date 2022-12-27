@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           image: AssetImage("assets/images/login_bg.png"),
           fit: BoxFit.fill,
         )),
-        child: AccountSetupScreen(),
+        child: LoginScreen(),
       ),
     );
   }
