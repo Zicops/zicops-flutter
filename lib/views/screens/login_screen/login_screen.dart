@@ -58,8 +58,7 @@ class _LoginScreen extends State<LoginScreen> {
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
         sharedPreferences.setString("token", token);
-        final result = await userClient.client().execute(LoginMutation());
-        log(result.data.toString());
+        final result = await userClient.client()?.execute(LoginMutation());
       }
       return credential;
     } on FirebaseAuthException catch (e) {

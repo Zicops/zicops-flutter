@@ -7,9 +7,9 @@ class GQL {
 
   GQL(this.baseUrl);
 
-  late ArtemisClient _client;
+  ArtemisClient? _client;
 
-  ArtemisClient client() {
+  ArtemisClient? client() {
     if (_client == null) {
       return ArtemisClient(this.baseUrl, httpClient: AuthenticatedClient());
     }
