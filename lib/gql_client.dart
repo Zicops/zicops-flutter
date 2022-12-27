@@ -17,7 +17,7 @@ class GQL {
   }
 }
 
-extension Artemis on ArtemisClient {
+extension Artemis on ArtemisClient? {
   Future<void> saveToken(String token) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("token", token);
