@@ -1,13 +1,16 @@
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zicops/main.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import '../../../graphql_api.graphql.dart';
 import '../../widgets/CustomPassword.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,7 +22,22 @@ class LoginScreen extends StatefulWidget {
   }
 }
 
+
+class HttpClientWithToken extends http.BaseClient {
+  HttpClientWithToken(this.token);
+
+  final String token;
+  final http.Client _client = http.Client();
+
+  Future<http.StreamedResponse> send(http.BaseRequest request) {
+    request.headers['Authorization'] = 'Bearer '+token;
+    return _client.send(request);
+  }
+}
+
+
 class _LoginScreen extends State<LoginScreen> {
+ 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -36,17 +54,35 @@ class _LoginScreen extends State<LoginScreen> {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
-       String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
-       if(token != null){
-         final prefs = await SharedPreferences.getInstance();
-         await prefs.setString('token', token);
-       }
-
+          print('heloo');
+      Fluttertoast.showToast(
+          msg: "Login Successful",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       setState(() {
         isLoading = false;
       });
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const AccountSetupScreen()));
+
+     
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => const AccountSetupScreen()));
+      String token1 = 'eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg3NTNiYmFiM2U4YzBmZjdjN2ZiNzg0ZWM5MmY5ODk3YjVjZDkwN2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vemljb3BzLW9uZSIsImF1ZCI6InppY29wcy1vbmUiLCJhdXRoX3RpbWUiOjE2NzIxNjE1MDksInVzZXJfaWQiOiJwMkhSUXZtakJZV1llakRpSDByRERPb3ZUOVQyIiwic3ViIjoicDJIUlF2bWpCWVdZZWpEaUgwckRET292VDlUMiIsImlhdCI6MTY3MjE2MTUwOSwiZXhwIjoxNjcyMTY1MTA5LCJlbWFpbCI6ImFua2l0K2FqQHppY29wcy5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInBob25lX251bWJlciI6Iis5MTY2Njk2OTY5NjkiLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7InBob25lIjpbIis5MTY2Njk2OTY5NjkiXSwiZW1haWwiOlsiYW5raXQrYWpAemljb3BzLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.XCtFXD2fS5Ve0HCzOYkkM_FMJnYm9OIzEaO0-BSpWW7YlkqSVgkimvK_JJrVGs77Aps2ki1y6MpWt2tTjv3Z6eLAb4L393N7O3m3INFS3QDoBUOmEI7dN2-qM4lQAp9v_wGf4BpcmNqxqTepWY4DUk2anX5Nf5GoSv-mbaCQM009DVHkTXy8S29L6QgOa997IMSLD0NgouAEopP2rfff-NPicvBSOQN35FZ56V6Wh7cczRWHk40MpaO54goXL-aBZyFOyPGJh_l5VlFlnfMzv8JMMZaDMI1E7XUm9QxfQMjEyV8psqo93v_6dDanT5J_bYxIsMNrb3UCvje2nxTxvw';
+      IdTokenResult? tokenResult =
+          await FirebaseAuth.instance.currentUser?.getIdTokenResult();
+      // String? token = tokenResult?.token;
+      String? token = token1;
+    
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        sharedPreferences.setString("token", token);
+        
+        final result = await userClient.client().execute(LoginMutation());
+        print(result.data.toString());
+      
       return credential;
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -88,50 +124,54 @@ class _LoginScreen extends State<LoginScreen> {
     return SizedBox(
         width: double.infinity,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(height:48,child: TextField(
-            controller: _passwordController,
-            focusNode: _focusNodes[1],
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.zero,
-              enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: lightGrey),
-                  borderRadius: BorderRadius.circular(4)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: primaryColor),
-                  borderRadius: BorderRadius.circular(4)),
-              hintText: "Password",
-              filled: true,
-              fillColor: secondaryColorLight,
-              hintStyle: const TextStyle(color: textGrey, fontSize: 16),
-              prefixIcon: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: ImageIcon(
-                    AssetImage("assets/images/lock.png"),
-                    color: _focusNodes[1].hasFocus ? textPrimary : textGrey,
-                    size: 16,
-                  )),
-              prefixIconConstraints:
-                  const BoxConstraints(minHeight: 24, minWidth: 24),
-              suffixIcon: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _passwordVisible = !_passwordVisible;
-                    });
-                  },
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+          SizedBox(
+              height: 48,
+              child: TextField(
+                controller: _passwordController,
+                focusNode: _focusNodes[1],
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.zero,
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: lightGrey),
+                      borderRadius: BorderRadius.circular(4)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: primaryColor),
+                      borderRadius: BorderRadius.circular(4)),
+                  hintText: "Password",
+                  filled: true,
+                  fillColor: secondaryColorLight,
+                  hintStyle: const TextStyle(color: textGrey, fontSize: 16),
+                  prefixIcon: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
                       child: ImageIcon(
-                        const AssetImage("assets/images/hidden.png"),
+                        AssetImage("assets/images/lock.png"),
                         color: _focusNodes[1].hasFocus ? textPrimary : textGrey,
-                        size: 18,
-                      ))),
-              suffixIconConstraints:
-                  const BoxConstraints(minHeight: 24, minWidth: 24),
-            ),
-            cursorColor: textPrimary,
-            style: const TextStyle(color: textPrimary),
-            obscureText: !_passwordVisible,
-          )),
+                        size: 16,
+                      )),
+                  prefixIconConstraints:
+                      const BoxConstraints(minHeight: 24, minWidth: 24),
+                  suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: ImageIcon(
+                            const AssetImage("assets/images/hidden.png"),
+                            color: _focusNodes[1].hasFocus
+                                ? textPrimary
+                                : textGrey,
+                            size: 18,
+                          ))),
+                  suffixIconConstraints:
+                      const BoxConstraints(minHeight: 24, minWidth: 24),
+                ),
+                cursorColor: textPrimary,
+                style: const TextStyle(color: textPrimary),
+                obscureText: !_passwordVisible,
+              )),
           showErrorP
               ? Container(
                   margin: const EdgeInsets.only(top: 10),
@@ -180,9 +220,9 @@ class _LoginScreen extends State<LoginScreen> {
             child: Container(
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/login_bg.png"),
-                      fit: BoxFit.fill,
-                    )),
+                  image: AssetImage("assets/images/login_bg.png"),
+                  fit: BoxFit.fill,
+                )),
                 height: height,
                 padding: const EdgeInsets.all(20),
                 child: CustomScrollView(slivers: [
@@ -200,8 +240,9 @@ class _LoginScreen extends State<LoginScreen> {
                                 _keyboardVisible
                                     ? const Text(
                                         'Welcome!',
-                                        style: TextStyle(fontSize: 24,fontWeight:
-                                        FontWeight.w500,
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w500,
                                             color: textPrimary),
                                         textAlign: TextAlign.start,
                                       )
@@ -237,7 +278,9 @@ class _LoginScreen extends State<LoginScreen> {
                               ]),
                           const SizedBox(height: 4),
                           SizedBox(
-                              width:_keyboardVisible?double.infinity: MediaQuery.of(context).size.width * 0.5,
+                              width: _keyboardVisible
+                                  ? double.infinity
+                                  : MediaQuery.of(context).size.width * 0.5,
                               child: Text(
                                 "Start your first step to learning here!",
                                 style: const TextStyle(
@@ -249,42 +292,43 @@ class _LoginScreen extends State<LoginScreen> {
                                     : TextAlign.center,
                               )),
                           const SizedBox(height: 28),
-                          SizedBox(height:48, child:
-                          TextField(
-                            controller: _emailController,
-                            focusNode: _focusNodes[0],
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.zero,
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: lightGrey),
-                                    borderRadius: BorderRadius.circular(4)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: primaryColor),
-                                    borderRadius: BorderRadius.circular(4)),
-                                filled: true,
-                                prefixIcon: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12),
-                                    child: ImageIcon(
-                                      const AssetImage(
-                                          "assets/images/email.png"),
-                                      color: _focusNodes[0].hasFocus
-                                          ? textPrimary
-                                          : textGrey,
-                                      size: 18,
-                                    )),
-                                prefixIconConstraints: const BoxConstraints(
-                                    minHeight: 24, minWidth: 24),
-                                hintText: "Email",
-                                fillColor: secondaryColorLight,
-                                hintStyle: const TextStyle(
-                                    color: textGrey, fontSize: 16)),
-                            cursorColor: textPrimary,
-                            style: const TextStyle(
-                                color: textPrimary, fontSize: 16),
-                          )),
+                          SizedBox(
+                              height: 48,
+                              child: TextField(
+                                controller: _emailController,
+                                focusNode: _focusNodes[0],
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.zero,
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            const BorderSide(color: lightGrey),
+                                        borderRadius: BorderRadius.circular(4)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: primaryColor),
+                                        borderRadius: BorderRadius.circular(4)),
+                                    filled: true,
+                                    prefixIcon: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12),
+                                        child: ImageIcon(
+                                          const AssetImage(
+                                              "assets/images/email.png"),
+                                          color: _focusNodes[0].hasFocus
+                                              ? textPrimary
+                                              : textGrey,
+                                          size: 18,
+                                        )),
+                                    prefixIconConstraints: const BoxConstraints(
+                                        minHeight: 24, minWidth: 24),
+                                    hintText: "Email",
+                                    fillColor: secondaryColorLight,
+                                    hintStyle: const TextStyle(
+                                        color: textGrey, fontSize: 16)),
+                                cursorColor: textPrimary,
+                                style: const TextStyle(
+                                    color: textPrimary, fontSize: 16),
+                              )),
                           const SizedBox(height: 12),
                           // customPassword(
                           //     _passwordController,

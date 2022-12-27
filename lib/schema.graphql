@@ -1,0 +1,50 @@
+schema {
+  query: QueryRoot
+  mutation: MutationRoot
+}
+
+type MutationRoot {
+  login: User
+}
+
+# ISO 8601 combined date and time without timezone.
+#
+# # Examples
+#
+# * `2015-07-01T08:59:60.123`,
+scalar NaiveDateTime
+scalar Upload
+
+type QueryRoot {
+  getUserLsps(user_id: String!): [UserLspMap]
+}
+
+type User {
+  id: ID
+  first_name: String!
+  last_name: String!
+  status: String!
+  role: String!
+  is_verified: Boolean!
+  is_active: Boolean!
+  gender: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+  email: String!
+  phone: String!
+  photo_url: String
+}
+
+type UserLspMap {
+  user_lsp_id: ID
+  user_id: String!
+  lsp_id: String!
+  status: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
