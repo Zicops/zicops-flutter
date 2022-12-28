@@ -46,24 +46,41 @@ class DefaultFirebaseOptions {
     }
   }
 
+  // static const FirebaseOptions web = FirebaseOptions(
+  //   apiKey: 'AIzaSyCYFbbrFjYRCVNnaGf5KSk_h5vy1hmj-TU',
+  //   appId: '1:142488541576:web:d5fbffe5c20ef70c99423d',
+  //   messagingSenderId: '142488541576',
+  //   projectId: 'zicops-23e57',
+  //   authDomain: 'zicops-23e57.firebaseapp.com',
+  //   storageBucket: 'zicops-23e57.appspot.com',
+  //   measurementId: 'G-VGKN1LK3R3',
+  // );
+
+  // static const FirebaseOptions android = FirebaseOptions(
+  //   apiKey: 'AIzaSyAHfUSlwaoEeTUBoGbFT8iLWdwCEUnk-9I',
+  //   appId: '1:142488541576:android:c9679a13c1c7013499423d',
+  //   messagingSenderId: '142488541576',
+  //   projectId: 'zicops-23e57',
+  //   storageBucket: 'zicops-23e57.appspot.com',
+  // );
+
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCYFbbrFjYRCVNnaGf5KSk_h5vy1hmj-TU',
-    appId: '1:142488541576:web:d5fbffe5c20ef70c99423d',
-    messagingSenderId: '142488541576',
-    projectId: 'zicops-23e57',
-    authDomain: 'zicops-23e57.firebaseapp.com',
-    storageBucket: 'zicops-23e57.appspot.com',
+    apiKey: 'AIzaSyD05Uj8S-YumeJUiM4xuO8YFP7rjLJbrP8',
+    appId: '1:359144709511:web:d8d41fb236983ea45f4722',
+    messagingSenderId: '359144709511',
+    projectId: 'zicops-one',
+    authDomain: 'zicops-one.firebaseapp.com',
+    storageBucket: 'zicops-one.appspot.com',
     measurementId: 'G-VGKN1LK3R3',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAHfUSlwaoEeTUBoGbFT8iLWdwCEUnk-9I',
-    appId: '1:142488541576:android:c9679a13c1c7013499423d',
-    messagingSenderId: '142488541576',
-    projectId: 'zicops-23e57',
-    storageBucket: 'zicops-23e57.appspot.com',
+    apiKey: 'AIzaSyD05Uj8S-YumeJUiM4xuO8YFP7rjLJbrP8',
+    appId: '1:359144709511:web:d8d41fb236983ea45f4722',
+    messagingSenderId: '359144709511',
+    projectId: 'zicops-one',
+    storageBucket: 'zicops-one.appspot.com',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAdypSVLGIL-8PVVtfdD25d9nFtSN167xA',
     appId: '1:142488541576:ios:c00d039c3f985a1a99423d',
