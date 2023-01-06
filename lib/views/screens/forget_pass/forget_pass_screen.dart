@@ -1,12 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/otp_field_style.dart';
-import 'package:otp_text_field/style.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
+import 'package:zicops/views/widgets/GradientButton.dart';
 
 import '../../../utils/colors.dart';
+import '../../../utils/validation.dart';
+import '../../widgets/PrefixInputField.dart';
 
 class ForgetPassScreen extends StatefulWidget {
   const ForgetPassScreen({Key? key}) : super(key: key);
@@ -20,34 +19,22 @@ class ForgetPassScreen extends StatefulWidget {
 class _ForgetPassScreen extends State<ForgetPassScreen>
     with TickerProviderStateMixin {
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _enterPass = TextEditingController();
+  final TextEditingController _reenterPass = TextEditingController();
 
   bool _keyboardVisible = false;
   bool showErrorP = false;
   String errorMsgP = "";
   bool mailSent = false;
-  bool otpVerified = false;
-  bool _passwordVisible = false;
-  Timer? _timer;
-  int _start = 60;
-  void startTimer() {
-    const oneSec = Duration(seconds: 1);
-    _timer = Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_start == 0) {
-          setState(() {
-            timer.cancel();
-          });
-        } else {
-          setState(() {
-            _start--;
-          });
-        }
-      },
-    );
-  }
+  bool isEmailValidated = false;
+  bool mailSuccessful = false;
 
-  final List<FocusNode> _focusNodes = [FocusNode(), FocusNode(), FocusNode()];
+  final List<FocusNode> _focusNodes = [
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode()
+  ];
 
   @override
   void initState() {
@@ -64,7 +51,6 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
     for (var node in _focusNodes) {
       node.removeListener(() {});
     }
-    _timer?.cancel();
     super.dispose();
   }
 
@@ -73,67 +59,6 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
     final height = MediaQuery.of(context).size.height;
     // final width = MediaQuery.of(context).size.width;
     _keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
-
-    Widget customTextField(index, hint) {
-      return SizedBox(
-          width: double.infinity,
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                SizedBox(height:48,child: TextField(
-              focusNode: _focusNodes[index],
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.zero,
-                enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: lightGrey),
-                    borderRadius: BorderRadius.circular(4)),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: primaryColor),
-                    borderRadius: BorderRadius.circular(4)),
-                hintText: hint,
-                filled: true,
-                fillColor: secondaryColorLight,
-                prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: ImageIcon(
-                      const AssetImage("assets/images/lock.png"),
-                      color:
-                          _focusNodes[index].hasFocus ? textPrimary : textGrey,
-                      size: 16,
-                    )),
-                prefixIconConstraints:
-                    const BoxConstraints(minHeight: 24, minWidth: 24),
-                suffixIcon: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _passwordVisible = !_passwordVisible;
-                      });
-                    },
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: ImageIcon(
-                          const AssetImage("assets/images/hidden.png"),
-                          color: _focusNodes[index].hasFocus
-                              ? textPrimary
-                              : textGrey,
-                          size: 18,
-                        ))),
-                suffixIconConstraints:
-                    const BoxConstraints(minHeight: 24, minWidth: 24),
-              ),
-              cursorColor: textPrimary,
-              style: const TextStyle(color: textPrimary),
-              obscureText: !_passwordVisible,
-            )),
-            showErrorP
-                ? Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    child: Text(
-                      errorMsgP,
-                      style: const TextStyle(color: Colors.red),
-                    ))
-                : const Text(""),
-          ]));
-    }
 
     return Scaffold(
         body: SafeArea(
@@ -145,15 +70,17 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                 )),
                 padding: const EdgeInsets.all(20),
                 child: CustomScrollView(slivers: [
-
-
                   SliverFillRemaining(
                       hasScrollBody: false,
                       child: !mailSent
                           ? Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: _keyboardVisible
+                                  ? MainAxisAlignment.start
+                                  : MainAxisAlignment.end,
                               children: [
-                                  const Spacer(),
+                                  _focusNodes[0].hasFocus
+                                      ? const SizedBox.shrink()
+                                      : const Spacer(),
                                   Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -166,18 +93,18 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                             children: [
                                               Image.asset(
                                                 "assets/images/zicops_logo.png",
-                                                width: 40,
+                                                width: 40.sp,
                                               ),
-                                              const SizedBox(height: 12),
+                                              SizedBox(height: 12.sp),
                                               SizedBox(
                                                   width: MediaQuery.of(context)
                                                           .size
                                                           .width *
                                                       0.70,
-                                                  child: const Text(
+                                                  child: Text(
                                                     "Reset password!",
                                                     style: TextStyle(
-                                                        fontSize: 24,
+                                                        fontSize: 24.sp,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         color: textPrimary),
@@ -185,118 +112,88 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                                   )),
                                             ])
                                       ]),
-                                  const SizedBox(height: 4),
+                                  SizedBox(height: 4.sp),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width,
-                                      child: const Text(
+                                      child: Text(
                                           "Enter the email associated with your account and we’ll send you an email with instructions to reset password.",
                                           style: TextStyle(
-                                            fontSize: 16,
-                                            color: textGrey,
+                                            fontSize: 16.sp,
+                                            color: textGrey2,
                                           ),
                                           textAlign: TextAlign.start)),
                                   const SizedBox(height: 20),
-                                SizedBox(height:48,child: TextField(
-                                    controller: _emailController,
-                                    focusNode: _focusNodes[0],
-                                    decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.zero,
-                                        enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: lightGrey),
-                                            borderRadius:
-                                                BorderRadius.circular(4)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: primaryColor),
-                                            borderRadius:
-                                                BorderRadius.circular(4)),
-                                        filled: true,
-                                        prefixIcon: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 12),
-                                            child: ImageIcon(
-                                              const AssetImage(
-                                                  "assets/images/email.png"),
-                                              color: _focusNodes[0].hasFocus
-                                                  ? textPrimary
-                                                  : textGrey,
-                                              size: 18,
-                                            )),
-                                        prefixIconConstraints:
-                                            const BoxConstraints(
-                                                minHeight: 20, minWidth: 20),
-                                        hintText: "Email",
-                                        fillColor: secondaryColorLight,
-                                        hintStyle: const TextStyle(
-                                            color: textGrey, fontSize: 16)),
-                                    style: const TextStyle(
-                                        color: textPrimary, fontSize: 16),
-                                    cursorColor: textGrey,
-                                  )),
-                                  const SizedBox(height: 20),
-                                  InkWell(
+                                  prefixInputField(
+                                      _focusNodes[0],
+                                      _emailController,
+                                      "assets/images/email.png",
+                                      "Email",
+                                      validated: isEmailValidated,
+                                      onChange: (e) {
+                                    setState(() {
+                                      isEmailValidated = isValidEmail(e);
+                                    });
+                                  }),
+                                  SizedBox(height: 20.sp),
+                                  GestureDetector(
                                     onTap: () {
                                       setState(() {
                                         mailSent = true;
-                                        startTimer();
+                                        mailSuccessful = true;
                                       });
                                     },
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      height: 48,
-                                      decoration: BoxDecoration(
-                                          gradient: const LinearGradient(
-                                              colors: [
-                                                primaryColor,
-                                                gradientTwo
-                                              ]),
-                                          borderRadius:
-                                              BorderRadius.circular(4)),
-                                      child: Text(
-                                        'Send Email'.toUpperCase(),
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14,
-                                            letterSpacing: 2),
-                                      ),
-                                    ),
+                                    child: gradientButton('Send Email'),
                                   ),
-                                  const SizedBox(height: 35),
+                                SizedBox(height: 20.sp),
+
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      mailSent = true;
+                                      mailSuccessful = false;
+
+                                    });
+                                  },
+                                  child: gradientButton('Send Email Fail'),
+                                ),
+                                  SizedBox(height: _keyboardVisible ? 0 : 35),
                                   _keyboardVisible
-                                      ? Text("")
+                                      ? const SizedBox.shrink()
                                       : Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
+                                          children: [
                                             Text(
                                               "Privacy Policy",
                                               style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: textGrey,
+                                                  fontSize: 12.sp,
+                                                  color: textGrey2,
                                                   decoration:
                                                       TextDecoration.underline),
                                             ),
                                             SizedBox(
-                                              width: 24,
+                                              width: 24.sp,
                                             ),
                                             Text(
                                               "Contact Us",
                                               style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: textGrey,
+                                                  fontSize: 12.sp,
+                                                  color: textGrey2,
                                                   decoration:
                                                       TextDecoration.underline),
                                             )
                                           ],
                                         )
                                 ])
-                          : !otpVerified
+                          : mailSuccessful
                               ? Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment: _keyboardVisible
+                                      ? MainAxisAlignment.start
+                                      : MainAxisAlignment.end,
                                   children: [
-                                      const Spacer(),
+                                      _focusNodes[0].hasFocus
+                                          ? const SizedBox.shrink()
+                                          : const Spacer(),
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -308,148 +205,98 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Image.asset(
-                                                    "assets/images/zicops_logo.png",
-                                                    width: 40,
+                                                    "assets/images/email_sent.png",
+                                                    width: 40.sp,
                                                   ),
-                                                  const SizedBox(height: 20),
+                                                  SizedBox(height: 12.sp),
                                                   SizedBox(
                                                       width:
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .width *
                                                               0.70,
-                                                      child: const Text(
-                                                        "Enter Code!",
+                                                      child: Text(
+                                                        "Email sent!",
                                                         style: TextStyle(
-                                                            fontSize: 24,
+                                                            fontSize: 24.sp,
                                                             fontWeight:
                                                                 FontWeight.w500,
+                                                            height: 1.33,
                                                             color: textPrimary),
                                                         textAlign:
                                                             TextAlign.start,
                                                       )),
                                                 ])
                                           ]),
-                                      const SizedBox(height: 4),
+                                      SizedBox(height: 4.sp),
                                       SizedBox(
                                           width:
                                               MediaQuery.of(context).size.width,
-                                          child: const Text(
-                                              "Enter the security code sent on your registered email id.",
+                                          child: Text(
+                                              "If your account exists with us, you will receive a reset password link on your associated email id. Please check your inbox.",
                                               style: TextStyle(
-                                                fontSize: 16,
-                                                color: textGrey,
-                                              ),
+                                                  fontSize: 16.sp,
+                                                  color: textGrey2,
+                                                  height: 1.5),
                                               textAlign: TextAlign.start)),
-                                      const SizedBox(height: 20),
-                                      OTPTextField(
-                                        length: 6,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        fieldWidth: 48,
-                                        outlineBorderRadius: 4,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                vertical: 16),
-                                        otpFieldStyle: OtpFieldStyle(
-                                            borderColor: textGrey,
-                                            enabledBorderColor: textPrimary,
-                                            focusBorderColor: primaryColor),
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            color: textPrimary,
-                                            fontWeight: FontWeight.w600),
-                                        textFieldAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        fieldStyle: FieldStyle.box,
-                                        onCompleted: (pin) {
-                                          print("Completed: " + pin);
-                                        },
-                                      ),
-                                      const SizedBox(height: 20),
-                                      Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              const Text(
-                                                "Your code expires in ",
-                                                style: TextStyle(
-                                                    color: textGrey,
-                                                    fontSize: 14),
-                                              ),
-                                              Text(
-                                                "00:${_start.toString().padLeft(2, '0')}.",
-                                                style: const TextStyle(
-                                                    color: primaryColor,
-                                                    fontSize: 14),
-                                              ),
-                                              const SizedBox(
-                                                width: 2,
-                                              ),
-                                              GestureDetector(
-                                                child: const Text("Resend",
+                                      SizedBox(height: 12.sp),
+                                      SizedBox(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: Text.rich(TextSpan(
+                                              text:
+                                                  "Did not receive email yet? ",
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  color: textGrey2,
+                                                  height: 1.5),
+                                              children: <InlineSpan>[
+                                                TextSpan(
+                                                    text: "Resend",
                                                     style: TextStyle(
-                                                        color: textGrey,
-                                                        fontSize: 14,
+                                                        fontSize: 16.sp,
+                                                        color: primaryColor,
                                                         decoration:
                                                             TextDecoration
-                                                                .underline)),
-                                              )
-                                            ],
-                                          )),
-                                      const SizedBox(height: 20),
+                                                                .underline,
+                                                        height: 1.5))
+                                              ]))),
+                                      SizedBox(height: 20.sp),
                                       InkWell(
                                         onTap: () {
-                                          setState(() {
-                                            otpVerified = true;
-                                          });
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const LoginScreen()));
                                         },
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          height: 48,
-                                          decoration: BoxDecoration(
-                                              gradient: const LinearGradient(
-                                                  colors: [
-                                                    primaryColor,
-                                                    gradientTwo
-                                                  ]),
-                                              borderRadius:
-                                                  BorderRadius.circular(4)),
-                                          child: Text(
-                                            'Verify'.toUpperCase(),
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14,
-                                                letterSpacing: 2),
-                                          ),
-                                        ),
+                                        child:
+                                            gradientButton('go back to login'),
                                       ),
-                                      const SizedBox(height: 35),
+                                      SizedBox(
+                                          height: _keyboardVisible ? 0 : 35),
                                       _keyboardVisible
-                                          ? Text("")
+                                          ? const SizedBox.shrink()
                                           : Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
-                                              children: const [
+                                              children: [
                                                 Text(
                                                   "Privacy Policy",
                                                   style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: textGrey,
+                                                      fontSize: 12.sp,
+                                                      color: textGrey2,
                                                       decoration: TextDecoration
                                                           .underline),
                                                 ),
                                                 SizedBox(
-                                                  width: 24,
+                                                  width: 24.sp,
                                                 ),
                                                 Text(
                                                   "Contact Us",
                                                   style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: textGrey,
+                                                      fontSize: 12.sp,
+                                                      color: textGrey2,
                                                       decoration: TextDecoration
                                                           .underline),
                                                 )
@@ -457,9 +304,13 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                             )
                                     ])
                               : Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment: _keyboardVisible
+                                      ? MainAxisAlignment.start
+                                      : MainAxisAlignment.end,
                                   children: [
-                                      const Spacer(),
+                                      _focusNodes[0].hasFocus
+                                          ? const SizedBox.shrink()
+                                          : const Spacer(),
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -470,22 +321,21 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-
                                                   Image.asset(
-                                                    "assets/images/zicops_logo.png",
-                                                    width: 40,
+                                                    "assets/images/oops.png",
+                                                    width: 40.sp,
                                                   ),
-                                                  const SizedBox(height: 20),
+                                                  SizedBox(height: 12.sp),
                                                   SizedBox(
                                                       width:
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .width *
                                                               0.70,
-                                                      child: const Text(
-                                                        "Enter password!",
+                                                      child: Text(
+                                                        "Oops!",
                                                         style: TextStyle(
-                                                            fontSize: 24,
+                                                            fontSize: 24.sp,
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             color: textPrimary),
@@ -494,72 +344,71 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                                       )),
                                                 ])
                                           ]),
-                                      const SizedBox(height: 4),
+                                      SizedBox(height: 4.sp),
                                       SizedBox(
                                           width:
                                               MediaQuery.of(context).size.width,
-                                          child:
-                                              const Text("Enter new password",
+                                          child: Text.rich(TextSpan(
+                                              text:
+                                                  "Something went wrong! Try to ",
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  color: textGrey2,
+                                                  height: 1.5),
+                                              children: <InlineSpan>[
+                                                TextSpan(
+                                                  text: "resend",
                                                   style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: textGrey,
-                                                  ),
-                                                  textAlign: TextAlign.start)),
-                                      const SizedBox(height: 20),
-                                      customTextField(1,"Enter New Password"),
-                                      customTextField(2,"Re-enter New Password"),
+                                                      fontSize: 16.sp,
+                                                      color: primaryColor,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      height: 1.5),
+                                                ),
+                                                TextSpan(
+                                                  text:
+                                                      " the mail now or come back later.\nThank you!",
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: textGrey2,
+                                                      height: 1.5),
+                                                )
+                                              ]))),
+                                      SizedBox(height: 20.sp),
                                       InkWell(
                                         onTap: () {
                                           Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const LoginScreen()),
-                                          );
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const LoginScreen()));
                                         },
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              gradient: const LinearGradient(
-                                                  colors: [
-                                                    primaryColor,
-                                                    gradientTwo
-                                                  ]),
-                                              borderRadius:
-                                                  BorderRadius.circular(4)),
-                                          height: 48,
-                                          child: Text(
-                                            'Confirm'.toUpperCase(),
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14,
-                                                letterSpacing: 2),
-                                          ),
-                                        ),
+                                        child:
+                                            gradientButton('go back to login'),
                                       ),
-                                      const SizedBox(height: 35),
+                                      SizedBox(
+                                          height: _keyboardVisible ? 0 : 35),
                                       _keyboardVisible
-                                          ? Text("")
+                                          ? const SizedBox.shrink()
                                           : Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
-                                              children: const [
+                                              children: [
                                                 Text(
                                                   "Privacy Policy",
                                                   style: TextStyle(
-                                                      fontSize: 12,
+                                                      fontSize: 12.sp,
                                                       color: textGrey,
                                                       decoration: TextDecoration
                                                           .underline),
                                                 ),
                                                 SizedBox(
-                                                  width: 24,
+                                                  width: 24.sp,
                                                 ),
                                                 Text(
                                                   "Contact Us",
                                                   style: TextStyle(
-                                                      fontSize: 12,
+                                                      fontSize: 12.sp,
                                                       color: textGrey,
                                                       decoration: TextDecoration
                                                           .underline),
