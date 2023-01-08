@@ -26,6 +26,27 @@ mixin UserLspFragmentMixin {
   @JsonKey(name: 'updated_by')
   String? updatedBy;
 }
+mixin AllCatMainFragmentMixin {
+  String? id;
+  @JsonKey(name: 'Name')
+  String? name;
+  @JsonKey(name: 'Description')
+  String? description;
+  @JsonKey(name: 'ImageUrl')
+  String? imageUrl;
+  @JsonKey(name: 'Code')
+  String? code;
+  @JsonKey(name: 'CreatedAt')
+  String? createdAt;
+  @JsonKey(name: 'UpdatedAt')
+  String? updatedAt;
+  @JsonKey(name: 'CreatedBy')
+  String? createdBy;
+  @JsonKey(name: 'UpdatedBy')
+  String? updatedBy;
+  @JsonKey(name: 'IsActive')
+  bool? isActive;
+}
 
 @JsonSerializable(explicitToJson: true)
 class GetUserLsps$QueryRoot$UserLspMap extends JsonSerializable
@@ -65,6 +86,46 @@ class GetUserLsps$QueryRoot extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [getUserLsps];
   @override
   Map<String, dynamic> toJson() => _$GetUserLsps$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AllCatMain$QueryRoot$CatMain extends JsonSerializable
+    with EquatableMixin, AllCatMainFragmentMixin {
+  AllCatMain$QueryRoot$CatMain();
+
+  factory AllCatMain$QueryRoot$CatMain.fromJson(Map<String, dynamic> json) =>
+      _$AllCatMain$QueryRoot$CatMainFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        imageUrl,
+        code,
+        createdAt,
+        updatedAt,
+        createdBy,
+        updatedBy,
+        isActive
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$AllCatMain$QueryRoot$CatMainToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AllCatMain$QueryRoot extends JsonSerializable with EquatableMixin {
+  AllCatMain$QueryRoot();
+
+  factory AllCatMain$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$AllCatMain$QueryRootFromJson(json);
+
+  List<AllCatMain$QueryRoot$CatMain?>? allCatMain;
+
+  @override
+  List<Object?> get props => [allCatMain];
+  @override
+  Map<String, dynamic> toJson() => _$AllCatMain$QueryRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -290,6 +351,183 @@ class GetUserLspsQuery
   @override
   GetUserLsps$QueryRoot parse(Map<String, dynamic> json) =>
       GetUserLsps$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AllCatMainArguments extends JsonSerializable with EquatableMixin {
+  AllCatMainArguments({
+    this.lsp_ids,
+    this.searchText,
+  });
+
+  @override
+  factory AllCatMainArguments.fromJson(Map<String, dynamic> json) =>
+      _$AllCatMainArgumentsFromJson(json);
+
+  final List<String?>? lsp_ids;
+
+  final String? searchText;
+
+  @override
+  List<Object?> get props => [lsp_ids, searchText];
+  @override
+  Map<String, dynamic> toJson() => _$AllCatMainArgumentsToJson(this);
+}
+
+final ALL_CAT_MAIN_QUERY_DOCUMENT_OPERATION_NAME = 'allCatMain';
+final ALL_CAT_MAIN_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'allCatMain'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'lsp_ids')),
+        type: ListTypeNode(
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'searchText')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'allCatMain'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'lsp_ids'),
+            value: VariableNode(name: NameNode(value: 'lsp_ids')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'searchText'),
+            value: VariableNode(name: NameNode(value: 'searchText')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'allCatMainFragment'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'allCatMainFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'CatMain'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'Name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'Description'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'ImageUrl'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'Code'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'CreatedAt'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'UpdatedAt'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'CreatedBy'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'UpdatedBy'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'IsActive'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class AllCatMainQuery
+    extends GraphQLQuery<AllCatMain$QueryRoot, AllCatMainArguments> {
+  AllCatMainQuery({required this.variables});
+
+  @override
+  final DocumentNode document = ALL_CAT_MAIN_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = ALL_CAT_MAIN_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final AllCatMainArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  AllCatMain$QueryRoot parse(Map<String, dynamic> json) =>
+      AllCatMain$QueryRoot.fromJson(json);
 }
 
 final LOGIN_MUTATION_DOCUMENT_OPERATION_NAME = 'login';

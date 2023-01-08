@@ -15,6 +15,13 @@ query getUserLsps($userId: ID!) {
   }
 }
 
+query allCatMain($lsp_ids: [String],$searchText: String) {
+    allCatMain(lsp_ids: $lsp_ids, searchText: $searchText) {
+      ...allCatMainFragment
+      }
+    }
+
+
 fragment UserFragment on User {
   id
   first_name
@@ -51,4 +58,17 @@ mutation login {
     phone
     photo_url
   }
+}
+
+fragment allCatMainFragment on CatMain {
+  id
+  Name
+  Description
+  ImageUrl
+  Code
+  CreatedAt
+  UpdatedAt
+  CreatedBy
+  UpdatedBy
+  IsActive
 }

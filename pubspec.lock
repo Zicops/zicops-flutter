@@ -119,7 +119,7 @@ packages:
       name: checked_yaml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   clock:
     dependency: transitive
     description:
@@ -393,23 +393,6 @@ packages:
       name: gql
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.13.1"
-  gql_dedupe_link:
-    dependency: transitive
-    description:
-      name: gql_dedupe_link
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.2"
-  gql_error_link:
-    dependency: transitive
-    description:
-      name: gql_error_link
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.2"
-=======
     version: "0.13.2-alpha+1659715356091"
   gql_code_builder:
     dependency: transitive
@@ -425,37 +408,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3-alpha+1659715356233"
->>>>>>> 66f9bc64e7d0dbc8a1a0b4c894a5633cacc94e04
+  gql_error_link:
+    dependency: transitive
+    description:
+      name: gql_error_link
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.2"
   gql_exec:
     dependency: transitive
     description:
       name: gql_exec
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.4.0"
-=======
     version: "0.4.1-alpha+1659715356108"
->>>>>>> 66f9bc64e7d0dbc8a1a0b4c894a5633cacc94e04
   gql_http_link:
     dependency: transitive
     description:
       name: gql_http_link
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.4.2"
-=======
     version: "0.4.3-alpha+1659715356170"
->>>>>>> 66f9bc64e7d0dbc8a1a0b4c894a5633cacc94e04
   gql_link:
     dependency: transitive
     description:
       name: gql_link
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.4.2"
+    version: "0.4.3-alpha+1659715356132"
   gql_transform_link:
     dependency: transitive
     description:
@@ -470,15 +450,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.1.1"
-  hive:
-    dependency: transitive
-    description:
-      name: hive
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.3"
-=======
-    version: "0.4.3-alpha+1659715356132"
   graphs:
     dependency: transitive
     description:
@@ -486,7 +457,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
->>>>>>> 66f9bc64e7d0dbc8a1a0b4c894a5633cacc94e04
+  hive:
+    dependency: transitive
+    description:
+      name: hive
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.3"
   http:
     dependency: transitive
     description:
@@ -535,7 +512,7 @@ packages:
       name: image_picker_ios
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.6+3"
+    version: "0.8.6+5"
   image_picker_platform_interface:
     dependency: transitive
     description:
@@ -613,15 +590,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-<<<<<<< HEAD
-  normalize:
-    dependency: transitive
-    description:
-      name: normalize
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.0+1"
-=======
   mime:
     dependency: transitive
     description:
@@ -629,7 +597,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
->>>>>>> 66f9bc64e7d0dbc8a1a0b4c894a5633cacc94e04
+  normalize:
+    dependency: transitive
+    description:
+      name: normalize
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0+1"
   otp_text_field:
     dependency: "direct main"
     description:
@@ -749,15 +723,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
-<<<<<<< HEAD
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.27.7"
-=======
   pub_semver:
     dependency: transitive
     description:
@@ -779,7 +744,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.0"
->>>>>>> 66f9bc64e7d0dbc8a1a0b4c894a5633cacc94e04
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.27.7"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -836,8 +807,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
-<<<<<<< HEAD
-=======
   shelf:
     dependency: transitive
     description:
@@ -852,13 +821,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
->>>>>>> 66f9bc64e7d0dbc8a1a0b4c894a5633cacc94e04
   sky_engine:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.99"
-<<<<<<< HEAD
   sliding_up_panel:
     dependency: "direct main"
     description:
@@ -866,7 +833,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0+1"
-=======
   source_gen:
     dependency: transitive
     description:
@@ -881,7 +847,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.3"
->>>>>>> 66f9bc64e7d0dbc8a1a0b4c894a5633cacc94e04
   source_span:
     dependency: transitive
     description:
@@ -944,8 +909,7 @@ packages:
       name: typed_data
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "1.3.0"
+    version: "1.3.1"
   uuid:
     dependency: transitive
     description:
@@ -953,9 +917,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.7"
-=======
-    version: "1.3.1"
->>>>>>> 66f9bc64e7d0dbc8a1a0b4c894a5633cacc94e04
   vector_math:
     dependency: transitive
     description:
@@ -963,8 +924,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
-<<<<<<< HEAD
-=======
   watcher:
     dependency: transitive
     description:
@@ -972,7 +931,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
->>>>>>> 66f9bc64e7d0dbc8a1a0b4c894a5633cacc94e04
   web_socket_channel:
     dependency: transitive
     description:

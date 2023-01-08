@@ -6,6 +6,8 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:zicops/views/screens/account_setup/models/category.dart';
 import 'package:zicops/views/screens/home/home.dart';
 
+import '../../../graphql_api.graphql.dart';
+import '../../../main.dart';
 import '../../../utils/colors.dart';
 
 class PreferencesTabScreen extends StatefulWidget {
@@ -23,6 +25,26 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
   final TextEditingController _searchController = TextEditingController();
   late final PanelController _panelController;
   bool openSubCatModal = false;
+
+  bool isLoading = false;
+
+  Future catMainLoading() async {
+    setState(() {
+      isLoading = true;
+    });
+    final result = await courseQClient.client()?.execute(AllCatMainQuery(
+        variables: AllCatMainArguments(
+            lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
+    //print(result?.data?.allCatMain![4]?.name);
+    int i = 0;
+    while (result?.data?.allCatMain != null) {
+      //await Future.delayed(Duration(seconds: 1));
+      print(result?.data?.allCatMain![i]?.name);
+      i++;
+    }
+    //print(result?.data.toString());
+    //print('object');
+  }
 
   List<Category> categories = [
     Category(0, "Finance & Accounting", null),
@@ -119,6 +141,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
       // showModal(500);
     });
     filteredCategories = categories;
+    catMainLoading();
   }
 
   @override
@@ -250,7 +273,8 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                   )),
               footer: Container(
                   width: width,
-                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                  padding:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                   child: Row(
                     children: [
                       selectedSubCategories.length == 5
