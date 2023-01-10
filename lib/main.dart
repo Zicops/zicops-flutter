@@ -3,14 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zicops/utils/colors.dart';
-import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
-import 'package:zicops/views/screens/account_setup/organization_tab.dart';
-import 'package:zicops/views/screens/account_setup/personal_tab.dart';
-import 'package:zicops/views/screens/account_setup/preferences_tab.dart';
-import 'package:zicops/views/screens/change_pass/change_pass_screen.dart';
-import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
 import 'package:zicops/views/screens/home/home.dart';
-import 'package:zicops/views/screens/login_screen/login_screen.dart';
 
 import 'firebase_options.dart';
 
@@ -58,7 +51,7 @@ class MyApp extends StatelessWidget {
                 image: AssetImage("assets/images/login_bg.png"),
                 fit: BoxFit.fill,
               )),
-              child: LoginScreen(),
+              child: HomePage(),
             ),
           );
         });

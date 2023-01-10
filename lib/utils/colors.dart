@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const textGrey = Color(0xFF919397);
 const textGrey2 = Color(0xFFC0C0C0);
+const neutral = Color(0xFF919191);
 const lightGrey = Color(0xFF30323f);
 const primaryColor = Color(0xFF6BCFCF);
 const textPrimary = Color(0xFFEAEAEA);

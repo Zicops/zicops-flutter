@@ -270,7 +270,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HomeScreen()),
+                                      builder: (context) => const HomePage()),
                                 );
                               },
                               child: Ink(

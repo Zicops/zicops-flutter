@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zicops/utils/colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:developer';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:zicops/views/screens/account_setup/organization_tab.dart';
 import 'package:zicops/views/screens/account_setup/personal_tab.dart';
 import 'package:zicops/views/screens/account_setup/preferences_tab.dart';

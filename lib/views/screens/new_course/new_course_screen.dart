@@ -1,18 +1,81 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zicops/utils/colors.dart';
+import 'package:zicops/views/screens/new_course/widgets/new_course_list_item.dart';
+import 'package:zicops/views/widgets/course_grid_item.dart';
 
-class NewCourseScreen extends StatefulWidget{
+import '../../../utils/dummies.dart';
+import '../../widgets/course_list_item_with_progress.dart';
+
+class NewCourseScreen extends StatefulWidget {
+  const NewCourseScreen({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _NewCourseScreen();
   }
-
 }
 
-class _NewCourseScreen extends State<NewCourseScreen>{
+class _NewCourseScreen extends State<NewCourseScreen> {
+  bool isGridView = false;
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
+    return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(48.sp),
+          child: AppBar(
+            backgroundColor: secondaryColor,
+            leading: Padding(
+              padding: EdgeInsets.only(right:4.sp, top: 16.sp, bottom: 16.sp, left: 20.sp),
+              child: Image.asset("assets/images/back_arrow.png", height: 16.sp, width: 16.sp,),
+            ),
+            leadingWidth: 40.sp,
+            title: SizedBox(
+              height: 24.sp,
+              child: Text("New Course",
+                  style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary)),
+            ),
+          ),
+        ),
+        body: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(20.sp),
+            color: secondaryColorDark,
+            child: isGridView
+                ? GridView.count(
+                    shrinkWrap: true,
+                    crossAxisSpacing: 8.sp,
+                    mainAxisSpacing: 8.sp,
+                    crossAxisCount: 2,
+                    children: [
+                        ...courseItems.map((courseItem) => CourseGridItem(
+                            courseItem["courseName"],
+                            courseItem["org"],
+                            courseItem["difficulty"],
+                            courseItem["courseLength"],
+                            courseItem["preview"]))
+                      ])
+                : ListView(
 
+                    children: [
+                      ...courseItems.map((courseItem) => Column(
+                            children: [
+                              NewCourseListItem(
+                                  courseItem["courseName"],
+                                  courseItem["org"],
+                                  courseItem["difficulty"],
+                                  courseItem["courseLength"],
+                                  courseItem["preview"]),
+                              SizedBox(
+                                height: 8.sp,
+                              )
+                            ],
+                          ))
+                    ],
+                  )));
+  }
 }
