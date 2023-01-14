@@ -147,8 +147,9 @@ class _SearchScreen extends State<SearchScreen> {
                     ),
                   )),
               leadingWidth: 40.sp,
-              title: SizedBox(
-                height: 24.sp,
+              title: Container(
+                height: 48.sp,
+                alignment: Alignment.center,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -190,42 +191,48 @@ class _SearchScreen extends State<SearchScreen> {
                     )),
                     Row(
                       children: [
-                        AnimatedContainer(
-                            width: 24.sp,
-                            height: 24.sp,
-                            alignment: Alignment.center,
-                            duration: const Duration(milliseconds: 700),
-                            child: searchFN.hasFocus &&
-                                    searchController.text.isNotEmpty
-                                ? GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        searchController.clear();
-                                      });
-                                    },
-                                    child: Image.asset(
-                                      "assets/images/cross.png",
-                                      width: 14.sp,
-                                      height: 14.sp,
-                                      color: textPrimary,
-                                    ),
-                                  )
-                                : GestureDetector(
-                                    onTap: () {
-                                      filterBottomSheet(context, height - 40.sp,
-                                          width, filterList, () {
-                                        Navigator.pop(context);
-                                      }, () {
-                                        Navigator.pop(context);
-                                      });
-                                    },
-                                    child: Image.asset(
-                                      "assets/images/filter.png",
-                                      width: 18.sp,
-                                      height: 12.sp,
-                                      color: textPrimary,
-                                    ),
-                                  )),
+                        searchFN.hasFocus && searchController.text.isNotEmpty
+                            ? GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  setState(() {
+                                    searchController.clear();
+                                  });
+                                },
+                                child: AnimatedContainer(
+                                  width: 24.sp,
+                                  height: 48.sp,
+                                  alignment: Alignment.center,
+                                  duration: const Duration(milliseconds: 700),
+                                  child: Image.asset(
+                                    "assets/images/cross.png",
+                                    width: 14.sp,
+                                    height: 14.sp,
+                                    color: textPrimary,
+                                  ),
+                                ))
+                            : GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  filterBottomSheet(context, height - 40.sp,
+                                      width, filterList, () {
+                                    Navigator.pop(context);
+                                  }, () {
+                                    Navigator.pop(context);
+                                  });
+                                },
+                                child: AnimatedContainer(
+                                  width: 24.sp,
+                                  height: 48.sp,
+                                  alignment: Alignment.center,
+                                  duration: const Duration(milliseconds: 700),
+                                  child: Image.asset(
+                                    "assets/images/filter.png",
+                                    width: 18.sp,
+                                    height: 12.sp,
+                                    color: textPrimary,
+                                  ),
+                                )),
                       ],
                     )
                   ],
@@ -386,12 +393,17 @@ class _SearchScreen extends State<SearchScreen> {
                           ...searchController.text.isNotEmpty
                               ? [
                                   ...suggestedSearch
-                                      .where((element) =>
-                                          element.length >= searchController.text.length? element
-                                              .substring(0,
-                                                  searchController.text.length)
-                                              .toLowerCase() ==
-                                          searchController.text.toLowerCase(): false)
+                                      .where((element) => element.length >=
+                                              searchController.text.length
+                                          ? element
+                                                  .substring(
+                                                      0,
+                                                      searchController
+                                                          .text.length)
+                                                  .toLowerCase() ==
+                                              searchController.text
+                                                  .toLowerCase()
+                                          : false)
                                       .toList()
                                 ].map((item) => GestureDetector(
                                   onTap: () {
