@@ -35,7 +35,7 @@ class _CustomPassword extends State<CustomPassword> {
                 },
                 decoration: InputDecoration(
                     contentPadding:  EdgeInsets.only(
-                        left: 48, top: 12.sp, bottom: 12.sp, right: 12),
+                        left: 0, top: 12.sp, bottom: 12.sp, right: 12.sp),
                   enabledBorder: OutlineInputBorder(
                       borderSide:
                       BorderSide(color: widget.showErrorP ? error :widget.controller.text.isNotEmpty?secondaryColorDarkOutline: lightGrey),
@@ -51,12 +51,13 @@ class _CustomPassword extends State<CustomPassword> {
                   prefixIcon: Container(
                     width: 24.sp,
                       height: 24.sp,
-                      margin:  EdgeInsets.only(top: 12.sp, bottom: 12.sp, left: 16, right: 12),
+                      margin:  EdgeInsets.only(top: 12.sp, bottom: 12.sp, left: 12.sp, right: 12.sp),
                       padding:
                       EdgeInsets.symmetric(horizontal: 4, vertical: 1.5.sp),
+                      alignment: Alignment.center,
                       child: Image.asset(
                         "assets/images/lock.png",
-                        color: widget.focusNode.hasFocus ? textPrimary : textGrey,
+                        color: !widget.showErrorP?widget.focusNode.hasFocus ? textPrimary : textGrey: error,
                       )),
 
                   suffixIcon: !widget.showErrorP
@@ -68,12 +69,13 @@ class _CustomPassword extends State<CustomPassword> {
                       child: Container(
                         width: 24.sp,
                           height: 24.sp,
-                          margin: const EdgeInsets.only(top: 12, bottom: 12, right: 12),
+                          margin: EdgeInsets.only(top: 12.sp, bottom: 12.sp, right: 12.sp),
                           padding:
                           const EdgeInsets.symmetric(horizontal:1, vertical: 2.5),
+                          alignment: Alignment.center,
                           child:Image.asset(
-                            "assets/images/hidden.png",
-                            color: widget.focusNode.hasFocus ? textPrimary : textGrey,
+                            _passwordVisible? "assets/images/visible.png":"assets/images/hidden.png",
+                            color: _passwordVisible?primaryColor:textGrey,
                             width: 22.sp,height: 20.sp,
                           )))
                       :  Padding(
@@ -93,10 +95,10 @@ class _CustomPassword extends State<CustomPassword> {
               )),
           widget.showErrorP
               ? Container(
-              margin: EdgeInsets.only(top: 10.sp),
+              margin: EdgeInsets.only(top: 4.sp, left: 16.sp),
               child: Text(
                 widget.errorMsgP,
-                style:  TextStyle(color: error, fontSize: 12.sp),
+                style:  TextStyle(color: error, fontSize: 12.sp, height: 1.33),
               ))
               : const SizedBox.shrink(),
         ]));

@@ -44,7 +44,9 @@ class _ProfileScreen extends State<ProfileScreen> {
           child: AppBar(
             backgroundColor: secondaryColor,
             elevation: 0,
-            leading: Padding(
+            leading: GestureDetector(onTap: (){
+              if(Navigator.canPop(context))Navigator.pop(context);
+            },child: Padding(
               padding: EdgeInsets.only(
                   right: 4.sp, top: 16.sp, bottom: 16.sp, left: 20.sp),
               child: Image.asset(
@@ -52,7 +54,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                 height: 16.sp,
                 width: 16.sp,
               ),
-            ),
+            )),
             leadingWidth: 40.sp,
             title: SizedBox(
               height: 24.sp,

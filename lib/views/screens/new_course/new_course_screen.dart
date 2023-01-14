@@ -25,19 +25,89 @@ class _NewCourseScreen extends State<NewCourseScreen> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(48.sp),
           child: AppBar(
+            elevation: 0,
             backgroundColor: secondaryColor,
-            leading: Padding(
-              padding: EdgeInsets.only(right:4.sp, top: 16.sp, bottom: 16.sp, left: 20.sp),
-              child: Image.asset("assets/images/back_arrow.png", height: 16.sp, width: 16.sp,),
-            ),
+            leading: GestureDetector(
+                onTap: () {
+                  if(Navigator.canPop(context))Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      right: 4.sp, top: 16.sp, bottom: 16.sp, left: 20.sp),
+                  child: Image.asset(
+                    "assets/images/back_arrow.png",
+                    height: 16.sp,
+                    width: 16.sp,
+                  ),
+                )),
             leadingWidth: 40.sp,
             title: SizedBox(
               height: 24.sp,
-              child: Text("New Course",
-                  style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: textPrimary)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Latest courses",
+                    style: TextStyle(
+                        color: textPrimary,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
+                        height: 1.33),
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 24.sp,
+                        height: 24.sp,
+                        alignment: Alignment.center,
+                        child: Image.asset(
+                          "assets/images/filter.png",
+                          width: 18.sp,
+                          height: 12.sp,
+                          color: textPrimary,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 24.sp,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isGridView = !isGridView;
+                          });
+                        },
+                        child: AnimatedContainer(
+                          width: 24.sp,
+                          height: 24.sp,
+                          alignment: Alignment.center,
+                          duration: Duration(milliseconds: 400),
+                          child: Image.asset(
+                            !isGridView
+                                ? "assets/images/grid_view.png"
+                                : "assets/images/list_view.png",
+                            width: 18.sp,
+                            height: 18.sp,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 24.sp,
+                      ),
+                      Container(
+                          width: 24.sp,
+                          height: 24.sp,
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            "assets/images/search.png",
+                            width: 18.sp,
+                            height: 18.sp,
+                            color: textPrimary,
+                          )),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -60,7 +130,6 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                             courseItem["preview"]))
                       ])
                 : ListView(
-
                     children: [
                       ...courseItems.map((courseItem) => Column(
                             children: [

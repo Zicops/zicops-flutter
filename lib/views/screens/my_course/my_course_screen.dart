@@ -87,8 +87,10 @@ class _MyCourseScreen extends State<MyCourseScreen> {
             ],
           ),
         ),
-        Expanded(child: Container(
-          padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 13.sp, bottom: 45.sp),
+        Expanded(
+            child: Container(
+          padding: EdgeInsets.only(
+              left: 20.sp, right: 20.sp, top: 13.sp, bottom: 45.sp),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -109,13 +111,17 @@ class _MyCourseScreen extends State<MyCourseScreen> {
                   ...courseItems.map((courseItem) => Column(
                         children: [
                           CourseGridItemLarge(
-                              courseItem["courseName"],
-                              courseItem["org"],
-                              courseItem["difficulty"],
-                              courseItem["courseLength"],
-                              courseItem["preview"]),
+                            courseItem["courseName"],
+                            courseItem["org"],
+                            courseItem["difficulty"],
+                            courseItem["courseLength"],
+                            courseItem["preview"],
+                            showProgressBar: _selectedTab == 0 || _selectedTab == 3?true: false,
+                            progress: _selectedTab == 3? 1: 0.4,
+                            isCompleted: _selectedTab == 3,
+                          ),
                           SizedBox(
-                            height: 8.sp,
+                            height: 16.sp,
                           )
                         ],
                       ))

@@ -4,8 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:developer';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
@@ -185,7 +183,7 @@ class _LoginScreen extends State<LoginScreen> {
                     child: Text(
                       "Start your first step to learning here!",
                       style: TextStyle(
-                          fontSize: 16.sp, color: textGrey, height: 1.5),
+                          fontSize: 16.sp, color: textGrey2, height: 1.5),
                       textAlign: isFocusedOrNotEmpty()
                           ? TextAlign.start
                           : TextAlign.center,

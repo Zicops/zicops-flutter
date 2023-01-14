@@ -146,16 +146,6 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                   ),
                                 SizedBox(height: 20.sp),
 
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      mailSent = true;
-                                      mailSuccessful = false;
-
-                                    });
-                                  },
-                                  child: gradientButton('Send Email Fail'),
-                                ),
                                   SizedBox(height: _keyboardVisible ? 0 : 35),
                                   _keyboardVisible
                                       ? const SizedBox.shrink()

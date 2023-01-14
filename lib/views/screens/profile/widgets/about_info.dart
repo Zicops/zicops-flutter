@@ -33,22 +33,25 @@ class _AboutInfo extends State<AboutInfo> {
         SizedBox(
           height: 4.sp,
         ),
-        SizedBox(height: 20.sp,child: TextField(
-          controller: controller,
-          enabled: !isDisabled,
-          autofocus: true,
-          cursorColor: textPrimary,
-          decoration:  InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 2.sp, horizontal: 0),
-            border: InputBorder.none,
-            enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: textPrimary)),
-            isDense: true,
-
+        SizedBox(
+          height: 20.sp,
+          child: TextField(
+            controller: controller,
+            enabled: !isDisabled,
+            autofocus: true,
+            cursorColor: textPrimary,
+            decoration: InputDecoration(
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 2.sp, horizontal: 0),
+              border: InputBorder.none,
+              enabledBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: textPrimary)),
+              isDense: true,
+            ),
+            style: GoogleFonts.poppins(
+                color: textPrimary, fontSize: 14.sp, height: 1.43),
           ),
-          style: GoogleFonts.poppins(
-              color: textPrimary, fontSize: 14.sp, height: 1.43),
-        ),),
+        ),
       ],
     );
   }
@@ -89,38 +92,47 @@ class _AboutInfo extends State<AboutInfo> {
         height: 8.sp,
       ),
       Container(
-        decoration: BoxDecoration(
-            color: secondaryColor,
-            borderRadius: BorderRadius.circular(4.sp),
-            border:
-                Border.all(color: secondaryColorDarkOutline, width: 0.5.sp)),
-        child: Column(
-          children: [
-            ...widget.items
-                .asMap()
-                .map((i, item) => MapEntry(
-                    i,
-                    Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 16.sp, horizontal: 12.sp),
-                          child: itemField(
-                              item["label"], item["controller"], isDisabled),
-                        ),
-                        widget.items.length-1 > i?
-                          Divider(
-                            height: 0.5.sp,
-                            thickness: 0.5,
-                            color: secondaryColorDarkOutline,
-                          ): const SizedBox.shrink()
-                      ],
-                    )))
-                .values
-                .toList()
-          ],
-        ),
-      )
+          padding: EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.sp),
+              gradient: LinearGradient(colors: [
+                secondaryColorDarkOutline,
+                secondaryColorDarkOutline.withOpacity(0.15),
+              ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+          child: Container(
+            decoration: BoxDecoration(
+              color: secondaryColor,
+              borderRadius: BorderRadius.circular(4.sp),
+            ),
+            child: Column(
+              children: [
+                ...widget.items
+                    .asMap()
+                    .map((i, item) => MapEntry(
+                        i,
+                        Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 16.sp, horizontal: 12.sp),
+                              child: itemField(item["label"],
+                                  item["controller"], isDisabled),
+                            ),
+                            widget.items.length - 1 > i
+                                ? Divider(
+                                    height: 0.5.sp,
+                                    thickness: 0.5,
+                                    color: lightGrey,
+                                  )
+                                : const SizedBox.shrink()
+                          ],
+                        )))
+                    .values
+                    .toList()
+              ],
+            ),
+          ))
     ]);
   }
 }

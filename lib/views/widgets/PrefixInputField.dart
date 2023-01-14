@@ -6,23 +6,30 @@ import '../../utils/colors.dart';
 
 Widget prefixInputField(FocusNode focusNode, TextEditingController controller,
     String image, String hint,
-    {bool validated = false, Function? onChange, TextInputType inputType = TextInputType.text }) {
-  return SizedBox(
+    {bool validated = false,
+    Function? onChange,
+    TextInputType inputType = TextInputType.text}) {
+  return Container(
       height: 48.sp,
+      alignment: Alignment.centerLeft,
       child: TextField(
           focusNode: focusNode,
           controller: controller,
-          onChanged: (val){
+          onChanged: (val) {
             onChange!(val);
           },
           maxLines: 1,
           keyboardType: inputType,
           decoration: InputDecoration(
+            isDense: true,
+              contentPadding: EdgeInsets.only(
+                  left:48.sp, top: 12.sp, bottom: 12.sp, right: 12.sp),
 
-              contentPadding:  EdgeInsets.only(
-                  left: 48, top: 12.sp, bottom: 12.sp, right: 12),
               enabledBorder: OutlineInputBorder(
-                  borderSide:  BorderSide(color: focusNode.hasFocus || controller.text.isNotEmpty? secondaryColorDarkOutline: lightGrey),
+                  borderSide: BorderSide(
+                      color: focusNode.hasFocus || controller.text.isNotEmpty
+                          ? secondaryColorDarkOutline
+                          : lightGrey),
                   borderRadius: BorderRadius.circular(4.sp)),
               focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: primaryColor),
@@ -33,28 +40,37 @@ Widget prefixInputField(FocusNode focusNode, TextEditingController controller,
               prefixIcon: Container(
                   width: 24.sp,
                   height: 24.sp,
-                  margin: EdgeInsets.only(top: 12.sp, bottom: 12.sp, left: 16, right: 12),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 2, vertical: 4.sp),
+                  margin: EdgeInsets.only(
+                      top: 12.sp, bottom: 12.sp, left: 12.sp, right: 12.sp),
+                  padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4.sp),
+                  alignment: Alignment.centerLeft,
                   child: Image.asset(
                     image,
-                    color: focusNode.hasFocus || controller.text.isNotEmpty? textPrimary : textGrey,
+                    color: focusNode.hasFocus || controller.text.isNotEmpty
+                        ? textPrimary
+                        : textGrey,
                   )),
+
               suffixIcon: validated
                   ? Container(
                       width: 24.sp,
                       height: 24.sp,
-                  margin: const EdgeInsets.only(top: 12, bottom: 12, left: 16, right: 12),
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+                      margin: const EdgeInsets.only(
+                          top: 12, bottom: 12, left: 16, right: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 2, vertical: 4),
+                      alignment: Alignment.center,
                       child: Image.asset("assets/images/checkmark.png"))
                   : const SizedBox.shrink(),
               suffixIconConstraints:
-              BoxConstraints(minHeight: 24.sp, minWidth: 24.sp),
+                  BoxConstraints(minHeight: 24.sp, minWidth: 24.sp),
               hintText: hint,
               hintStyle:
-                   TextStyle(color: textGrey, fontSize: 16.sp, height: 1.5)),
+                  TextStyle(color: textGrey, fontSize: 16.sp, height: 1.5)),
           cursorColor: textPrimary,
           style: GoogleFonts.poppins(
-              color: textPrimary, fontSize: 16.sp, height: 1.5, )));
+            color: textPrimary,
+            fontSize: 16.sp,
+            height: 1.5,
+          )));
 }

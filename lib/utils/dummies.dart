@@ -4,7 +4,7 @@ List courseItems = [
     "org": "Wipro",
     "difficulty": "Intermediate",
     "courseLength": "4hours",
-    "preview": "assets/images/course_preview.png"
+    "preview": "assets/images/course_preview_2.png"
   },
   {
     "courseName": "Marketing & Business ",
@@ -18,7 +18,7 @@ List courseItems = [
     "org": "Wipro",
     "difficulty": "Intermediate",
     "courseLength": "4hours",
-    "preview": "assets/images/course_preview.png"
+    "preview": "assets/images/course_preview_2.png"
   },
   {
     "courseName": "Marketing & Business ",

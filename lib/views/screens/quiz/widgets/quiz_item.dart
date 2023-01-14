@@ -26,14 +26,17 @@ class _QuizItem extends State<QuizItem> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "${widget.index.toString()}.",
-          style: TextStyle(
-              color: textPrimary,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w500,
-              height: 1.33),
-        ),
+        Container(
+            height: 24.sp,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "${widget.index.toString()}.",
+              style: TextStyle(
+                  color: textPrimary,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500,
+                  height: 1.33),
+            )),
         SizedBox(
           height: 8.sp,
         ),
@@ -60,43 +63,55 @@ class _QuizItem extends State<QuizItem> {
               height: 1.43),
         ),
         SizedBox(
-          height: 8.sp,
+          height: 11.sp,
         ),
         Divider(
           height: 0.5.sp,
           thickness: 0.5.sp,
-          color: secondaryColorDarkOutline,
+          color: lightGrey,
         ),
         SizedBox(
-          height: 12.sp,
+          height: 9.sp,
         ),
-        Text(
-          "Options".toUpperCase(),
-          style: TextStyle(
-              color: textGrey2,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1,
-              height: 1.33),
-        ),
+        Container(
+            alignment: Alignment.centerLeft,
+            height: 24.sp,
+            child: Text(
+              "Options".toUpperCase(),
+              style: TextStyle(
+                  color: textGrey2,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1,
+                  height: 1.33),
+            )),
         SizedBox(
-          height: 12.sp,
+          height: 8.sp,
         ),
-        ...widget.options.map((e) => Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 14.sp),
+        ...widget.options.map((e) => GestureDetector(
+            onTap: () {
+              setState(() {
+                widget.selectedOption = e["option"];
+              });
+            },
+            child: Container(
+              padding:
+                  EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
               margin: EdgeInsets.only(bottom: 8.sp),
+              alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: secondaryColor,
                   borderRadius: BorderRadius.circular(4.sp),
-                  border: Border.all(
-                    color: secondaryColorDarkOutline,width: 0.5.sp
-                  )),
-              child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      widget.selectedOption = e["option"];
-                    });
-                  },
+                  gradient: LinearGradient(colors: [
+                    secondaryColorDarkOutline,
+                    secondaryColorDarkOutline.withOpacity(0.15),
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+              child: Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.sp, vertical: 14.sp),
+                  decoration: BoxDecoration(
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.circular(4.sp),
+                  ),
                   child: Column(
                     children: [
                       Row(
@@ -105,32 +120,31 @@ class _QuizItem extends State<QuizItem> {
                             width: 24.sp,
                             height: 24.sp,
                             padding: EdgeInsets.all(2.sp),
+                            transform: Matrix4.translationValues(-4.sp, 0, 0),
                             child: Radio(
                               value: e["option"] as String,
                               groupValue: widget.selectedOption,
-                              onChanged: (e) {
-                                setState(() {
-                                  widget.selectedOption = e as String?;
-                                });
-                              },
                               activeColor: primaryColor,
+                              onChanged: (String? value) {},
                             ),
                           ),
                           SizedBox(
-                            width: 15.sp,
+                            width: 11.sp,
                           ),
-                          Text(
+                          Expanded(
+                              child: Text(
                             e["option"],
+                            softWrap: true,
                             style: TextStyle(
                                 color: textGrey2,
                                 fontSize: 14.sp,
                                 height: 1.43),
-                          )
+                          ))
                         ],
                       ),
                       e["optionImage"] != null
                           ? SizedBox(
-                              height: 14.sp,
+                              height: 12.sp,
                             )
                           : const SizedBox.shrink(),
                       e["optionImage"] != null
@@ -138,7 +152,7 @@ class _QuizItem extends State<QuizItem> {
                           : const SizedBox.shrink()
                     ],
                   )),
-            ))
+            )))
       ],
     );
   }

@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zicops/utils/colors.dart';
+import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
 import 'package:zicops/views/screens/home/home.dart';
+import 'package:zicops/views/screens/login_screen/login_screen.dart';
+import 'package:zicops/views/screens/new_course/new_course_screen.dart';
+import 'package:zicops/views/screens/search/search_screen.dart';
 
 import 'firebase_options.dart';
 

@@ -233,8 +233,8 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                             padding: EdgeInsets.all(3.sp),
                                             child: Checkbox(
                                                 activeColor: primaryColor,
-                                                side: const BorderSide(
-                                                    color: textPrimary),
+                                                side: BorderSide(
+                                                    color: textPrimary, width: 2.sp),
                                                 checkColor: Colors.black,
                                                 value:
                                                     checkIfSelectedSubCat(cat),
@@ -257,9 +257,12 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                     ],
                   )),
               footer: Container(
-                  width: width,
+                  width: width-40.sp,
+                  color: secondaryColorDark,
                   padding:
-                       EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 20.sp),
+                       EdgeInsets.only(bottom: 20.sp),
+                  margin: EdgeInsets.symmetric(horizontal: 20.sp),
+                  alignment: Alignment.center,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -468,7 +471,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                                             padding: EdgeInsets.all(3.sp),
                                                                             child: Checkbox(
                                                                                 activeColor: primaryColor,
-                                                                                side: const BorderSide(color: textPrimary),
+                                                                                side: BorderSide(color: textPrimary, width: 2.sp),
                                                                                 checkColor: Colors.black,
                                                                                 value: checkIfSelectedFilter(cat.id),
                                                                                 onChanged: (val) {
@@ -613,11 +616,14 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                     suffixIconConstraints: const BoxConstraints(
                                         minHeight: 24, minWidth: 24),
                                     hintText: "Search Category/Sub-Category",
-                                    hintStyle: TextStyle(
+                                    hintStyle: GoogleFonts.poppins(
                                         fontSize: 16.sp,
                                         color: textGrey,
                                         height: 1.5)),
                                 cursorColor: textPrimary,
+                                style: GoogleFonts.poppins(fontSize: 16.sp,
+                                    color: textGrey,
+                                    height: 1.5),
                                 onChanged: (val) {
                                   setState(() {
                                     filteredCategories = categories
