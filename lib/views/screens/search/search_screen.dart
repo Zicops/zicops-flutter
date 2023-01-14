@@ -133,6 +133,7 @@ class _SearchScreen extends State<SearchScreen> {
               elevation: 0,
               backgroundColor: secondaryColor,
               leading: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     if (Navigator.canPop(context)) Navigator.pop(context);
                   },

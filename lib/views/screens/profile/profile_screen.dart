@@ -44,7 +44,10 @@ class _ProfileScreen extends State<ProfileScreen> {
           child: AppBar(
             backgroundColor: secondaryColor,
             elevation: 0,
-            leading: GestureDetector(onTap: (){
+            leading: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+
+                onTap: (){
               if(Navigator.canPop(context))Navigator.pop(context);
             },child: Padding(
               padding: EdgeInsets.only(

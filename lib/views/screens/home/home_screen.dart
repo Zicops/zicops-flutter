@@ -40,6 +40,7 @@ class _HomeScreen extends State<HomeScreen> {
                   height: 1.33),
             ),
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: action,
               child: Text("See all".toUpperCase(),
                   style: TextStyle(
@@ -52,7 +53,7 @@ class _HomeScreen extends State<HomeScreen> {
                           radius: 35.sp,
                         ).createShader(
                             const Rect.fromLTWH(0.0, 0.0, 50.0, 24.0), textDirection: TextDirection.ltr),
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       letterSpacing: 1,
                       fontWeight: FontWeight.w600)),
             )
@@ -136,10 +137,11 @@ class _HomeScreen extends State<HomeScreen> {
 
     return Container(
       height: height,
-      padding: EdgeInsets.only(top: 14.sp, bottom: 45.sp),
+      padding: EdgeInsets.only( bottom: 5.sp),
       child: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 14.sp,),
             SizedBox(
                 width: width,
                 height: 180.sp,

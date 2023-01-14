@@ -1,6 +1,7 @@
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
@@ -83,6 +84,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
             Row(
               children: [
                 GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       Navigator.push(
                           context,
@@ -103,6 +105,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                   width: 24.sp,
                 ),
                 GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       Navigator.push(
                           context,
@@ -141,6 +144,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
             Row(
               children: [
                 GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     Navigator.push(
                         context,
@@ -162,6 +166,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                   width: 24.sp,
                 ),
                 GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     Navigator.push(
                         context,
@@ -302,6 +307,8 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
           elevation: 0,
           title: getTitle(),
           leading: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+
               onTap: () {
                 _scaffoldKey.currentState?.openDrawer();
               },
@@ -343,6 +350,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                         height: 14.sp,
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                           onTap: () {
                             setState(() {
                               showNavDrawerOrg = !showNavDrawerOrg;
@@ -360,6 +368,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                                 height: 1.5),
                           )),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           setState(() {
                             showNavDrawerOrg = !showNavDrawerOrg;
@@ -446,7 +455,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                       Container(
                         height: 36.sp,
                         padding: EdgeInsets.symmetric(
-                            vertical: 10.sp, horizontal: 51.sp),
+                            vertical: 10.sp, horizontal: 20.sp),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.sp),
@@ -454,6 +463,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                                 color: secondaryColorDarkOutline, width: 1.sp)),
                         child: Text(
                           "Add Organization".toUpperCase(),
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
@@ -476,6 +486,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                   )),
             ),
             GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Navigator.push(
                       context,
@@ -490,6 +501,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 )),
             drawerItem("assets/images/labs.png", "Labs", 18, 16),
             GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Navigator.push(
                       context,
@@ -501,6 +513,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
             drawerItem("assets/images/heart.png", "Favourites", 20, 18),
             const Divider(),
             GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Navigator.push(
                       context,
@@ -510,6 +523,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 child: drawerItem(
                     "assets/images/preference.png", "Preferences", 18, 18)),
             GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Navigator.push(
                       context,
@@ -522,6 +536,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
             drawerItem("assets/images/about.png", "About", 20, 20),
             drawerItem("assets/images/help.png", "Help and Feedback", 20, 20),
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pushAndRemoveUntil(
                     context,
@@ -535,6 +550,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
         ),
       ),
       floatingActionButton: GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onTap: () {
             setState(() {
               _bottomNavIndex = 2;
@@ -594,6 +610,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                       onTap: () {
                         setState(() {
                           _bottomNavIndex = 0;
@@ -611,6 +628,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                     width: 4.sp,
                   ),
                   GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                       onTap: () {
                         setState(() {
                           _bottomNavIndex = 1;
@@ -632,6 +650,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       setState(() {
                         _bottomNavIndex = 3;
@@ -650,6 +669,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                     width: 4.sp,
                   ),
                   GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       setState(() {
                         _bottomNavIndex = 4;

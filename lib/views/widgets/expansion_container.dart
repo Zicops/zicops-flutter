@@ -44,6 +44,7 @@ class _ExpansionContainer extends State<ExpansionContainer>
                 thickness: 1.sp,
               ),
         GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onTap: () {
             setState(() {
               isOpen = !isOpen;

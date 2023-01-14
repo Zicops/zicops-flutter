@@ -24,6 +24,7 @@ class _QuizScreen extends State<QuizScreen> {
           backgroundColor: secondaryColor,
           elevation: 0,
           leading: GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 if(Navigator.canPop(context))Navigator.pop(context);
               },

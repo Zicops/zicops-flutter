@@ -28,6 +28,8 @@ class _NewCourseScreen extends State<NewCourseScreen> {
             elevation: 0,
             backgroundColor: secondaryColor,
             leading: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+
                 onTap: () {
                   if(Navigator.canPop(context))Navigator.pop(context);
                 },

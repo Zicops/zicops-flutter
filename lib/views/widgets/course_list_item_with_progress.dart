@@ -75,7 +75,10 @@ class _CourseListItem extends State<CourseListItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          Container(
+                            height: 24.sp,
+                              alignment: Alignment.centerLeft,
+                              child:Text(
                             widget.courseName,
                             style: TextStyle(
                                 color: textPrimary,
@@ -83,7 +86,8 @@ class _CourseListItem extends State<CourseListItem> {
                                 fontWeight: FontWeight.w500,
                                 height: 1.43),
                             overflow: TextOverflow.ellipsis,
-                          ),
+                          )),
+                          SizedBox(height: 2.sp,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -108,7 +112,8 @@ class _CourseListItem extends State<CourseListItem> {
                               )
                             ],
                           ),
-                          Expanded(child: ProgressBar(192, 0.6))
+                          const Spacer(),
+                          ProgressBar(192, 0.6)
                         ],
                       ))),
             ],

@@ -22,6 +22,7 @@ class _SettingsScreen extends State<SettingsScreen> {
           backgroundColor: secondaryColor,
           elevation: 0,
           leading: GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 if (Navigator.canPop(context)) Navigator.pop(context);
               },

@@ -12,6 +12,7 @@ Widget filterOptions(String label, String parent, Map<String, List> filterList,
   }
 
   return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () {
         setModalState(() {
           if (filterList[parent] != null) {

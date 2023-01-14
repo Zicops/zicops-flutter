@@ -51,6 +51,7 @@ filterBottomSheet(BuildContext context, double maxHeight, double width,
                             height: 1.33),
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           Navigator.pop(context);
                         },
