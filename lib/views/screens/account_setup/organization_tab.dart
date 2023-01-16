@@ -14,6 +14,19 @@ class OrganizationTabScreen extends StatefulWidget {
 }
 
 class _OrganizationTabScreen extends State<OrganizationTabScreen> {
+  bool isloading = false;
+
+  Future orgLoading() async {
+    setState(() {
+      isloading = true;
+    });
+    // final orgResuts =
+    //     await userClient.client()?.execute(GetUserOrganizationsQuery(
+    //             variables: GetUserOrganizationsArguments(
+    //           userId: User,
+    //         )));
+  }
+
   TextEditingController _controller = TextEditingController();
   final List<FocusNode> _focusNodes = [
     FocusNode(),

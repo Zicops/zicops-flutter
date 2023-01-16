@@ -1,15 +1,18 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zicops/main.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
 
 import '../../../graphql_api.graphql.dart';
+import '../../../main.dart';
+import '../../../models/user/user_details_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -76,7 +79,11 @@ class _LoginScreen extends State<LoginScreen> {
       sharedPreferences.setString("token", token);
 
       final result = await userClient.client()?.execute(LoginMutation());
-      print(result?.data.toString());
+
+      UserDetailsModel userDetailsModel = await UserDetailsModel.fromJson(
+          jsonDecode(result!.data!.login!.toJson().toString()));
+      print(userDetailsModel.email);
+      //print(result?.data.toString());
 
       return credential;
     } on FirebaseAuthException catch (e) {

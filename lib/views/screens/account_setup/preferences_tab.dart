@@ -8,6 +8,8 @@ import 'package:zicops/views/screens/home/home.dart';
 
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
+import '../../../models/user/user_account_profile_pref.dart';
+import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 
 class PreferencesTabScreen extends StatefulWidget {
@@ -27,19 +29,46 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
   bool openSubCatModal = false;
 
   bool isLoading = false;
-
+  List<AllCatMainModel> catMainList = [];
   Future catMainLoading() async {
+
+
     setState(() {
       isLoading = true;
     });
-    final result = await courseQClient.client()?.execute(AllCatMainQuery(
-        variables: AllCatMainArguments(
-            lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
+    final allCatMainResult = await courseQClient.client()?.execute(
+        AllCatMainQuery(
+            variables: AllCatMainArguments(
+                lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
+
     //print(result?.data?.allCatMain![4]?.name);
-    int i = 0;
-    while (result?.data?.allCatMain != null) {
+
+    final subCatMainResult = await courseQClient.client()?.execute(
+        AllSubCatMainQuery(
+            variables: AllSubCatMainArguments(
+                lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
+
+    for (int e in subCatMainResult?.data?.allSubCatMain!.asMap().keys ?? []) {
+      print(subCatMainResult?.data?.allSubCatMain![e]?.catId);
+    }
+
+    for (int i in allCatMainResult?.data?.allCatMain!.asMap().keys ?? []) {
       //await Future.delayed(Duration(seconds: 1));
-      print(result?.data?.allCatMain![i]?.name);
+      setState(() {
+        catMainList.add(
+          AllCatMainModel(
+            allCatMainResult?.data?.allCatMain![i]?.id,
+            allCatMainResult?.data?.allCatMain![i]?.name,
+            allCatMainResult?.data?.allCatMain![i]?.description,
+            allCatMainResult?.data?.allCatMain![i]?.imageUrl,
+            allCatMainResult?.data?.allCatMain![i]?.code,
+            allCatMainResult?.data?.allCatMain![i]?.createdAt,
+            allCatMainResult?.data?.allCatMain![i]?.updatedAt,
+            allCatMainResult?.data?.allCatMain![i]?.isActive,
+          ),
+        );
+      });
+      print(catMainList[i]?.name);
       i++;
     }
     //print(result?.data.toString());
