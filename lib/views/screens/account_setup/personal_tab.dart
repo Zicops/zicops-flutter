@@ -67,11 +67,13 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
     List<AllCat> cats = [];
     allCatMainsResult?['allCatMain']?.forEach((e) {
       // print(e);
-      cats.add(AllCat(
-          e['id'], e["Name"], e["Description"], e["Code"], e["ImageUrl"]));
+      setState(() {
+        cats.add(AllCat(
+            e['id'], e["Name"], e["Description"], e["Code"], e["ImageUrl"]));
+      });
     });
 
-    print(cats[0]);
+    print(cats);
     // }
     // while (result?.data?.allCatMain != null) {
     //   //await Future.delayed(Duration(seconds: 1));

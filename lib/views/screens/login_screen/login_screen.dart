@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zicops/main.dart';
@@ -7,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
+import 'package:zicops/views/screens/account_setup/models/category.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -22,7 +22,6 @@ class LoginScreen extends StatefulWidget {
   }
 }
 
-
 class HttpClientWithToken extends http.BaseClient {
   HttpClientWithToken(this.token);
 
@@ -30,14 +29,12 @@ class HttpClientWithToken extends http.BaseClient {
   final http.Client _client = http.Client();
 
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    request.headers['Authorization'] = 'Bearer '+token;
+    request.headers['Authorization'] = 'Bearer ' + token;
     return _client.send(request);
   }
 }
 
-
 class _LoginScreen extends State<LoginScreen> {
- 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -54,7 +51,7 @@ class _LoginScreen extends State<LoginScreen> {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
-          print('heloo');
+      print('heloo');
       Fluttertoast.showToast(
           msg: "Login Successful",
           toastLength: Toast.LENGTH_SHORT,
@@ -67,22 +64,37 @@ class _LoginScreen extends State<LoginScreen> {
         isLoading = false;
       });
 
-     
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const AccountSetupScreen()));
-      String token1 = 'eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg3NTNiYmFiM2U4YzBmZjdjN2ZiNzg0ZWM5MmY5ODk3YjVjZDkwN2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vemljb3BzLW9uZSIsImF1ZCI6InppY29wcy1vbmUiLCJhdXRoX3RpbWUiOjE2NzIxNjE1MDksInVzZXJfaWQiOiJwMkhSUXZtakJZV1llakRpSDByRERPb3ZUOVQyIiwic3ViIjoicDJIUlF2bWpCWVdZZWpEaUgwckRET292VDlUMiIsImlhdCI6MTY3MjE2MTUwOSwiZXhwIjoxNjcyMTY1MTA5LCJlbWFpbCI6ImFua2l0K2FqQHppY29wcy5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInBob25lX251bWJlciI6Iis5MTY2Njk2OTY5NjkiLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7InBob25lIjpbIis5MTY2Njk2OTY5NjkiXSwiZW1haWwiOlsiYW5raXQrYWpAemljb3BzLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.XCtFXD2fS5Ve0HCzOYkkM_FMJnYm9OIzEaO0-BSpWW7YlkqSVgkimvK_JJrVGs77Aps2ki1y6MpWt2tTjv3Z6eLAb4L393N7O3m3INFS3QDoBUOmEI7dN2-qM4lQAp9v_wGf4BpcmNqxqTepWY4DUk2anX5Nf5GoSv-mbaCQM009DVHkTXy8S29L6QgOa997IMSLD0NgouAEopP2rfff-NPicvBSOQN35FZ56V6Wh7cczRWHk40MpaO54goXL-aBZyFOyPGJh_l5VlFlnfMzv8JMMZaDMI1E7XUm9QxfQMjEyV8psqo93v_6dDanT5J_bYxIsMNrb3UCvje2nxTxvw';
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => const AccountSetupScreen()));
+      String token1 =
+          'eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg3NTNiYmFiM2U4YzBmZjdjN2ZiNzg0ZWM5MmY5ODk3YjVjZDkwN2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vemljb3BzLW9uZSIsImF1ZCI6InppY29wcy1vbmUiLCJhdXRoX3RpbWUiOjE2NzIxNjE1MDksInVzZXJfaWQiOiJwMkhSUXZtakJZV1llakRpSDByRERPb3ZUOVQyIiwic3ViIjoicDJIUlF2bWpCWVdZZWpEaUgwckRET292VDlUMiIsImlhdCI6MTY3MjE2MTUwOSwiZXhwIjoxNjcyMTY1MTA5LCJlbWFpbCI6ImFua2l0K2FqQHppY29wcy5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInBob25lX251bWJlciI6Iis5MTY2Njk2OTY5NjkiLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7InBob25lIjpbIis5MTY2Njk2OTY5NjkiXSwiZW1haWwiOlsiYW5raXQrYWpAemljb3BzLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.XCtFXD2fS5Ve0HCzOYkkM_FMJnYm9OIzEaO0-BSpWW7YlkqSVgkimvK_JJrVGs77Aps2ki1y6MpWt2tTjv3Z6eLAb4L393N7O3m3INFS3QDoBUOmEI7dN2-qM4lQAp9v_wGf4BpcmNqxqTepWY4DUk2anX5Nf5GoSv-mbaCQM009DVHkTXy8S29L6QgOa997IMSLD0NgouAEopP2rfff-NPicvBSOQN35FZ56V6Wh7cczRWHk40MpaO54goXL-aBZyFOyPGJh_l5VlFlnfMzv8JMMZaDMI1E7XUm9QxfQMjEyV8psqo93v_6dDanT5J_bYxIsMNrb3UCvje2nxTxvw';
       IdTokenResult? tokenResult =
           await FirebaseAuth.instance.currentUser?.getIdTokenResult();
       String? token = tokenResult?.token ?? "";
       // String? token = token1;
-    
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        sharedPreferences.setString("token", token);
-        
-        final result = await userClient.client()?.execute(LoginMutation());
-        print(result?.data.toString());
-      
+
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString("token", token);
+
+      final result = await userClient.client()?.execute(LoginMutation());
+      final resultJson = result?.data?.toJson();
+      final details = resultJson?['login'];
+      print(details['phone']);
+      final userData = UserDetails(
+          details['id'],
+          details['first_name'],
+          details['last_name'],
+          details['status'],
+          details['role'],
+          details['is_verified'],
+          details['is_active'],
+          details['gender'],
+          details['email'],
+          details['phone'],
+          details['photo_url']);
+      print(userData);
+
       return credential;
     } on FirebaseAuthException catch (e) {
       setState(() {
