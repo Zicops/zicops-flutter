@@ -99,6 +99,51 @@ Map<String, dynamic> _$Login$MutationRootToJson(Login$MutationRoot instance) =>
       'login': instance.login?.toJson(),
     };
 
+AllCatMain$QueryRoot$CatMain _$AllCatMain$QueryRoot$CatMainFromJson(
+        Map<String, dynamic> json) =>
+    AllCatMain$QueryRoot$CatMain()
+      ..id = json['id'] as String?
+      ..name = json['Name'] as String?
+      ..description = json['Description'] as String?
+      ..imageUrl = json['ImageUrl'] as String?
+      ..code = json['Code'] as String?
+      ..createdAt = json['CreatedAt'] as String?
+      ..updatedAt = json['UpdatedAt'] as String?
+      ..createdBy = json['CreatedBy'] as String?
+      ..updatedBy = json['UpdatedBy'] as String?
+      ..isActive = json['IsActive'] as bool?;
+
+Map<String, dynamic> _$AllCatMain$QueryRoot$CatMainToJson(
+        AllCatMain$QueryRoot$CatMain instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'Name': instance.name,
+      'Description': instance.description,
+      'ImageUrl': instance.imageUrl,
+      'Code': instance.code,
+      'CreatedAt': instance.createdAt,
+      'UpdatedAt': instance.updatedAt,
+      'CreatedBy': instance.createdBy,
+      'UpdatedBy': instance.updatedBy,
+      'IsActive': instance.isActive,
+    };
+
+AllCatMain$QueryRoot _$AllCatMain$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    AllCatMain$QueryRoot()
+      ..allCatMain = (json['allCatMain'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : AllCatMain$QueryRoot$CatMain.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$AllCatMain$QueryRootToJson(
+        AllCatMain$QueryRoot instance) =>
+    <String, dynamic>{
+      'allCatMain': instance.allCatMain?.map((e) => e?.toJson()).toList(),
+    };
+
 GetUserLspsArguments _$GetUserLspsArgumentsFromJson(
         Map<String, dynamic> json) =>
     GetUserLspsArguments(
@@ -109,4 +154,19 @@ Map<String, dynamic> _$GetUserLspsArgumentsToJson(
         GetUserLspsArguments instance) =>
     <String, dynamic>{
       'userId': instance.userId,
+    };
+
+AllCatMainArguments _$AllCatMainArgumentsFromJson(Map<String, dynamic> json) =>
+    AllCatMainArguments(
+      lsp_ids: (json['lsp_ids'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList(),
+      searchText: json['searchText'] as String?,
+    );
+
+Map<String, dynamic> _$AllCatMainArgumentsToJson(
+        AllCatMainArguments instance) =>
+    <String, dynamic>{
+      'lsp_ids': instance.lsp_ids,
+      'searchText': instance.searchText,
     };

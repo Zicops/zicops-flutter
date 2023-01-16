@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:zicops/graphql_api.graphql.dart';
+import 'package:zicops/main.dart';
+import 'package:zicops/views/screens/account_setup/models/category.dart';
 
 import '../../../utils/colors.dart';
 import '../../widgets/PrefixInputField.dart';
@@ -49,14 +52,46 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
     FocusNode()
   ];
 
+  Future catMainLoading() async {
+    print('function called');
+    final result = await courseQClient.client()?.execute(AllCatMainQuery(
+        variables: AllCatMainArguments(
+            lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
+
+    int i = 0;
+    // if (result?.data?.allCatMain != null) {
+    // final allCatMainResult = result?.data?.toJson();
+    // result?.data?.toJson();
+    Map<String, dynamic>? allCatMainsResult = result?.data?.toJson();
+    print(allCatMainsResult);
+    List<AllCat> cats = [];
+    allCatMainsResult?['allCatMain']?.forEach((e) {
+      // print(e);
+      cats.add(AllCat(
+          e['id'], e["Name"], e["Description"], e["Code"], e["ImageUrl"]));
+    });
+
+    print(cats[0]);
+    // }
+    // while (result?.data?.allCatMain != null) {
+    //   //await Future.delayed(Duration(seconds: 1));
+    //   print(result?.data?.allCatMain![i]);
+    //   i++;
+    // }
+    //print(result?.data.toString());
+    //print('object');
+  }
+
   @override
   void initState() {
     for (var node in _focusNodes) {
       node.addListener(() {
         setState(() {});
+        // catMainLoading();
       });
     }
     super.initState();
+    catMainLoading();
   }
 
   @override
@@ -78,25 +113,26 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
           children: [
             Stack(
               children: [
-                Padding(padding: const EdgeInsets.only(bottom: 85),child:
-                bgImage != null
-                    ? Image.file(
-                        bgImage!,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: 120,
-                      )
-                    : Image.asset(
-                        "assets/images/personal_bg.png",
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: 120,
-                      )),
+                Padding(
+                    padding: const EdgeInsets.only(bottom: 85),
+                    child: bgImage != null
+                        ? Image.file(
+                            bgImage!,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: 120,
+                          )
+                        : Image.asset(
+                            "assets/images/personal_bg.png",
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: 120,
+                          )),
                 Positioned(
                     top: 64,
                     left: 20,
                     child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           setState(() {
                             pickProfileImage();
@@ -106,8 +142,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                           foregroundImage: profileImage != null
                               ? FileImage(profileImage!) as ImageProvider
                               : const AssetImage(
-                                  "assets/images/avatar_default.png")
-                          ,
+                                  "assets/images/avatar_default.png"),
                           radius: 60,
                         ))),
                 Positioned(
@@ -135,11 +170,16 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                           pickProfileImage();
                         });
                       },
-                      child: Container(padding:const EdgeInsets.all(5), decoration:BoxDecoration(color:textGrey.withOpacity(0.2),borderRadius: BorderRadius.circular(50)),child: Image.asset(
-                        "assets/images/camera.png",
-                        width: 20,
-                        height: 20,
-                      )),
+                      child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              color: textGrey.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Image.asset(
+                            "assets/images/camera.png",
+                            width: 20,
+                            height: 20,
+                          )),
                     )),
               ],
             ),
@@ -184,7 +224,6 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                     ),
                   ],
                 ))
-
           ],
         ),
       )
