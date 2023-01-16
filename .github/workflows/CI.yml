@@ -4,7 +4,7 @@ on:
     branches:
       - main
 
-name: "FLutter Test & Build"
+name: "Flutter Test & Build"
 jobs:
   flutter_test:
     name: Run flutter test
