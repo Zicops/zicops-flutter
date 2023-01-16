@@ -7,9 +7,12 @@ class ExpansionContainer extends StatefulWidget {
   String label;
   Widget expanded;
   bool isSubTab;
+  bool isOpen;
+  Function() onTap;
 
-  ExpansionContainer(this.label, this.expanded,
-      {this.isSubTab = false, Key? key})
+  ExpansionContainer(this.label, this.expanded, this.isOpen, this.onTap,
+      {this.isSubTab = false,
+      Key? key})
       : super(key: key);
 
   @override
@@ -20,15 +23,18 @@ class ExpansionContainer extends StatefulWidget {
 
 class _ExpansionContainer extends State<ExpansionContainer>
     with SingleTickerProviderStateMixin {
-  bool isOpen = false;
   late AnimationController controller;
+
+
   @override
   void initState() {
     super.initState();
     controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
+      reverseDuration: const Duration(milliseconds: 800)
     );
+    widget.isOpen ? controller.forward() : controller.reverse();
   }
 
   @override
@@ -45,12 +51,8 @@ class _ExpansionContainer extends State<ExpansionContainer>
               ),
         GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: () {
-            setState(() {
-              isOpen = !isOpen;
-              isOpen ? controller.forward() : controller.reverse();
-            });
-          },
+          onTap: widget.onTap
+          ,
           child: Container(
             height: 48.sp,
             padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 12.sp),
@@ -62,12 +64,12 @@ class _ExpansionContainer extends State<ExpansionContainer>
                         height: 24.sp,
                         alignment: Alignment.center,
                         child: Transform.rotate(
-                            angle: isOpen ? 22 : 0,
+                            angle: widget.isOpen ? 22 : 0,
                             child: Image.asset(
                               "assets/images/down_arrow_filled.png",
                               width: 10.sp,
                               height: 5.sp,
-                              color: isOpen ? primaryColor : textPrimary,
+                              color: widget.isOpen ? primaryColor : textPrimary,
                             ))),
                     SizedBox(
                       width: 15.sp,
@@ -96,19 +98,19 @@ class _ExpansionContainer extends State<ExpansionContainer>
                             height: 24.sp,
                             alignment: Alignment.center,
                             child: Transform.rotate(
-                                angle: isOpen ? 22 : 0,
+                                angle: widget.isOpen ? 22 : 0,
                                 child: Image.asset(
                                   "assets/images/down_arrow.png",
                                   width: 12.sp,
                                   height: 8.sp,
-                                  color: isOpen ? primaryColor : textPrimary,
+                                  color: widget.isOpen ? primaryColor : textPrimary,
                                 ))),
                       ]),
           ),
         ),
         SizeTransition(
             sizeFactor: CurvedAnimation(
-              curve: Curves.fastOutSlowIn,
+              curve: Curves.easeInOut,
               parent: controller,
             ),
             child: widget.expanded),

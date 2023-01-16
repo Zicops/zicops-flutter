@@ -66,8 +66,8 @@ class _QuizItem extends State<QuizItem> {
           height: 11.sp,
         ),
         Divider(
-          height: 0.5.sp,
-          thickness: 0.5.sp,
+          height: 1.sp,
+          thickness: 1.sp,
           color: lightGrey,
         ),
         SizedBox(

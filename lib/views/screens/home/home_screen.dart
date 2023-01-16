@@ -6,6 +6,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/utils/dummies.dart';
 import 'package:zicops/views/screens/new_course/new_course_screen.dart';
+import 'package:zicops/views/screens/search/search_screen.dart';
 import 'package:zicops/views/widgets/course_grid_item.dart';
 import 'package:zicops/views/widgets/course_grid_item_large.dart';
 import 'package:zicops/views/widgets/course_list_item_with_progress.dart';
@@ -52,7 +53,8 @@ class _HomeScreen extends State<HomeScreen> {
                           center: Alignment.center,
                           radius: 35.sp,
                         ).createShader(
-                            const Rect.fromLTWH(0.0, 0.0, 50.0, 24.0), textDirection: TextDirection.ltr),
+                            const Rect.fromLTWH(0.0, 0.0, 50.0, 24.0),
+                            textDirection: TextDirection.ltr),
                       fontSize: 12.sp,
                       letterSpacing: 1,
                       fontWeight: FontWeight.w600)),
@@ -125,6 +127,65 @@ class _HomeScreen extends State<HomeScreen> {
         ));
   }
 
+  Widget viewAll({int height = 156, int width = 156}) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const SearchScreen()));
+          },
+          child: Container(
+              padding:
+                  EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.sp),
+                  gradient: LinearGradient(colors: [
+                    secondaryColorDarkOutline,
+                    secondaryColorDarkOutline.withOpacity(0.15),
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+              child: Container(
+                  width: width.sp,
+                  height: height.sp,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.circular(4.sp),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Transform.rotate(
+                          angle: 3.14,
+                          child: Container(
+                              width: 24.sp,
+                              height: 24.sp,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                "assets/images/back_arrow.png",
+                                width: 16.sp,
+                                height: 16.sp,
+                                color: textPrimary,
+                              ))),
+                      SizedBox(
+                        height: 4.sp,
+                      ),
+                      Text(
+                        "View all",
+                        style: TextStyle(
+                            color: textPrimary,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  )))),
+      SizedBox(
+        width: 8.sp,
+      )
+    ]);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -137,11 +198,13 @@ class _HomeScreen extends State<HomeScreen> {
 
     return Container(
       height: height,
-      padding: EdgeInsets.only( bottom: 5.sp),
+      padding: EdgeInsets.only(bottom: 5.sp),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 14.sp,),
+            SizedBox(
+              height: 14.sp,
+            ),
             SizedBox(
                 width: width,
                 height: 180.sp,
@@ -213,25 +276,34 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 8.sp,
             ),
-            SizedBox(
-                width: width,
+            Container(
                 height: 156.sp,
-                child: GridView(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.only(left: 20.sp),
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      childAspectRatio: 0.23,
-                      crossAxisSpacing: 8.sp,
-                      mainAxisSpacing: 8.sp,
-                      maxCrossAxisExtent: 74.sp),
-                  children: [
-                    ...[1, 2, 3, 4].map((e) => CourseListItem(
-                        "IT Development",
-                        "Cognizent",
-                        "120mins Left",
-                        "assets/images/course_preview.png"))
-                  ],
-                )),
+                alignment: Alignment.center,
+                child: ListView(scrollDirection: Axis.horizontal, children: [
+                  GridView(
+                    scrollDirection: Axis.horizontal,
+                    physics:
+                        const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(left: 20.sp),
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        childAspectRatio: 0.23,
+                        crossAxisSpacing: 8.sp,
+                        mainAxisSpacing: 8.sp,
+                        maxCrossAxisExtent: 74.sp),
+                    children: [
+                      ...[1, 2, 3, 4].map((e) => CourseListItem(
+                          "IT Development",
+                          "Cognizent",
+                          "120mins Left",
+                          "assets/images/course_preview.png")),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 8.sp,
+                  ),
+                  viewAll()
+                ])),
             SizedBox(
               height: 14.25.sp,
             ),
@@ -261,7 +333,8 @@ class _HomeScreen extends State<HomeScreen> {
                             width: 8.sp,
                           )
                         ],
-                      ))
+                      )),
+                  viewAll()
                 ],
               ),
             ),
@@ -299,7 +372,8 @@ class _HomeScreen extends State<HomeScreen> {
                             width: 8.sp,
                           )
                         ],
-                      ))
+                      )),
+                  viewAll()
                 ],
               ),
             ),
@@ -332,7 +406,8 @@ class _HomeScreen extends State<HomeScreen> {
                             width: 8.sp,
                           )
                         ],
-                      ))
+                      )),
+                  viewAll()
                 ],
               ),
             ),
@@ -408,7 +483,8 @@ class _HomeScreen extends State<HomeScreen> {
                             width: 8.sp,
                           )
                         ],
-                      ))
+                      )),
+                  viewAll()
                 ],
               ),
             ),
@@ -441,7 +517,8 @@ class _HomeScreen extends State<HomeScreen> {
                             width: 8.sp,
                           )
                         ],
-                      ))
+                      )),
+                  viewAll()
                 ],
               ),
             ),
@@ -502,7 +579,8 @@ class _HomeScreen extends State<HomeScreen> {
                         width: 8.sp,
                       )
                     ],
-                  )
+                  ),
+                  viewAll(height: 74, width: 74)
                 ],
               ),
             ),
@@ -537,7 +615,8 @@ class _HomeScreen extends State<HomeScreen> {
                             width: 8.sp,
                           )
                         ],
-                      ))
+                      )),
+                  viewAll(height: 248, width: 320)
                 ],
               ),
             ),
@@ -558,21 +637,24 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...courseItems.map((courseItem) => Row(
-                        children: [
-                          CourseGridItemLarge(
-                            courseItem["courseName"],
-                            courseItem["org"],
-                            courseItem["difficulty"],
-                            courseItem["courseLength"],
-                            courseItem["preview"],
-                            showAddButton: true,
-                          ),
-                          SizedBox(
-                            width: 8.sp,
-                          )
-                        ],
-                      ))
+                  ...courseItems.map(
+                    (courseItem) => Row(
+                      children: [
+                        CourseGridItemLarge(
+                          courseItem["courseName"],
+                          courseItem["org"],
+                          courseItem["difficulty"],
+                          courseItem["courseLength"],
+                          courseItem["preview"],
+                          showAddButton: true,
+                        ),
+                        SizedBox(
+                          width: 8.sp,
+                        )
+                      ],
+                    ),
+                  ),
+                  viewAll(height: 248, width: 320)
                 ],
               ),
             ),

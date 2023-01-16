@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +10,54 @@ import 'filter_options.dart';
 
 filterBottomSheet(BuildContext context, double maxHeight, double width,
     Map<String, List> filterList, Function() onReset, Function() onApply) {
+  int selectedIndex = -1;
+  int subTabSelectedIndex = -1;
+
+  List<Key> expansionKeys = [
+    UniqueKey(),
+    UniqueKey(),
+    UniqueKey(),
+    UniqueKey()
+  ];
+  List<Key> subTabExpansionKeys = [
+    UniqueKey(),
+    UniqueKey(),
+    UniqueKey(),
+  ];
+
+  isOpen(int index, int selectedIndex) {
+    return index == selectedIndex;
+  }
+
+  setSelectedIndex(int index, StateSetter setModalState) {
+    print("selected--$index--/$selectedIndex");
+    setModalState(() {
+      if (selectedIndex != -1) {
+        expansionKeys[selectedIndex] = UniqueKey();
+      }
+      if (selectedIndex == index) {
+        selectedIndex = -1;
+      } else {
+        selectedIndex = index;
+      }
+      expansionKeys[index] = UniqueKey();
+    });
+  }
+
+  setSubTabSelectedIndex(int index, StateSetter setModalState) {
+    setModalState(() {
+      if (subTabSelectedIndex != -1) {
+        subTabExpansionKeys[subTabSelectedIndex] = UniqueKey();
+      }
+      if (subTabSelectedIndex == index) {
+        subTabSelectedIndex = -1;
+      } else {
+        subTabSelectedIndex = index;
+      }
+      subTabExpansionKeys[subTabSelectedIndex] = UniqueKey();
+    });
+  }
+
   showModalBottomSheet<void>(
     context: context,
     backgroundColor: secondaryColor,
@@ -71,52 +121,75 @@ filterBottomSheet(BuildContext context, double maxHeight, double width,
                 height: 15.sp,
               ),
               ExpansionContainer(
-                  "type",
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                      child: Column(children: [
-                        ...[
-                          "Self-paced",
-                          "Classrooms",
-                          "Events",
-                          "Labs",
-                          "Test series"
-                        ].map(
-                          (e) => filterOptions(e, filterList.keys.toList()[0],
-                              filterList, setModalState),
-                        )
-                      ]))),
+                "type",
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                    child: Column(children: [
+                      ...[
+                        "Self-paced",
+                        "Classrooms",
+                        "Events",
+                        "Labs",
+                        "Test series"
+                      ].map(
+                        (e) => filterOptions(e, filterList.keys.toList()[0],
+                            filterList, setModalState),
+                      )
+                    ])),
+                isOpen(0, selectedIndex),
+                () {
+                  setSelectedIndex(0, setModalState);
+                },
+                key: expansionKeys[0],
+              ),
               ExpansionContainer(
-                  "Expertise",
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                      child: Column(children: [
-                        ...["Beginner", "Intermediate", "Competent"].map(
-                          (e) => filterOptions(e, filterList.keys.toList()[0],
-                              filterList, setModalState),
-                        )
-                      ]))),
+                "Expertise",
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                    child: Column(children: [
+                      ...["Beginner", "Intermediate", "Competent"].map(
+                        (e) => filterOptions(e, filterList.keys.toList()[0],
+                            filterList, setModalState),
+                      )
+                    ])),
+                isOpen(1, selectedIndex),
+                () {
+                  setSelectedIndex(1, setModalState);
+                },
+                key: expansionKeys[1],
+              ),
               ExpansionContainer(
-                  "Language",
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                      child: Column(children: [
-                        ...["English", "Hindi", "Bengali", "Marathi", "Tamil"].map(
-                          (e) => filterOptions(e, filterList.keys.toList()[0],
-                              filterList, setModalState),
-                        )
-                      ]))),
+                "Language",
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                    child: Column(children: [
+                      ...["English", "Hindi", "Bengali", "Marathi", "Tamil"]
+                          .map(
+                        (e) => filterOptions(e, filterList.keys.toList()[0],
+                            filterList, setModalState),
+                      )
+                    ])),
+                isOpen(2, selectedIndex),
+                () {
+                  setSelectedIndex(2, setModalState);
+                },
+                key: expansionKeys[2],
+              ),
               ExpansionContainer(
                   "Category",
                   Column(children: [
-                    ...[1, 2, 3].map((e) => ExpansionContainer(
+                    ...[0, 1, 2].map((e) => ExpansionContainer(
                           "Design",
                           Container(
                               padding: EdgeInsets.symmetric(horizontal: 20.sp),
                               color: secondaryColorDark,
                               child: Column(children: [
-                                ...["UI design", "Industrial design", "UX design", "Graphic design"]
-                                    .map(
+                                ...[
+                                  "UI design",
+                                  "Industrial design",
+                                  "UX design",
+                                  "Graphic design"
+                                ].map(
                                   (e) => filterOptions(
                                     e,
                                     filterList.keys.toList()[0],
@@ -125,9 +198,17 @@ filterBottomSheet(BuildContext context, double maxHeight, double width,
                                   ),
                                 )
                               ])),
+                          isOpen(e, subTabSelectedIndex),
+                          () {
+                            setSubTabSelectedIndex(e, setModalState);
+                          },
+                          key: subTabExpansionKeys[e],
                           isSubTab: true,
                         ))
-                  ])),
+                  ]),
+                  isOpen(3, selectedIndex), () {
+                setSelectedIndex(3, setModalState);
+              }, key: expansionKeys[3],),
               SizedBox(
                 height: 76.sp,
               ),
