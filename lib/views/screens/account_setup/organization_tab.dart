@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zicops/views/widgets/GradientButton.dart';
 import 'package:zicops/views/widgets/PrefixInputField.dart';
-
-import '../../../utils/colors.dart';
 
 class OrganizationTabScreen extends StatefulWidget {
   Function() changeTab;
@@ -14,7 +13,12 @@ class OrganizationTabScreen extends StatefulWidget {
 }
 
 class _OrganizationTabScreen extends State<OrganizationTabScreen> {
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _controller1 = TextEditingController();
+  TextEditingController _controller2 = TextEditingController();
+  TextEditingController _controller3 = TextEditingController();
+  TextEditingController _controller4 = TextEditingController();
+  TextEditingController _controller5 = TextEditingController();
+
   final List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),
@@ -50,46 +54,30 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 children: [
-                  const SizedBox(height: 20),
-                  prefixInputField(_focusNodes[0], _controller,
+                  prefixInputField(_focusNodes[0], _controller1,
                       "assets/images/organization.png", "Organisation"),
                   const SizedBox(height: 12),
-                  prefixInputField(_focusNodes[1], _controller,
+                  prefixInputField(_focusNodes[1], _controller2,
                       "assets/images/location.png", "Organization Unit"),
                   const SizedBox(height: 12),
                   prefixInputField(
                       _focusNodes[2],
-                      _controller,
+                      _controller3,
                       "assets/images/learning_space.png",
                       "Learning Space Role"),
                   const SizedBox(height: 12),
-                  prefixInputField(_focusNodes[3], _controller,
+                  prefixInputField(_focusNodes[3], _controller4,
                       "assets/images/role.png", "Role in Organization"),
                   const SizedBox(height: 12),
-                  prefixInputField(_focusNodes[4], _controller,
+                  prefixInputField(_focusNodes[4], _controller5,
                       "assets/images/other_role.png", "Other Role"),
                   const SizedBox(height: 12),
                   const Spacer(),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
                       widget.changeTab();
                     },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 48,
-                      decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                              colors: [primaryColor, gradientTwo]),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: Text(
-                        'Next'.toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            letterSpacing: 2),
-                      ),
-                    ),
+                    child: gradientButton("Next"),
                   ),
                 ],
               )))
