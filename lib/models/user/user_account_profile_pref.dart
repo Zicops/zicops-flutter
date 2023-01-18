@@ -18,6 +18,27 @@ class AllCatMainModel {
     this.updatedAt,
     this.isActive,
   );
+
+  AllCatMainModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['Name'],
+        description = json['Description'],
+        imageUrl = json['ImageUrl'],
+        code = json['Code'],
+        createdAt = json['CreatedAt'],
+        updatedAt = json['UpdatedAt'],
+        isActive = json['IsActive'];
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'description': description,
+        'imageUrl': imageUrl,
+        'code': code,
+        'createdAt': createdAt,
+        'updatedAt': updatedAt,
+        'isActive': isActive,
+      };
 }
 
 class SubCatMainModel {
@@ -42,4 +63,27 @@ class SubCatMainModel {
     this.updatedAt,
     this.isActive,
   );
+
+  SubCatMainModel.fromJson(Map<String, dynamic> json)
+      : catId = json['CatId'],
+        id = json['id'],
+        name = json['Name'],
+        description = json['Description'],
+        imageUrl = json['ImageUrl'],
+        code = json['Code'],
+        createdAt = json['CreatedAt'],
+        updatedAt = json['UpdatedAt'],
+        isActive = json['IsActive'];
+
+  Map<String, dynamic> toJson() => {
+        'catId': catId,
+        'id': id,
+        'name': name,
+        'description': description,
+        'imageUrl': imageUrl,
+        'code': code,
+        'createdAt': createdAt,
+        'updatedAt': updatedAt,
+        'isActive': isActive,
+      };
 }
