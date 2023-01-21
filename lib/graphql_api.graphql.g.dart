@@ -350,7 +350,7 @@ Map<String, dynamic> _$GetUserLspsArgumentsToJson(
 GetUserOrganizationsArguments _$GetUserOrganizationsArgumentsFromJson(
         Map<String, dynamic> json) =>
     GetUserOrganizationsArguments(
-      userId: json['userId'] as String?,
+      userId: json['userId'] as String,
     );
 
 Map<String, dynamic> _$GetUserOrganizationsArgumentsToJson(
@@ -362,7 +362,7 @@ Map<String, dynamic> _$GetUserOrganizationsArgumentsToJson(
 GetUserOrgDetailsArguments _$GetUserOrgDetailsArgumentsFromJson(
         Map<String, dynamic> json) =>
     GetUserOrgDetailsArguments(
-      userId: json['userId'] as String?,
+      userId: json['userId'] as String,
     );
 
 Map<String, dynamic> _$GetUserOrgDetailsArgumentsToJson(

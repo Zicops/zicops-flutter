@@ -578,13 +578,13 @@ class GetUserLspsQuery
 @JsonSerializable(explicitToJson: true)
 class GetUserOrganizationsArguments extends JsonSerializable
     with EquatableMixin {
-  GetUserOrganizationsArguments({this.userId});
+  GetUserOrganizationsArguments({required this.userId});
 
   @override
   factory GetUserOrganizationsArguments.fromJson(Map<String, dynamic> json) =>
       _$GetUserOrganizationsArgumentsFromJson(json);
 
-  final String? userId;
+  late String userId;
 
   @override
   List<Object?> get props => [userId];
@@ -603,7 +603,7 @@ final GET_USER_ORGANIZATIONS_QUERY_DOCUMENT = DocumentNode(definitions: [
         variable: VariableNode(name: NameNode(value: 'userId')),
         type: NamedTypeNode(
           name: NameNode(value: 'String'),
-          isNonNull: false,
+          isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
         directives: [],
@@ -743,13 +743,13 @@ class GetUserOrganizationsQuery extends GraphQLQuery<
 
 @JsonSerializable(explicitToJson: true)
 class GetUserOrgDetailsArguments extends JsonSerializable with EquatableMixin {
-  GetUserOrgDetailsArguments({this.userId});
+  GetUserOrgDetailsArguments({required this.userId});
 
   @override
   factory GetUserOrgDetailsArguments.fromJson(Map<String, dynamic> json) =>
       _$GetUserOrgDetailsArgumentsFromJson(json);
 
-  final String? userId;
+  late String userId;
 
   @override
   List<Object?> get props => [userId];
@@ -767,7 +767,7 @@ final GET_USER_ORG_DETAILS_QUERY_DOCUMENT = DocumentNode(definitions: [
         variable: VariableNode(name: NameNode(value: 'userId')),
         type: NamedTypeNode(
           name: NameNode(value: 'String'),
-          isNonNull: false,
+          isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
         directives: [],

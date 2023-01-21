@@ -42,15 +42,15 @@ class AllCatMainModel {
 }
 
 class SubCatMainModel {
-  String catId;
-  String id;
-  String name;
-  String description;
-  String imageUrl;
-  String code;
-  String createdAt;
-  String updatedAt;
-  bool isActive;
+  String? catId;
+  String? id;
+  String? name;
+  String? description;
+  String? imageUrl;
+  String? code;
+  String? createdAt;
+  String? updatedAt;
+  bool? isActive;
 
   SubCatMainModel(
     this.catId,

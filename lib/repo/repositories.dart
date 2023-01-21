@@ -2,6 +2,7 @@ import '../graphql_api.graphql.dart';
 import '../main.dart';
 import '../models/user/user_account_profile_pref.dart';
 import '../models/user/user_details_model.dart';
+import '../models/user/user_org_model.dart';
 
 class UserRepository {
   Future<List<UserDetailsModel>> getUserDetails() async {
@@ -64,5 +65,67 @@ class AllCatMainRepository {
       );
     }
     return allCatMain;
+  }
+}
+
+class AllCatSubRepository {
+  Future<List<SubCatMainModel>> getAllCatSub() async {
+    final allCatSubResult = await courseQClient.client()?.execute(
+          AllSubCatMainQuery(
+            variables: AllSubCatMainArguments(
+              lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'],
+            ),
+          ),
+        );
+    List<SubCatMainModel> subCatMain = [];
+    for (int i in allCatSubResult?.data?.allSubCatMain!.asMap().keys ?? []) {
+      subCatMain.add(
+        SubCatMainModel(
+          allCatSubResult?.data?.allSubCatMain![i]?.catId,
+          allCatSubResult?.data?.allSubCatMain![i]?.id,
+          allCatSubResult?.data?.allSubCatMain![i]?.name,
+          allCatSubResult?.data?.allSubCatMain![i]?.description,
+          allCatSubResult?.data?.allSubCatMain![i]?.imageUrl,
+          allCatSubResult?.data?.allSubCatMain![i]?.code,
+          allCatSubResult?.data?.allSubCatMain![i]?.createdAt,
+          allCatSubResult?.data?.allSubCatMain![i]?.updatedAt,
+          allCatSubResult?.data?.allSubCatMain![i]?.isActive,
+        ),
+      );
+    }
+
+    return subCatMain;
+  }
+}
+
+class GetOrgDetailsRepository {
+  Future<List<UserOrganizationModel>> getOrgDetails() async {
+    final orgResuts = await userClient.client()?.execute(
+          GetUserOrganizationsQuery(
+            variables: GetUserOrganizationsArguments(
+                userId: 'YW5zaGpvc2hpMDYwN0BnbWFpbC5jb20='),
+          ),
+        );
+
+    List<UserOrganizationModel> userOrgDetails = [];
+    for (int i in orgResuts?.data?.getUserOrganizations!.asMap().keys ?? []) {
+      userOrgDetails.add(
+        UserOrganizationModel(
+          orgResuts?.data?.getUserOrganizations![i]?.userOrganizationId,
+          orgResuts?.data?.getUserOrganizations![i]?.userId,
+          orgResuts?.data?.getUserOrganizations![i]?.userLspId,
+          orgResuts?.data?.getUserOrganizations![i]?.organizationId,
+          orgResuts?.data?.getUserOrganizations![i]?.organizationRole,
+          orgResuts?.data?.getUserOrganizations![i]?.isActive,
+          orgResuts?.data?.getUserOrganizations![i]?.employeeId,
+          orgResuts?.data?.getUserOrganizations![i]?.createdBy,
+          orgResuts?.data?.getUserOrganizations![i]?.updatedBy,
+          orgResuts?.data?.getUserOrganizations![i]?.createdAt,
+          orgResuts?.data?.getUserOrganizations![i]?.updatedAt,
+        ),
+      );
+    }
+
+    return userOrgDetails;
   }
 }

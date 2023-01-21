@@ -6,13 +6,13 @@ query getUserLsps($userId: ID!) {
   }
 }
 
-query getUserOrganizations($userId: String) {
+query getUserOrganizations($userId: String!) {
   getUserOrganizations(user_id: $userId) {
     ...UserOrganizationFragment
   }
 }
 
-query getUserOrgDetails($userId: String) {
+query getUserOrgDetails($userId: String!) {
   getUserOrgDetails(user_id: $userId) {
     ...UserOrganizationFragment
   }
