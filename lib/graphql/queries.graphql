@@ -1,5 +1,3 @@
-
-
 query getUserLsps($userId: ID!) {
   getUserLsps(user_id: $userId) {
     ...UserLspFragment
@@ -18,23 +16,47 @@ query getUserOrgDetails($userId: String!) {
   }
 }
 
-query allCatMain($lsp_ids: [String],$searchText: String) {
-    allCatMain(lsp_ids: $lsp_ids, searchText: $searchText) {
-      ...allCatMainFragment
-      }
+query allCatMain($lsp_ids: [String], $searchText: String) {
+  allCatMain(lsp_ids: $lsp_ids, searchText: $searchText) {
+    ...allCatMainFragment
+  }
 }
 
-query allSubCatMain($lsp_ids: [String], $searchText: String){
-    allSubCatMain(lsp_ids: $lsp_ids, searchText: $searchText) {
-      ...allSubCatMainFragment
-    }
+query allSubCatMain($lsp_ids: [String], $searchText: String) {
+  allSubCatMain(lsp_ids: $lsp_ids, searchText: $searchText) {
+    ...allSubCatMainFragment
+  }
 }
-query allSubCatByCatId($catId: String){
-    allSubCatByCatId(catId: $catId) {
-      ...allSubCatMainFragment
-    }
+query allSubCatByCatId($catId: String) {
+  allSubCatByCatId(catId: $catId) {
+    ...allSubCatMainFragment
+  }
 }
 
+query latestCourses(
+  $publish_time: Int
+  $pageCursor: String
+  $Direction: String
+  $pageSize: Int
+  $status: Status
+  $filters: CoursesFilters
+) {
+  latestCourses(
+    publish_time: $publish_time
+    pageCursor: $pageCursor
+    Direction: $Direction
+    pageSize: $pageSize
+    status: $status
+    filters: $filters
+  ) {
+    courses {
+      ...courseFragment
+    }
+    pageCursor
+    direction
+    pageSize
+  }
+}
 
 fragment UserLspFragment on UserLspMap {
   user_lsp_id
@@ -99,8 +121,6 @@ fragment UserOrganizationFragment on UserOrganizationMap {
   updated_at
 }
 
-
-
 fragment allCatMainFragment on CatMain {
   id
   Name
@@ -128,3 +148,44 @@ fragment allSubCatMainFragment on SubCatMain {
   IsActive
 }
 
+fragment courseFragment on Course {
+  id
+  name
+  lspId
+  publisher
+  description
+  summary
+  instructor
+  image
+  previewVideo
+  tileImage
+  owner
+  duration
+  expertise_level
+  language
+  benefits
+  outcomes
+  created_at
+  updated_at
+  type
+  prequisites
+  goodFor
+  mustFor
+  related_skills
+  publish_date
+  expiry_date
+  expected_completion
+  qa_required
+  approvers
+  created_by
+  updated_by
+  status
+  is_display
+  category
+  sub_category
+  sub_categories{
+          name
+          rank
+        }
+  is_active
+}

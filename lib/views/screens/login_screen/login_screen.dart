@@ -12,6 +12,7 @@ import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
 import 'package:zicops/views/screens/account_setup/models/category.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
+import 'package:zicops/views/screens/home/home.dart';
 
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
@@ -68,7 +69,7 @@ class _LoginScreen extends State<LoginScreen> {
       });
 
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const AccountSetupScreen(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen(
 
       )));
       String token1 =
@@ -76,18 +77,18 @@ class _LoginScreen extends State<LoginScreen> {
       IdTokenResult? tokenResult =
           await FirebaseAuth.instance.currentUser?.getIdTokenResult();
       String? token = tokenResult?.token ?? "";
-      // String? token = token1;
+      // String? token = token1;W
 
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString("token", token);
-
       final result = await userClient.client()?.execute(LoginMutation());
+      await sharedPreferences.setString("userData",result!.data!.login.toString());
 
-      final userDetailsModel = UserDetailsModel.fromJson(
-          jsonDecode(result!.data!.login!.toJson().toString()));
-      print(userDetailsModel.firstName);
-      print(result?.data.toString());
+      // final userDetailsModel = UserDetailsModel.fromJson(
+      //     jsonDecode(result!.data!.login!.toJson().toString()));
+      // print(userDetailsModel.firstName);
+      // print(result?.data.toString());
 
       return credential;
     } on FirebaseAuthException catch (e) {

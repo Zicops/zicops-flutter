@@ -3,6 +3,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zicops/graphql_api.graphql.dart';
+import 'package:zicops/main.dart';
 
 import '../../../utils/colors.dart';
 
@@ -43,6 +46,31 @@ class _HomeScreen extends State<HomeScreen> {
   //       }
   //   }
   // }
+
+  Future courseLoading() async {
+    print('called');
+     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+     final data = sharedPreferences.getString('userData');
+     print(data);
+    final allLatestCourse = await courseQClient.client()?.execute(LatestCoursesQuery(
+        variables: LatestCoursesArguments(
+            publish_time:
+                (DateTime.now().millisecondsSinceEpoch / 1000).toInt(),
+            pageCursor: "",
+            pageSize: 1000,
+            filters: new CoursesFilters(),
+            Direction: ""
+            )));
+
+    // print(allLatestCourse?.data?.toJson());
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    courseLoading();
+  }
 
   String getTitle() {
     switch (_bottomNavIndex) {
@@ -254,7 +282,6 @@ class _HomeScreen extends State<HomeScreen> {
                       color: textPrimary),
                 ),
               ),
-
             ],
           ),
         ),
