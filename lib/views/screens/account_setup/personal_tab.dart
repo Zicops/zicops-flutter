@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 import '../../widgets/PrefixInputField.dart';
 
@@ -20,6 +23,10 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
   TextEditingController _controller = TextEditingController();
   File? bgImage;
   File? profileImage;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phone;
   Future pickBgImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -57,6 +64,32 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
       });
     }
     super.initState();
+    getDetails();
+  }
+
+  Future getDetails() async {
+    print('getdetails');
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> jsonDetails =
+        jsonDecode(sharedPreferences.getString('user')!);
+    var user = UserDetailsModel.fromJson(jsonDetails);
+    if (jsonDetails.isNotEmpty) {
+      //print(user?.firstName);
+      // print(user.email);
+      setState(() {
+        firstName = user.firstName;
+        lastName = user.lastName;
+        email = user.email;
+        phone = user.phone;
+      });
+
+      // print(firstName);
+      //set the sharedPreferences saved data to TextField
+      // _name.value =  TextEditingValue(text: user.name);
+      // _email.value =  TextEditingValue(text: user.email);
+      // _phone.value =  TextEditingValue(text: user.phone);
+    }
+    // print(user.firstName);
   }
 
   @override
@@ -78,25 +111,26 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
           children: [
             Stack(
               children: [
-                Padding(padding: const EdgeInsets.only(bottom: 85),child:
-                bgImage != null
-                    ? Image.file(
-                        bgImage!,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: 120,
-                      )
-                    : Image.asset(
-                        "assets/images/personal_bg.png",
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: 120,
-                      )),
+                Padding(
+                    padding: const EdgeInsets.only(bottom: 85),
+                    child: bgImage != null
+                        ? Image.file(
+                            bgImage!,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: 120,
+                          )
+                        : Image.asset(
+                            "assets/images/personal_bg.png",
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: 120,
+                          )),
                 Positioned(
                     top: 64,
                     left: 20,
                     child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           setState(() {
                             pickProfileImage();
@@ -106,8 +140,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                           foregroundImage: profileImage != null
                               ? FileImage(profileImage!) as ImageProvider
                               : const AssetImage(
-                                  "assets/images/avatar_default.png")
-                          ,
+                                  "assets/images/avatar_default.png"),
                           radius: 60,
                         ))),
                 Positioned(
@@ -135,11 +168,16 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                           pickProfileImage();
                         });
                       },
-                      child: Container(padding:const EdgeInsets.all(5), decoration:BoxDecoration(color:textGrey.withOpacity(0.2),borderRadius: BorderRadius.circular(50)),child: Image.asset(
-                        "assets/images/camera.png",
-                        width: 20,
-                        height: 20,
-                      )),
+                      child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              color: textGrey.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Image.asset(
+                            "assets/images/camera.png",
+                            width: 20,
+                            height: 20,
+                          )),
                     )),
               ],
             ),
@@ -150,16 +188,20 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                 child: Column(
                   children: [
                     prefixInputField(_focusNodes[0], _controller,
-                        "assets/images/person.png", "Firstname"),
+                        "assets/images/person.png", "Firstname", firstName!),
                     const SizedBox(height: 12),
                     prefixInputField(_focusNodes[1], _controller,
-                        "assets/images/person.png", "Lastname"),
+                        "assets/images/person.png", "Lastname", lastName ?? ""),
                     const SizedBox(height: 12),
                     prefixInputField(_focusNodes[2], _controller,
-                        "assets/images/email.png", "Email"),
+                        "assets/images/email.png", "Email", email ?? ""),
                     const SizedBox(height: 12),
-                    prefixInputField(_focusNodes[3], _controller,
-                        "assets/images/phone.png", "+91| Contact Number"),
+                    prefixInputField(
+                        _focusNodes[3],
+                        _controller,
+                        "assets/images/phone.png",
+                        "+91| Contact Number",
+                        phone ?? ""),
                     const SizedBox(height: 12),
                     InkWell(
                       onTap: () {
@@ -184,7 +226,6 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                     ),
                   ],
                 ))
-
           ],
         ),
       )

@@ -21,18 +21,36 @@ class UserRepository {
     userDetails.add(
       result?.data?.login != null
           ? UserDetailsModel(
-              result?.data?.login?.id ?? "",
-              result?.data?.login?.firstName ?? "",
-              result?.data?.login?.lastName ?? "",
-              result?.data?.login?.email ?? "",
-              result?.data?.login?.phone ?? "",
+              result?.data?.login?.id ?? '',
+              result?.data?.login?.firstName ?? '',
+              result?.data?.login?.lastName ?? '',
+              result?.data?.login?.status ?? '',
+              result?.data?.login?.role ?? '',
+              result?.data?.login?.isVerified ?? false,
+              result?.data?.login?.isActive ?? false,
+              result?.data?.login?.gender ?? '',
+              result?.data?.login?.email ?? '',
+              result?.data?.login?.phone ?? '',
+              result?.data?.login?.photoUrl ?? '',
+
+              //result?.data?.login?.id ?? "",
+              //result?.data?.login?.firstName ?? "",
+              //  result?.data?.login?.lastName ?? "",
+              //result?.data?.login?.email ?? "",
+              //result?.data?.login?.phone ?? "",
             )
           : UserDetailsModel(
-              "",
-              "",
-              "",
-              "",
-              "",
+              '',
+              '',
+              '',
+              '',
+              '',
+              false,
+              false,
+              '',
+              '',
+              '',
+              '',
             ),
     );
 

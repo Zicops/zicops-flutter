@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zicops/utils/colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:developer';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zicops/views/screens/account_setup/organization_tab.dart';
 import 'package:zicops/views/screens/account_setup/personal_tab.dart';
 import 'package:zicops/views/screens/account_setup/preferences_tab.dart';
@@ -61,58 +58,62 @@ class _AccountSetupScreen extends State<AccountSetupScreen> {
     // _keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
     return Scaffold(
-        body: SafeArea(
-            child: Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage("assets/images/login_bg.png"),
-        fit: BoxFit.fill,
-      )),
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              color: secondaryColorDark,
-              padding: const EdgeInsets.only(
-                  left: 20, right: 20, top: 10, bottom: 14),
-              child: Text(
-                getTitle(),
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: textPrimary),
-              ),
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/login_bg.png"),
+              fit: BoxFit.fill,
             ),
-            Container(
-              color: secondaryColorDark,
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                      child: SizedBox(
-                    child: tab("Personal", 0, _selectedTab),
-                  )),
-                  const SizedBox(width: 8),
-                  Expanded(
-                      child: SizedBox(
-                    child: tab("Organisation", 1, _selectedTab),
-                  )),
-                  const SizedBox(width: 8),
-                  Expanded(
-                      child: SizedBox(
-                    child: tab("Preferences", 2, _selectedTab),
-                  )),
-                ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                color: secondaryColorDark,
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 14),
+                child: Text(
+                  getTitle(),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary),
+                ),
               ),
-            ),
-            Expanded(
-              child: getScreen(),
-            )
-          ]),
-    )));
+              Container(
+                color: secondaryColorDark,
+                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        child: SizedBox(
+                      child: tab("Personal", 0, _selectedTab),
+                    )),
+                    const SizedBox(width: 8),
+                    Expanded(
+                        child: SizedBox(
+                      child: tab("Organisation", 1, _selectedTab),
+                    )),
+                    const SizedBox(width: 8),
+                    Expanded(
+                        child: SizedBox(
+                      child: tab("Preferences", 2, _selectedTab),
+                    )),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: getScreen(),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -124,7 +125,11 @@ Widget tab(String tabTitle, int index, int selectedTab) {
         tabTitle.toUpperCase(),
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-            color: index == selectedTab ? primaryColor :selectedTab > index? textPrimary: textGrey,
+            color: index == selectedTab
+                ? primaryColor
+                : selectedTab > index
+                    ? textPrimary
+                    : textGrey,
             fontSize: 12,
             letterSpacing: 1,
             fontWeight: FontWeight.w600),
