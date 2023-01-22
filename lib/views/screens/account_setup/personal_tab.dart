@@ -23,10 +23,10 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
   TextEditingController _controller = TextEditingController();
   File? bgImage;
   File? profileImage;
-  String? firstName;
-  String? lastName;
-  String? email;
-  String? phone;
+  String firstName = '';
+  String lastName = '';
+  String email = '';
+  String phone = '';
   Future pickBgImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -69,27 +69,35 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
 
   Future getDetails() async {
     print('getdetails');
+    // setState(() {
+    //   firstName = "";
+    //   lastName = "";
+    //   email = "";
+    //   phone = "";
+    // });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonDetails =
         jsonDecode(sharedPreferences.getString('user')!);
     var user = UserDetailsModel.fromJson(jsonDetails);
     if (jsonDetails.isNotEmpty) {
-      //print(user?.firstName);
+      print(user.firstName);
       // print(user.email);
       setState(() {
-        firstName = user.firstName;
-        lastName = user.lastName;
-        email = user.email;
-        phone = user.phone;
+        firstName = user.firstName.toString();
+        lastName = user.lastName.toString();
+        email = user.email.toString();
+        phone = user.phone.toString();
       });
 
-      // print(firstName);
+      
       //set the sharedPreferences saved data to TextField
       // _name.value =  TextEditingValue(text: user.name);
       // _email.value =  TextEditingValue(text: user.email);
       // _phone.value =  TextEditingValue(text: user.phone);
     }
     // print(user.firstName);
+    print('hello');
+    print(firstName);
   }
 
   @override
@@ -188,13 +196,13 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                 child: Column(
                   children: [
                     prefixInputField(_focusNodes[0], _controller,
-                        "assets/images/person.png", "Firstname", firstName!),
+                        "assets/images/person.png", "Firstname", firstName),
                     const SizedBox(height: 12),
                     prefixInputField(_focusNodes[1], _controller,
-                        "assets/images/person.png", "Lastname", lastName ?? ""),
+                        "assets/images/person.png", "Lastname", lastName),
                     const SizedBox(height: 12),
                     prefixInputField(_focusNodes[2], _controller,
-                        "assets/images/email.png", "Email", email ?? ""),
+                        "assets/images/email.png", "Email", email),
                     const SizedBox(height: 12),
                     prefixInputField(
                         _focusNodes[3],
