@@ -19,6 +19,10 @@ scalar Upload
 type QueryRoot {
   getUserLsps(user_id: String!): [UserLspMap]
   allCatMain(lsp_ids: [String], searchText: String): [CatMain]
+  allSubCatMain(lsp_ids: [String], searchText: String): [SubCatMain]
+  allSubCatByCatId(catId: String): [SubCatMain]
+  getUserOrganizations(user_id: String!): [UserOrganizationMap]
+  getUserOrgDetails(user_id: String!, user_lsp_id: String!): UserOrganizationMap
 }
 
 type User {
@@ -50,6 +54,21 @@ type UserLspMap {
   updated_at: String!
 }
 
+
+type UserOrganizationMap {
+  user_organization_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  organization_id: String!
+  organization_role: String!
+  is_active: Boolean!
+  employee_id: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
 type CatMain {
   id: ID
   Name: String
@@ -62,3 +81,19 @@ type CatMain {
   UpdatedBy: String
   IsActive : Boolean
 }
+
+type SubCatMain {
+  id: ID
+  Name: String
+  Description: String
+  ImageUrl: String
+  Code: String
+  CatId: String
+  CreatedAt: String
+  UpdatedAt: String
+  CreatedBy: String
+  UpdatedBy: String
+  IsActive : Boolean
+}
+
+

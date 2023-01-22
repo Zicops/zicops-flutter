@@ -6,6 +6,10 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:zicops/views/screens/account_setup/models/category.dart';
 import 'package:zicops/views/screens/home/home.dart';
 
+import '../../../graphql_api.graphql.dart';
+import '../../../main.dart';
+import '../../../models/user/user_account_profile_pref.dart';
+import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 
 class PreferencesTabScreen extends StatefulWidget {
@@ -23,6 +27,53 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
   final TextEditingController _searchController = TextEditingController();
   late final PanelController _panelController;
   bool openSubCatModal = false;
+
+  bool isLoading = false;
+  List<AllCatMainModel> catMainList = [];
+  Future catMainLoading() async {
+
+
+    setState(() {
+      isLoading = true;
+    });
+    final allCatMainResult = await courseQClient.client()?.execute(
+        AllCatMainQuery(
+            variables: AllCatMainArguments(
+                lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
+
+    //print(result?.data?.allCatMain![4]?.name);
+
+    final subCatMainResult = await courseQClient.client()?.execute(
+        AllSubCatMainQuery(
+            variables: AllSubCatMainArguments(
+                lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
+
+    for (int e in subCatMainResult?.data?.allSubCatMain!.asMap().keys ?? []) {
+      print(subCatMainResult?.data?.allSubCatMain![e]?.catId);
+    }
+
+    for (int i in allCatMainResult?.data?.allCatMain!.asMap().keys ?? []) {
+      //await Future.delayed(Duration(seconds: 1));
+      setState(() {
+        catMainList.add(
+          AllCatMainModel(
+            allCatMainResult?.data?.allCatMain![i]?.id,
+            allCatMainResult?.data?.allCatMain![i]?.name,
+            allCatMainResult?.data?.allCatMain![i]?.description,
+            allCatMainResult?.data?.allCatMain![i]?.imageUrl,
+            allCatMainResult?.data?.allCatMain![i]?.code,
+            allCatMainResult?.data?.allCatMain![i]?.createdAt,
+            allCatMainResult?.data?.allCatMain![i]?.updatedAt,
+            allCatMainResult?.data?.allCatMain![i]?.isActive,
+          ),
+        );
+      });
+      print(catMainList[i]?.name);
+      i++;
+    }
+    //print(result?.data.toString());
+    //print('object');
+  }
 
   List<Category> categories = [
     Category(0, "Finance & Accounting", null),
@@ -119,6 +170,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
       // showModal(500);
     });
     filteredCategories = categories;
+    catMainLoading();
   }
 
   @override
@@ -250,7 +302,8 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                   )),
               footer: Container(
                   width: width,
-                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                  padding:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                   child: Row(
                     children: [
                       selectedSubCategories.length == 5

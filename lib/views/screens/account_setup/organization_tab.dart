@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zicops/views/widgets/PrefixInputField.dart';
 
+import '../../../graphql_api.graphql.dart';
+import '../../../main.dart';
 import '../../../utils/colors.dart';
 
 class OrganizationTabScreen extends StatefulWidget {
@@ -14,6 +16,21 @@ class OrganizationTabScreen extends StatefulWidget {
 }
 
 class _OrganizationTabScreen extends State<OrganizationTabScreen> {
+  bool isloading = false;
+
+  Future orgLoading() async {
+    setState(() {
+      isloading = true;
+    });
+    final orgResuts =
+        await userClient.client()?.execute(GetUserOrganizationsQuery(variables: GetUserOrganizationsArguments(
+          userId:'YW5zaGpvc2hpMDYwN0BnbWFpbC5jb20='
+        )));
+    print(orgResuts?.data?.getUserOrganizations.toString());
+
+  }
+
+
   TextEditingController _controller = TextEditingController();
   final List<FocusNode> _focusNodes = [
     FocusNode(),
@@ -29,6 +46,7 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
       node.addListener(() {
         setState(() {});
       });
+      orgLoading();
     }
     super.initState();
   }

@@ -1,3 +1,41 @@
+
+
+query getUserLsps($userId: ID!) {
+  getUserLsps(user_id: $userId) {
+    ...UserLspFragment
+  }
+}
+
+query getUserOrganizations($userId: String!) {
+  getUserOrganizations(user_id: $userId) {
+    ...UserOrganizationFragment
+  }
+}
+
+query getUserOrgDetails($userId: String!) {
+  getUserOrgDetails(user_id: $userId) {
+    ...UserOrganizationFragment
+  }
+}
+
+query allCatMain($lsp_ids: [String],$searchText: String) {
+    allCatMain(lsp_ids: $lsp_ids, searchText: $searchText) {
+      ...allCatMainFragment
+      }
+}
+
+query allSubCatMain($lsp_ids: [String], $searchText: String){
+    allSubCatMain(lsp_ids: $lsp_ids, searchText: $searchText) {
+      ...allSubCatMainFragment
+    }
+}
+query allSubCatByCatId($catId: String){
+    allSubCatByCatId(catId: $catId) {
+      ...allSubCatMainFragment
+    }
+}
+
+
 fragment UserLspFragment on UserLspMap {
   user_lsp_id
   user_id
@@ -7,12 +45,6 @@ fragment UserLspFragment on UserLspMap {
   updated_at
   created_by
   updated_by
-}
-
-query getUserLsps($userId: ID!) {
-  getUserLsps(id: $userId) {
-    ...UserLspFragment
-  }
 }
 
 fragment UserFragment on User {
@@ -53,12 +85,20 @@ mutation login {
   }
 }
 
+fragment UserOrganizationFragment on UserOrganizationMap {
+  user_organization_id
+  user_id
+  user_lsp_id
+  organization_id
+  organization_role
+  is_active
+  employee_id
+  created_by
+  updated_by
+  created_at
+  updated_at
+}
 
-query allCatMain($lsp_ids: [String],$searchText: String) {
-    allCatMain(lsp_ids: $lsp_ids, searchText: $searchText) {
-      ...allCatMainFragment
-      }
-    }
 
 
 fragment allCatMainFragment on CatMain {
@@ -67,6 +107,20 @@ fragment allCatMainFragment on CatMain {
   Description
   ImageUrl
   Code
+  CreatedAt
+  UpdatedAt
+  CreatedBy
+  UpdatedBy
+  IsActive
+}
+
+fragment allSubCatMainFragment on SubCatMain {
+  id
+  Name
+  Description
+  ImageUrl
+  Code
+  CatId
   CreatedAt
   UpdatedAt
   CreatedBy
