@@ -96,6 +96,90 @@ mixin AllSubCatMainFragmentMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class UpdateUser$MutationRoot$User extends JsonSerializable
+    with EquatableMixin {
+  UpdateUser$MutationRoot$User();
+
+  factory UpdateUser$MutationRoot$User.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUser$MutationRoot$UserFromJson(json);
+
+  String? id;
+
+  @JsonKey(name: 'first_name')
+  late String firstName;
+
+  @JsonKey(name: 'last_name')
+  late String lastName;
+
+  late String status;
+
+  late String role;
+
+  @JsonKey(name: 'is_verified')
+  late bool isVerified;
+
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+
+  late String gender;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+
+  late String email;
+
+  late String phone;
+
+  @JsonKey(name: 'photo_url')
+  String? photoUrl;
+
+  @override
+  List<Object?> get props => [
+        id,
+        firstName,
+        lastName,
+        status,
+        role,
+        isVerified,
+        isActive,
+        gender,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt,
+        email,
+        phone,
+        photoUrl
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateUser$MutationRoot$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUser$MutationRoot extends JsonSerializable with EquatableMixin {
+  UpdateUser$MutationRoot();
+
+  factory UpdateUser$MutationRoot.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUser$MutationRootFromJson(json);
+
+  UpdateUser$MutationRoot$User? updateUser;
+
+  @override
+  List<Object?> get props => [updateUser];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateUser$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetUserLsps$QueryRoot$UserLspMap extends JsonSerializable
     with EquatableMixin, UserLspFragmentMixin {
   GetUserLsps$QueryRoot$UserLspMap();
@@ -431,6 +515,344 @@ class Login$MutationRoot extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [login];
   @override
   Map<String, dynamic> toJson() => _$Login$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserArguments extends JsonSerializable with EquatableMixin {
+  UpdateUserArguments({
+    this.id,
+    required this.first_name,
+    required this.last_name,
+    required this.status,
+    required this.role,
+    required this.is_verified,
+    required this.is_active,
+    required this.gender,
+    required this.email,
+    required this.phone,
+  });
+
+  @override
+  factory UpdateUserArguments.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserArgumentsFromJson(json);
+
+  final String? id;
+
+  late String first_name;
+
+  late String last_name;
+
+  late String status;
+
+  late String role;
+
+  late bool is_verified;
+
+  late bool is_active;
+
+  late String gender;
+
+  late String email;
+
+  late String phone;
+
+  @override
+  List<Object?> get props => [
+        id,
+        first_name,
+        last_name,
+        status,
+        role,
+        is_verified,
+        is_active,
+        gender,
+        email,
+        phone
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateUserArgumentsToJson(this);
+}
+
+final UPDATE_USER_MUTATION_DOCUMENT_OPERATION_NAME = 'updateUser';
+final UPDATE_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'updateUser'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'first_name')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'last_name')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'status')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'role')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'is_verified')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'is_active')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'gender')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'email')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'phone')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateUser'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'id'),
+                value: VariableNode(name: NameNode(value: 'id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'first_name'),
+                value: VariableNode(name: NameNode(value: 'first_name')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'last_name'),
+                value: VariableNode(name: NameNode(value: 'last_name')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'status'),
+                value: VariableNode(name: NameNode(value: 'status')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'role'),
+                value: VariableNode(name: NameNode(value: 'role')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_verified'),
+                value: VariableNode(name: NameNode(value: 'is_verified')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_active'),
+                value: VariableNode(name: NameNode(value: 'is_active')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'gender'),
+                value: VariableNode(name: NameNode(value: 'gender')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'email'),
+                value: VariableNode(name: NameNode(value: 'email')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'phone'),
+                value: VariableNode(name: NameNode(value: 'phone')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'first_name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'last_name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'role'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_verified'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'gender'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'email'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'phone'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'photo_url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class UpdateUserMutation
+    extends GraphQLQuery<UpdateUser$MutationRoot, UpdateUserArguments> {
+  UpdateUserMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UPDATE_USER_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = UPDATE_USER_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final UpdateUserArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UpdateUser$MutationRoot parse(Map<String, dynamic> json) =>
+      UpdateUser$MutationRoot.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

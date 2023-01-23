@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zicops/graphql_api.graphql.dart';
+import 'package:zicops/main.dart';
 
 import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
@@ -27,6 +29,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
   String lastName = '';
   String email = '';
   String phone = '';
+  String id = "";
   Future pickBgImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -69,12 +72,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
 
   Future getDetails() async {
     print('getdetails');
-    // setState(() {
-    //   firstName = "";
-    //   lastName = "";
-    //   email = "";
-    //   phone = "";
-    // });
+
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonDetails =
         jsonDecode(sharedPreferences.getString('user')!);
@@ -83,13 +81,13 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
       print(user.firstName);
       // print(user.email);
       setState(() {
+        id = user.id.toString();
         firstName = user.firstName.toString();
         lastName = user.lastName.toString();
         email = user.email.toString();
         phone = user.phone.toString();
       });
 
-      
       //set the sharedPreferences saved data to TextField
       // _name.value =  TextEditingValue(text: user.name);
       // _email.value =  TextEditingValue(text: user.email);
@@ -209,10 +207,27 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                         _controller,
                         "assets/images/phone.png",
                         "+91| Contact Number",
-                        phone ?? ""),
+                        phone),
                     const SizedBox(height: 12),
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        print('hello');
+                        final res = await userClient.client()?.execute(
+                            UpdateUserMutation(
+                                variables: UpdateUserArguments(
+                                    id: id,
+                                    first_name: firstName,
+                                    last_name: lastName,
+                                    status: "active",
+                                    role: 'admin',
+                                    is_verified: true,
+                                    is_active: true,
+                                    gender: 'male',
+                                    email: email,
+                                    phone: phone)));
+
+                        print(res?.data?.toJson());
+                        return;
                         widget.changeTab();
                       },
                       child: Container(

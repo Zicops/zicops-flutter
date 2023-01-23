@@ -7,6 +7,59 @@ part of 'graphql_api.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+UpdateUser$MutationRoot$User _$UpdateUser$MutationRoot$UserFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUser$MutationRoot$User()
+      ..id = json['id'] as String?
+      ..firstName = json['first_name'] as String
+      ..lastName = json['last_name'] as String
+      ..status = json['status'] as String
+      ..role = json['role'] as String
+      ..isVerified = json['is_verified'] as bool
+      ..isActive = json['is_active'] as bool
+      ..gender = json['gender'] as String
+      ..createdBy = json['created_by'] as String?
+      ..updatedBy = json['updated_by'] as String?
+      ..createdAt = json['created_at'] as String
+      ..updatedAt = json['updated_at'] as String
+      ..email = json['email'] as String
+      ..phone = json['phone'] as String
+      ..photoUrl = json['photo_url'] as String?;
+
+Map<String, dynamic> _$UpdateUser$MutationRoot$UserToJson(
+        UpdateUser$MutationRoot$User instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'first_name': instance.firstName,
+      'last_name': instance.lastName,
+      'status': instance.status,
+      'role': instance.role,
+      'is_verified': instance.isVerified,
+      'is_active': instance.isActive,
+      'gender': instance.gender,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'email': instance.email,
+      'phone': instance.phone,
+      'photo_url': instance.photoUrl,
+    };
+
+UpdateUser$MutationRoot _$UpdateUser$MutationRootFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUser$MutationRoot()
+      ..updateUser = json['updateUser'] == null
+          ? null
+          : UpdateUser$MutationRoot$User.fromJson(
+              json['updateUser'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$UpdateUser$MutationRootToJson(
+        UpdateUser$MutationRoot instance) =>
+    <String, dynamic>{
+      'updateUser': instance.updateUser?.toJson(),
+    };
+
 GetUserLsps$QueryRoot$UserLspMap _$GetUserLsps$QueryRoot$UserLspMapFromJson(
         Map<String, dynamic> json) =>
     GetUserLsps$QueryRoot$UserLspMap()
@@ -333,6 +386,35 @@ Login$MutationRoot _$Login$MutationRootFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$Login$MutationRootToJson(Login$MutationRoot instance) =>
     <String, dynamic>{
       'login': instance.login?.toJson(),
+    };
+
+UpdateUserArguments _$UpdateUserArgumentsFromJson(Map<String, dynamic> json) =>
+    UpdateUserArguments(
+      id: json['id'] as String?,
+      first_name: json['first_name'] as String,
+      last_name: json['last_name'] as String,
+      status: json['status'] as String,
+      role: json['role'] as String,
+      is_verified: json['is_verified'] as bool,
+      is_active: json['is_active'] as bool,
+      gender: json['gender'] as String,
+      email: json['email'] as String,
+      phone: json['phone'] as String,
+    );
+
+Map<String, dynamic> _$UpdateUserArgumentsToJson(
+        UpdateUserArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'first_name': instance.first_name,
+      'last_name': instance.last_name,
+      'status': instance.status,
+      'role': instance.role,
+      'is_verified': instance.is_verified,
+      'is_active': instance.is_active,
+      'gender': instance.gender,
+      'email': instance.email,
+      'phone': instance.phone,
     };
 
 GetUserLspsArguments _$GetUserLspsArgumentsFromJson(

@@ -5,6 +5,7 @@ schema {
 
 type MutationRoot {
   login: User
+  updateUser(input: UserInput!): User
 }
 
 # ISO 8601 combined date and time without timezone.
@@ -22,6 +23,24 @@ type QueryRoot {
   allSubCatByCatId(catId: String): [SubCatMain]
   getUserOrganizations(user_id: String!): [UserOrganizationMap]
   getUserOrgDetails(user_id: String!, user_lsp_id: String!): UserOrganizationMap
+}
+
+
+input UserInput {
+  id: ID
+  first_name: String!
+  last_name: String!
+  status: String!
+  role: String!
+  is_verified: Boolean!
+  is_active: Boolean!
+  gender: String!
+  created_by: String
+  updated_by: String
+  email: String!
+  phone: String!
+  Photo: Upload
+  photo_url: String
 }
 
 type User {
