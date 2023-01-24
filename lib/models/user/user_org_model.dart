@@ -1,5 +1,4 @@
-class UserOrganizationModel{
-
+class UserOrganizationModel {
   String? userOrganizationId;
   String? userId;
   String? userLspId;
@@ -7,24 +6,16 @@ class UserOrganizationModel{
   String? organizationRole;
   bool? isActive;
   String? employeeId;
-  String? createdBy;
-  String? updatedBy;
-  String? createdAt;
-  String? updatedAt;
 
   UserOrganizationModel(
-      this.userOrganizationId,
-      this.userId,
-      this.userLspId,
-      this.organizationId,
-      this.organizationRole,
-      this.isActive,
-      this.employeeId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      );
+    this.userOrganizationId,
+    this.userId,
+    this.userLspId,
+    this.organizationId,
+    this.organizationRole,
+    this.isActive,
+    this.employeeId,
+  );
 
   UserOrganizationModel.fromJson(Map<String, dynamic> json)
       : userOrganizationId = json['id'],
@@ -33,25 +24,15 @@ class UserOrganizationModel{
         organizationId = json['organization_id'],
         organizationRole = json['organization_role'],
         isActive = json['is_active'],
-        employeeId = json['employee_id'],
-        createdBy = json['created_by'],
-        updatedBy = json['updated_by'],
-        createdAt = json['created_at'],
-        updatedAt = json['updated_at'];
+        employeeId = json['employee_id'];
 
   Map<String, dynamic> toJson() => {
-    'userOrganizationId': userOrganizationId,
-    'userId': userId,
-    'userLspId': userLspId,
-    'organizationId': organizationId,
-    'organizationRole': organizationRole,
-    'isActive': isActive,
-    'employeeId': employeeId,
-    'createdBy': createdBy,
-    'updatedBy': updatedBy,
-    'createdAt': createdAt,
-    'updatedAt': updatedAt,
-  };
-
+        'userOrganizationId': userOrganizationId,
+        'userId': userId,
+        'userLspId': userLspId,
+        'organizationId': organizationId,
+        'organizationRole': organizationRole,
+        'isActive': isActive,
+        'employeeId': employeeId,
+      };
 }
-

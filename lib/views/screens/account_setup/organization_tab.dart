@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/views/widgets/PrefixInputField.dart';
 
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
+import '../../../models/user/user_details_model.dart';
+import '../../../models/user/user_org_model.dart';
 import '../../../utils/colors.dart';
 
 class OrganizationTabScreen extends StatefulWidget {
@@ -17,16 +22,61 @@ class OrganizationTabScreen extends StatefulWidget {
 
 class _OrganizationTabScreen extends State<OrganizationTabScreen> {
   bool isloading = false;
+  String userId = '';
 
   Future orgLoading() async {
     setState(() {
       isloading = true;
     });
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> jsonDetails =
+        jsonDecode(sharedPreferences.getString('user')!);
+    var user = UserDetailsModel.fromJson(jsonDetails);
+    if (jsonDetails.isNotEmpty) {
+      setState(() {
+        userId = user.id!;
+      });
+    }
+    print(userId);
+    final lspResult = await userClient.client()?.execute(
+          GetUserLspsQuery(
+            variables: GetUserLspsArguments(userId: userId),
+          ),
+        );
+    print('hello lsp');
+    print(lspResult?.data?.getUserLsps.toString());
     final orgResuts = await userClient.client()?.execute(
         GetUserOrganizationsQuery(
-            variables: GetUserOrganizationsArguments(
-                userId: 'YW5zaGpvc2hpMDYwN0BnbWFpbC5jb20=')));
+            variables: GetUserOrganizationsArguments(userId: userId)));
     print(orgResuts?.data?.getUserOrganizations.toString());
+    final orgResultsone = await userClient.client()?.execute(
+          GetUserOrgDetailsQuery(
+            variables: GetUserOrgDetailsArguments(
+                userId: userId,
+                user_lsp_id: '5ad1d5ef-9f5f-4ce1-b521-45ca7e49cf30'),
+          ),
+        );
+    //print(orgResultsone?.data?.getUserOrgDetails?.organizationRole.toString());
+    UserOrganizationModel userOrganizationModel = UserOrganizationModel(
+      orgResultsone?.data?.getUserOrgDetails?.userOrganizationId.toString(),
+      orgResultsone?.data?.getUserOrgDetails?.userId.toString(),
+      orgResultsone?.data?.getUserOrgDetails?.userLspId.toString(),
+      orgResultsone?.data?.getUserOrgDetails?.organizationId.toString(),
+      orgResultsone?.data?.getUserOrgDetails?.organizationRole.toString(),
+      orgResultsone?.data?.getUserOrgDetails?.isActive,
+      orgResultsone?.data?.getUserOrgDetails?.employeeId.toString(),
+    );
+
+    final orgResults = await userClient.client()?.execute(
+          GetUserOrganizationsQuery(
+            variables: GetUserOrganizationsArguments(userId: userId),
+          ),
+        );
+
+    // UserOrganizationModel userOrganizationModel= UserOrganizationModel(
+    //   //orgResults?.data?.getUserOrganizations?.u
+    // );
+    //  print(orgResults?.data?.getUserOrganizations.toString());
   }
 
   TextEditingController _controller = TextEditingController();

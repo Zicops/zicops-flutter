@@ -6,6 +6,10 @@ schema {
 type MutationRoot {
   login: User
   updateUser(input: UserInput!): User
+  addUserOrganizationMap(input: UserOrganizationMapInput!): UserOrganizationMap
+  updateUserOrganizationMap(input: UserOrganizationMapInput!): UserOrganizationMap
+  addUserPreference(input: [UserPreferenceInput]!): [UserPreference]
+  updateUserPreference(input: UserPreferenceInput!): UserPreference
 }
 
 # ISO 8601 combined date and time without timezone.
@@ -18,27 +22,14 @@ scalar Upload
 
 type QueryRoot {
   getUserLsps(user_id: String!): [UserLspMap]
+  getUserLspByLspId(user_id: String!, lsp_id: String!): UserLspMap
+  getUserOrganizations(user_id: String!): [UserOrganizationMap]
+  getUserOrgDetails(user_id: String!, user_lsp_id: String!): UserOrganizationMap
   allCatMain(lsp_ids: [String], searchText: String): [CatMain]
   allSubCatMain(lsp_ids: [String], searchText: String): [SubCatMain]
   allSubCatByCatId(catId: String): [SubCatMain]
-  getUserOrganizations(user_id: String!): [UserOrganizationMap]
-  getUserOrgDetails(user_id: String!, user_lsp_id: String!): UserOrganizationMap
-}
-
-
-input UserInput {
-  id: ID
-  first_name: String!
-  last_name: String!
-  status: String!
-  role: String!
-  is_verified: Boolean!
-  is_active: Boolean!
-  gender: String!
-  email: String!
-  phone: String!
-  Photo: Upload
-  photo_url: String
+  getUserPreferences(user_id: String!): [UserPreference]
+  getUserPreferenceForLsp(user_id: String!,user_lsp_id: String!): UserPreference
 }
 
 type User {
@@ -59,6 +50,29 @@ type User {
   photo_url: String
 }
 
+input UserInput {
+  id: ID
+  first_name: String!
+  last_name: String!
+  status: String!
+  role: String!
+  is_verified: Boolean!
+  is_active: Boolean!
+  gender: String!
+  email: String!
+  phone: String!
+  Photo: Upload
+  photo_url: String
+}
+
+input UserLspMapInput {
+  user_lsp_id: ID
+  user_id: String!
+  lsp_id: String!
+  status: String!
+  created_by: String
+  updated_by: String
+}
 type UserLspMap {
   user_lsp_id: ID
   user_id: String!
@@ -70,6 +84,17 @@ type UserLspMap {
   updated_at: String!
 }
 
+input UserOrganizationMapInput {
+  user_organization_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  organization_id: String!
+  organization_role: String!
+  is_active: Boolean!
+  employee_id: String!
+  created_by: String
+  updated_by: String
+}
 
 type UserOrganizationMap {
   user_organization_id: ID
@@ -79,6 +104,50 @@ type UserOrganizationMap {
   organization_role: String!
   is_active: Boolean!
   employee_id: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+input UserLanguageMapInput {
+  user_id: String!
+  user_lsp_id: String!
+  language: String!
+  is_base_language: Boolean!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+}
+type UserLanguageMap {
+  user_language_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  language: String!
+  is_base_language: Boolean!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+input UserPreferenceInput {
+  user_preference_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  sub_category: String!
+  is_base: Boolean!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+}
+type UserPreference {
+  user_preference_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  sub_category: String!
+  is_base: Boolean!
+  is_active: Boolean!
   created_by: String
   updated_by: String
   created_at: String!

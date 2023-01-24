@@ -41,3 +41,113 @@ mutation updateUser(
     photo_url
   }
 }
+mutation addUserOrganizationMap(
+   $user_organization_id: ID!
+   $user_id: String!
+   $user_lsp_id: String!
+   $organization_id: String!
+   $organization_role: String!
+   $is_active: Boolean!
+   $employee_id: String!
+){
+    addUserOrganizationMap(
+        input: {
+        user_organization_id: $user_organization_id
+        user_id: $user_id
+        user_lsp_id: $user_lsp_id
+        organization_id: $organization_id
+        organization_role: $organization_role
+        is_active: $is_active
+        employee_id: $employee_id
+        }
+    ) {
+        user_organization_id
+        user_id
+        user_lsp_id
+        organization_id
+        organization_role
+        is_active
+        employee_id
+    }
+}
+mutation updateUserOrganizationMap(
+    $user_organization_id: ID!
+    $user_id: String!
+    $user_lsp_id: String!
+    $organization_id: String!
+    $organization_role: String!
+    $is_active: Boolean!
+    $employee_id: String!
+){
+    updateUserOrganizationMap(
+        input: {
+        user_organization_id: $user_organization_id
+        user_id: $user_id
+        user_lsp_id: $user_lsp_id
+        organization_id: $organization_id
+        organization_role: $organization_role
+        is_active: $is_active
+        employee_id: $employee_id
+        }
+    ) {
+        user_organization_id
+        user_id
+        user_lsp_id
+        organization_id
+        organization_role
+        is_active
+        employee_id
+    }
+}
+mutation addUserPreference(
+    $user_preference_id: ID!
+    $user_id: String!
+    $user_lsp_id: String!
+    $preference_id: String!
+    $preference_value: String!
+    $is_active: Boolean!
+){
+    addUserPreference(
+        input: {
+            user_preference_id: $user_preference_id
+            user_id: $user_id
+            user_lsp_id: $user_lsp_id
+            sub_category: $sub_category
+            is_base: $is_base
+            is_active: $is_active
+        }
+    ) {
+        user_preference_id
+        user_id
+        user_lsp_id
+        sub_category
+        is_base
+        is_active
+    }
+}
+mutation updateUserPreference(
+    $user_preference_id: ID!
+    $user_id: String!
+    $user_lsp_id: String!
+    $sub_category: String!
+    $is_base: Boolean!
+    $is_active: Boolean!
+){
+    updateUserPreference(
+        input: {
+        user_preference_id: $user_preference_id
+        user_id: $user_id
+        user_lsp_id: $user_lsp_id
+            sub_category: $sub_category
+        is_base: $is_base
+        is_active: $is_active
+        }
+    ) {
+        user_preference_id
+        user_id
+        user_lsp_id
+        sub_category
+        is_base
+        is_active
+    }
+}

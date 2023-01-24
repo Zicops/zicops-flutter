@@ -1,10 +1,17 @@
 
 
-query getUserLsps($userId: ID!) {
+query getUserLsps($userId: String!) {
   getUserLsps(user_id: $userId) {
     ...UserLspFragment
   }
 }
+
+query getUserLspByLspId($user_id: String!, $lsp_id: String!) {
+  getUserLspByLspId(user_id: $user_id, lsp_id: $lsp_id) {
+    ...UserLspFragment
+  }
+}
+
 
 query getUserOrganizations($userId: String!) {
   getUserOrganizations(user_id: $userId) {
@@ -12,8 +19,8 @@ query getUserOrganizations($userId: String!) {
   }
 }
 
-query getUserOrgDetails($userId: String!) {
-  getUserOrgDetails(user_id: $userId) {
+query getUserOrgDetails($userId: String!, $user_lsp_id: String!) {
+  getUserOrgDetails(user_id: $userId, user_lsp_id: $user_lsp_id) {
     ...UserOrganizationFragment
   }
 }
@@ -35,6 +42,16 @@ query allSubCatByCatId($catId: String){
     }
 }
 
+query getUserPreferences($userId: String!) {
+  getUserPreferences(user_id: $userId) {
+    ...UserPreferenceFragment
+  }
+}
+query getUserPreferenceForLsp($user_id: String!, $user_lsp_id: String!) {
+  getUserPreferenceForLsp(user_id: $user_id, user_lsp_id: $lsp_id) {
+    ...UserPreferenceFragment
+  }
+}
 
 fragment UserLspFragment on UserLspMap {
   user_lsp_id
@@ -128,3 +145,15 @@ fragment allSubCatMainFragment on SubCatMain {
   IsActive
 }
 
+fragment UserPreferenceFragment on UserPreference {
+  user_preference_id
+  user_id
+  user_lsp_id
+  sub_category
+  is_base
+  is_active
+  created_by
+  updated_by
+  created_at
+  updated_at
+}

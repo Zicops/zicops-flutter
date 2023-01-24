@@ -60,6 +60,163 @@ Map<String, dynamic> _$UpdateUser$MutationRootToJson(
       'updateUser': instance.updateUser?.toJson(),
     };
 
+AddUserOrganizationMap$MutationRoot$UserOrganizationMap
+    _$AddUserOrganizationMap$MutationRoot$UserOrganizationMapFromJson(
+            Map<String, dynamic> json) =>
+        AddUserOrganizationMap$MutationRoot$UserOrganizationMap()
+          ..userOrganizationId = json['user_organization_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..organizationId = json['organization_id'] as String
+          ..organizationRole = json['organization_role'] as String
+          ..isActive = json['is_active'] as bool
+          ..employeeId = json['employee_id'] as String;
+
+Map<String, dynamic>
+    _$AddUserOrganizationMap$MutationRoot$UserOrganizationMapToJson(
+            AddUserOrganizationMap$MutationRoot$UserOrganizationMap instance) =>
+        <String, dynamic>{
+          'user_organization_id': instance.userOrganizationId,
+          'user_id': instance.userId,
+          'user_lsp_id': instance.userLspId,
+          'organization_id': instance.organizationId,
+          'organization_role': instance.organizationRole,
+          'is_active': instance.isActive,
+          'employee_id': instance.employeeId,
+        };
+
+AddUserOrganizationMap$MutationRoot
+    _$AddUserOrganizationMap$MutationRootFromJson(Map<String, dynamic> json) =>
+        AddUserOrganizationMap$MutationRoot()
+          ..addUserOrganizationMap = json['addUserOrganizationMap'] == null
+              ? null
+              : AddUserOrganizationMap$MutationRoot$UserOrganizationMap
+                  .fromJson(
+                      json['addUserOrganizationMap'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$AddUserOrganizationMap$MutationRootToJson(
+        AddUserOrganizationMap$MutationRoot instance) =>
+    <String, dynamic>{
+      'addUserOrganizationMap': instance.addUserOrganizationMap?.toJson(),
+    };
+
+UpdateUserOrganizationMap$MutationRoot$UserOrganizationMap
+    _$UpdateUserOrganizationMap$MutationRoot$UserOrganizationMapFromJson(
+            Map<String, dynamic> json) =>
+        UpdateUserOrganizationMap$MutationRoot$UserOrganizationMap()
+          ..userOrganizationId = json['user_organization_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..organizationId = json['organization_id'] as String
+          ..organizationRole = json['organization_role'] as String
+          ..isActive = json['is_active'] as bool
+          ..employeeId = json['employee_id'] as String;
+
+Map<String,
+    dynamic> _$UpdateUserOrganizationMap$MutationRoot$UserOrganizationMapToJson(
+        UpdateUserOrganizationMap$MutationRoot$UserOrganizationMap instance) =>
+    <String, dynamic>{
+      'user_organization_id': instance.userOrganizationId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'organization_id': instance.organizationId,
+      'organization_role': instance.organizationRole,
+      'is_active': instance.isActive,
+      'employee_id': instance.employeeId,
+    };
+
+UpdateUserOrganizationMap$MutationRoot
+    _$UpdateUserOrganizationMap$MutationRootFromJson(
+            Map<String, dynamic> json) =>
+        UpdateUserOrganizationMap$MutationRoot()
+          ..updateUserOrganizationMap =
+              json['updateUserOrganizationMap'] == null
+                  ? null
+                  : UpdateUserOrganizationMap$MutationRoot$UserOrganizationMap
+                      .fromJson(json['updateUserOrganizationMap']
+                          as Map<String, dynamic>);
+
+Map<String, dynamic> _$UpdateUserOrganizationMap$MutationRootToJson(
+        UpdateUserOrganizationMap$MutationRoot instance) =>
+    <String, dynamic>{
+      'updateUserOrganizationMap': instance.updateUserOrganizationMap?.toJson(),
+    };
+
+AddUserPreference$MutationRoot$UserPreference
+    _$AddUserPreference$MutationRoot$UserPreferenceFromJson(
+            Map<String, dynamic> json) =>
+        AddUserPreference$MutationRoot$UserPreference()
+          ..userPreferenceId = json['user_preference_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..subCategory = json['sub_category'] as String
+          ..isBase = json['is_base'] as bool
+          ..isActive = json['is_active'] as bool;
+
+Map<String, dynamic> _$AddUserPreference$MutationRoot$UserPreferenceToJson(
+        AddUserPreference$MutationRoot$UserPreference instance) =>
+    <String, dynamic>{
+      'user_preference_id': instance.userPreferenceId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'sub_category': instance.subCategory,
+      'is_base': instance.isBase,
+      'is_active': instance.isActive,
+    };
+
+AddUserPreference$MutationRoot _$AddUserPreference$MutationRootFromJson(
+        Map<String, dynamic> json) =>
+    AddUserPreference$MutationRoot()
+      ..addUserPreference = (json['addUserPreference'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : AddUserPreference$MutationRoot$UserPreference.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$AddUserPreference$MutationRootToJson(
+        AddUserPreference$MutationRoot instance) =>
+    <String, dynamic>{
+      'addUserPreference':
+          instance.addUserPreference?.map((e) => e?.toJson()).toList(),
+    };
+
+UpdateUserPreference$MutationRoot$UserPreference
+    _$UpdateUserPreference$MutationRoot$UserPreferenceFromJson(
+            Map<String, dynamic> json) =>
+        UpdateUserPreference$MutationRoot$UserPreference()
+          ..userPreferenceId = json['user_preference_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..subCategory = json['sub_category'] as String
+          ..isBase = json['is_base'] as bool
+          ..isActive = json['is_active'] as bool;
+
+Map<String, dynamic> _$UpdateUserPreference$MutationRoot$UserPreferenceToJson(
+        UpdateUserPreference$MutationRoot$UserPreference instance) =>
+    <String, dynamic>{
+      'user_preference_id': instance.userPreferenceId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'sub_category': instance.subCategory,
+      'is_base': instance.isBase,
+      'is_active': instance.isActive,
+    };
+
+UpdateUserPreference$MutationRoot _$UpdateUserPreference$MutationRootFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserPreference$MutationRoot()
+      ..updateUserPreference = json['updateUserPreference'] == null
+          ? null
+          : UpdateUserPreference$MutationRoot$UserPreference.fromJson(
+              json['updateUserPreference'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$UpdateUserPreference$MutationRootToJson(
+        UpdateUserPreference$MutationRoot instance) =>
+    <String, dynamic>{
+      'updateUserPreference': instance.updateUserPreference?.toJson(),
+    };
+
 GetUserLsps$QueryRoot$UserLspMap _$GetUserLsps$QueryRoot$UserLspMapFromJson(
         Map<String, dynamic> json) =>
     GetUserLsps$QueryRoot$UserLspMap()
@@ -99,6 +256,46 @@ Map<String, dynamic> _$GetUserLsps$QueryRootToJson(
         GetUserLsps$QueryRoot instance) =>
     <String, dynamic>{
       'getUserLsps': instance.getUserLsps?.map((e) => e?.toJson()).toList(),
+    };
+
+GetUserLspByLspId$QueryRoot$UserLspMap
+    _$GetUserLspByLspId$QueryRoot$UserLspMapFromJson(
+            Map<String, dynamic> json) =>
+        GetUserLspByLspId$QueryRoot$UserLspMap()
+          ..userLspId = json['user_lsp_id'] as String?
+          ..userId = json['user_id'] as String
+          ..lspId = json['lsp_id'] as String
+          ..status = json['status'] as String
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?;
+
+Map<String, dynamic> _$GetUserLspByLspId$QueryRoot$UserLspMapToJson(
+        GetUserLspByLspId$QueryRoot$UserLspMap instance) =>
+    <String, dynamic>{
+      'user_lsp_id': instance.userLspId,
+      'user_id': instance.userId,
+      'lsp_id': instance.lspId,
+      'status': instance.status,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+    };
+
+GetUserLspByLspId$QueryRoot _$GetUserLspByLspId$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetUserLspByLspId$QueryRoot()
+      ..getUserLspByLspId = json['getUserLspByLspId'] == null
+          ? null
+          : GetUserLspByLspId$QueryRoot$UserLspMap.fromJson(
+              json['getUserLspByLspId'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetUserLspByLspId$QueryRootToJson(
+        GetUserLspByLspId$QueryRoot instance) =>
+    <String, dynamic>{
+      'getUserLspByLspId': instance.getUserLspByLspId?.toJson(),
     };
 
 GetUserOrganizations$QueryRoot$UserOrganizationMap
@@ -337,6 +534,97 @@ Map<String, dynamic> _$AllSubCatByCatId$QueryRootToJson(
           instance.allSubCatByCatId?.map((e) => e?.toJson()).toList(),
     };
 
+GetUserPreferences$QueryRoot$UserPreference
+    _$GetUserPreferences$QueryRoot$UserPreferenceFromJson(
+            Map<String, dynamic> json) =>
+        GetUserPreferences$QueryRoot$UserPreference()
+          ..userPreferenceId = json['user_preference_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..subCategory = json['sub_category'] as String
+          ..isBase = json['is_base'] as bool
+          ..isActive = json['is_active'] as bool
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic> _$GetUserPreferences$QueryRoot$UserPreferenceToJson(
+        GetUserPreferences$QueryRoot$UserPreference instance) =>
+    <String, dynamic>{
+      'user_preference_id': instance.userPreferenceId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'sub_category': instance.subCategory,
+      'is_base': instance.isBase,
+      'is_active': instance.isActive,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+GetUserPreferences$QueryRoot _$GetUserPreferences$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetUserPreferences$QueryRoot()
+      ..getUserPreferences = (json['getUserPreferences'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : GetUserPreferences$QueryRoot$UserPreference.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetUserPreferences$QueryRootToJson(
+        GetUserPreferences$QueryRoot instance) =>
+    <String, dynamic>{
+      'getUserPreferences':
+          instance.getUserPreferences?.map((e) => e?.toJson()).toList(),
+    };
+
+GetUserPreferenceForLsp$QueryRoot$UserPreference
+    _$GetUserPreferenceForLsp$QueryRoot$UserPreferenceFromJson(
+            Map<String, dynamic> json) =>
+        GetUserPreferenceForLsp$QueryRoot$UserPreference()
+          ..userPreferenceId = json['user_preference_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..subCategory = json['sub_category'] as String
+          ..isBase = json['is_base'] as bool
+          ..isActive = json['is_active'] as bool
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic> _$GetUserPreferenceForLsp$QueryRoot$UserPreferenceToJson(
+        GetUserPreferenceForLsp$QueryRoot$UserPreference instance) =>
+    <String, dynamic>{
+      'user_preference_id': instance.userPreferenceId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'sub_category': instance.subCategory,
+      'is_base': instance.isBase,
+      'is_active': instance.isActive,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+GetUserPreferenceForLsp$QueryRoot _$GetUserPreferenceForLsp$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetUserPreferenceForLsp$QueryRoot()
+      ..getUserPreferenceForLsp = json['getUserPreferenceForLsp'] == null
+          ? null
+          : GetUserPreferenceForLsp$QueryRoot$UserPreference.fromJson(
+              json['getUserPreferenceForLsp'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetUserPreferenceForLsp$QueryRootToJson(
+        GetUserPreferenceForLsp$QueryRoot instance) =>
+    <String, dynamic>{
+      'getUserPreferenceForLsp': instance.getUserPreferenceForLsp?.toJson(),
+    };
+
 Login$MutationRoot$User _$Login$MutationRoot$UserFromJson(
         Map<String, dynamic> json) =>
     Login$MutationRoot$User()
@@ -417,6 +705,98 @@ Map<String, dynamic> _$UpdateUserArgumentsToJson(
       'phone': instance.phone,
     };
 
+AddUserOrganizationMapArguments _$AddUserOrganizationMapArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    AddUserOrganizationMapArguments(
+      user_organization_id: json['user_organization_id'] as String,
+      user_id: json['user_id'] as String,
+      user_lsp_id: json['user_lsp_id'] as String,
+      organization_id: json['organization_id'] as String,
+      organization_role: json['organization_role'] as String,
+      is_active: json['is_active'] as bool,
+      employee_id: json['employee_id'] as String,
+    );
+
+Map<String, dynamic> _$AddUserOrganizationMapArgumentsToJson(
+        AddUserOrganizationMapArguments instance) =>
+    <String, dynamic>{
+      'user_organization_id': instance.user_organization_id,
+      'user_id': instance.user_id,
+      'user_lsp_id': instance.user_lsp_id,
+      'organization_id': instance.organization_id,
+      'organization_role': instance.organization_role,
+      'is_active': instance.is_active,
+      'employee_id': instance.employee_id,
+    };
+
+UpdateUserOrganizationMapArguments _$UpdateUserOrganizationMapArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserOrganizationMapArguments(
+      user_organization_id: json['user_organization_id'] as String,
+      user_id: json['user_id'] as String,
+      user_lsp_id: json['user_lsp_id'] as String,
+      organization_id: json['organization_id'] as String,
+      organization_role: json['organization_role'] as String,
+      is_active: json['is_active'] as bool,
+      employee_id: json['employee_id'] as String,
+    );
+
+Map<String, dynamic> _$UpdateUserOrganizationMapArgumentsToJson(
+        UpdateUserOrganizationMapArguments instance) =>
+    <String, dynamic>{
+      'user_organization_id': instance.user_organization_id,
+      'user_id': instance.user_id,
+      'user_lsp_id': instance.user_lsp_id,
+      'organization_id': instance.organization_id,
+      'organization_role': instance.organization_role,
+      'is_active': instance.is_active,
+      'employee_id': instance.employee_id,
+    };
+
+AddUserPreferenceArguments _$AddUserPreferenceArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    AddUserPreferenceArguments(
+      user_preference_id: json['user_preference_id'] as String,
+      user_id: json['user_id'] as String,
+      user_lsp_id: json['user_lsp_id'] as String,
+      preference_id: json['preference_id'] as String,
+      preference_value: json['preference_value'] as String,
+      is_active: json['is_active'] as bool,
+    );
+
+Map<String, dynamic> _$AddUserPreferenceArgumentsToJson(
+        AddUserPreferenceArguments instance) =>
+    <String, dynamic>{
+      'user_preference_id': instance.user_preference_id,
+      'user_id': instance.user_id,
+      'user_lsp_id': instance.user_lsp_id,
+      'preference_id': instance.preference_id,
+      'preference_value': instance.preference_value,
+      'is_active': instance.is_active,
+    };
+
+UpdateUserPreferenceArguments _$UpdateUserPreferenceArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserPreferenceArguments(
+      user_preference_id: json['user_preference_id'] as String,
+      user_id: json['user_id'] as String,
+      user_lsp_id: json['user_lsp_id'] as String,
+      sub_category: json['sub_category'] as String,
+      is_base: json['is_base'] as bool,
+      is_active: json['is_active'] as bool,
+    );
+
+Map<String, dynamic> _$UpdateUserPreferenceArgumentsToJson(
+        UpdateUserPreferenceArguments instance) =>
+    <String, dynamic>{
+      'user_preference_id': instance.user_preference_id,
+      'user_id': instance.user_id,
+      'user_lsp_id': instance.user_lsp_id,
+      'sub_category': instance.sub_category,
+      'is_base': instance.is_base,
+      'is_active': instance.is_active,
+    };
+
 GetUserLspsArguments _$GetUserLspsArgumentsFromJson(
         Map<String, dynamic> json) =>
     GetUserLspsArguments(
@@ -427,6 +807,20 @@ Map<String, dynamic> _$GetUserLspsArgumentsToJson(
         GetUserLspsArguments instance) =>
     <String, dynamic>{
       'userId': instance.userId,
+    };
+
+GetUserLspByLspIdArguments _$GetUserLspByLspIdArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetUserLspByLspIdArguments(
+      user_id: json['user_id'] as String,
+      lsp_id: json['lsp_id'] as String,
+    );
+
+Map<String, dynamic> _$GetUserLspByLspIdArgumentsToJson(
+        GetUserLspByLspIdArguments instance) =>
+    <String, dynamic>{
+      'user_id': instance.user_id,
+      'lsp_id': instance.lsp_id,
     };
 
 GetUserOrganizationsArguments _$GetUserOrganizationsArgumentsFromJson(
@@ -445,12 +839,14 @@ GetUserOrgDetailsArguments _$GetUserOrgDetailsArgumentsFromJson(
         Map<String, dynamic> json) =>
     GetUserOrgDetailsArguments(
       userId: json['userId'] as String,
+      user_lsp_id: json['user_lsp_id'] as String,
     );
 
 Map<String, dynamic> _$GetUserOrgDetailsArgumentsToJson(
         GetUserOrgDetailsArguments instance) =>
     <String, dynamic>{
       'userId': instance.userId,
+      'user_lsp_id': instance.user_lsp_id,
     };
 
 AllCatMainArguments _$AllCatMainArgumentsFromJson(Map<String, dynamic> json) =>
@@ -494,4 +890,30 @@ Map<String, dynamic> _$AllSubCatByCatIdArgumentsToJson(
         AllSubCatByCatIdArguments instance) =>
     <String, dynamic>{
       'catId': instance.catId,
+    };
+
+GetUserPreferencesArguments _$GetUserPreferencesArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetUserPreferencesArguments(
+      userId: json['userId'] as String,
+    );
+
+Map<String, dynamic> _$GetUserPreferencesArgumentsToJson(
+        GetUserPreferencesArguments instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+    };
+
+GetUserPreferenceForLspArguments _$GetUserPreferenceForLspArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetUserPreferenceForLspArguments(
+      user_id: json['user_id'] as String,
+      user_lsp_id: json['user_lsp_id'] as String,
+    );
+
+Map<String, dynamic> _$GetUserPreferenceForLspArgumentsToJson(
+        GetUserPreferenceForLspArguments instance) =>
+    <String, dynamic>{
+      'user_id': instance.user_id,
+      'user_lsp_id': instance.user_lsp_id,
     };

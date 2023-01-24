@@ -4,9 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zicops/graphql_api.graphql.dart';
-import 'package:zicops/main.dart';
 
+import '../../../controllers/mutation_controller.dart';
 import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 import '../../widgets/PrefixInputField.dart';
@@ -220,24 +219,14 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                   ),
                   const SizedBox(height: 12),
                   InkWell(
-                    onTap: () async {
-                      print(_firstNameController.text);
-                      final res = await userClient.client()?.execute(
-                          UpdateUserMutation(
-                              variables: UpdateUserArguments(
-                                  id: id,
-                                  first_name: _firstNameController.text,
-                                  last_name: _lastNameController.text,
-                                  status: "active",
-                                  role: 'admin',
-                                  is_verified: true,
-                                  is_active: true,
-                                  gender: 'male',
-                                  email: email,
-                                  phone: phone)));
-
-                      print(res?.data?.toJson());
-                      return;
+                    onTap: () {
+                      updateUser(
+                        id,
+                        _firstNameController.text,
+                        _lastNameController.text,
+                        _emailController.text,
+                        _phoneController.text,
+                      );
                       widget.changeTab();
                     },
                     child: Container(

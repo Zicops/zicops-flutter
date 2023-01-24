@@ -136,10 +136,7 @@ class GetOrgDetailsRepository {
           orgResuts?.data?.getUserOrganizations![i]?.organizationRole,
           orgResuts?.data?.getUserOrganizations![i]?.isActive,
           orgResuts?.data?.getUserOrganizations![i]?.employeeId,
-          orgResuts?.data?.getUserOrganizations![i]?.createdBy,
-          orgResuts?.data?.getUserOrganizations![i]?.updatedBy,
-          orgResuts?.data?.getUserOrganizations![i]?.createdAt,
-          orgResuts?.data?.getUserOrganizations![i]?.updatedAt,
+
         ),
       );
     }

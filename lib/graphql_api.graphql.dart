@@ -94,6 +94,28 @@ mixin AllSubCatMainFragmentMixin {
   @JsonKey(name: 'IsActive')
   bool? isActive;
 }
+mixin UserPreferenceFragmentMixin {
+  @JsonKey(name: 'user_preference_id')
+  String? userPreferenceId;
+  @JsonKey(name: 'user_id')
+  late String userId;
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+  @JsonKey(name: 'sub_category')
+  late String subCategory;
+  @JsonKey(name: 'is_base')
+  late bool isBase;
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+}
 
 @JsonSerializable(explicitToJson: true)
 class UpdateUser$MutationRoot$User extends JsonSerializable
@@ -180,6 +202,239 @@ class UpdateUser$MutationRoot extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class AddUserOrganizationMap$MutationRoot$UserOrganizationMap
+    extends JsonSerializable with EquatableMixin {
+  AddUserOrganizationMap$MutationRoot$UserOrganizationMap();
+
+  factory AddUserOrganizationMap$MutationRoot$UserOrganizationMap.fromJson(
+          Map<String, dynamic> json) =>
+      _$AddUserOrganizationMap$MutationRoot$UserOrganizationMapFromJson(json);
+
+  @JsonKey(name: 'user_organization_id')
+  String? userOrganizationId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+
+  @JsonKey(name: 'organization_id')
+  late String organizationId;
+
+  @JsonKey(name: 'organization_role')
+  late String organizationRole;
+
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+
+  @JsonKey(name: 'employee_id')
+  late String employeeId;
+
+  @override
+  List<Object?> get props => [
+        userOrganizationId,
+        userId,
+        userLspId,
+        organizationId,
+        organizationRole,
+        isActive,
+        employeeId
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$AddUserOrganizationMap$MutationRoot$UserOrganizationMapToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserOrganizationMap$MutationRoot extends JsonSerializable
+    with EquatableMixin {
+  AddUserOrganizationMap$MutationRoot();
+
+  factory AddUserOrganizationMap$MutationRoot.fromJson(
+          Map<String, dynamic> json) =>
+      _$AddUserOrganizationMap$MutationRootFromJson(json);
+
+  AddUserOrganizationMap$MutationRoot$UserOrganizationMap?
+      addUserOrganizationMap;
+
+  @override
+  List<Object?> get props => [addUserOrganizationMap];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$AddUserOrganizationMap$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserOrganizationMap$MutationRoot$UserOrganizationMap
+    extends JsonSerializable with EquatableMixin {
+  UpdateUserOrganizationMap$MutationRoot$UserOrganizationMap();
+
+  factory UpdateUserOrganizationMap$MutationRoot$UserOrganizationMap.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserOrganizationMap$MutationRoot$UserOrganizationMapFromJson(
+          json);
+
+  @JsonKey(name: 'user_organization_id')
+  String? userOrganizationId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+
+  @JsonKey(name: 'organization_id')
+  late String organizationId;
+
+  @JsonKey(name: 'organization_role')
+  late String organizationRole;
+
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+
+  @JsonKey(name: 'employee_id')
+  late String employeeId;
+
+  @override
+  List<Object?> get props => [
+        userOrganizationId,
+        userId,
+        userLspId,
+        organizationId,
+        organizationRole,
+        isActive,
+        employeeId
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserOrganizationMap$MutationRoot$UserOrganizationMapToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserOrganizationMap$MutationRoot extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserOrganizationMap$MutationRoot();
+
+  factory UpdateUserOrganizationMap$MutationRoot.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserOrganizationMap$MutationRootFromJson(json);
+
+  UpdateUserOrganizationMap$MutationRoot$UserOrganizationMap?
+      updateUserOrganizationMap;
+
+  @override
+  List<Object?> get props => [updateUserOrganizationMap];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserOrganizationMap$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserPreference$MutationRoot$UserPreference extends JsonSerializable
+    with EquatableMixin {
+  AddUserPreference$MutationRoot$UserPreference();
+
+  factory AddUserPreference$MutationRoot$UserPreference.fromJson(
+          Map<String, dynamic> json) =>
+      _$AddUserPreference$MutationRoot$UserPreferenceFromJson(json);
+
+  @JsonKey(name: 'user_preference_id')
+  String? userPreferenceId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+
+  @JsonKey(name: 'sub_category')
+  late String subCategory;
+
+  @JsonKey(name: 'is_base')
+  late bool isBase;
+
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+
+  @override
+  List<Object?> get props =>
+      [userPreferenceId, userId, userLspId, subCategory, isBase, isActive];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$AddUserPreference$MutationRoot$UserPreferenceToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserPreference$MutationRoot extends JsonSerializable
+    with EquatableMixin {
+  AddUserPreference$MutationRoot();
+
+  factory AddUserPreference$MutationRoot.fromJson(Map<String, dynamic> json) =>
+      _$AddUserPreference$MutationRootFromJson(json);
+
+  List<AddUserPreference$MutationRoot$UserPreference?>? addUserPreference;
+
+  @override
+  List<Object?> get props => [addUserPreference];
+  @override
+  Map<String, dynamic> toJson() => _$AddUserPreference$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserPreference$MutationRoot$UserPreference extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserPreference$MutationRoot$UserPreference();
+
+  factory UpdateUserPreference$MutationRoot$UserPreference.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserPreference$MutationRoot$UserPreferenceFromJson(json);
+
+  @JsonKey(name: 'user_preference_id')
+  String? userPreferenceId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+
+  @JsonKey(name: 'sub_category')
+  late String subCategory;
+
+  @JsonKey(name: 'is_base')
+  late bool isBase;
+
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+
+  @override
+  List<Object?> get props =>
+      [userPreferenceId, userId, userLspId, subCategory, isBase, isActive];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserPreference$MutationRoot$UserPreferenceToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserPreference$MutationRoot extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserPreference$MutationRoot();
+
+  factory UpdateUserPreference$MutationRoot.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserPreference$MutationRootFromJson(json);
+
+  UpdateUserPreference$MutationRoot$UserPreference? updateUserPreference;
+
+  @override
+  List<Object?> get props => [updateUserPreference];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserPreference$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetUserLsps$QueryRoot$UserLspMap extends JsonSerializable
     with EquatableMixin, UserLspFragmentMixin {
   GetUserLsps$QueryRoot$UserLspMap();
@@ -217,6 +472,46 @@ class GetUserLsps$QueryRoot extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [getUserLsps];
   @override
   Map<String, dynamic> toJson() => _$GetUserLsps$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserLspByLspId$QueryRoot$UserLspMap extends JsonSerializable
+    with EquatableMixin, UserLspFragmentMixin {
+  GetUserLspByLspId$QueryRoot$UserLspMap();
+
+  factory GetUserLspByLspId$QueryRoot$UserLspMap.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserLspByLspId$QueryRoot$UserLspMapFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        userLspId,
+        userId,
+        lspId,
+        status,
+        createdAt,
+        updatedAt,
+        createdBy,
+        updatedBy
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserLspByLspId$QueryRoot$UserLspMapToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserLspByLspId$QueryRoot extends JsonSerializable with EquatableMixin {
+  GetUserLspByLspId$QueryRoot();
+
+  factory GetUserLspByLspId$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetUserLspByLspId$QueryRootFromJson(json);
+
+  GetUserLspByLspId$QueryRoot$UserLspMap? getUserLspByLspId;
+
+  @override
+  List<Object?> get props => [getUserLspByLspId];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserLspByLspId$QueryRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -432,6 +727,94 @@ class AllSubCatByCatId$QueryRoot extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [allSubCatByCatId];
   @override
   Map<String, dynamic> toJson() => _$AllSubCatByCatId$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserPreferences$QueryRoot$UserPreference extends JsonSerializable
+    with EquatableMixin, UserPreferenceFragmentMixin {
+  GetUserPreferences$QueryRoot$UserPreference();
+
+  factory GetUserPreferences$QueryRoot$UserPreference.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserPreferences$QueryRoot$UserPreferenceFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        userPreferenceId,
+        userId,
+        userLspId,
+        subCategory,
+        isBase,
+        isActive,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserPreferences$QueryRoot$UserPreferenceToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserPreferences$QueryRoot extends JsonSerializable
+    with EquatableMixin {
+  GetUserPreferences$QueryRoot();
+
+  factory GetUserPreferences$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetUserPreferences$QueryRootFromJson(json);
+
+  List<GetUserPreferences$QueryRoot$UserPreference?>? getUserPreferences;
+
+  @override
+  List<Object?> get props => [getUserPreferences];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserPreferences$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserPreferenceForLsp$QueryRoot$UserPreference extends JsonSerializable
+    with EquatableMixin, UserPreferenceFragmentMixin {
+  GetUserPreferenceForLsp$QueryRoot$UserPreference();
+
+  factory GetUserPreferenceForLsp$QueryRoot$UserPreference.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserPreferenceForLsp$QueryRoot$UserPreferenceFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        userPreferenceId,
+        userId,
+        userLspId,
+        subCategory,
+        isBase,
+        isActive,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserPreferenceForLsp$QueryRoot$UserPreferenceToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserPreferenceForLsp$QueryRoot extends JsonSerializable
+    with EquatableMixin {
+  GetUserPreferenceForLsp$QueryRoot();
+
+  factory GetUserPreferenceForLsp$QueryRoot.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserPreferenceForLsp$QueryRootFromJson(json);
+
+  GetUserPreferenceForLsp$QueryRoot$UserPreference? getUserPreferenceForLsp;
+
+  @override
+  List<Object?> get props => [getUserPreferenceForLsp];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserPreferenceForLsp$QueryRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -856,6 +1239,902 @@ class UpdateUserMutation
 }
 
 @JsonSerializable(explicitToJson: true)
+class AddUserOrganizationMapArguments extends JsonSerializable
+    with EquatableMixin {
+  AddUserOrganizationMapArguments({
+    required this.user_organization_id,
+    required this.user_id,
+    required this.user_lsp_id,
+    required this.organization_id,
+    required this.organization_role,
+    required this.is_active,
+    required this.employee_id,
+  });
+
+  @override
+  factory AddUserOrganizationMapArguments.fromJson(Map<String, dynamic> json) =>
+      _$AddUserOrganizationMapArgumentsFromJson(json);
+
+  late String user_organization_id;
+
+  late String user_id;
+
+  late String user_lsp_id;
+
+  late String organization_id;
+
+  late String organization_role;
+
+  late bool is_active;
+
+  late String employee_id;
+
+  @override
+  List<Object?> get props => [
+        user_organization_id,
+        user_id,
+        user_lsp_id,
+        organization_id,
+        organization_role,
+        is_active,
+        employee_id
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$AddUserOrganizationMapArgumentsToJson(this);
+}
+
+final ADD_USER_ORGANIZATION_MAP_MUTATION_DOCUMENT_OPERATION_NAME =
+    'addUserOrganizationMap';
+final ADD_USER_ORGANIZATION_MAP_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'addUserOrganizationMap'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_organization_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'organization_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'organization_role')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'is_active')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'employee_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'addUserOrganizationMap'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'user_organization_id'),
+                value:
+                    VariableNode(name: NameNode(value: 'user_organization_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_id'),
+                value: VariableNode(name: NameNode(value: 'user_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_lsp_id'),
+                value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'organization_id'),
+                value: VariableNode(name: NameNode(value: 'organization_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'organization_role'),
+                value: VariableNode(name: NameNode(value: 'organization_role')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_active'),
+                value: VariableNode(name: NameNode(value: 'is_active')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'employee_id'),
+                value: VariableNode(name: NameNode(value: 'employee_id')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_organization_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'organization_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'organization_role'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'employee_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class AddUserOrganizationMapMutation extends GraphQLQuery<
+    AddUserOrganizationMap$MutationRoot, AddUserOrganizationMapArguments> {
+  AddUserOrganizationMapMutation({required this.variables});
+
+  @override
+  final DocumentNode document = ADD_USER_ORGANIZATION_MAP_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      ADD_USER_ORGANIZATION_MAP_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final AddUserOrganizationMapArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  AddUserOrganizationMap$MutationRoot parse(Map<String, dynamic> json) =>
+      AddUserOrganizationMap$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserOrganizationMapArguments extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserOrganizationMapArguments({
+    required this.user_organization_id,
+    required this.user_id,
+    required this.user_lsp_id,
+    required this.organization_id,
+    required this.organization_role,
+    required this.is_active,
+    required this.employee_id,
+  });
+
+  @override
+  factory UpdateUserOrganizationMapArguments.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserOrganizationMapArgumentsFromJson(json);
+
+  late String user_organization_id;
+
+  late String user_id;
+
+  late String user_lsp_id;
+
+  late String organization_id;
+
+  late String organization_role;
+
+  late bool is_active;
+
+  late String employee_id;
+
+  @override
+  List<Object?> get props => [
+        user_organization_id,
+        user_id,
+        user_lsp_id,
+        organization_id,
+        organization_role,
+        is_active,
+        employee_id
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserOrganizationMapArgumentsToJson(this);
+}
+
+final UPDATE_USER_ORGANIZATION_MAP_MUTATION_DOCUMENT_OPERATION_NAME =
+    'updateUserOrganizationMap';
+final UPDATE_USER_ORGANIZATION_MAP_MUTATION_DOCUMENT =
+    DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'updateUserOrganizationMap'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_organization_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'organization_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'organization_role')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'is_active')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'employee_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateUserOrganizationMap'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'user_organization_id'),
+                value:
+                    VariableNode(name: NameNode(value: 'user_organization_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_id'),
+                value: VariableNode(name: NameNode(value: 'user_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_lsp_id'),
+                value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'organization_id'),
+                value: VariableNode(name: NameNode(value: 'organization_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'organization_role'),
+                value: VariableNode(name: NameNode(value: 'organization_role')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_active'),
+                value: VariableNode(name: NameNode(value: 'is_active')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'employee_id'),
+                value: VariableNode(name: NameNode(value: 'employee_id')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_organization_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'organization_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'organization_role'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'employee_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class UpdateUserOrganizationMapMutation extends GraphQLQuery<
+    UpdateUserOrganizationMap$MutationRoot,
+    UpdateUserOrganizationMapArguments> {
+  UpdateUserOrganizationMapMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UPDATE_USER_ORGANIZATION_MAP_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      UPDATE_USER_ORGANIZATION_MAP_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final UpdateUserOrganizationMapArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UpdateUserOrganizationMap$MutationRoot parse(Map<String, dynamic> json) =>
+      UpdateUserOrganizationMap$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserPreferenceArguments extends JsonSerializable with EquatableMixin {
+  AddUserPreferenceArguments({
+    required this.user_preference_id,
+    required this.user_id,
+    required this.user_lsp_id,
+    required this.preference_id,
+    required this.preference_value,
+    required this.is_active,
+  });
+
+  @override
+  factory AddUserPreferenceArguments.fromJson(Map<String, dynamic> json) =>
+      _$AddUserPreferenceArgumentsFromJson(json);
+
+  late String user_preference_id;
+
+  late String user_id;
+
+  late String user_lsp_id;
+
+  late String preference_id;
+
+  late String preference_value;
+
+  late bool is_active;
+
+  @override
+  List<Object?> get props => [
+        user_preference_id,
+        user_id,
+        user_lsp_id,
+        preference_id,
+        preference_value,
+        is_active
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$AddUserPreferenceArgumentsToJson(this);
+}
+
+final ADD_USER_PREFERENCE_MUTATION_DOCUMENT_OPERATION_NAME =
+    'addUserPreference';
+final ADD_USER_PREFERENCE_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'addUserPreference'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_preference_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'preference_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'preference_value')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'is_active')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'addUserPreference'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'user_preference_id'),
+                value:
+                    VariableNode(name: NameNode(value: 'user_preference_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_id'),
+                value: VariableNode(name: NameNode(value: 'user_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_lsp_id'),
+                value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'sub_category'),
+                value: VariableNode(name: NameNode(value: 'sub_category')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_base'),
+                value: VariableNode(name: NameNode(value: 'is_base')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_active'),
+                value: VariableNode(name: NameNode(value: 'is_active')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_preference_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'sub_category'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_base'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class AddUserPreferenceMutation extends GraphQLQuery<
+    AddUserPreference$MutationRoot, AddUserPreferenceArguments> {
+  AddUserPreferenceMutation({required this.variables});
+
+  @override
+  final DocumentNode document = ADD_USER_PREFERENCE_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      ADD_USER_PREFERENCE_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final AddUserPreferenceArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  AddUserPreference$MutationRoot parse(Map<String, dynamic> json) =>
+      AddUserPreference$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserPreferenceArguments extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserPreferenceArguments({
+    required this.user_preference_id,
+    required this.user_id,
+    required this.user_lsp_id,
+    required this.sub_category,
+    required this.is_base,
+    required this.is_active,
+  });
+
+  @override
+  factory UpdateUserPreferenceArguments.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserPreferenceArgumentsFromJson(json);
+
+  late String user_preference_id;
+
+  late String user_id;
+
+  late String user_lsp_id;
+
+  late String sub_category;
+
+  late bool is_base;
+
+  late bool is_active;
+
+  @override
+  List<Object?> get props => [
+        user_preference_id,
+        user_id,
+        user_lsp_id,
+        sub_category,
+        is_base,
+        is_active
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateUserPreferenceArgumentsToJson(this);
+}
+
+final UPDATE_USER_PREFERENCE_MUTATION_DOCUMENT_OPERATION_NAME =
+    'updateUserPreference';
+final UPDATE_USER_PREFERENCE_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'updateUserPreference'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_preference_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'sub_category')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'is_base')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'is_active')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateUserPreference'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'user_preference_id'),
+                value:
+                    VariableNode(name: NameNode(value: 'user_preference_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_id'),
+                value: VariableNode(name: NameNode(value: 'user_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_lsp_id'),
+                value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'sub_category'),
+                value: VariableNode(name: NameNode(value: 'sub_category')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_base'),
+                value: VariableNode(name: NameNode(value: 'is_base')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_active'),
+                value: VariableNode(name: NameNode(value: 'is_active')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_preference_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'sub_category'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_base'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class UpdateUserPreferenceMutation extends GraphQLQuery<
+    UpdateUserPreference$MutationRoot, UpdateUserPreferenceArguments> {
+  UpdateUserPreferenceMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UPDATE_USER_PREFERENCE_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      UPDATE_USER_PREFERENCE_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final UpdateUserPreferenceArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UpdateUserPreference$MutationRoot parse(Map<String, dynamic> json) =>
+      UpdateUserPreference$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetUserLspsArguments extends JsonSerializable with EquatableMixin {
   GetUserLspsArguments({required this.userId});
 
@@ -880,7 +2159,7 @@ final GET_USER_LSPS_QUERY_DOCUMENT = DocumentNode(definitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'userId')),
         type: NamedTypeNode(
-          name: NameNode(value: 'ID'),
+          name: NameNode(value: 'String'),
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
@@ -995,6 +2274,168 @@ class GetUserLspsQuery
   @override
   GetUserLsps$QueryRoot parse(Map<String, dynamic> json) =>
       GetUserLsps$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserLspByLspIdArguments extends JsonSerializable with EquatableMixin {
+  GetUserLspByLspIdArguments({
+    required this.user_id,
+    required this.lsp_id,
+  });
+
+  @override
+  factory GetUserLspByLspIdArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetUserLspByLspIdArgumentsFromJson(json);
+
+  late String user_id;
+
+  late String lsp_id;
+
+  @override
+  List<Object?> get props => [user_id, lsp_id];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserLspByLspIdArgumentsToJson(this);
+}
+
+final GET_USER_LSP_BY_LSP_ID_QUERY_DOCUMENT_OPERATION_NAME =
+    'getUserLspByLspId';
+final GET_USER_LSP_BY_LSP_ID_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getUserLspByLspId'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getUserLspByLspId'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'user_id'),
+            value: VariableNode(name: NameNode(value: 'user_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'lsp_id'),
+            value: VariableNode(name: NameNode(value: 'lsp_id')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'UserLspFragment'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'UserLspFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'UserLspMap'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'user_lsp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'lsp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetUserLspByLspIdQuery extends GraphQLQuery<GetUserLspByLspId$QueryRoot,
+    GetUserLspByLspIdArguments> {
+  GetUserLspByLspIdQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_USER_LSP_BY_LSP_ID_QUERY_DOCUMENT;
+
+  @override
+  final String operationName =
+      GET_USER_LSP_BY_LSP_ID_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetUserLspByLspIdArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetUserLspByLspId$QueryRoot parse(Map<String, dynamic> json) =>
+      GetUserLspByLspId$QueryRoot.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1165,7 +2606,10 @@ class GetUserOrganizationsQuery extends GraphQLQuery<
 
 @JsonSerializable(explicitToJson: true)
 class GetUserOrgDetailsArguments extends JsonSerializable with EquatableMixin {
-  GetUserOrgDetailsArguments({required this.userId});
+  GetUserOrgDetailsArguments({
+    required this.userId,
+    required this.user_lsp_id,
+  });
 
   @override
   factory GetUserOrgDetailsArguments.fromJson(Map<String, dynamic> json) =>
@@ -1173,8 +2617,10 @@ class GetUserOrgDetailsArguments extends JsonSerializable with EquatableMixin {
 
   late String userId;
 
+  late String user_lsp_id;
+
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [userId, user_lsp_id];
   @override
   Map<String, dynamic> toJson() => _$GetUserOrgDetailsArgumentsToJson(this);
 }
@@ -1193,7 +2639,16 @@ final GET_USER_ORG_DETAILS_QUERY_DOCUMENT = DocumentNode(definitions: [
         ),
         defaultValue: DefaultValueNode(value: null),
         directives: [],
-      )
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
     ],
     directives: [],
     selectionSet: SelectionSetNode(selections: [
@@ -1204,7 +2659,11 @@ final GET_USER_ORG_DETAILS_QUERY_DOCUMENT = DocumentNode(definitions: [
           ArgumentNode(
             name: NameNode(value: 'user_id'),
             value: VariableNode(name: NameNode(value: 'userId')),
-          )
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'user_lsp_id'),
+            value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+          ),
         ],
         directives: [],
         selectionSet: SelectionSetNode(selections: [
@@ -1850,6 +3309,342 @@ class AllSubCatByCatIdQuery extends GraphQLQuery<AllSubCatByCatId$QueryRoot,
   @override
   AllSubCatByCatId$QueryRoot parse(Map<String, dynamic> json) =>
       AllSubCatByCatId$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserPreferencesArguments extends JsonSerializable with EquatableMixin {
+  GetUserPreferencesArguments({required this.userId});
+
+  @override
+  factory GetUserPreferencesArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetUserPreferencesArgumentsFromJson(json);
+
+  late String userId;
+
+  @override
+  List<Object?> get props => [userId];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserPreferencesArgumentsToJson(this);
+}
+
+final GET_USER_PREFERENCES_QUERY_DOCUMENT_OPERATION_NAME = 'getUserPreferences';
+final GET_USER_PREFERENCES_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getUserPreferences'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getUserPreferences'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'user_id'),
+            value: VariableNode(name: NameNode(value: 'userId')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'UserPreferenceFragment'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'UserPreferenceFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'UserPreference'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'user_preference_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_lsp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'sub_category'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'is_base'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'is_active'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetUserPreferencesQuery extends GraphQLQuery<GetUserPreferences$QueryRoot,
+    GetUserPreferencesArguments> {
+  GetUserPreferencesQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_USER_PREFERENCES_QUERY_DOCUMENT;
+
+  @override
+  final String operationName =
+      GET_USER_PREFERENCES_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetUserPreferencesArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetUserPreferences$QueryRoot parse(Map<String, dynamic> json) =>
+      GetUserPreferences$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserPreferenceForLspArguments extends JsonSerializable
+    with EquatableMixin {
+  GetUserPreferenceForLspArguments({
+    required this.user_id,
+    required this.user_lsp_id,
+  });
+
+  @override
+  factory GetUserPreferenceForLspArguments.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserPreferenceForLspArgumentsFromJson(json);
+
+  late String user_id;
+
+  late String user_lsp_id;
+
+  @override
+  List<Object?> get props => [user_id, user_lsp_id];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserPreferenceForLspArgumentsToJson(this);
+}
+
+final GET_USER_PREFERENCE_FOR_LSP_QUERY_DOCUMENT_OPERATION_NAME =
+    'getUserPreferenceForLsp';
+final GET_USER_PREFERENCE_FOR_LSP_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getUserPreferenceForLsp'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getUserPreferenceForLsp'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'user_id'),
+            value: VariableNode(name: NameNode(value: 'user_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'user_lsp_id'),
+            value: VariableNode(name: NameNode(value: 'lsp_id')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'UserPreferenceFragment'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'UserPreferenceFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'UserPreference'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'user_preference_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_lsp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'sub_category'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'is_base'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'is_active'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetUserPreferenceForLspQuery extends GraphQLQuery<
+    GetUserPreferenceForLsp$QueryRoot, GetUserPreferenceForLspArguments> {
+  GetUserPreferenceForLspQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_USER_PREFERENCE_FOR_LSP_QUERY_DOCUMENT;
+
+  @override
+  final String operationName =
+      GET_USER_PREFERENCE_FOR_LSP_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetUserPreferenceForLspArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetUserPreferenceForLsp$QueryRoot parse(Map<String, dynamic> json) =>
+      GetUserPreferenceForLsp$QueryRoot.fromJson(json);
 }
 
 final LOGIN_MUTATION_DOCUMENT_OPERATION_NAME = 'login';
