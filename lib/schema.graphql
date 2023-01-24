@@ -35,8 +35,6 @@ input UserInput {
   is_verified: Boolean!
   is_active: Boolean!
   gender: String!
-  created_by: String
-  updated_by: String
   email: String!
   phone: String!
   Photo: Upload

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import '../../utils/colors.dart';
 
 Widget prefixInputField(FocusNode focusNode, TextEditingController controller,
-    String image, String hint, String initialValue ) {
+    String image, String hint) {
   return SizedBox(
       height: 48,
-      child: TextFormField(
+      child: TextField(
           key: Key(hint),
-          initialValue: initialValue,
+          //initialValue: initialValue,
           focusNode: focusNode,
-          // controller: controller,
+          controller: controller,
           decoration: InputDecoration(
               contentPadding: EdgeInsets.zero,
               enabledBorder: OutlineInputBorder(

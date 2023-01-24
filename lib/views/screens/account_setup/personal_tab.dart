@@ -23,6 +23,10 @@ class PersonalTabScreen extends StatefulWidget {
 
 class _PersonalTabScreen extends State<PersonalTabScreen> {
   TextEditingController _controller = TextEditingController();
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
   File? bgImage;
   File? profileImage;
   String firstName = '';
@@ -93,6 +97,12 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
       // _email.value =  TextEditingValue(text: user.email);
       // _phone.value =  TextEditingValue(text: user.phone);
     }
+    setState(() {
+      _firstNameController.text = firstName;
+      _lastNameController.text = lastName;
+      _emailController.text = email;
+      _phoneController.text = phone;
+    });
     // print(user.firstName);
     print('hello');
     print(firstName);
@@ -189,66 +199,67 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
             ),
             const Spacer(),
             Padding(
-                padding: const EdgeInsets.only(
-                    left: 20, right: 20, bottom: 20, top: 80),
-                child: Column(
-                  children: [
-                    prefixInputField(_focusNodes[0], _controller,
-                        "assets/images/person.png", "Firstname", firstName),
-                    const SizedBox(height: 12),
-                    prefixInputField(_focusNodes[1], _controller,
-                        "assets/images/person.png", "Lastname", lastName),
-                    const SizedBox(height: 12),
-                    prefixInputField(_focusNodes[2], _controller,
-                        "assets/images/email.png", "Email", email),
-                    const SizedBox(height: 12),
-                    prefixInputField(
-                        _focusNodes[3],
-                        _controller,
-                        "assets/images/phone.png",
-                        "+91| Contact Number",
-                        phone),
-                    const SizedBox(height: 12),
-                    InkWell(
-                      onTap: () async {
-                        print('hello');
-                        final res = await userClient.client()?.execute(
-                            UpdateUserMutation(
-                                variables: UpdateUserArguments(
-                                    id: id,
-                                    first_name: firstName,
-                                    last_name: lastName,
-                                    status: "active",
-                                    role: 'admin',
-                                    is_verified: true,
-                                    is_active: true,
-                                    gender: 'male',
-                                    email: email,
-                                    phone: phone)));
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, bottom: 20, top: 80),
+              child: Column(
+                children: [
+                  prefixInputField(_focusNodes[0], _firstNameController,
+                      "assets/images/person.png", "Firstname"),
+                  const SizedBox(height: 12),
+                  prefixInputField(_focusNodes[1], _lastNameController,
+                      "assets/images/person.png", "Lastname"),
+                  const SizedBox(height: 12),
+                  prefixInputField(_focusNodes[2], _emailController,
+                      "assets/images/email.png", "Email"),
+                  const SizedBox(height: 12),
+                  prefixInputField(
+                    _focusNodes[3],
+                    _phoneController,
+                    "assets/images/phone.png",
+                    "+91| Contact Number",
+                  ),
+                  const SizedBox(height: 12),
+                  InkWell(
+                    onTap: () async {
+                      print(_firstNameController.text);
+                      final res = await userClient.client()?.execute(
+                          UpdateUserMutation(
+                              variables: UpdateUserArguments(
+                                  id: id,
+                                  first_name: _firstNameController.text,
+                                  last_name: _lastNameController.text,
+                                  status: "active",
+                                  role: 'admin',
+                                  is_verified: true,
+                                  is_active: true,
+                                  gender: 'male',
+                                  email: email,
+                                  phone: phone)));
 
-                        print(res?.data?.toJson());
-                        return;
-                        widget.changeTab();
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 48,
-                        decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                                colors: [primaryColor, gradientTwo]),
-                            borderRadius: BorderRadius.circular(4)),
-                        child: Text(
-                          'Next'.toUpperCase(),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              letterSpacing: 2),
-                        ),
+                      print(res?.data?.toJson());
+                      return;
+                      widget.changeTab();
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 48,
+                      decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                              colors: [primaryColor, gradientTwo]),
+                          borderRadius: BorderRadius.circular(4)),
+                      child: Text(
+                        'Next'.toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            letterSpacing: 2),
                       ),
                     ),
-                  ],
-                ))
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       )
