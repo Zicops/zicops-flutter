@@ -9,7 +9,6 @@ import 'package:zicops/views/screens/home/home.dart';
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
 import '../../../models/user/user_account_profile_pref.dart';
-import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 
 class PreferencesTabScreen extends StatefulWidget {
@@ -26,13 +25,23 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
 
   final TextEditingController _searchController = TextEditingController();
   late final PanelController _panelController;
+
   bool openSubCatModal = false;
-
   bool isLoading = false;
+
   List<AllCatMainModel> catMainList = [];
+
+  List<Category> categories = [
+    // Category(0, "Finance & Accounting", null),
+    // Category(1, "Design", null),
+    // Category(2, "Technology", null),
+    // Category(3, "Architecture", null),
+    // Category(4, "Project Management", null),
+    // Category(5, "Soft Skills", null),
+    // Category(6, "Language", null)
+  ];
+
   Future catMainLoading() async {
-
-
     setState(() {
       isLoading = true;
     });
@@ -48,12 +57,22 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
             variables: AllSubCatMainArguments(
                 lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
 
-    for (int e in subCatMainResult?.data?.allSubCatMain!.asMap().keys ?? []) {
-      print(subCatMainResult?.data?.allSubCatMain![e]?.catId);
-    }
+    // for (int e in subCatMainResult?.data?.allSubCatMain!.asMap().keys ?? []) {
+    //   print(subCatMainResult?.data?.allSubCatMain![e]?.catId);
+    // }
+
+    AllCatMainModel allCatMainModel = AllCatMainModel(
+      allCatMainResult?.data?.allCatMain![0]?.id,
+      allCatMainResult?.data?.allCatMain![0]?.name,
+      allCatMainResult?.data?.allCatMain![0]?.description,
+      allCatMainResult?.data?.allCatMain![0]?.imageUrl,
+      allCatMainResult?.data?.allCatMain![0]?.code,
+      allCatMainResult?.data?.allCatMain![0]?.createdAt,
+      allCatMainResult?.data?.allCatMain![0]?.updatedAt,
+      allCatMainResult?.data?.allCatMain![0]?.isActive,
+    );
 
     for (int i in allCatMainResult?.data?.allCatMain!.asMap().keys ?? []) {
-      //await Future.delayed(Duration(seconds: 1));
       setState(() {
         catMainList.add(
           AllCatMainModel(
@@ -68,22 +87,59 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
           ),
         );
       });
+
       print(catMainList[i]?.name);
       i++;
     }
+
+    print(catMainList.length);
+    int i = catMainList.length;
+    // while (catMainList.isNotEmpty) {
+    //   categories.add(
+    //     Category(
+    //       i,
+    //       catMainList[i].name!,
+    //       null,
+    //     ),
+    //   );
+    //   print(catMainList[i].name);
+    //   i--;
+    //}
+
+    for (int i = 0; i < catMainList.length; i++) {
+      categories.add(
+        Category(
+          i,
+          catMainList[i].name!,
+          null,
+        ),
+      );
+      print(catMainList[i].name);
+    }
+    // for (int i = 0; i < catMainList.length; i++) {
+    //   allCatList.add(catMainList[i].name!);
+    // }
     //print(result?.data.toString());
     //print('object');
   }
 
-  List<Category> categories = [
-    Category(0, "Finance & Accounting", null),
-    Category(1, "Design", null),
-    Category(2, "Technology", null),
-    Category(3, "Architecture", null),
-    Category(4, "Project Management", null),
-    Category(5, "Soft Skills", null),
-    Category(6, "Language", null)
-  ];
+  addAllCatMainList() async {
+    // await catMainLoading();
+    //print('in All catmain list');
+    //print(catMainList.length);
+    // for (int i = 0; i < catMainList.length; i++) {
+    //   categories.add(
+    //     Category(
+    //       // catMainList[i].id.toInt(),
+    //       i,
+    //       catMainList[i].name!,
+    //       null,
+    //     ),
+    //   );
+    //   print(catMainList[i].name);
+    // }
+  }
+
   List<Category> subCategories = [
     Category(50, "UX Design", 1),
     Category(51, "Graphics Design", 1),
@@ -171,6 +227,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     });
     filteredCategories = categories;
     catMainLoading();
+    addAllCatMainList();
   }
 
   @override
