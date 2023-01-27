@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -28,13 +29,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
 
   final TextEditingController _searchController = TextEditingController();
   late final PanelController _panelController;
-
   bool openSubCatModal = false;
-  bool isLoading = false;
-
-  List<AllCatMainModel> catMainList = [];
-
-  HashMap<String, String> catSubCatMap = HashMap<String, String>();
 
   List<Category> categories = [
     // Category(0, "Finance & Accounting", null),
@@ -194,10 +189,13 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
   List<String> catIdList = [];
   List<int> filter = [];
   List<Category> filteredCategories = [];
+  int selectedCategories = -1;
   List<int> selectedCategories = [];
   List<String> selectedCategoriesList = [];
   List<Category> selectedSubCategories = [];
 
+  updateSelectCategory(int id) {
+    selectedCategories = id;
   getSubCategry(String id) {}
 
   updateSelectCategory(int id, double height) {
@@ -244,20 +242,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     if (selectedSubCategories.contains(cat)) {
       selectedSubCategories.remove(cat);
     } else {
-      if (selectedSubCategories.length < 5) {
-        selectedSubCategories.add(cat);
-      }
-    }
-    if (selectedSubCategories.length > 5) {
-      Fluttertoast.showToast(
-          msg: "No more sub-categories can be selected",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      return;
+      selectedSubCategories.add(cat);
     }
   }
 
@@ -309,12 +294,12 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
       return Scaffold(
           key: _scaffoldKey,
           body: SlidingUpPanel(
-              minHeight: isKeyboardVisible ? 0 : 165,
+              minHeight: isKeyboardVisible ? 0 : 165.sp,
               maxHeight: isKeyboardVisible
                   ? 0
-                  : selectedCategories.isNotEmpty
+                  : selectedCategories != -1
                       ? height * 0.65
-                      : 165,
+                      : 165.sp,
               color: Colors.transparent,
               controller: _panelController,
               backdropEnabled: openSubCatModal,
@@ -329,25 +314,25 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                 });
               },
               panel: Container(
-                  padding:
-                      const EdgeInsets.only(left: 20, right: 20, bottom: 40),
-                  decoration: BoxDecoration(
+                  padding: EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 40.sp),
+                  decoration:   BoxDecoration(
                       color: secondaryColorDark,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(16),
                           topRight: Radius.circular(16)),
-                      border: Border.all(color: lightGrey)),
+                    border: Border.all(color: lightGrey)
+                     ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        height: 4,
+                        height: 4.sp,
                         width: 36,
                         alignment: Alignment.center,
-                        margin: const EdgeInsets.only(top: 8, bottom: 16),
+                        margin: EdgeInsets.only(top: 8.sp, bottom: 16.sp),
                         decoration: BoxDecoration(
                             color: secondaryColor,
-                            borderRadius: BorderRadius.circular(4)),
+                            borderRadius: BorderRadius.circular(4.sp)),
                       ),
                       GestureDetector(
                           onTap: () {
@@ -363,28 +348,37 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
+                                    Text(
                                       "Selected Sub-Categories",
                                       style: TextStyle(
                                           color: textPrimary,
-                                          fontSize: 16,
+                                          fontSize: 16.sp,
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      "Select ${5 - selectedSubCategories.length} more sub categories(${selectedSubCategories.length})",
-                                      style: const TextStyle(
-                                          color: textGrey, fontSize: 14),
+                                      "Select ${5 - selectedSubCategories.length > 0 ? 5 - selectedSubCategories.length : ""} more sub categories(${selectedSubCategories.length})",
+                                      style: TextStyle(
+                                          color: const Color(0xFF919191), fontSize: 14.sp),
                                     )
                                   ],
                                 ),
                                 openSubCatModal
-                                    ? Image.asset("assets/images/up_arrow.png",
-                                        width: 16, height: 16)
-                                    : Image.asset(
-                                        "assets/images/down_arrow.png",
-                                        width: 16,
-                                        height: 16,
-                                      )
+                                    ? Container(
+                                        height: 24.sp,
+                                        width: 24.sp,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 6.sp, vertical: 8.sp),
+                                        child: Image.asset(
+                                          "assets/images/up_arrow.png",
+                                        ))
+                                    : Container(
+                                        height: 24.sp,
+                                        width: 24.sp,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 6.sp, vertical: 8.sp),
+                                        child: Image.asset(
+                                          "assets/images/down_arrow.png",
+                                        )),
                               ])),
                       openSubCatModal && selectedCategories.isNotEmpty
                           ? Flexible(
@@ -393,8 +387,8 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                 const SizedBox(
                                   height: 16,
                                 ),
-                                ...selectedSubCategories.map((cat) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
+                                ...selectedSubCategories.map((cat) => SizedBox(
+                                  height: 48.sp,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -402,68 +396,77 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                         Text(
                                           cat.category.toString(),
                                           style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 14.sp,
                                               fontWeight: FontWeight.w500,
                                               color: checkIfSelectedSubCat(cat)
                                                   ? textPrimary
                                                   : textGrey),
                                         ),
-                                        Checkbox(
-                                            value: checkIfSelectedSubCat(cat),
-                                            onChanged: (val) {
-                                              setState(() {
-                                                setState(() {
-                                                  updateSelectSubCategory(cat);
-                                                });
-                                              });
-                                            })
+                                        Container(
+                                            width: 24.sp,
+                                            height: 24.sp,
+                                            padding: EdgeInsets.all(3.sp),
+                                            child: Checkbox(
+                                                activeColor: primaryColor,
+                                                side: BorderSide(
+                                                    color: textPrimary, width: 2.sp),
+                                                checkColor: Colors.black,
+                                                value:
+                                                    checkIfSelectedSubCat(cat),
+                                                onChanged: (val) {
+                                                  setState(() {
+                                                    setState(() {
+                                                      updateSelectSubCategory(
+                                                          cat);
+                                                    });
+                                                  });
+                                                }))
                                       ],
                                     )))
                               ],
                             ))
-                          : const Text(""),
-                      const SizedBox(
-                        height: 24,
+                          : const SizedBox.shrink(),
+                      SizedBox(
+                        height: 24.sp,
                       ),
                     ],
                   )),
               footer: Container(
-                  width: width,
+                  width: width-40.sp,
+                  color: secondaryColorDark,
                   padding:
-                      const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                       EdgeInsets.only(bottom: 20.sp),
+                  margin: EdgeInsets.symmetric(horizontal: 20.sp),
+                  alignment: Alignment.center,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      selectedSubCategories.length == 5
+                      selectedSubCategories.length >= 5
                           ? Expanded(
                               child: InkWell(
                               onTap: () {
-                                for (int i = 0;
-                                    i < selectedSubCategories.length;
-                                    i++) {
-                                  print(selectedSubCategories[i].category);
-                                }
-                                return;
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HomeScreen()),
+                                      builder: (context) => const HomePage()),
                                 );
                               },
                               child: Ink(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  height: 48,
+                                  height: 48.sp,
                                   decoration: BoxDecoration(
                                       gradient: const LinearGradient(
                                           colors: [primaryColor, gradientTwo]),
-                                      borderRadius: BorderRadius.circular(4)),
+                                      borderRadius: BorderRadius.circular(4.sp)),
                                   child: Text(
                                     'Save'.toUpperCase(),
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                        letterSpacing: 2),
+                                        fontSize: 14.sp,
+                                        letterSpacing: 2,
+                                        height: 1.72),
                                   ),
                                 ),
                               ),
@@ -476,21 +479,21 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                     });
                                   },
                                   child: Container(
-                                      height: 48,
+                                      height: 48.sp,
                                       alignment: Alignment.center,
                                       margin: const EdgeInsets.only(right: 12),
                                       decoration: BoxDecoration(
                                           color: secondaryColor,
                                           borderRadius:
-                                              BorderRadius.circular(4)),
+                                              BorderRadius.circular(4.sp)),
                                       child: Text(
-                                        "Select Sub-Categories".toUpperCase(),
+                                        "Select Sub-Category".toUpperCase(),
                                         style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                          color: const Color(0xFF919191),
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: 2,
-                                        ),
+                                            fontSize: 14.sp,
+                                            color: const Color(0xFF919191),
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 2,
+                                            height: 1.72),
                                       ))),
                             ),
                     ],
@@ -503,10 +506,10 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                       children: [
                         Container(
                           color: secondaryColorDark,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 16),
+                          padding: EdgeInsets.only(
+                              left: 20.sp, right:20.sp,top:8.sp, bottom: 16.sp),
                           child: SizedBox(
-                              height: 48,
+                              height: 48.sp,
                               child: TextField(
                                 controller: _searchController,
                                 focusNode: _focusNodes[0],
@@ -514,20 +517,29 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                     contentPadding: EdgeInsets.zero,
                                     enabledBorder: OutlineInputBorder(
                                         borderSide:
-                                            const BorderSide(color: lightGrey),
-                                        borderRadius: BorderRadius.circular(4)),
+                                             BorderSide(color: _focusNodes[0].hasFocus || _searchController.text.isNotEmpty?secondaryColorDarkOutline: lightGrey),
+                                        borderRadius: BorderRadius.circular(4.sp)),
                                     focusedBorder: OutlineInputBorder(
                                         borderSide:
                                             const BorderSide(color: lightGrey),
-                                        borderRadius: BorderRadius.circular(4)),
+                                        borderRadius: BorderRadius.circular(4.sp)),
                                     filled: true,
-                                    fillColor: secondaryColorLight,
-                                    prefixIcon: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12),
-                                        child: ImageIcon(
-                                          const AssetImage(
-                                              "assets/images/search.png"),
+                                    fillColor: _focusNodes[0].hasFocus
+                                        ? secondaryColorDark
+                                        : secondaryColorLight,
+                                    prefixIcon: Container(
+                                        width: 24.sp,
+                                        height: 24.sp,
+                                        margin: EdgeInsets.only(
+                                            top: 12.sp,
+                                            bottom: 12.sp,
+                                            left: 16.sp,
+                                            right: 12.sp),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 3.5.sp,
+                                            vertical: 3.5.sp),
+                                        child: Image.asset(
+                                          "assets/images/search.png",
                                           color: _focusNodes[0].hasFocus
                                               ? textPrimary
                                               : textGrey,
@@ -551,7 +563,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                     topLeft:
                                                         Radius.circular(16))),
                                             constraints: BoxConstraints(
-                                                maxHeight: height * 0.7),
+                                                maxHeight: 474.sp),
                                             isScrollControlled: true,
 
                                             builder: (BuildContext context) {
@@ -569,36 +581,27 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                               .center,
                                                       children: [
                                                         Container(
-                                                          height: 4,
-                                                          width: 36,
+                                                          height: 4.sp,
+                                                          width: 36.sp,
                                                           alignment:
                                                               Alignment.center,
                                                           margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                            top: 8,
-                                                            bottom: 16,
-                                                          ),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                secondaryColor,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                              4,
-                                                            ),
-                                                          ),
+                                                              EdgeInsets.only(
+                                                                  top: 8.sp,
+                                                                  bottom:
+                                                                      16.sp),
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  secondaryColor,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          4)),
                                                         ),
                                                         Container(
                                                             alignment: Alignment
                                                                 .topLeft,
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        22),
-                                                            child: const Text(
+                                                            child: Text(
                                                               "Filter",
                                                               textAlign:
                                                                   TextAlign
@@ -611,15 +614,16 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                                       FontWeight
                                                                           .w500),
                                                             )),
+                                                        SizedBox(
+                                                          height: 15.sp,
+                                                        ),
                                                         Flexible(
                                                             child: ListView(
                                                           children: [
                                                             ...categories.map((cat) =>
-                                                                Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        bottom:
-                                                                            10),
+                                                                SizedBox(
+                                                                  height: 48.sp,
+
                                                                     child: Row(
                                                                       mainAxisAlignment:
                                                                           MainAxisAlignment
@@ -630,24 +634,33 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                                               .toString()
                                                                               .toUpperCase(),
                                                                           style: TextStyle(
-                                                                              fontSize: 12,
+                                                                              fontSize: 12.sp,
                                                                               fontWeight: FontWeight.w600,
-                                                                              color: checkIfSelectedFilter(cat.id) ? textPrimary : textGrey),
+                                                                              height: 1.33,
+                                                                              letterSpacing: 1,
+                                                                              color: checkIfSelectedFilter(cat.id) ? textPrimary : textGrey2),
                                                                         ),
-                                                                        Checkbox(
-                                                                            value:
-                                                                                checkIfSelectedFilter(cat.id),
-                                                                            onChanged: (val) {
-                                                                              setModalState(() {
-                                                                                updateFilterCategory(cat.id);
-                                                                              });
-                                                                            })
+                                                                        Container(
+                                                                            width:
+                                                                                24.sp,
+                                                                            height: 24.sp,
+                                                                            padding: EdgeInsets.all(3.sp),
+                                                                            child: Checkbox(
+                                                                                activeColor: primaryColor,
+                                                                                side: BorderSide(color: textPrimary, width: 2.sp),
+                                                                                checkColor: Colors.black,
+                                                                                value: checkIfSelectedFilter(cat.id),
+                                                                                onChanged: (val) {
+                                                                                  setModalState(() {
+                                                                                    updateFilterCategory(cat.id);
+                                                                                  });
+                                                                                }))
                                                                       ],
                                                                     )))
                                                           ],
                                                         )),
-                                                        const SizedBox(
-                                                          height: 20,
+                                                        SizedBox(
+                                                          height: 20.sp,
                                                         ),
                                                         Row(
                                                           children: [
@@ -666,10 +679,10 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                                     });
                                                                   },
                                                                   child: Container(
-                                                                      height: 36,
+                                                                      height: 36.sp,
                                                                       alignment: Alignment.center,
                                                                       margin: const EdgeInsets.only(right: 12),
-                                                                      decoration: BoxDecoration(border: Border.all(color: lightGrey), borderRadius: BorderRadius.circular(4)),
+                                                                      decoration: BoxDecoration(border: Border.all(color: lightGrey), borderRadius: BorderRadius.circular(4.sp)),
                                                                       child: Text(
                                                                         "Reset"
                                                                             .toUpperCase(),
@@ -678,7 +691,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                                         style: GoogleFonts
                                                                             .poppins(
                                                                           fontSize:
-                                                                              14,
+                                                                              14.sp,
                                                                           color:
                                                                               primaryColor,
                                                                           fontWeight:
@@ -701,7 +714,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                                 alignment:
                                                                     Alignment
                                                                         .center,
-                                                                height: 36,
+                                                                height: 36.sp,
                                                                 decoration: BoxDecoration(
                                                                     gradient:
                                                                         const LinearGradient(
@@ -723,7 +736,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                                           FontWeight
                                                                               .w600,
                                                                       fontSize:
-                                                                          14,
+                                                                          14.sp,
                                                                       letterSpacing:
                                                                           2),
                                                                 ),
@@ -731,8 +744,8 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                             )),
                                                           ],
                                                         ),
-                                                        const SizedBox(
-                                                          height: 20,
+                                                        SizedBox(
+                                                          height: 20.sp,
                                                         )
                                                       ],
                                                     ));
@@ -742,21 +755,27 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                         },
                                         child: Stack(
                                           children: [
-                                            Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 12),
-                                                child: ImageIcon(
-                                                  const AssetImage(
-                                                      "assets/images/filter.png"),
+                                            Container(
+                                                width: 24.sp,
+                                                height: 24.sp,
+                                                margin: EdgeInsets.only(
+                                                    top: 12.sp,
+                                                    bottom: 12.sp,
+                                                    left: 16,
+                                                    right: 12),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 3.5.sp,
+                                                    vertical: 3.5.sp),
+                                                child: Image.asset(
+                                                  "assets/images/filter.png",
                                                   color: _focusNodes[0].hasFocus
                                                       ? textPrimary
                                                       : textGrey,
-                                                  size: 18,
                                                 )),
-                                            if (filter.isNotEmpty)
+                                            if (filter.isNotEmpty && filteredCategories.length != categories.length)
                                               Positioned(
-                                                right: 10,
+                                                right: 10.sp,
+                                                top: 15.sp,
                                                 child: Container(
                                                   decoration:
                                                       const BoxDecoration(
@@ -764,8 +783,8 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                               BoxShape.circle,
                                                           color: Color(
                                                               0xFFEA4040)),
-                                                  width: 6,
-                                                  height: 6,
+                                                  width: 6.sp,
+                                                  height: 6.sp,
                                                 ),
                                               )
                                           ],
@@ -773,9 +792,14 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                     suffixIconConstraints: const BoxConstraints(
                                         minHeight: 24, minWidth: 24),
                                     hintText: "Search Category/Sub-Category",
-                                    hintStyle: const TextStyle(
-                                        fontSize: 16, color: textGrey)),
+                                    hintStyle: GoogleFonts.poppins(
+                                        fontSize: 16.sp,
+                                        color: textGrey,
+                                        height: 1.5)),
                                 cursorColor: textPrimary,
+                                style: GoogleFonts.poppins(fontSize: 16.sp,
+                                    color: textGrey,
+                                    height: 1.5),
                                 onChanged: (val) {
                                   setState(() {
                                     filteredCategories = categories
@@ -789,124 +813,134 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                               )),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 12),
+                          padding:  EdgeInsets.symmetric(
+                              horizontal: 20.sp, vertical: 12.sp),
                           child: Text(
                             "Categories".toUpperCase(),
-                            style: const TextStyle(
-                                fontSize: 12,
+                            style: TextStyle(
+                                fontSize: 12.sp,
                                 color: textGrey,
                                 fontWeight: FontWeight.w600,
-                                letterSpacing: 1),
+                                letterSpacing: 1,
+                                height: 1.34),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 20.sp),
                           child: Wrap(
                             spacing: 0,
                             runSpacing: 12,
                             children: [
                               ...filteredCategories.map(
                                 (cat) => GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      updateSelectCategory(cat.id, height);
-                                      updateSubCategoryList(
-                                          filteredCategories[cat.id]
-                                              .parentCategory
-                                              .toString());
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 40,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 10),
-                                    margin: const EdgeInsets.only(right: 12),
-                                    color: selectedCategories.contains(cat.id)
-                                        ? primaryColor
-                                        : secondaryColor,
-                                    child: Text(
-                                      cat.category.toString().toUpperCase(),
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        color:
-                                            selectedCategories.contains(cat.id)
-                                                ? secondaryColorDark
-                                                : textPrimary,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 2,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                    onTap: () {
+                                      setState(() {
+                                        updateSelectCategory(cat.id);
+                                      });
+                                    },
+                                    child: Container(
+                                        height: 40.sp,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 12.sp, vertical: 12.sp),
+                                        margin:
+                                            const EdgeInsets.only(right: 12),
+                                        decoration: BoxDecoration(
+                                            color: selectedCategories == cat.id
+                                                ? primaryColor
+                                                : secondaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(2.sp)),
+                                        child: Text(
+                                          cat.category.toUpperCase(),
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 14.sp,
+                                              color:
+                                                  selectedCategories == cat.id
+                                                      ? secondaryColorDark
+                                                      : textPrimary,
+                                              fontWeight: FontWeight.w600,
+                                              height: 1.14,
+                                              letterSpacing: 2),
+                                        ))),
                               ),
                             ],
                           ),
                         ),
-                        selectedCategories.isNotEmpty
+                        selectedCategories != -1
                             ? Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 12),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20.sp, vertical: 12.sp),
                                 child: Text(
                                   "Sub-Categories".toUpperCase(),
-                                  style: const TextStyle(
-                                      fontSize: 12,
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
                                       color: textGrey,
                                       fontWeight: FontWeight.w600,
-                                      letterSpacing: 1),
+                                      letterSpacing: 1,
+                                      height: 1.34),
                                 ),
                               )
                             : const Text(""),
-                        selectedCategories.isNotEmpty
+                        selectedCategories != -1
                             ? Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20, right: 20, bottom: 385),
+                                padding: EdgeInsets.only(
+                                    left: 20.sp, right: 20.sp, bottom: 385.sp),
                                 child: Wrap(
                                   spacing: 0,
                                   runSpacing: 12,
                                   children: [
-                                    ...subCategories.map(
-                                      (cat) => GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              updateSelectSubCategory(cat);
-                                            });
-                                          },
-                                          child: Container(
-                                              height: 40,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                    ...subCategories
+                                        .where((element) =>
+                                            element.parentCategory ==
+                                            selectedCategories)
+                                        .map(
+                                          (cat) => GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  updateSelectSubCategory(cat);
+                                                });
+                                              },
+                                              child: Container(
+                                                  height: 40.sp,
+                                                  padding: EdgeInsets.symmetric(
                                                       horizontal: 12,
-                                                      vertical: 10),
-                                              margin: const EdgeInsets.only(
-                                                  right: 12),
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                color: selectedSubCategories
-                                                        .contains(cat)
-                                                    ? primaryColor
-                                                    : textGrey,
-                                              )),
-                                              child: Text(
-                                                cat.category
-                                                    .toString()
-                                                    .toUpperCase(),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: selectedSubCategories
-                                                            .contains(cat)
-                                                        ? textPrimary
-                                                        : textGrey,
-                                                    fontWeight: FontWeight.w600,
-                                                    letterSpacing: 2),
-                                              ))),
-                                    ),
+                                                      vertical: 12.sp),
+                                                  margin: const EdgeInsets.only(
+                                                      right: 12),
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color:
+                                                            selectedSubCategories
+                                                                    .contains(
+                                                                        cat)
+                                                                ? primaryColor
+                                                                : textGrey,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              2)),
+                                                  child: Text(
+                                                    cat.category.toUpperCase(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 14.sp,
+                                                        color:
+                                                            selectedSubCategories
+                                                                    .contains(
+                                                                        cat)
+                                                                ? textPrimary
+                                                                : textGrey,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        height: 1.14,
+                                                        letterSpacing: 2),
+                                                  ))),
+                                        ),
                                   ],
                                 ),
                               )
-                            : const Text(""),
+                            : const SizedBox.shrink(),
                       ]),
                 )
               ])));

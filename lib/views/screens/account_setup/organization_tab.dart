@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/controllers/mutation_controller.dart';
+import 'package:zicops/views/widgets/GradientButton.dart';
 import 'package:zicops/views/widgets/PrefixInputField.dart';
 
 import '../../../graphql_api.graphql.dart';
@@ -167,6 +168,8 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 children: [
+                  prefixInputField(_focusNodes[0], _controller1,
+                      "assets/images/organization.png", "Organisation"),
                   const SizedBox(height: 20),
                   prefixInputField(
                     _focusNodes[0],
@@ -175,6 +178,8 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
                     "Organisation",
                   ),
                   const SizedBox(height: 12),
+                  prefixInputField(_focusNodes[1], _controller2,
+                      "assets/images/location.png", "Organization Unit"),
                   prefixInputField(
                     _focusNodes[1],
                     _orgUnitController,
@@ -200,27 +205,12 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
                   ),
                   const SizedBox(height: 12),
                   const Spacer(),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
                       widget.changeTab();
                       handleOrgTab();
                     },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 48,
-                      decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                              colors: [primaryColor, gradientTwo]),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: Text(
-                        'Next'.toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            letterSpacing: 2),
-                      ),
-                    ),
+                    child: gradientButton("Next"),
                   ),
                 ],
               )))
