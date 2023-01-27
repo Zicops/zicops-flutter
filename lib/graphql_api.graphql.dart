@@ -26,6 +26,80 @@ mixin UserLspFragmentMixin {
   @JsonKey(name: 'updated_by')
   String? updatedBy;
 }
+mixin LearningSpaceFragmentMixin {
+  @JsonKey(name: 'lsp_id')
+  String? lspId;
+  @JsonKey(name: 'org_id')
+  late String orgId;
+  @JsonKey(name: 'ou_id')
+  late String ouId;
+  late String name;
+  @JsonKey(name: 'logo_url')
+  String? logoUrl;
+  @JsonKey(name: 'profile_url')
+  String? profileUrl;
+  @JsonKey(name: 'no_users')
+  late int noUsers;
+  List<String?>? owners;
+  @JsonKey(name: 'is_default')
+  late bool isDefault;
+  late String status;
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+}
+mixin OrganizationFragmentMixin {
+  @JsonKey(name: 'org_id')
+  String? orgId;
+  late String name;
+  @JsonKey(name: 'logo_url')
+  String? logoUrl;
+  late String industry;
+  late String type;
+  late String subdomain;
+  @JsonKey(name: 'employee_count')
+  late int employeeCount;
+  late String website;
+  @JsonKey(name: 'linkedin_url')
+  String? linkedinUrl;
+  @JsonKey(name: 'facebook_url')
+  String? facebookUrl;
+  @JsonKey(name: 'twitter_url')
+  String? twitterUrl;
+  late String status;
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+}
+mixin UserRoleFragmentMixin {
+  @JsonKey(name: 'user_role_id')
+  String? userRoleId;
+  @JsonKey(name: 'user_id')
+  late String userId;
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+  late String role;
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+}
 mixin UserOrganizationFragmentMixin {
   @JsonKey(name: 'user_organization_id')
   String? userOrganizationId;
@@ -512,6 +586,145 @@ class GetUserLspByLspId$QueryRoot extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [getUserLspByLspId];
   @override
   Map<String, dynamic> toJson() => _$GetUserLspByLspId$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetLearningSpaceDetails$QueryRoot$LearningSpace extends JsonSerializable
+    with EquatableMixin, LearningSpaceFragmentMixin {
+  GetLearningSpaceDetails$QueryRoot$LearningSpace();
+
+  factory GetLearningSpaceDetails$QueryRoot$LearningSpace.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetLearningSpaceDetails$QueryRoot$LearningSpaceFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        lspId,
+        orgId,
+        ouId,
+        name,
+        logoUrl,
+        profileUrl,
+        noUsers,
+        owners,
+        isDefault,
+        status,
+        createdAt,
+        updatedAt,
+        createdBy,
+        updatedBy
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetLearningSpaceDetails$QueryRoot$LearningSpaceToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetLearningSpaceDetails$QueryRoot extends JsonSerializable
+    with EquatableMixin {
+  GetLearningSpaceDetails$QueryRoot();
+
+  factory GetLearningSpaceDetails$QueryRoot.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetLearningSpaceDetails$QueryRootFromJson(json);
+
+  List<GetLearningSpaceDetails$QueryRoot$LearningSpace?>?
+      getLearningSpaceDetails;
+
+  @override
+  List<Object?> get props => [getLearningSpaceDetails];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetLearningSpaceDetails$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetOrganizations$QueryRoot$Organization extends JsonSerializable
+    with EquatableMixin, OrganizationFragmentMixin {
+  GetOrganizations$QueryRoot$Organization();
+
+  factory GetOrganizations$QueryRoot$Organization.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetOrganizations$QueryRoot$OrganizationFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        orgId,
+        name,
+        logoUrl,
+        industry,
+        type,
+        subdomain,
+        employeeCount,
+        website,
+        linkedinUrl,
+        facebookUrl,
+        twitterUrl,
+        status,
+        createdAt,
+        updatedAt,
+        createdBy,
+        updatedBy
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetOrganizations$QueryRoot$OrganizationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetOrganizations$QueryRoot extends JsonSerializable with EquatableMixin {
+  GetOrganizations$QueryRoot();
+
+  factory GetOrganizations$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetOrganizations$QueryRootFromJson(json);
+
+  List<GetOrganizations$QueryRoot$Organization?>? getOrganizations;
+
+  @override
+  List<Object?> get props => [getOrganizations];
+  @override
+  Map<String, dynamic> toJson() => _$GetOrganizations$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserLspRoles$QueryRoot$UserRole extends JsonSerializable
+    with EquatableMixin, UserRoleFragmentMixin {
+  GetUserLspRoles$QueryRoot$UserRole();
+
+  factory GetUserLspRoles$QueryRoot$UserRole.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserLspRoles$QueryRoot$UserRoleFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        userRoleId,
+        userId,
+        userLspId,
+        role,
+        isActive,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserLspRoles$QueryRoot$UserRoleToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserLspRoles$QueryRoot extends JsonSerializable with EquatableMixin {
+  GetUserLspRoles$QueryRoot();
+
+  factory GetUserLspRoles$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetUserLspRoles$QueryRootFromJson(json);
+
+  List<GetUserLspRoles$QueryRoot$UserRole?>? getUserLspRoles;
+
+  @override
+  List<Object?> get props => [getUserLspRoles];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserLspRoles$QueryRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1242,7 +1455,6 @@ class UpdateUserMutation
 class AddUserOrganizationMapArguments extends JsonSerializable
     with EquatableMixin {
   AddUserOrganizationMapArguments({
-    required this.user_organization_id,
     required this.user_id,
     required this.user_lsp_id,
     required this.organization_id,
@@ -1254,8 +1466,6 @@ class AddUserOrganizationMapArguments extends JsonSerializable
   @override
   factory AddUserOrganizationMapArguments.fromJson(Map<String, dynamic> json) =>
       _$AddUserOrganizationMapArgumentsFromJson(json);
-
-  late String user_organization_id;
 
   late String user_id;
 
@@ -1271,7 +1481,6 @@ class AddUserOrganizationMapArguments extends JsonSerializable
 
   @override
   List<Object?> get props => [
-        user_organization_id,
         user_id,
         user_lsp_id,
         organization_id,
@@ -1291,15 +1500,6 @@ final ADD_USER_ORGANIZATION_MAP_MUTATION_DOCUMENT = DocumentNode(definitions: [
     type: OperationType.mutation,
     name: NameNode(value: 'addUserOrganizationMap'),
     variableDefinitions: [
-      VariableDefinitionNode(
-        variable: VariableNode(name: NameNode(value: 'user_organization_id')),
-        type: NamedTypeNode(
-          name: NameNode(value: 'ID'),
-          isNonNull: true,
-        ),
-        defaultValue: DefaultValueNode(value: null),
-        directives: [],
-      ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'user_id')),
         type: NamedTypeNode(
@@ -1364,11 +1564,6 @@ final ADD_USER_ORGANIZATION_MAP_MUTATION_DOCUMENT = DocumentNode(definitions: [
           ArgumentNode(
             name: NameNode(value: 'input'),
             value: ObjectValueNode(fields: [
-              ObjectFieldNode(
-                name: NameNode(value: 'user_organization_id'),
-                value:
-                    VariableNode(name: NameNode(value: 'user_organization_id')),
-              ),
               ObjectFieldNode(
                 name: NameNode(value: 'user_id'),
                 value: VariableNode(name: NameNode(value: 'user_id')),
@@ -1716,11 +1911,10 @@ class UpdateUserOrganizationMapMutation extends GraphQLQuery<
 @JsonSerializable(explicitToJson: true)
 class AddUserPreferenceArguments extends JsonSerializable with EquatableMixin {
   AddUserPreferenceArguments({
-    required this.user_preference_id,
     required this.user_id,
     required this.user_lsp_id,
-    required this.preference_id,
-    required this.preference_value,
+    required this.sub_category,
+    required this.is_base,
     required this.is_active,
   });
 
@@ -1728,27 +1922,19 @@ class AddUserPreferenceArguments extends JsonSerializable with EquatableMixin {
   factory AddUserPreferenceArguments.fromJson(Map<String, dynamic> json) =>
       _$AddUserPreferenceArgumentsFromJson(json);
 
-  late String user_preference_id;
-
   late String user_id;
 
   late String user_lsp_id;
 
-  late String preference_id;
+  late String sub_category;
 
-  late String preference_value;
+  late bool is_base;
 
   late bool is_active;
 
   @override
-  List<Object?> get props => [
-        user_preference_id,
-        user_id,
-        user_lsp_id,
-        preference_id,
-        preference_value,
-        is_active
-      ];
+  List<Object?> get props =>
+      [user_id, user_lsp_id, sub_category, is_base, is_active];
   @override
   Map<String, dynamic> toJson() => _$AddUserPreferenceArgumentsToJson(this);
 }
@@ -1760,15 +1946,6 @@ final ADD_USER_PREFERENCE_MUTATION_DOCUMENT = DocumentNode(definitions: [
     type: OperationType.mutation,
     name: NameNode(value: 'addUserPreference'),
     variableDefinitions: [
-      VariableDefinitionNode(
-        variable: VariableNode(name: NameNode(value: 'user_preference_id')),
-        type: NamedTypeNode(
-          name: NameNode(value: 'ID'),
-          isNonNull: true,
-        ),
-        defaultValue: DefaultValueNode(value: null),
-        directives: [],
-      ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'user_id')),
         type: NamedTypeNode(
@@ -1788,7 +1965,7 @@ final ADD_USER_PREFERENCE_MUTATION_DOCUMENT = DocumentNode(definitions: [
         directives: [],
       ),
       VariableDefinitionNode(
-        variable: VariableNode(name: NameNode(value: 'preference_id')),
+        variable: VariableNode(name: NameNode(value: 'sub_category')),
         type: NamedTypeNode(
           name: NameNode(value: 'String'),
           isNonNull: true,
@@ -1797,9 +1974,9 @@ final ADD_USER_PREFERENCE_MUTATION_DOCUMENT = DocumentNode(definitions: [
         directives: [],
       ),
       VariableDefinitionNode(
-        variable: VariableNode(name: NameNode(value: 'preference_value')),
+        variable: VariableNode(name: NameNode(value: 'is_base')),
         type: NamedTypeNode(
-          name: NameNode(value: 'String'),
+          name: NameNode(value: 'Boolean'),
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
@@ -1823,32 +2000,29 @@ final ADD_USER_PREFERENCE_MUTATION_DOCUMENT = DocumentNode(definitions: [
         arguments: [
           ArgumentNode(
             name: NameNode(value: 'input'),
-            value: ObjectValueNode(fields: [
-              ObjectFieldNode(
-                name: NameNode(value: 'user_preference_id'),
-                value:
-                    VariableNode(name: NameNode(value: 'user_preference_id')),
-              ),
-              ObjectFieldNode(
-                name: NameNode(value: 'user_id'),
-                value: VariableNode(name: NameNode(value: 'user_id')),
-              ),
-              ObjectFieldNode(
-                name: NameNode(value: 'user_lsp_id'),
-                value: VariableNode(name: NameNode(value: 'user_lsp_id')),
-              ),
-              ObjectFieldNode(
-                name: NameNode(value: 'sub_category'),
-                value: VariableNode(name: NameNode(value: 'sub_category')),
-              ),
-              ObjectFieldNode(
-                name: NameNode(value: 'is_base'),
-                value: VariableNode(name: NameNode(value: 'is_base')),
-              ),
-              ObjectFieldNode(
-                name: NameNode(value: 'is_active'),
-                value: VariableNode(name: NameNode(value: 'is_active')),
-              ),
+            value: ListValueNode(values: [
+              ObjectValueNode(fields: [
+                ObjectFieldNode(
+                  name: NameNode(value: 'user_id'),
+                  value: VariableNode(name: NameNode(value: 'user_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'user_lsp_id'),
+                  value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'sub_category'),
+                  value: VariableNode(name: NameNode(value: 'sub_category')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'is_base'),
+                  value: VariableNode(name: NameNode(value: 'is_base')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'is_active'),
+                  value: VariableNode(name: NameNode(value: 'is_active')),
+                ),
+              ])
             ]),
           )
         ],
@@ -2436,6 +2610,569 @@ class GetUserLspByLspIdQuery extends GraphQLQuery<GetUserLspByLspId$QueryRoot,
   @override
   GetUserLspByLspId$QueryRoot parse(Map<String, dynamic> json) =>
       GetUserLspByLspId$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetLearningSpaceDetailsArguments extends JsonSerializable
+    with EquatableMixin {
+  GetLearningSpaceDetailsArguments({this.lsp_ids});
+
+  @override
+  factory GetLearningSpaceDetailsArguments.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetLearningSpaceDetailsArgumentsFromJson(json);
+
+  final List<String?>? lsp_ids;
+
+  @override
+  List<Object?> get props => [lsp_ids];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetLearningSpaceDetailsArgumentsToJson(this);
+}
+
+final GET_LEARNING_SPACE_DETAILS_QUERY_DOCUMENT_OPERATION_NAME =
+    'getLearningSpaceDetails';
+final GET_LEARNING_SPACE_DETAILS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getLearningSpaceDetails'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'lsp_ids')),
+        type: ListTypeNode(
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getLearningSpaceDetails'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'lsp_ids'),
+            value: VariableNode(name: NameNode(value: 'lsp_ids')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'LearningSpaceFragment'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'LearningSpaceFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'LearningSpace'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'lsp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'org_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'ou_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'logo_url'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'profile_url'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'no_users'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'owners'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'is_default'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetLearningSpaceDetailsQuery extends GraphQLQuery<
+    GetLearningSpaceDetails$QueryRoot, GetLearningSpaceDetailsArguments> {
+  GetLearningSpaceDetailsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_LEARNING_SPACE_DETAILS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName =
+      GET_LEARNING_SPACE_DETAILS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetLearningSpaceDetailsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetLearningSpaceDetails$QueryRoot parse(Map<String, dynamic> json) =>
+      GetLearningSpaceDetails$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetOrganizationsArguments extends JsonSerializable with EquatableMixin {
+  GetOrganizationsArguments({this.org_ids});
+
+  @override
+  factory GetOrganizationsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetOrganizationsArgumentsFromJson(json);
+
+  final List<String?>? org_ids;
+
+  @override
+  List<Object?> get props => [org_ids];
+  @override
+  Map<String, dynamic> toJson() => _$GetOrganizationsArgumentsToJson(this);
+}
+
+final GET_ORGANIZATIONS_QUERY_DOCUMENT_OPERATION_NAME = 'getOrganizations';
+final GET_ORGANIZATIONS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getOrganizations'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'org_ids')),
+        type: ListTypeNode(
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getOrganizations'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'org_ids'),
+            value: VariableNode(name: NameNode(value: 'org_ids')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'OrganizationFragment'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'OrganizationFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Organization'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'org_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'logo_url'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'industry'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'type'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'subdomain'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'employee_count'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'website'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'linkedin_url'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'facebook_url'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'twitter_url'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetOrganizationsQuery extends GraphQLQuery<GetOrganizations$QueryRoot,
+    GetOrganizationsArguments> {
+  GetOrganizationsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_ORGANIZATIONS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_ORGANIZATIONS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetOrganizationsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetOrganizations$QueryRoot parse(Map<String, dynamic> json) =>
+      GetOrganizations$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserLspRolesArguments extends JsonSerializable with EquatableMixin {
+  GetUserLspRolesArguments({
+    required this.user_id,
+    required this.user_lsp_ids,
+  });
+
+  @override
+  factory GetUserLspRolesArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetUserLspRolesArgumentsFromJson(json);
+
+  late String user_id;
+
+  late List<String> user_lsp_ids;
+
+  @override
+  List<Object?> get props => [user_id, user_lsp_ids];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserLspRolesArgumentsToJson(this);
+}
+
+final GET_USER_LSP_ROLES_QUERY_DOCUMENT_OPERATION_NAME = 'getUserLspRoles';
+final GET_USER_LSP_ROLES_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getUserLspRoles'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_ids')),
+        type: ListTypeNode(
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: true,
+          ),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getUserLspRoles'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'user_id'),
+            value: VariableNode(name: NameNode(value: 'user_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'user_lsp_ids'),
+            value: VariableNode(name: NameNode(value: 'user_lsp_ids')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'UserRoleFragment'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'UserRoleFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'UserRole'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'user_role_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_lsp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'role'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'is_active'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetUserLspRolesQuery
+    extends GraphQLQuery<GetUserLspRoles$QueryRoot, GetUserLspRolesArguments> {
+  GetUserLspRolesQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_USER_LSP_ROLES_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_USER_LSP_ROLES_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetUserLspRolesArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetUserLspRoles$QueryRoot parse(Map<String, dynamic> json) =>
+      GetUserLspRoles$QueryRoot.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

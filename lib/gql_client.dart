@@ -1,6 +1,7 @@
 import 'package:artemis/artemis.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 // **************************************************************************
 class GQL {
   final String baseUrl;
@@ -48,6 +49,7 @@ class AuthenticatedClient extends BaseClient {
   Future<StreamedResponse> send(BaseRequest request) async {
     final token = await Artemis.token();
     if (token != '') {
+      request.headers['zmobile'] = 'true';
       request.headers['Authorization'] = 'Bearer $token';
     }
     return _inner.send(request);

@@ -25,32 +25,33 @@ updateUser(String id, String firstNameController, String lastNameController,
   return;
 }
 
-addUserOrganization() async {
+addUserOrganization(String userId, String orgId, String userLspId,
+    String organisationRole, String employeeId) async {
   final res = await userClient.client()?.execute(AddUserOrganizationMapMutation(
           variables: AddUserOrganizationMapArguments(
-        user_id: "",
-        organization_id: "",
-        user_organization_id: '',
-        user_lsp_id: '',
-        organization_role: '',
+        user_id: userId,
+        organization_id: orgId,
+        user_lsp_id: userLspId,
+        organization_role: organisationRole,
         is_active: true,
-        employee_id: '',
+        employee_id: employeeId,
       )));
   print(res?.data?.toJson());
   return;
 }
 
-updateUserOrganizationMap() async {
+updateUserOrganizationMap(String userId, String orgId, String userOrgId,
+    String userLspId, String organisationRole, String employeeId) async {
   final res =
       await userClient.client()?.execute(UpdateUserOrganizationMapMutation(
               variables: UpdateUserOrganizationMapArguments(
-            user_id: "",
-            organization_id: "",
-            user_organization_id: '',
-            user_lsp_id: '',
-            organization_role: '',
+            user_id: userId,
+            organization_id: orgId,
+            user_organization_id: userOrgId,
+            user_lsp_id: userLspId,
+            organization_role: organisationRole,
             is_active: true,
-            employee_id: '',
+            employee_id: employeeId,
           )));
   print(res?.data?.toJson());
   return;
@@ -59,12 +60,11 @@ updateUserOrganizationMap() async {
 addUserPreference() async {
   final res = await userClient.client()?.execute(AddUserPreferenceMutation(
           variables: AddUserPreferenceArguments(
-        user_preference_id: '',
         user_id: "",
         user_lsp_id: '',
         is_active: true,
-        preference_id: '',
-        preference_value: '',
+        sub_category: '',
+        is_base: false,
       )));
   print(res?.data?.toJson());
   return;

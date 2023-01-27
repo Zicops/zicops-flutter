@@ -298,6 +298,167 @@ Map<String, dynamic> _$GetUserLspByLspId$QueryRootToJson(
       'getUserLspByLspId': instance.getUserLspByLspId?.toJson(),
     };
 
+GetLearningSpaceDetails$QueryRoot$LearningSpace
+    _$GetLearningSpaceDetails$QueryRoot$LearningSpaceFromJson(
+            Map<String, dynamic> json) =>
+        GetLearningSpaceDetails$QueryRoot$LearningSpace()
+          ..lspId = json['lsp_id'] as String?
+          ..orgId = json['org_id'] as String
+          ..ouId = json['ou_id'] as String
+          ..name = json['name'] as String
+          ..logoUrl = json['logo_url'] as String?
+          ..profileUrl = json['profile_url'] as String?
+          ..noUsers = json['no_users'] as int
+          ..owners = (json['owners'] as List<dynamic>?)
+              ?.map((e) => e as String?)
+              .toList()
+          ..isDefault = json['is_default'] as bool
+          ..status = json['status'] as String
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?;
+
+Map<String, dynamic> _$GetLearningSpaceDetails$QueryRoot$LearningSpaceToJson(
+        GetLearningSpaceDetails$QueryRoot$LearningSpace instance) =>
+    <String, dynamic>{
+      'lsp_id': instance.lspId,
+      'org_id': instance.orgId,
+      'ou_id': instance.ouId,
+      'name': instance.name,
+      'logo_url': instance.logoUrl,
+      'profile_url': instance.profileUrl,
+      'no_users': instance.noUsers,
+      'owners': instance.owners,
+      'is_default': instance.isDefault,
+      'status': instance.status,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+    };
+
+GetLearningSpaceDetails$QueryRoot _$GetLearningSpaceDetails$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetLearningSpaceDetails$QueryRoot()
+      ..getLearningSpaceDetails =
+          (json['getLearningSpaceDetails'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetLearningSpaceDetails$QueryRoot$LearningSpace.fromJson(
+                      e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic> _$GetLearningSpaceDetails$QueryRootToJson(
+        GetLearningSpaceDetails$QueryRoot instance) =>
+    <String, dynamic>{
+      'getLearningSpaceDetails':
+          instance.getLearningSpaceDetails?.map((e) => e?.toJson()).toList(),
+    };
+
+GetOrganizations$QueryRoot$Organization
+    _$GetOrganizations$QueryRoot$OrganizationFromJson(
+            Map<String, dynamic> json) =>
+        GetOrganizations$QueryRoot$Organization()
+          ..orgId = json['org_id'] as String?
+          ..name = json['name'] as String
+          ..logoUrl = json['logo_url'] as String?
+          ..industry = json['industry'] as String
+          ..type = json['type'] as String
+          ..subdomain = json['subdomain'] as String
+          ..employeeCount = json['employee_count'] as int
+          ..website = json['website'] as String
+          ..linkedinUrl = json['linkedin_url'] as String?
+          ..facebookUrl = json['facebook_url'] as String?
+          ..twitterUrl = json['twitter_url'] as String?
+          ..status = json['status'] as String
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?;
+
+Map<String, dynamic> _$GetOrganizations$QueryRoot$OrganizationToJson(
+        GetOrganizations$QueryRoot$Organization instance) =>
+    <String, dynamic>{
+      'org_id': instance.orgId,
+      'name': instance.name,
+      'logo_url': instance.logoUrl,
+      'industry': instance.industry,
+      'type': instance.type,
+      'subdomain': instance.subdomain,
+      'employee_count': instance.employeeCount,
+      'website': instance.website,
+      'linkedin_url': instance.linkedinUrl,
+      'facebook_url': instance.facebookUrl,
+      'twitter_url': instance.twitterUrl,
+      'status': instance.status,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+    };
+
+GetOrganizations$QueryRoot _$GetOrganizations$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetOrganizations$QueryRoot()
+      ..getOrganizations = (json['getOrganizations'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : GetOrganizations$QueryRoot$Organization.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetOrganizations$QueryRootToJson(
+        GetOrganizations$QueryRoot instance) =>
+    <String, dynamic>{
+      'getOrganizations':
+          instance.getOrganizations?.map((e) => e?.toJson()).toList(),
+    };
+
+GetUserLspRoles$QueryRoot$UserRole _$GetUserLspRoles$QueryRoot$UserRoleFromJson(
+        Map<String, dynamic> json) =>
+    GetUserLspRoles$QueryRoot$UserRole()
+      ..userRoleId = json['user_role_id'] as String?
+      ..userId = json['user_id'] as String
+      ..userLspId = json['user_lsp_id'] as String
+      ..role = json['role'] as String
+      ..isActive = json['is_active'] as bool
+      ..createdBy = json['created_by'] as String?
+      ..updatedBy = json['updated_by'] as String?
+      ..createdAt = json['created_at'] as String
+      ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic> _$GetUserLspRoles$QueryRoot$UserRoleToJson(
+        GetUserLspRoles$QueryRoot$UserRole instance) =>
+    <String, dynamic>{
+      'user_role_id': instance.userRoleId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'role': instance.role,
+      'is_active': instance.isActive,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+GetUserLspRoles$QueryRoot _$GetUserLspRoles$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetUserLspRoles$QueryRoot()
+      ..getUserLspRoles = (json['getUserLspRoles'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : GetUserLspRoles$QueryRoot$UserRole.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetUserLspRoles$QueryRootToJson(
+        GetUserLspRoles$QueryRoot instance) =>
+    <String, dynamic>{
+      'getUserLspRoles':
+          instance.getUserLspRoles?.map((e) => e?.toJson()).toList(),
+    };
+
 GetUserOrganizations$QueryRoot$UserOrganizationMap
     _$GetUserOrganizations$QueryRoot$UserOrganizationMapFromJson(
             Map<String, dynamic> json) =>
@@ -708,7 +869,6 @@ Map<String, dynamic> _$UpdateUserArgumentsToJson(
 AddUserOrganizationMapArguments _$AddUserOrganizationMapArgumentsFromJson(
         Map<String, dynamic> json) =>
     AddUserOrganizationMapArguments(
-      user_organization_id: json['user_organization_id'] as String,
       user_id: json['user_id'] as String,
       user_lsp_id: json['user_lsp_id'] as String,
       organization_id: json['organization_id'] as String,
@@ -720,7 +880,6 @@ AddUserOrganizationMapArguments _$AddUserOrganizationMapArgumentsFromJson(
 Map<String, dynamic> _$AddUserOrganizationMapArgumentsToJson(
         AddUserOrganizationMapArguments instance) =>
     <String, dynamic>{
-      'user_organization_id': instance.user_organization_id,
       'user_id': instance.user_id,
       'user_lsp_id': instance.user_lsp_id,
       'organization_id': instance.organization_id,
@@ -756,22 +915,20 @@ Map<String, dynamic> _$UpdateUserOrganizationMapArgumentsToJson(
 AddUserPreferenceArguments _$AddUserPreferenceArgumentsFromJson(
         Map<String, dynamic> json) =>
     AddUserPreferenceArguments(
-      user_preference_id: json['user_preference_id'] as String,
       user_id: json['user_id'] as String,
       user_lsp_id: json['user_lsp_id'] as String,
-      preference_id: json['preference_id'] as String,
-      preference_value: json['preference_value'] as String,
+      sub_category: json['sub_category'] as String,
+      is_base: json['is_base'] as bool,
       is_active: json['is_active'] as bool,
     );
 
 Map<String, dynamic> _$AddUserPreferenceArgumentsToJson(
         AddUserPreferenceArguments instance) =>
     <String, dynamic>{
-      'user_preference_id': instance.user_preference_id,
       'user_id': instance.user_id,
       'user_lsp_id': instance.user_lsp_id,
-      'preference_id': instance.preference_id,
-      'preference_value': instance.preference_value,
+      'sub_category': instance.sub_category,
+      'is_base': instance.is_base,
       'is_active': instance.is_active,
     };
 
@@ -821,6 +978,50 @@ Map<String, dynamic> _$GetUserLspByLspIdArgumentsToJson(
     <String, dynamic>{
       'user_id': instance.user_id,
       'lsp_id': instance.lsp_id,
+    };
+
+GetLearningSpaceDetailsArguments _$GetLearningSpaceDetailsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetLearningSpaceDetailsArguments(
+      lsp_ids: (json['lsp_ids'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList(),
+    );
+
+Map<String, dynamic> _$GetLearningSpaceDetailsArgumentsToJson(
+        GetLearningSpaceDetailsArguments instance) =>
+    <String, dynamic>{
+      'lsp_ids': instance.lsp_ids,
+    };
+
+GetOrganizationsArguments _$GetOrganizationsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetOrganizationsArguments(
+      org_ids: (json['org_ids'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList(),
+    );
+
+Map<String, dynamic> _$GetOrganizationsArgumentsToJson(
+        GetOrganizationsArguments instance) =>
+    <String, dynamic>{
+      'org_ids': instance.org_ids,
+    };
+
+GetUserLspRolesArguments _$GetUserLspRolesArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetUserLspRolesArguments(
+      user_id: json['user_id'] as String,
+      user_lsp_ids: (json['user_lsp_ids'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$GetUserLspRolesArgumentsToJson(
+        GetUserLspRolesArguments instance) =>
+    <String, dynamic>{
+      'user_id': instance.user_id,
+      'user_lsp_ids': instance.user_lsp_ids,
     };
 
 GetUserOrganizationsArguments _$GetUserOrganizationsArgumentsFromJson(

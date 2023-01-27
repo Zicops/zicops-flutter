@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -31,6 +34,8 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
 
   List<AllCatMainModel> catMainList = [];
 
+  HashMap<String, String> catSubCatMap = HashMap<String, String>();
+
   List<Category> categories = [
     // Category(0, "Finance & Accounting", null),
     // Category(1, "Design", null),
@@ -40,6 +45,16 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     // Category(5, "Soft Skills", null),
     // Category(6, "Language", null)
   ];
+  List<Category> subCategories = [
+    // Category(50, "UX Design", 1),
+    // Category(51, "Graphics Design", 1),
+    // Category(52, "Mobile Design", 1),
+    // Category(53, "App Design", 1),
+    // Category(54, "Interactive Design", 1),
+  ];
+  List<Category> roughWork = [];
+
+  //Map catSubCatMap = {};
 
   Future catMainLoading() async {
     setState(() {
@@ -52,25 +67,28 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
 
     //print(result?.data?.allCatMain![4]?.name);
 
-    final subCatMainResult = await courseQClient.client()?.execute(
-        AllSubCatMainQuery(
-            variables: AllSubCatMainArguments(
-                lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
+    //display subcategories for every category
+
+    // final subCatMainResult = await courseQClient.client()?.execute(
+    //     AllSubCatByCatIdQuery(
+    //         variables: AllSubCatByCatIdArguments(
+    //             catId: allCatMainResult?.data?.allCatMain![0]?.id)));
+    // print(subCatMainResult?.data?.allSubCatByCatId?.);
 
     // for (int e in subCatMainResult?.data?.allSubCatMain!.asMap().keys ?? []) {
     //   print(subCatMainResult?.data?.allSubCatMain![e]?.catId);
     // }
 
-    AllCatMainModel allCatMainModel = AllCatMainModel(
-      allCatMainResult?.data?.allCatMain![0]?.id,
-      allCatMainResult?.data?.allCatMain![0]?.name,
-      allCatMainResult?.data?.allCatMain![0]?.description,
-      allCatMainResult?.data?.allCatMain![0]?.imageUrl,
-      allCatMainResult?.data?.allCatMain![0]?.code,
-      allCatMainResult?.data?.allCatMain![0]?.createdAt,
-      allCatMainResult?.data?.allCatMain![0]?.updatedAt,
-      allCatMainResult?.data?.allCatMain![0]?.isActive,
-    );
+    // AllCatMainModel allCatMainModel = AllCatMainModel(
+    //   allCatMainResult?.data?.allCatMain![0]?.id,
+    //   allCatMainResult?.data?.allCatMain![0]?.name,
+    //   allCatMainResult?.data?.allCatMain![0]?.description,
+    //   allCatMainResult?.data?.allCatMain![0]?.imageUrl,
+    //   allCatMainResult?.data?.allCatMain![0]?.code,
+    //   allCatMainResult?.data?.allCatMain![0]?.createdAt,
+    //   allCatMainResult?.data?.allCatMain![0]?.updatedAt,
+    //   allCatMainResult?.data?.allCatMain![0]?.isActive,
+    // );
 
     for (int i in allCatMainResult?.data?.allCatMain!.asMap().keys ?? []) {
       setState(() {
@@ -88,70 +106,99 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
         );
       });
 
-      print(catMainList[i]?.name);
+      // print(catMainList[i]?.name);
       i++;
     }
 
-    print(catMainList.length);
-    int i = catMainList.length;
-    // while (catMainList.isNotEmpty) {
-    //   categories.add(
-    //     Category(
-    //       i,
-    //       catMainList[i].name!,
-    //       null,
-    //     ),
-    //   );
-    //   print(catMainList[i].name);
-    //   i--;
-    //}
+//    print(catMainList.length);
 
     for (int i = 0; i < catMainList.length; i++) {
       categories.add(
         Category(
           i,
           catMainList[i].name!,
-          null,
+          catMainList[i].id,
         ),
       );
-      print(catMainList[i].name);
+      //   print(catMainList[i].name);
     }
-    // for (int i = 0; i < catMainList.length; i++) {
-    //   allCatList.add(catMainList[i].name!);
+
+    // for (int i = 0; i < categories.length; i++) {
+    //   final subCatMainResult = await courseQClient.client()?.execute(
+    //       AllSubCatByCatIdQuery(
+    //           variables: AllSubCatByCatIdArguments(
+    //               catId: categories[i].id.toString())));
+    //   List<SubCatMainModel> subCatMainList = [];
+    //   for (int j
+    //       in subCatMainResult?.data?.allSubCatByCatId!.asMap().keys ?? []) {
+    //     subCatMainList.add(
+    //       SubCatMainModel(
+    //         subCatMainResult?.data?.allSubCatByCatId![j]?.catId,
+    //         subCatMainResult?.data?.allSubCatByCatId![j]?.id,
+    //         subCatMainResult?.data?.allSubCatByCatId![j]?.name,
+    //         subCatMainResult?.data?.allSubCatByCatId![j]?.description,
+    //         subCatMainResult?.data?.allSubCatByCatId![j]?.imageUrl,
+    //         subCatMainResult?.data?.allSubCatByCatId![j]?.code,
+    //         subCatMainResult?.data?.allSubCatByCatId![j]?.createdAt,
+    //         subCatMainResult?.data?.allSubCatByCatId![j]?.updatedAt,
+    //         subCatMainResult?.data?.allSubCatByCatId![j]?.isActive,
+    //       ),
+    //     );
+    //   }
+    //   catSubCatMap[categories[i].id.toString()] = subCatMainList;
     // }
-    //print(result?.data.toString());
-    //print('object');
+
+    final subCatMainResult = await courseQClient.client()?.execute(
+        AllSubCatMainQuery(
+            variables: AllSubCatMainArguments(
+                lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
+
+    //add all subcat to list
+    for (int i in subCatMainResult?.data?.allSubCatMain!.asMap().keys ?? []) {
+      roughWork.add(Category(i, subCatMainResult?.data?.allSubCatMain![i]?.name,
+          subCatMainResult?.data?.allSubCatMain![i]?.id));
+    }
+
+    for (int i = 0; i < catMainList.length; i++) {
+      List<SubCatMainModel> subCatMainList = [];
+      for (int j in subCatMainResult?.data?.allSubCatMain!.asMap().keys ?? []) {
+        if (catMainList[i].id ==
+            subCatMainResult?.data?.allSubCatMain![j]!.catId) {
+          subCategories.add(Category(
+              j,
+              subCatMainResult?.data?.allSubCatMain![j]?.name,
+              subCatMainResult?.data?.allSubCatMain![j]?.id));
+          subCatMainList.add(SubCatMainModel(
+            subCatMainResult?.data?.allSubCatMain![j]?.catId,
+            subCatMainResult?.data?.allSubCatMain![j]?.id,
+            subCatMainResult?.data?.allSubCatMain![j]?.name,
+            subCatMainResult?.data?.allSubCatMain![j]?.description,
+            subCatMainResult?.data?.allSubCatMain![j]?.imageUrl,
+            subCatMainResult?.data?.allSubCatMain![j]?.code,
+            subCatMainResult?.data?.allSubCatMain![j]?.createdAt,
+            subCatMainResult?.data?.allSubCatMain![j]?.updatedAt,
+            subCatMainResult?.data?.allSubCatMain![j]?.isActive,
+          ));
+        }
+      }
+      String subCat = jsonEncode(subCatMainList);
+      catSubCatMap[catMainList[i].id.toString()] = subCat;
+      //subCategories = getSubCategry(catMainList[i].id.toString());
+
+      // subCategories.add(Category(
+      //     i, subCatMainList[i].name!, subCatMainList[i].catId.toString()));
+    }
+    print(catSubCatMap.toString());
   }
 
-  addAllCatMainList() async {
-    // await catMainLoading();
-    //print('in All catmain list');
-    //print(catMainList.length);
-    // for (int i = 0; i < catMainList.length; i++) {
-    //   categories.add(
-    //     Category(
-    //       // catMainList[i].id.toInt(),
-    //       i,
-    //       catMainList[i].name!,
-    //       null,
-    //     ),
-    //   );
-    //   print(catMainList[i].name);
-    // }
-  }
-
-  List<Category> subCategories = [
-    Category(50, "UX Design", 1),
-    Category(51, "Graphics Design", 1),
-    Category(52, "Mobile Design", 1),
-    Category(53, "App Design", 1),
-    Category(54, "Interactive Design", 1),
-  ];
-
+  List<String> catIdList = [];
   List<int> filter = [];
   List<Category> filteredCategories = [];
   List<int> selectedCategories = [];
+  List<String> selectedCategoriesList = [];
   List<Category> selectedSubCategories = [];
+
+  getSubCategry(String id) {}
 
   updateSelectCategory(int id, double height) {
     if (selectedCategories.contains(id)) {
@@ -161,7 +208,31 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     }
   }
 
+  updateSubCategoryList(String catID) {
+    if (selectedCategoriesList.contains(catID)) {
+      selectedCategoriesList.remove(catID);
+    } else {
+      selectedCategoriesList.add(catID);
+    }
+    setState(() {
+      subCategories = [];
+      for (var i = 0; i < selectedCategoriesList.length; i++) {
+        print(selectedCategoriesList[i]);
+        print(selectedCategoriesList);
+        print(catSubCatMap[selectedCategoriesList[i].toString()]);
+        var json_var =
+            jsonDecode(catSubCatMap[selectedCategoriesList[i].toString()]!);
+        for (int j = 0; j < json_var.length; j++) {
+          subCategories.add(Category(
+              j, json_var[j]['name'], json_var[j]['catId'].toString()));
+        }
+      }
+    });
+  }
+
   updateFilterCategory(int id) {
+    print('hello filter');
+    print(filter);
     if (filter.contains(id)) {
       filter.remove(id);
     } else {
@@ -227,7 +298,6 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     });
     filteredCategories = categories;
     catMainLoading();
-    addAllCatMainList();
   }
 
   @override
@@ -323,14 +393,14 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                 const SizedBox(
                                   height: 16,
                                 ),
-                                ...subCategories.map((cat) => Padding(
+                                ...selectedSubCategories.map((cat) => Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          cat.category,
+                                          cat.category.toString(),
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -367,6 +437,12 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                           ? Expanded(
                               child: InkWell(
                               onTap: () {
+                                for (int i = 0;
+                                    i < selectedSubCategories.length;
+                                    i++) {
+                                  print(selectedSubCategories[i].category);
+                                }
+                                return;
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -499,16 +575,20 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                               Alignment.center,
                                                           margin:
                                                               const EdgeInsets
-                                                                      .only(
-                                                                  top: 8,
-                                                                  bottom: 16),
-                                                          decoration: BoxDecoration(
-                                                              color:
-                                                                  secondaryColor,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          4)),
+                                                                  .only(
+                                                            top: 8,
+                                                            bottom: 16,
+                                                          ),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                secondaryColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                              4,
+                                                            ),
+                                                          ),
                                                         ),
                                                         Container(
                                                             alignment: Alignment
@@ -547,6 +627,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                                       children: [
                                                                         Text(
                                                                           cat.category
+                                                                              .toString()
                                                                               .toUpperCase(),
                                                                           style: TextStyle(
                                                                               fontSize: 12,
@@ -699,6 +780,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                   setState(() {
                                     filteredCategories = categories
                                         .where((cat) => cat.category
+                                            .toString()
                                             .toLowerCase()
                                             .contains(val.toLowerCase()))
                                         .toList();
@@ -726,33 +808,38 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                             children: [
                               ...filteredCategories.map(
                                 (cat) => GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        updateSelectCategory(cat.id, height);
-                                      });
-                                    },
-                                    child: Container(
-                                        height: 40,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 10),
-                                        margin:
-                                            const EdgeInsets.only(right: 12),
+                                  onTap: () {
+                                    setState(() {
+                                      updateSelectCategory(cat.id, height);
+                                      updateSubCategoryList(
+                                          filteredCategories[cat.id]
+                                              .parentCategory
+                                              .toString());
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 10),
+                                    margin: const EdgeInsets.only(right: 12),
+                                    color: selectedCategories.contains(cat.id)
+                                        ? primaryColor
+                                        : secondaryColor,
+                                    child: Text(
+                                      cat.category.toString().toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
                                         color:
                                             selectedCategories.contains(cat.id)
-                                                ? primaryColor
-                                                : secondaryColor,
-                                        child: Text(
-                                          cat.category.toUpperCase(),
-                                          textAlign: TextAlign.center,
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              color: selectedCategories
-                                                      .contains(cat.id)
-                                                  ? secondaryColorDark
-                                                  : textPrimary,
-                                              fontWeight: FontWeight.w600,
-                                              letterSpacing: 2),
-                                        ))),
+                                                ? secondaryColorDark
+                                                : textPrimary,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 2,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -802,7 +889,9 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                     : textGrey,
                                               )),
                                               child: Text(
-                                                cat.category.toUpperCase(),
+                                                cat.category
+                                                    .toString()
+                                                    .toUpperCase(),
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 14,
