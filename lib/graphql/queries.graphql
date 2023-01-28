@@ -1,5 +1,3 @@
-
-
 query getUserLsps($userId: String!) {
   getUserLsps(user_id: $userId) {
     ...UserLspFragment
@@ -82,7 +80,7 @@ query latestCourses(
   $filters: CoursesFilters
 ) {
   latestCourses(
-    publish_time: $publish_time
+    publish_time: $publishTime
     pageCursor: $pageCursor
     Direction: $Direction
     pageSize: $pageSize
@@ -94,7 +92,41 @@ query latestCourses(
     }
     pageCursor
     direction
-    pageSize}
+    pageSize
+  }
+}
+
+query GetUserCourseMaps(
+  $user_id: String!
+  $publish_time: Int
+  $pageCursor: String
+  $pageSize: Int
+  $filters: CourseMapFilters
+) {
+  getUserCourseMaps(
+    user_id: $user_id
+    publish_time: $publish_time
+    pageCursor: $pageCursor
+    Direction: ""
+    pageSize: $pageSize
+    filters: $filters
+  ) {
+    user_courses {
+      ...UserCourseFragment
+    }
+    pageCursor
+    direction
+    pageSize
+  }
+}
+
+query getUserCourseProgressByMapId($userId: String!, $userCourseId: [ID!]) {
+  getUserCourseProgressByMapId(
+    user_id: $userId
+    user_course_id: $userCourseId
+  ) {
+    ...UserCourseProgressFragment
+  }
 }
 
 fragment UserLspFragment on UserLspMap {
@@ -201,51 +233,51 @@ fragment UserPreferenceFragment on UserPreference {
 }
 
 fragment LearningSpaceFragment on LearningSpace {
-    lsp_id
-    org_id
-    ou_id
-    name
-    logo_url
-    profile_url
-    no_users
-    owners
-    is_default
-    status
-    created_at
-    updated_at
-    created_by
-    updated_by
+  lsp_id
+  org_id
+  ou_id
+  name
+  logo_url
+  profile_url
+  no_users
+  owners
+  is_default
+  status
+  created_at
+  updated_at
+  created_by
+  updated_by
 }
 
 fragment OrganizationFragment on Organization {
-    org_id
-    name
-    logo_url
-    industry
-    type
-    subdomain
-    employee_count
-    website
-    linkedin_url
-    facebook_url
-    twitter_url
-    status
-    created_at
-    updated_at
-    created_by
-    updated_by
+  org_id
+  name
+  logo_url
+  industry
+  type
+  subdomain
+  employee_count
+  website
+  linkedin_url
+  facebook_url
+  twitter_url
+  status
+  created_at
+  updated_at
+  created_by
+  updated_by
 }
 
 fragment UserRoleFragment on UserRole {
-    user_role_id
-    user_id
-    user_lsp_id
-    role
-    is_active
-    created_by
-    updated_by
-    created_at
-    updated_at
+  user_role_id
+  user_id
+  user_lsp_id
+  role
+  is_active
+  created_by
+  updated_by
+  created_at
+  updated_at
 }
 
 fragment courseFragment on Course {
@@ -283,9 +315,41 @@ fragment courseFragment on Course {
   is_display
   category
   sub_category
-  sub_categories{
-          name
-          rank
-        }
+  sub_categories {
+    name
+    rank
+  }
   is_active
+}
+
+fragment UserCourseFragment on UserCourse {
+  user_course_id
+  user_id
+  user_lsp_id
+  lsp_id
+  course_id
+  course_type
+  added_by
+  is_mandatory
+  end_date
+  course_status
+  created_by
+  updated_by
+  created_at
+  updated_at
+}
+
+fragment UserCourseProgressFragment on UserCourseProgress {
+  user_cp_id
+  user_id
+  user_course_id
+  topic_id
+  topic_type
+  status
+  video_progress
+  time_stamp
+  created_by
+  updated_by
+  created_at
+  updated_at
 }

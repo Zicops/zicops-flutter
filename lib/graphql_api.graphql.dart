@@ -243,6 +243,61 @@ mixin CourseFragmentMixin {
   @JsonKey(name: 'is_active')
   bool? isActive;
 }
+mixin UserCourseFragmentMixin {
+  @JsonKey(name: 'user_course_id')
+  String? userCourseId;
+  @JsonKey(name: 'user_id')
+  late String userId;
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+  @JsonKey(name: 'lsp_id')
+  String? lspId;
+  @JsonKey(name: 'course_id')
+  late String courseId;
+  @JsonKey(name: 'course_type')
+  late String courseType;
+  @JsonKey(name: 'added_by')
+  late String addedBy;
+  @JsonKey(name: 'is_mandatory')
+  late bool isMandatory;
+  @JsonKey(name: 'end_date')
+  String? endDate;
+  @JsonKey(name: 'course_status')
+  late String courseStatus;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+}
+mixin UserCourseProgressFragmentMixin {
+  @JsonKey(name: 'user_cp_id')
+  String? userCpId;
+  @JsonKey(name: 'user_id')
+  late String userId;
+  @JsonKey(name: 'user_course_id')
+  late String userCourseId;
+  @JsonKey(name: 'topic_id')
+  late String topicId;
+  @JsonKey(name: 'topic_type')
+  late String topicType;
+  late String status;
+  @JsonKey(name: 'video_progress')
+  late String videoProgress;
+  @JsonKey(name: 'time_stamp')
+  late String timeStamp;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+}
 
 @JsonSerializable(explicitToJson: true)
 class UpdateUser$MutationRoot$User extends JsonSerializable
@@ -1248,6 +1303,156 @@ class CoursesFilters extends JsonSerializable with EquatableMixin {
       ];
   @override
   Map<String, dynamic> toJson() => _$CoursesFiltersToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourse
+    extends JsonSerializable with EquatableMixin, UserCourseFragmentMixin {
+  GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourse();
+
+  factory GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourseFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [
+        userCourseId,
+        userId,
+        userLspId,
+        lspId,
+        courseId,
+        courseType,
+        addedBy,
+        isMandatory,
+        endDate,
+        courseStatus,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserCourseMaps$QueryRoot$PaginatedCourseMaps extends JsonSerializable
+    with EquatableMixin {
+  GetUserCourseMaps$QueryRoot$PaginatedCourseMaps();
+
+  factory GetUserCourseMaps$QueryRoot$PaginatedCourseMaps.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserCourseMaps$QueryRoot$PaginatedCourseMapsFromJson(json);
+
+  @JsonKey(name: 'user_courses')
+  List<GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourse?>?
+      userCourses;
+
+  String? pageCursor;
+
+  String? direction;
+
+  int? pageSize;
+
+  @override
+  List<Object?> get props => [userCourses, pageCursor, direction, pageSize];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserCourseMaps$QueryRoot$PaginatedCourseMapsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserCourseMaps$QueryRoot extends JsonSerializable with EquatableMixin {
+  GetUserCourseMaps$QueryRoot();
+
+  factory GetUserCourseMaps$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetUserCourseMaps$QueryRootFromJson(json);
+
+  GetUserCourseMaps$QueryRoot$PaginatedCourseMaps? getUserCourseMaps;
+
+  @override
+  List<Object?> get props => [getUserCourseMaps];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserCourseMaps$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CourseMapFilters extends JsonSerializable with EquatableMixin {
+  CourseMapFilters({
+    this.lspId,
+    this.isMandatory,
+    this.status,
+    this.type,
+  });
+
+  factory CourseMapFilters.fromJson(Map<String, dynamic> json) =>
+      _$CourseMapFiltersFromJson(json);
+
+  @JsonKey(name: 'lsp_id')
+  List<String?>? lspId;
+
+  @JsonKey(name: 'is_mandatory')
+  bool? isMandatory;
+
+  String? status;
+
+  String? type;
+
+  @override
+  List<Object?> get props => [lspId, isMandatory, status, type];
+  @override
+  Map<String, dynamic> toJson() => _$CourseMapFiltersToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserCourseProgressByMapId$QueryRoot$UserCourseProgress
+    extends JsonSerializable
+    with EquatableMixin, UserCourseProgressFragmentMixin {
+  GetUserCourseProgressByMapId$QueryRoot$UserCourseProgress();
+
+  factory GetUserCourseProgressByMapId$QueryRoot$UserCourseProgress.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserCourseProgressByMapId$QueryRoot$UserCourseProgressFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        userCpId,
+        userId,
+        userCourseId,
+        topicId,
+        topicType,
+        status,
+        videoProgress,
+        timeStamp,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserCourseProgressByMapId$QueryRoot$UserCourseProgressToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserCourseProgressByMapId$QueryRoot extends JsonSerializable
+    with EquatableMixin {
+  GetUserCourseProgressByMapId$QueryRoot();
+
+  factory GetUserCourseProgressByMapId$QueryRoot.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserCourseProgressByMapId$QueryRootFromJson(json);
+
+  List<GetUserCourseProgressByMapId$QueryRoot$UserCourseProgress?>?
+      getUserCourseProgressByMapId;
+
+  @override
+  List<Object?> get props => [getUserCourseProgressByMapId];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserCourseProgressByMapId$QueryRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -4725,7 +4930,7 @@ final LATEST_COURSES_QUERY_DOCUMENT = DocumentNode(definitions: [
         arguments: [
           ArgumentNode(
             name: NameNode(value: 'publish_time'),
-            value: VariableNode(name: NameNode(value: 'publish_time')),
+            value: VariableNode(name: NameNode(value: 'publishTime')),
           ),
           ArgumentNode(
             name: NameNode(value: 'pageCursor'),
@@ -5085,6 +5290,493 @@ class LatestCoursesQuery
   @override
   LatestCourses$QueryRoot parse(Map<String, dynamic> json) =>
       LatestCourses$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserCourseMapsArguments extends JsonSerializable with EquatableMixin {
+  GetUserCourseMapsArguments({
+    required this.user_id,
+    this.publish_time,
+    this.pageCursor,
+    this.pageSize,
+    this.filters,
+  });
+
+  @override
+  factory GetUserCourseMapsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetUserCourseMapsArgumentsFromJson(json);
+
+  late String user_id;
+
+  final int? publish_time;
+
+  final String? pageCursor;
+
+  final int? pageSize;
+
+  final CourseMapFilters? filters;
+
+  @override
+  List<Object?> get props =>
+      [user_id, publish_time, pageCursor, pageSize, filters];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserCourseMapsArgumentsToJson(this);
+}
+
+final GET_USER_COURSE_MAPS_QUERY_DOCUMENT_OPERATION_NAME = 'GetUserCourseMaps';
+final GET_USER_COURSE_MAPS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'GetUserCourseMaps'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'publish_time')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'pageCursor')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'pageSize')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'filters')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'CourseMapFilters'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getUserCourseMaps'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'user_id'),
+            value: VariableNode(name: NameNode(value: 'user_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'publish_time'),
+            value: VariableNode(name: NameNode(value: 'publish_time')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'pageCursor'),
+            value: VariableNode(name: NameNode(value: 'pageCursor')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'Direction'),
+            value: StringValueNode(
+              value: '',
+              isBlock: false,
+            ),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'pageSize'),
+            value: VariableNode(name: NameNode(value: 'pageSize')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'filters'),
+            value: VariableNode(name: NameNode(value: 'filters')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_courses'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                name: NameNode(value: 'UserCourseFragment'),
+                directives: [],
+              )
+            ]),
+          ),
+          FieldNode(
+            name: NameNode(value: 'pageCursor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'direction'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'pageSize'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'UserCourseFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'UserCourse'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'user_course_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_lsp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'lsp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'course_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'course_type'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'added_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'is_mandatory'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'end_date'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'course_status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetUserCourseMapsQuery extends GraphQLQuery<GetUserCourseMaps$QueryRoot,
+    GetUserCourseMapsArguments> {
+  GetUserCourseMapsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_USER_COURSE_MAPS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName =
+      GET_USER_COURSE_MAPS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetUserCourseMapsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetUserCourseMaps$QueryRoot parse(Map<String, dynamic> json) =>
+      GetUserCourseMaps$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserCourseProgressByMapIdArguments extends JsonSerializable
+    with EquatableMixin {
+  GetUserCourseProgressByMapIdArguments({
+    required this.userId,
+    this.userCourseId,
+  });
+
+  @override
+  factory GetUserCourseProgressByMapIdArguments.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserCourseProgressByMapIdArgumentsFromJson(json);
+
+  late String userId;
+
+  final List<String>? userCourseId;
+
+  @override
+  List<Object?> get props => [userId, userCourseId];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserCourseProgressByMapIdArgumentsToJson(this);
+}
+
+final GET_USER_COURSE_PROGRESS_BY_MAP_ID_QUERY_DOCUMENT_OPERATION_NAME =
+    'getUserCourseProgressByMapId';
+final GET_USER_COURSE_PROGRESS_BY_MAP_ID_QUERY_DOCUMENT =
+    DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getUserCourseProgressByMapId'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userCourseId')),
+        type: ListTypeNode(
+          type: NamedTypeNode(
+            name: NameNode(value: 'ID'),
+            isNonNull: true,
+          ),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getUserCourseProgressByMapId'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'user_id'),
+            value: VariableNode(name: NameNode(value: 'userId')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'user_course_id'),
+            value: VariableNode(name: NameNode(value: 'userCourseId')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'UserCourseProgressFragment'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'UserCourseProgressFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'UserCourseProgress'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'user_cp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_course_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'topic_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'topic_type'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'video_progress'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'time_stamp'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetUserCourseProgressByMapIdQuery extends GraphQLQuery<
+    GetUserCourseProgressByMapId$QueryRoot,
+    GetUserCourseProgressByMapIdArguments> {
+  GetUserCourseProgressByMapIdQuery({required this.variables});
+
+  @override
+  final DocumentNode document =
+      GET_USER_COURSE_PROGRESS_BY_MAP_ID_QUERY_DOCUMENT;
+
+  @override
+  final String operationName =
+      GET_USER_COURSE_PROGRESS_BY_MAP_ID_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetUserCourseProgressByMapIdArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetUserCourseProgressByMapId$QueryRoot parse(Map<String, dynamic> json) =>
+      GetUserCourseProgressByMapId$QueryRoot.fromJson(json);
 }
 
 final LOGIN_MUTATION_DOCUMENT_OPERATION_NAME = 'login';

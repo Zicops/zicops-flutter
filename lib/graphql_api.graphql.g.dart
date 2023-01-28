@@ -975,6 +975,154 @@ Map<String, dynamic> _$CoursesFiltersToJson(CoursesFilters instance) =>
       'SearchText': instance.searchText,
     };
 
+GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourse
+    _$GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourseFromJson(
+            Map<String, dynamic> json) =>
+        GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourse()
+          ..userCourseId = json['user_course_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..lspId = json['lsp_id'] as String?
+          ..courseId = json['course_id'] as String
+          ..courseType = json['course_type'] as String
+          ..addedBy = json['added_by'] as String
+          ..isMandatory = json['is_mandatory'] as bool
+          ..endDate = json['end_date'] as String?
+          ..courseStatus = json['course_status'] as String
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String,
+    dynamic> _$GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourseToJson(
+        GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourse instance) =>
+    <String, dynamic>{
+      'user_course_id': instance.userCourseId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'lsp_id': instance.lspId,
+      'course_id': instance.courseId,
+      'course_type': instance.courseType,
+      'added_by': instance.addedBy,
+      'is_mandatory': instance.isMandatory,
+      'end_date': instance.endDate,
+      'course_status': instance.courseStatus,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+GetUserCourseMaps$QueryRoot$PaginatedCourseMaps
+    _$GetUserCourseMaps$QueryRoot$PaginatedCourseMapsFromJson(
+            Map<String, dynamic> json) =>
+        GetUserCourseMaps$QueryRoot$PaginatedCourseMaps()
+          ..userCourses = (json['user_courses'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourse
+                      .fromJson(e as Map<String, dynamic>))
+              .toList()
+          ..pageCursor = json['pageCursor'] as String?
+          ..direction = json['direction'] as String?
+          ..pageSize = json['pageSize'] as int?;
+
+Map<String, dynamic> _$GetUserCourseMaps$QueryRoot$PaginatedCourseMapsToJson(
+        GetUserCourseMaps$QueryRoot$PaginatedCourseMaps instance) =>
+    <String, dynamic>{
+      'user_courses': instance.userCourses?.map((e) => e?.toJson()).toList(),
+      'pageCursor': instance.pageCursor,
+      'direction': instance.direction,
+      'pageSize': instance.pageSize,
+    };
+
+GetUserCourseMaps$QueryRoot _$GetUserCourseMaps$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetUserCourseMaps$QueryRoot()
+      ..getUserCourseMaps = json['getUserCourseMaps'] == null
+          ? null
+          : GetUserCourseMaps$QueryRoot$PaginatedCourseMaps.fromJson(
+              json['getUserCourseMaps'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetUserCourseMaps$QueryRootToJson(
+        GetUserCourseMaps$QueryRoot instance) =>
+    <String, dynamic>{
+      'getUserCourseMaps': instance.getUserCourseMaps?.toJson(),
+    };
+
+CourseMapFilters _$CourseMapFiltersFromJson(Map<String, dynamic> json) =>
+    CourseMapFilters(
+      lspId:
+          (json['lsp_id'] as List<dynamic>?)?.map((e) => e as String?).toList(),
+      isMandatory: json['is_mandatory'] as bool?,
+      status: json['status'] as String?,
+      type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$CourseMapFiltersToJson(CourseMapFilters instance) =>
+    <String, dynamic>{
+      'lsp_id': instance.lspId,
+      'is_mandatory': instance.isMandatory,
+      'status': instance.status,
+      'type': instance.type,
+    };
+
+GetUserCourseProgressByMapId$QueryRoot$UserCourseProgress
+    _$GetUserCourseProgressByMapId$QueryRoot$UserCourseProgressFromJson(
+            Map<String, dynamic> json) =>
+        GetUserCourseProgressByMapId$QueryRoot$UserCourseProgress()
+          ..userCpId = json['user_cp_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userCourseId = json['user_course_id'] as String
+          ..topicId = json['topic_id'] as String
+          ..topicType = json['topic_type'] as String
+          ..status = json['status'] as String
+          ..videoProgress = json['video_progress'] as String
+          ..timeStamp = json['time_stamp'] as String
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String,
+    dynamic> _$GetUserCourseProgressByMapId$QueryRoot$UserCourseProgressToJson(
+        GetUserCourseProgressByMapId$QueryRoot$UserCourseProgress instance) =>
+    <String, dynamic>{
+      'user_cp_id': instance.userCpId,
+      'user_id': instance.userId,
+      'user_course_id': instance.userCourseId,
+      'topic_id': instance.topicId,
+      'topic_type': instance.topicType,
+      'status': instance.status,
+      'video_progress': instance.videoProgress,
+      'time_stamp': instance.timeStamp,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+GetUserCourseProgressByMapId$QueryRoot
+    _$GetUserCourseProgressByMapId$QueryRootFromJson(
+            Map<String, dynamic> json) =>
+        GetUserCourseProgressByMapId$QueryRoot()
+          ..getUserCourseProgressByMapId = (json['getUserCourseProgressByMapId']
+                  as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetUserCourseProgressByMapId$QueryRoot$UserCourseProgress
+                      .fromJson(e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic> _$GetUserCourseProgressByMapId$QueryRootToJson(
+        GetUserCourseProgressByMapId$QueryRoot instance) =>
+    <String, dynamic>{
+      'getUserCourseProgressByMapId': instance.getUserCourseProgressByMapId
+          ?.map((e) => e?.toJson())
+          .toList(),
+    };
+
 Login$MutationRoot$User _$Login$MutationRoot$UserFromJson(
         Map<String, dynamic> json) =>
     Login$MutationRoot$User()
@@ -1331,4 +1479,43 @@ Map<String, dynamic> _$LatestCoursesArgumentsToJson(
       'pageSize': instance.pageSize,
       'status': _$StatusEnumMap[instance.status],
       'filters': instance.filters?.toJson(),
+    };
+
+GetUserCourseMapsArguments _$GetUserCourseMapsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetUserCourseMapsArguments(
+      user_id: json['user_id'] as String,
+      publish_time: json['publish_time'] as int?,
+      pageCursor: json['pageCursor'] as String?,
+      pageSize: json['pageSize'] as int?,
+      filters: json['filters'] == null
+          ? null
+          : CourseMapFilters.fromJson(json['filters'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$GetUserCourseMapsArgumentsToJson(
+        GetUserCourseMapsArguments instance) =>
+    <String, dynamic>{
+      'user_id': instance.user_id,
+      'publish_time': instance.publish_time,
+      'pageCursor': instance.pageCursor,
+      'pageSize': instance.pageSize,
+      'filters': instance.filters?.toJson(),
+    };
+
+GetUserCourseProgressByMapIdArguments
+    _$GetUserCourseProgressByMapIdArgumentsFromJson(
+            Map<String, dynamic> json) =>
+        GetUserCourseProgressByMapIdArguments(
+          userId: json['userId'] as String,
+          userCourseId: (json['userCourseId'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList(),
+        );
+
+Map<String, dynamic> _$GetUserCourseProgressByMapIdArgumentsToJson(
+        GetUserCourseProgressByMapIdArguments instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'userCourseId': instance.userCourseId,
     };

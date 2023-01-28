@@ -53,12 +53,16 @@ class _CourseGridItem extends State<CourseGridItem> {
                               child: Stack(
                                 alignment: Alignment.center,
                                 children: [
-                                  Image.asset(
-                                    widget.preview,
-                                    fit: BoxFit.fill,
-                                    width: 156.sp,
-                                    height: 88.sp,
-                                  ),
+                                  // Image.network(widget.preview),
+                                  // Image.asset(
+                                  //   widget.preview,
+                                  //   fit: BoxFit.fill,
+                                  //   width: 156.sp,
+                                  //   height: 88.sp,
+                                  // ),
+                                  FadeInImage.assetNetwork(
+                                      placeholder: "assets/images/course_preview_2.png",
+                                      image: widget.preview),
                                   Container(
                                     color: Colors.black.withOpacity(0.43),
                                     height: 87.75.sp,

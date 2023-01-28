@@ -1,10 +1,11 @@
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar_itemar.dart';
-import 'dart:html';
+// import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zicops/models/user/home_page_model.dart';
 import 'package:zicops/views/screens/home/home_screen.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 import 'package:zicops/views/screens/my_course/my_course_screen.dart';
@@ -35,6 +36,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   bool showNavDrawerOrg = false;
   late AnimationController controller;
+  
 
   Widget getScreen() {
     switch (_bottomNavIndex) {

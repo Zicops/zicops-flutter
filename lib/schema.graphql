@@ -42,6 +42,17 @@ type QueryRoot {
     status: Status
     filters: CoursesFilters
   ): PaginatedCourse
+  getUserCourseMaps(
+    user_id: String!
+    publish_time: Int
+    pageCursor: String
+    Direction: String
+    pageSize: Int
+  ): PaginatedCourseMaps
+  getUserCourseProgressByMapId(
+    user_id: String!
+    user_course_id: [ID!]
+  ): [UserCourseProgress]
 }
 
 type User {
@@ -311,4 +322,79 @@ input CoursesFilters {
   DurationMax: Int
   Type: String
   SearchText: String
+}
+
+#user course related 
+
+input UserCourseInput {
+  user_course_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  course_id: String!
+  course_type: String!
+  added_by: String!
+  is_mandatory: Boolean!
+  end_date: String
+  course_status: String!
+  created_by: String
+  updated_by: String
+}
+
+type UserCourse {
+  user_course_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  course_id: String!
+  lsp_id: String
+  course_type: String!
+  added_by: String!
+  is_mandatory: Boolean!
+  end_date: String
+  course_status: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+input UserCourseProgressInput {
+  user_cp_id: ID
+  user_id: String!
+  user_course_id: String!
+  topic_id: String!
+  topic_type: String!
+  status: String!
+  video_progress: String!
+  time_stamp: String!
+  created_by: String
+  updated_by: String
+}
+
+type UserCourseProgress {
+  user_cp_id: ID
+  user_id: String!
+  user_course_id: String!
+  topic_id: String!
+  topic_type: String!
+  status: String!
+  video_progress: String!
+  time_stamp: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+type PaginatedCourseMaps {
+  user_courses: [UserCourse]
+  pageCursor: String
+  direction: String
+  pageSize: Int
+}
+
+input CourseMapFilters {
+  lsp_id: [String]
+  is_mandatory: Boolean
+  status: String
+  type: String
 }

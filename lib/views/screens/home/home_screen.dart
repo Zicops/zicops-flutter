@@ -2,7 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:zicops/graphql_api.graphql.dart';
+import 'package:zicops/main.dart';
+import 'package:zicops/models/user/home_page_model.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/utils/dummies.dart';
 import 'package:zicops/views/screens/new_course/new_course_screen.dart';
@@ -23,6 +27,45 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   int currentCarousel = 0;
   CarouselController carouselController = CarouselController();
+  List<Course> latestCourses = [];
+  List<Course> lspCourses = [];
+  List<Course> learningFolderCourses = [];
+  List<Course> Courses = [];
+
+  Future<List<Course>> loadCourses(
+      {String lspId: '', String? subCat}) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final data = sharedPreferences.getString('userData');
+    print('$lspId lspId $subCat');
+    List<Course> courseData = [];
+    final allLatestCourse = await courseQClient.client()?.execute(
+        LatestCoursesQuery(
+            variables: LatestCoursesArguments(
+                publishTime:
+                    (DateTime.now().millisecondsSinceEpoch / 1000).toInt(),
+                pageCursor: "",
+                pageSize: 1000,
+                filters: new CoursesFilters(lspId: lspId, subCategory: subCat),
+                Direction: "")));
+
+    for (int i
+        in allLatestCourse?.data?.latestCourses?.courses?.asMap().keys ?? []) {
+      final data = allLatestCourse?.data?.latestCourses?.courses?[i];
+      courseData.add(Course(
+          data?.id,
+          data?.name,
+          data?.publisher,
+          data?.description,
+          data?.expertiseLevel,
+          data?.owner,
+          data?.isDisplay,
+          data?.type,
+          data?.tileImage,
+          data?.image));
+    }
+    return courseData;
+  }
+
   Widget sectionHeader(String label, Function() action,
       {bool showSeeAll = true}) {
     return Container(
@@ -186,9 +229,15 @@ class _HomeScreen extends State<HomeScreen> {
     ]);
   }
 
+
+  Future callCourses()async{
+    latestCourses = await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
+    lspCourses = await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
+  }
   @override
   void initState() {
     super.initState();
+    callCourses();
   }
 
   @override
@@ -359,14 +408,14 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...courseItems.map((courseItem) => Row(
+                  ...latestCourses.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
-                            courseItem["courseName"],
-                            courseItem["org"],
-                            courseItem["difficulty"],
-                            courseItem["courseLength"],
-                            courseItem["preview"],
+                            courseItem?.name?.trim() ?? '',
+                            courseItem?.publisher ?? '',
+                            courseItem?.expertise_level ?? '',
+                            courseItem?.duration ?? '',
+                            courseItem?.tileImage ?? "",
                           ),
                           SizedBox(
                             width: 8.sp,
@@ -393,14 +442,14 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...courseItems.map((courseItem) => Row(
+                  ...lspCourses.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
-                            courseItem["courseName"],
-                            courseItem["org"],
-                            courseItem["difficulty"],
-                            courseItem["courseLength"],
-                            courseItem["preview"],
+                            courseItem?.name?.trim() ?? '',
+                            courseItem?.publisher ?? '',
+                            courseItem?.expertise_level ?? '',
+                            courseItem?.duration ?? '',
+                            courseItem?.tileImage ?? "",
                           ),
                           SizedBox(
                             width: 8.sp,
