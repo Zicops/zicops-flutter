@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 
+import '../../../controllers/mutation_controller.dart';
 import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/validation.dart';
@@ -25,15 +26,11 @@ class PersonalTabScreen extends StatefulWidget {
 }
 
 class _PersonalTabScreen extends State<PersonalTabScreen> {
-  TextEditingController _controller = TextEditingController();
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
-  TextEditingController _controller1 = TextEditingController();
-  TextEditingController _controller2 = TextEditingController();
   TextEditingController _controller3 = TextEditingController();
-  TextEditingController _controller4 = TextEditingController();
 
   bool isEmailValidated = false;
 
@@ -44,6 +41,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
   String email = '';
   String phone = '';
   String id = "";
+
   Future pickBgImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -86,15 +84,11 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
   }
 
   Future getDetails() async {
-    print('getdetails');
-
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonDetails =
         jsonDecode(sharedPreferences.getString('user')!);
     var user = UserDetailsModel.fromJson(jsonDetails);
     if (jsonDetails.isNotEmpty) {
-      print(user.firstName);
-      // print(user.email);
       setState(() {
         id = user.id.toString();
         firstName = user.firstName.toString();
@@ -102,11 +96,6 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
         email = user.email.toString();
         phone = user.phone.toString();
       });
-
-      //set the sharedPreferences saved data to TextField
-      // _name.value =  TextEditingValue(text: user.name);
-      // _email.value =  TextEditingValue(text: user.email);
-      // _phone.value =  TextEditingValue(text: user.phone);
     }
     setState(() {
       _firstNameController.text = firstName;
@@ -114,9 +103,6 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
       _emailController.text = email;
       _phoneController.text = phone;
     });
-    // print(user.firstName);
-    print('hello');
-    print(firstName);
   }
 
   @override
@@ -130,7 +116,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
   getEmail() async {
     final email = FirebaseAuth.instance.currentUser?.email;
     setState(() {
-      _controller3.text = email ?? "";
+      _emailController.text = email ?? "";
       isEmailValidated = email != null && email.isNotEmpty ? true : false;
     });
   }
@@ -252,6 +238,13 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                       const SizedBox(height: 12),
                       GestureDetector(
                         onTap: () {
+                          updateUser(
+                            id,
+                            _firstNameController.text,
+                            _lastNameController.text,
+                            _emailController.text,
+                            _phoneController.text,
+                          );
                           widget.changeTab();
                         },
                         child: gradientButton("Next"),

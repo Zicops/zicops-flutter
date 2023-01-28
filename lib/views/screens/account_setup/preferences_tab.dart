@@ -1,14 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:zicops/views/screens/account_setup/models/category.dart';
 import 'package:zicops/views/screens/home/home.dart';
-
+import 'package:zicops/controllers/mutation_controller.dart';
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
 import '../../../models/user/user_account_profile_pref.dart';
+import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 
 class PreferencesTabScreen extends StatefulWidget {
@@ -57,7 +61,21 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
   List<AllCatMainModel> catMainList = [];
   List<SubCatMainModel> subCatMainList = [];
 
+  String userId = '';
+  String? userLspId = '';
+
   Future catSubCatLoading() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> jsonDetails =
+        jsonDecode(sharedPreferences.getString('user')!);
+    var user = UserDetailsModel.fromJson(jsonDetails);
+    if (jsonDetails.isNotEmpty) {
+      setState(() {
+        userId = user.id!;
+      });
+    }
+    sharedPreferences.getString(userLspId!);
+
     //All Cat Details
 
     final allCatMainResult = await courseQClient.client()?.execute(
@@ -93,7 +111,6 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     }
     print(categories.length);
 
-    // All SubCat Details
     final subCatMainResult = await courseQClient.client()?.execute(
         AllSubCatMainQuery(
             variables: AllSubCatMainArguments(
@@ -348,6 +365,15 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                           ? Expanded(
                               child: InkWell(
                               onTap: () {
+                                addUserPreference(userId, userLspId,
+                                    selectedSubCategories[0].category, true);
+                                for (int i = 1;
+                                    i < selectedSubCategories.length;
+                                    i++) {
+                                  print(selectedSubCategories[i].category);
+                                  addUserPreference(userId, userLspId,
+                                      selectedSubCategories[i].category, false);
+                                }
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
