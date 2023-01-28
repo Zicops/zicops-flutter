@@ -72,9 +72,9 @@ query getUserPreferenceForLsp($user_id: String!, $user_lsp_id: String!) {
   getUserPreferenceForLsp(user_id: $user_id, user_lsp_id: $lsp_id) {
     ...UserPreferenceFragment
   }
-
-  query latestCourses(
-  $publish_time: Int
+}
+query latestCourses(
+  $publishTime: Int
   $pageCursor: String
   $Direction: String
   $pageSize: Int

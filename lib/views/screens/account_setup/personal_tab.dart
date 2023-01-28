@@ -7,6 +7,9 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zicops/graphql_api.graphql.dart';
+import 'package:zicops/main.dart';
+import 'package:zicops/views/screens/account_setup/models/category.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 
 import '../../../models/user/user_details_model.dart';
