@@ -1,5 +1,7 @@
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar_itemar.dart';
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -63,7 +65,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
      print(data);
     final allLatestCourse = await courseQClient.client()?.execute(LatestCoursesQuery(
         variables: LatestCoursesArguments(
-            publish_time:
+            publishTime:
                 (DateTime.now().millisecondsSinceEpoch / 1000).toInt(),
             pageCursor: "",
             pageSize: 1000,
@@ -74,14 +76,14 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     // print(allLatestCourse?.data?.toJson());
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    courseLoading();
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   courseLoading();
+  // }
 
-  String getTitle() {
+ Widget getTitle() {
     switch (_bottomNavIndex) {
       case 0:
         return Text("Self",
