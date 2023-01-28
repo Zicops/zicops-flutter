@@ -9,7 +9,6 @@ import 'package:zicops/views/widgets/PrefixInputField.dart';
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
 import '../../../models/user/user_details_model.dart';
-import '../../../utils/colors.dart';
 
 class OrganizationTabScreen extends StatefulWidget {
   Function() changeTab;
@@ -168,24 +167,11 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 children: [
-                  prefixInputField(_focusNodes[0], _controller1,
+                  prefixInputField(_focusNodes[0], _organisationController,
                       "assets/images/organization.png", "Organisation"),
-                  const SizedBox(height: 20),
-                  prefixInputField(
-                    _focusNodes[0],
-                    _organisationController,
-                    "assets/images/organization.png",
-                    "Organisation",
-                  ),
                   const SizedBox(height: 12),
-                  prefixInputField(_focusNodes[1], _controller2,
+                  prefixInputField(_focusNodes[1], _orgUnitController,
                       "assets/images/location.png", "Organization Unit"),
-                  prefixInputField(
-                    _focusNodes[1],
-                    _orgUnitController,
-                    "assets/images/location.png",
-                    "Organization Unit",
-                  ),
                   const SizedBox(height: 12),
                   prefixInputField(
                     _focusNodes[2],

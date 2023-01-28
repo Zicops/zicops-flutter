@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 
-import '../../../controllers/mutation_controller.dart';
 import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/validation.dart';
@@ -232,13 +232,13 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                       top: isKeyboardVisible ? 20 : 80),
                   child: Column(
                     children: [
-                      prefixInputField(_focusNodes[0], _controller1,
+                      prefixInputField(_focusNodes[0], _firstNameController,
                           "assets/images/person.png", "Firstname"),
                       const SizedBox(height: 12),
-                      prefixInputField(_focusNodes[1], _controller2,
+                      prefixInputField(_focusNodes[1], _lastNameController,
                           "assets/images/person.png", "Lastname"),
                       const SizedBox(height: 12),
-                      prefixInputField(_focusNodes[2], _controller3,
+                      prefixInputField(_focusNodes[2], _emailController,
                           "assets/images/email.png", "Email",
                           validated: isEmailValidated, onChange: (e) {
                         setState(() {
@@ -246,8 +246,9 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                         });
                       }),
                       const SizedBox(height: 12),
-                      prefixInputField(_focusNodes[3], _controller4,
-                          "assets/images/phone.png", "+91 | Contact Number", inputType: TextInputType.phone),
+                      prefixInputField(_focusNodes[3], _phoneController,
+                          "assets/images/phone.png", "+91 | Contact Number",
+                          inputType: TextInputType.phone),
                       const SizedBox(height: 12),
                       GestureDetector(
                         onTap: () {

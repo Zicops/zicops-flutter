@@ -22,10 +22,9 @@ Widget prefixInputField(FocusNode focusNode, TextEditingController controller,
           maxLines: 1,
           keyboardType: inputType,
           decoration: InputDecoration(
-            isDense: true,
+              isDense: true,
               contentPadding: EdgeInsets.only(
-                  left:48.sp, top: 12.sp, bottom: 12.sp, right: 12.sp),
-
+                  left: 48.sp, top: 12.sp, bottom: 12.sp, right: 12.sp),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                       color: focusNode.hasFocus || controller.text.isNotEmpty
@@ -51,7 +50,6 @@ Widget prefixInputField(FocusNode focusNode, TextEditingController controller,
                         ? textPrimary
                         : textGrey,
                   )),
-
               suffixIcon: validated
                   ? Container(
                       width: 24.sp,

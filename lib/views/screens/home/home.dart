@@ -1,10 +1,8 @@
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
-// import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+// import 'package:curved_labeled_navigation_bar/curved_navigation_bar_itemar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:zicops/views/screens/home/home_screen.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 import 'package:zicops/views/screens/my_course/my_course_screen.dart';
@@ -308,7 +306,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
           title: getTitle(),
           leading: GestureDetector(
               behavior: HitTestBehavior.translucent,
-
               onTap: () {
                 _scaffoldKey.currentState?.openDrawer();
               },
@@ -350,7 +347,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                         height: 14.sp,
                       ),
                       GestureDetector(
-                        behavior: HitTestBehavior.translucent,
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             setState(() {
                               showNavDrawerOrg = !showNavDrawerOrg;
