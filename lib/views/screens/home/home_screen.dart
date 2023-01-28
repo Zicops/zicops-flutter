@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
 import 'package:zicops/models/user/home_page_model.dart';
+import 'package:zicops/models/user/user_details_model.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/utils/dummies.dart';
 import 'package:zicops/views/screens/new_course/new_course_screen.dart';
@@ -32,8 +35,7 @@ class _HomeScreen extends State<HomeScreen> {
   List<Course> learningFolderCourses = [];
   List<Course> Courses = [];
 
-  Future<List<Course>> loadCourses(
-      {String lspId: '', String? subCat}) async {
+  Future<List<Course>> loadCourses({String lspId: '', String? subCat}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final data = sharedPreferences.getString('userData');
     print('$lspId lspId $subCat');
@@ -64,6 +66,42 @@ class _HomeScreen extends State<HomeScreen> {
           data?.image));
     }
     return courseData;
+  }
+
+  Future loadUserCourseData() async {
+    // 2. get user courseprogress with the help of user_course_id array
+    // 3. get course using courseIds array
+    // 4. find progress for each courses
+    String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
+    SharedPreferences sharedPreferences =
+        await SharedPreferences?.getInstance();
+    Map<String, dynamic> jsonDetails =
+        jsonDecode(sharedPreferences.getString('user')!);
+    var user = UserDetailsModel.fromJson(jsonDetails);
+    final userCourseMap = await userClient?.client()?.execute(
+        GetUserCourseMapsQuery(
+            variables: GetUserCourseMapsArguments(
+                user_id: user.id!,
+                publish_time:
+                    (DateTime.now().millisecondsSinceEpoch / 1000).toInt(),
+                pageCursor: '',
+                pageSize: 50,
+                filters: new CourseMapFilters(lspId: [lspId]))));
+
+    List<String>? userCourseIds = [];
+    List<String?> courseIds = [];
+
+    for (int i
+        in userCourseMap?.data?.getUserCourseMaps?.userCourses?.asMap().keys ??
+            []) {
+      var data = userCourseMap?.data?.getUserCourseMaps?.userCourses?[i];
+    }
+    final courseRes = await courseQClient.client()?.execute(
+        GetCourseQuery(variables: GetCourseArguments(course_id: courseIds)));
+    final userCourseProgress = await userClient.client()?.execute(
+        GetUserCourseProgressByMapIdQuery(
+            variables: GetUserCourseProgressByMapIdArguments(
+                userId: user.id!, userCourseId: userCourseIds)));
   }
 
   Widget sectionHeader(String label, Function() action,
@@ -229,15 +267,18 @@ class _HomeScreen extends State<HomeScreen> {
     ]);
   }
 
-
-  Future callCourses()async{
-    latestCourses = await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
-    lspCourses = await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
+  Future callCourses() async {
+    latestCourses =
+        await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
+    lspCourses =
+        await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
   }
+
   @override
   void initState() {
     super.initState();
-    callCourses();
+    // callCourses();
+    loadUserCourseData();
   }
 
   @override

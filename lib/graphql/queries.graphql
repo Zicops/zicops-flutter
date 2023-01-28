@@ -129,6 +129,12 @@ query getUserCourseProgressByMapId($userId: String!, $userCourseId: [ID!]) {
   }
 }
 
+  query GetCourse($course_id: [String]) {
+    getCourse(course_id: $course_id) {
+     ...courseFragment
+    }
+  }
+
 fragment UserLspFragment on UserLspMap {
   user_lsp_id
   user_id

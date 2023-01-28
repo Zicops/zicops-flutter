@@ -1123,6 +1123,122 @@ Map<String, dynamic> _$GetUserCourseProgressByMapId$QueryRootToJson(
           .toList(),
     };
 
+GetCourse$QueryRoot$Course _$GetCourse$QueryRoot$CourseFromJson(
+        Map<String, dynamic> json) =>
+    GetCourse$QueryRoot$Course()
+      ..id = json['id'] as String?
+      ..name = json['name'] as String?
+      ..lspId = json['lspId'] as String?
+      ..publisher = json['publisher'] as String?
+      ..description = json['description'] as String?
+      ..summary = json['summary'] as String?
+      ..instructor = json['instructor'] as String?
+      ..image = json['image'] as String?
+      ..previewVideo = json['previewVideo'] as String?
+      ..tileImage = json['tileImage'] as String?
+      ..owner = json['owner'] as String?
+      ..duration = json['duration'] as int?
+      ..expertiseLevel = json['expertise_level'] as String?
+      ..language = (json['language'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..benefits = (json['benefits'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..outcomes = (json['outcomes'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..createdAt = json['created_at'] as String?
+      ..updatedAt = json['updated_at'] as String?
+      ..type = json['type'] as String?
+      ..prequisites = (json['prequisites'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..goodFor =
+          (json['goodFor'] as List<dynamic>?)?.map((e) => e as String?).toList()
+      ..mustFor =
+          (json['mustFor'] as List<dynamic>?)?.map((e) => e as String?).toList()
+      ..relatedSkills = (json['related_skills'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..publishDate = json['publish_date'] as String?
+      ..expiryDate = json['expiry_date'] as String?
+      ..expectedCompletion = json['expected_completion'] as String?
+      ..qaRequired = json['qa_required'] as bool?
+      ..approvers = (json['approvers'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..createdBy = json['created_by'] as String?
+      ..updatedBy = json['updated_by'] as String?
+      ..status = $enumDecodeNullable(_$StatusEnumMap, json['status'],
+          unknownValue: Status.artemisUnknown)
+      ..isDisplay = json['is_display'] as bool?
+      ..category = json['category'] as String?
+      ..subCategory = json['sub_category'] as String?
+      ..subCategories = (json['sub_categories'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : CourseFragmentMixin$SubCategories.fromJson(
+                  e as Map<String, dynamic>))
+          .toList()
+      ..isActive = json['is_active'] as bool?;
+
+Map<String, dynamic> _$GetCourse$QueryRoot$CourseToJson(
+        GetCourse$QueryRoot$Course instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'lspId': instance.lspId,
+      'publisher': instance.publisher,
+      'description': instance.description,
+      'summary': instance.summary,
+      'instructor': instance.instructor,
+      'image': instance.image,
+      'previewVideo': instance.previewVideo,
+      'tileImage': instance.tileImage,
+      'owner': instance.owner,
+      'duration': instance.duration,
+      'expertise_level': instance.expertiseLevel,
+      'language': instance.language,
+      'benefits': instance.benefits,
+      'outcomes': instance.outcomes,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'type': instance.type,
+      'prequisites': instance.prequisites,
+      'goodFor': instance.goodFor,
+      'mustFor': instance.mustFor,
+      'related_skills': instance.relatedSkills,
+      'publish_date': instance.publishDate,
+      'expiry_date': instance.expiryDate,
+      'expected_completion': instance.expectedCompletion,
+      'qa_required': instance.qaRequired,
+      'approvers': instance.approvers,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'status': _$StatusEnumMap[instance.status],
+      'is_display': instance.isDisplay,
+      'category': instance.category,
+      'sub_category': instance.subCategory,
+      'sub_categories':
+          instance.subCategories?.map((e) => e?.toJson()).toList(),
+      'is_active': instance.isActive,
+    };
+
+GetCourse$QueryRoot _$GetCourse$QueryRootFromJson(Map<String, dynamic> json) =>
+    GetCourse$QueryRoot()
+      ..getCourse = (json['getCourse'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : GetCourse$QueryRoot$Course.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetCourse$QueryRootToJson(
+        GetCourse$QueryRoot instance) =>
+    <String, dynamic>{
+      'getCourse': instance.getCourse?.map((e) => e?.toJson()).toList(),
+    };
+
 Login$MutationRoot$User _$Login$MutationRoot$UserFromJson(
         Map<String, dynamic> json) =>
     Login$MutationRoot$User()
@@ -1518,4 +1634,16 @@ Map<String, dynamic> _$GetUserCourseProgressByMapIdArgumentsToJson(
     <String, dynamic>{
       'userId': instance.userId,
       'userCourseId': instance.userCourseId,
+    };
+
+GetCourseArguments _$GetCourseArgumentsFromJson(Map<String, dynamic> json) =>
+    GetCourseArguments(
+      course_id: (json['course_id'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList(),
+    );
+
+Map<String, dynamic> _$GetCourseArgumentsToJson(GetCourseArguments instance) =>
+    <String, dynamic>{
+      'course_id': instance.course_id,
     };
