@@ -68,7 +68,7 @@ class _HomeScreen extends State<HomeScreen> {
     return courseData;
   }
 
-  Future loadUserCourseData() async {
+  Future<List<Course>> loadUserCourseData() async {
     // 5. try to add data in the model
     String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
     SharedPreferences sharedPreferences =
@@ -182,6 +182,7 @@ class _HomeScreen extends State<HomeScreen> {
           userCourseId: _courseData?.userCourseId,
           userLspId: _courseData?.userLspId));
     }
+    return userCourseData;
   }
 
   Widget sectionHeader(String label, Function() action,
