@@ -62,6 +62,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
   List<SubCatMainModel> subCatMainList = [];
 
   String userId = '';
+  String? lspId = '';
   String? userLspId = '';
 
   Future catSubCatLoading() async {
@@ -74,7 +75,9 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
         userId = user.id!;
       });
     }
-    sharedPreferences.getString(userLspId!);
+    lspId = sharedPreferences.getString('lspId');
+    userLspId = sharedPreferences.getString('userLspId');
+    print('lspId: $lspId');
 
     //All Cat Details
 

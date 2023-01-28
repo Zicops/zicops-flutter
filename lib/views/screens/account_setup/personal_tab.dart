@@ -30,7 +30,6 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
-  TextEditingController _controller3 = TextEditingController();
 
   bool isEmailValidated = false;
 
