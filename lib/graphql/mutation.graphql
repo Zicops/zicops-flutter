@@ -1,0 +1,150 @@
+mutation updateUser(
+  $id: ID
+  $first_name: String!
+  $last_name: String!
+  $status: String!
+  $role: String!
+  $is_verified: Boolean!
+  $is_active: Boolean!
+  $gender: String!
+  $email: String!
+  $phone: String!
+) {
+  updateUser(
+    input: {
+      id: $id
+      first_name: $first_name
+      last_name: $last_name
+      status: $status
+      role: $role
+      is_verified: $is_verified
+      is_active: $is_active
+      gender: $gender
+      email: $email
+      phone: $phone
+    }
+  ) {
+    id
+    first_name
+    last_name
+    status
+    role
+    is_verified
+    is_active
+    gender
+    created_by
+    updated_by
+    created_at
+    updated_at
+    email
+    phone
+    photo_url
+  }
+}
+mutation addUserOrganizationMap(
+   $user_id: String!
+   $user_lsp_id: String!
+   $organization_id: String!
+   $organization_role: String!
+   $is_active: Boolean!
+   $employee_id: String!
+){
+    addUserOrganizationMap(
+        input: {
+        user_id: $user_id
+        user_lsp_id: $user_lsp_id
+        organization_id: $organization_id
+        organization_role: $organization_role
+        is_active: $is_active
+        employee_id: $employee_id
+        }
+    ) {
+        user_organization_id
+        user_id
+        user_lsp_id
+        organization_id
+        organization_role
+        is_active
+        employee_id
+    }
+}
+mutation updateUserOrganizationMap(
+    $user_organization_id: ID!
+    $user_id: String!
+    $user_lsp_id: String!
+    $organization_id: String!
+    $organization_role: String!
+    $is_active: Boolean!
+    $employee_id: String!
+){
+    updateUserOrganizationMap(
+        input: {
+        user_organization_id: $user_organization_id
+        user_id: $user_id
+        user_lsp_id: $user_lsp_id
+        organization_id: $organization_id
+        organization_role: $organization_role
+        is_active: $is_active
+        employee_id: $employee_id
+        }
+    ) {
+        user_organization_id
+        user_id
+        user_lsp_id
+        organization_id
+        organization_role
+        is_active
+        employee_id
+    }
+}
+mutation addUserPreference(
+    $user_id: String!
+    $user_lsp_id: String!
+    $sub_category: String!
+    $is_base: Boolean!
+    $is_active: Boolean!
+){
+    addUserPreference(
+        input: [{
+
+            user_id: $user_id
+            user_lsp_id: $user_lsp_id
+            sub_category: $sub_category
+            is_base: $is_base
+            is_active: $is_active
+        }]
+    ) {
+        user_preference_id
+        user_id
+        user_lsp_id
+        sub_category
+        is_base
+        is_active
+    }
+}
+mutation updateUserPreference(
+    $user_preference_id: ID!
+    $user_id: String!
+    $user_lsp_id: String!
+    $sub_category: String!
+    $is_base: Boolean!
+    $is_active: Boolean!
+){
+    updateUserPreference(
+        input: {
+        user_preference_id: $user_preference_id
+        user_id: $user_id
+        user_lsp_id: $user_lsp_id
+            sub_category: $sub_category
+        is_base: $is_base
+        is_active: $is_active
+        }
+    ) {
+        user_preference_id
+        user_id
+        user_lsp_id
+        sub_category
+        is_base
+        is_active
+    }
+}

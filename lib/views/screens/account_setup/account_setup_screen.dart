@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:zicops/utils/colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:developer';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zicops/views/screens/account_setup/organization_tab.dart';
 import 'package:zicops/views/screens/account_setup/personal_tab.dart';
 import 'package:zicops/views/screens/account_setup/preferences_tab.dart';
+
+import '../../../utils/colors.dart';
 
 class AccountSetupScreen extends StatefulWidget {
   const AccountSetupScreen({Key? key}) : super(key: key);
@@ -35,7 +34,7 @@ class _AccountSetupScreen extends State<AccountSetupScreen> {
       case 1:
         return OrganizationTabScreen(changeTab);
       case 2:
-        return PreferencesTabScreen();
+        return const PreferencesTabScreen();
       default:
         return PersonalTabScreen(changeTab);
     }
@@ -75,36 +74,56 @@ class _AccountSetupScreen extends State<AccountSetupScreen> {
             Container(
               width: double.infinity,
               color: secondaryColorDark,
-              padding: const EdgeInsets.only(
-                  left: 20, right: 20, top: 10, bottom: 14),
+              padding: EdgeInsets.only(
+                  left: 20.sp, right: 20.sp, top: 10.sp, bottom: 14.sp),
               child: Text(
                 getTitle(),
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.w500,
                     color: textPrimary),
               ),
             ),
             Container(
               color: secondaryColorDark,
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              padding:
+                  EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 12.sp),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                      child: SizedBox(
-                    child: tab("Personal", 0, _selectedTab),
-                  )),
-                  const SizedBox(width: 8),
+                    child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 0;
+                          });
+                        },
+                        child: SizedBox(
+                          child: tab("Personal", 0, _selectedTab),
+                        )),
+                  ),
+                  SizedBox(width: 8.sp),
                   Expanded(
-                      child: SizedBox(
-                    child: tab("Organisation", 1, _selectedTab),
-                  )),
-                  const SizedBox(width: 8),
+                      child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedTab = 1;
+                            });
+                          },
+                          child: SizedBox(
+                            child: tab("Organisation", 1, _selectedTab),
+                          ))),
+                  SizedBox(width: 8.sp),
                   Expanded(
-                      child: SizedBox(
-                    child: tab("Preferences", 2, _selectedTab),
-                  )),
+                      child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedTab = 2;
+                            });
+                          },
+                          child: SizedBox(
+                            child: tab("Preferences", 2, _selectedTab),
+                          ))),
                 ],
               ),
             ),
@@ -124,14 +143,18 @@ Widget tab(String tabTitle, int index, int selectedTab) {
         tabTitle.toUpperCase(),
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-            color: index == selectedTab ? primaryColor :selectedTab > index? textPrimary: textGrey,
-            fontSize: 12,
+            color: index == selectedTab
+                ? primaryColor
+                : selectedTab > index
+                    ? textPrimary
+                    : textGrey,
+            fontSize: 12.sp,
             letterSpacing: 1,
             fontWeight: FontWeight.w600),
       ),
       Container(
-        height: 4,
-        margin: const EdgeInsets.only(top: 4),
+        height: 4.sp,
+        margin: EdgeInsets.only(top: 4.sp),
         decoration: BoxDecoration(
           color: index == selectedTab || selectedTab > index
               ? primaryColor

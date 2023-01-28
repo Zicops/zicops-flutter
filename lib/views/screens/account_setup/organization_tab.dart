@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zicops/controllers/mutation_controller.dart';
+import 'package:zicops/views/widgets/GradientButton.dart';
 import 'package:zicops/views/widgets/PrefixInputField.dart';
 
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
-import '../../../utils/colors.dart';
+import '../../../models/user/user_details_model.dart';
 
 class OrganizationTabScreen extends StatefulWidget {
   Function() changeTab;
@@ -17,21 +22,115 @@ class OrganizationTabScreen extends StatefulWidget {
 
 class _OrganizationTabScreen extends State<OrganizationTabScreen> {
   bool isloading = false;
+  String userId = '';
+  String? userOrgId;
+  String? userLspId = '';
+  String? lspId = '';
+  String? orgId = '';
 
   Future orgLoading() async {
     setState(() {
       isloading = true;
     });
-    final orgResuts =
-        await userClient.client()?.execute(GetUserOrganizationsQuery(variables: GetUserOrganizationsArguments(
-          userId:'YW5zaGpvc2hpMDYwN0BnbWFpbC5jb20='
-        )));
-    print(orgResuts?.data?.getUserOrganizations.toString());
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> jsonDetails =
+        jsonDecode(sharedPreferences.getString('user')!);
+    var user = UserDetailsModel.fromJson(jsonDetails);
+    if (jsonDetails.isNotEmpty) {
+      setState(() {
+        userId = user.id!;
+      });
+    }
+    print(userId);
+    final lspResult = await userClient.client()?.execute(
+          GetUserLspsQuery(
+            variables: GetUserLspsArguments(userId: userId),
+          ),
+        );
+    print('hello lsp');
+    // print(lspResult?.data?.getUserLsps.toString());
 
+    List<String> lspIdList = [];
+    List<String> orgIdList = [];
+    List<String> userLspIdList = [];
+
+    for (int i in lspResult?.data?.getUserLsps?.asMap().keys ?? []) {
+      lspIdList.add(lspResult?.data?.getUserLsps?[i]?.lspId ?? '');
+      userLspIdList.add(lspResult?.data?.getUserLsps?[i]?.userLspId ?? '');
+      userLspId = lspResult?.data?.getUserLsps?[i]?.userLspId;
+      lspId = lspResult?.data?.getUserLsps?[i]?.lspId;
+      // print(lspResult?.data?.getUserLsps?[i]?.use);
+    }
+    sharedPreferences.setString('userLspId', userLspId!);
+    sharedPreferences.setString('lspId', lspId!);
+
+    final lspDetailsResult = await userClient.client()?.execute(
+        GetLearningSpaceDetailsQuery(
+            variables: GetLearningSpaceDetailsArguments(lsp_ids: lspIdList)));
+
+    String lspName =
+        lspDetailsResult?.data?.getLearningSpaceDetails?[0]?.name ?? '';
+    for (int i
+        in lspDetailsResult?.data?.getLearningSpaceDetails?.asMap().keys ??
+            []) {
+      orgIdList.add(
+          lspDetailsResult?.data?.getLearningSpaceDetails?[i]?.orgId ?? '');
+    }
+    orgId = lspDetailsResult?.data?.getLearningSpaceDetails?[0]?.orgId ?? '';
+    final orgDetailsResult = await userClient.client()?.execute(
+        GetOrganizationsQuery(
+            variables: GetOrganizationsArguments(org_ids: orgIdList)));
+    String orgName = orgDetailsResult?.data?.getOrganizations?[0]?.name ?? '';
+
+    final getUserLspRolesResult = await userClient.client()?.execute(
+        GetUserLspRolesQuery(
+            variables: GetUserLspRolesArguments(
+                user_lsp_ids: userLspIdList, user_id: userId)));
+
+    String lspRole =
+        getUserLspRolesResult?.data?.getUserLspRoles?[0]?.role ?? '';
+
+    final getUserOrgDetailsResult = await userClient.client()?.execute(
+        GetUserOrgDetailsQuery(
+            variables: GetUserOrgDetailsArguments(
+                userId: userId, user_lsp_id: userLspId!)));
+    userOrgId =
+        getUserOrgDetailsResult?.data?.getUserOrgDetails?.userOrganizationId;
+
+    setState(() {
+      _organisationController.text = orgName;
+      _orgUnitController.text = lspName;
+      _lspRoleController.text = lspRole;
+    });
   }
 
+  void handleOrgTab() {
+    if (userOrgId != null) {
+      updateUserOrganizationMap(
+        userId,
+        orgId!,
+        userOrgId!,
+        userLspId!,
+        _roleController.text,
+        _employeeIdController.text,
+      );
+    } else {
+      addUserOrganization(
+        userId,
+        orgId!,
+        userLspId!,
+        _roleController.text,
+        _employeeIdController.text,
+      );
+    }
+  }
 
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _organisationController = TextEditingController();
+  TextEditingController _orgUnitController = TextEditingController();
+  TextEditingController _lspRoleController = TextEditingController();
+  TextEditingController _roleController = TextEditingController();
+  TextEditingController _employeeIdController = TextEditingController();
+
   final List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),
@@ -68,46 +167,36 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 children: [
-                  const SizedBox(height: 20),
-                  prefixInputField(_focusNodes[0], _controller,
+                  prefixInputField(_focusNodes[0], _organisationController,
                       "assets/images/organization.png", "Organisation"),
                   const SizedBox(height: 12),
-                  prefixInputField(_focusNodes[1], _controller,
+                  prefixInputField(_focusNodes[1], _orgUnitController,
                       "assets/images/location.png", "Organization Unit"),
                   const SizedBox(height: 12),
                   prefixInputField(
-                      _focusNodes[2],
-                      _controller,
-                      "assets/images/learning_space.png",
-                      "Learning Space Role"),
+                    _focusNodes[2],
+                    _lspRoleController,
+                    "assets/images/learning_space.png",
+                    "Learning Space Role",
+                  ),
                   const SizedBox(height: 12),
-                  prefixInputField(_focusNodes[3], _controller,
+                  prefixInputField(_focusNodes[3], _roleController,
                       "assets/images/role.png", "Role in Organization"),
                   const SizedBox(height: 12),
-                  prefixInputField(_focusNodes[4], _controller,
-                      "assets/images/other_role.png", "Other Role"),
+                  prefixInputField(
+                    _focusNodes[4],
+                    _employeeIdController,
+                    "assets/images/other_role.png",
+                    "Employee ID",
+                  ),
                   const SizedBox(height: 12),
                   const Spacer(),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
                       widget.changeTab();
+                      handleOrgTab();
                     },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 48,
-                      decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                              colors: [primaryColor, gradientTwo]),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: Text(
-                        'Next'.toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            letterSpacing: 2),
-                      ),
-                    ),
+                    child: gradientButton("Next"),
                   ),
                 ],
               )))

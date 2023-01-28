@@ -1,6 +1,36 @@
-query getUserLsps($userId: ID!) {
+
+
+query getUserLsps($userId: String!) {
   getUserLsps(user_id: $userId) {
     ...UserLspFragment
+  }
+}
+
+query getUserLspByLspId($user_id: String!, $lsp_id: String!) {
+  getUserLspByLspId(user_id: $user_id, lsp_id: $lsp_id) {
+    ...UserLspFragment
+  }
+}
+#getLearningSpaceDetails(lsp_ids: [String]): [LearningSpace]
+#getOrganizations(org_ids: [String]): [Organization]
+
+query getLearningSpaceDetails($lsp_ids: [String]) {
+  getLearningSpaceDetails(lsp_ids: $lsp_ids) {
+    ...LearningSpaceFragment
+  }
+}
+
+query getOrganizations($org_ids: [String]) {
+  getOrganizations(org_ids: $org_ids) {
+    ...OrganizationFragment
+  }
+}
+
+#getUserLspRoles(user_id: String!, user_lsp_ids: [String!]!): [UserRole]
+
+query getUserLspRoles($user_id: String!, $user_lsp_ids: [String!]!) {
+  getUserLspRoles(user_id: $user_id, user_lsp_ids: $user_lsp_ids) {
+    ...UserRoleFragment
   }
 }
 
@@ -10,8 +40,8 @@ query getUserOrganizations($userId: String!) {
   }
 }
 
-query getUserOrgDetails($userId: String!) {
-  getUserOrgDetails(user_id: $userId) {
+query getUserOrgDetails($userId: String!, $user_lsp_id: String!) {
+  getUserOrgDetails(user_id: $userId, user_lsp_id: $user_lsp_id) {
     ...UserOrganizationFragment
   }
 }
@@ -33,7 +63,17 @@ query allSubCatByCatId($catId: String) {
   }
 }
 
-query latestCourses(
+query getUserPreferences($userId: String!) {
+  getUserPreferences(user_id: $userId) {
+    ...UserPreferenceFragment
+  }
+}
+query getUserPreferenceForLsp($user_id: String!, $user_lsp_id: String!) {
+  getUserPreferenceForLsp(user_id: $user_id, user_lsp_id: $lsp_id) {
+    ...UserPreferenceFragment
+  }
+
+  query latestCourses(
   $publish_time: Int
   $pageCursor: String
   $Direction: String
@@ -54,8 +94,7 @@ query latestCourses(
     }
     pageCursor
     direction
-    pageSize
-  }
+    pageSize}
 }
 
 fragment UserLspFragment on UserLspMap {
@@ -146,6 +185,67 @@ fragment allSubCatMainFragment on SubCatMain {
   CreatedBy
   UpdatedBy
   IsActive
+}
+
+fragment UserPreferenceFragment on UserPreference {
+  user_preference_id
+  user_id
+  user_lsp_id
+  sub_category
+  is_base
+  is_active
+  created_by
+  updated_by
+  created_at
+  updated_at
+}
+
+fragment LearningSpaceFragment on LearningSpace {
+    lsp_id
+    org_id
+    ou_id
+    name
+    logo_url
+    profile_url
+    no_users
+    owners
+    is_default
+    status
+    created_at
+    updated_at
+    created_by
+    updated_by
+}
+
+fragment OrganizationFragment on Organization {
+    org_id
+    name
+    logo_url
+    industry
+    type
+    subdomain
+    employee_count
+    website
+    linkedin_url
+    facebook_url
+    twitter_url
+    status
+    created_at
+    updated_at
+    created_by
+    updated_by
+}
+
+fragment UserRoleFragment on UserRole {
+    user_role_id
+    user_id
+    user_lsp_id
+    role
+    is_active
+    created_by
+    updated_by
+    created_at
+    updated_at
 }
 
 fragment courseFragment on Course {

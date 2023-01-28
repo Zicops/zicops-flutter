@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:zicops/views/widgets/GradientButton.dart';
 
 import '../../../utils/colors.dart';
+import '../../widgets/CustomPassword.dart';
 
 class ChangePassScreen extends StatefulWidget {
   const ChangePassScreen({Key? key}) : super(key: key);
@@ -12,67 +14,35 @@ class ChangePassScreen extends StatefulWidget {
 }
 
 class _ChangePassScreen extends State<ChangePassScreen> {
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
+  final TextEditingController _enterPasswordController =
+      TextEditingController();
+  final TextEditingController _reenterPasswordController =
+      TextEditingController();
 
-  bool _passwordVisible = false;
   bool showErrorP = false;
   String errorMsgP = "";
   bool _keyboardVisible = false;
 
-  Widget customTextField(index,hint) {
-    return SizedBox(
-        width: double.infinity,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(height:48,child: TextField(
-            controller: _passwordController,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.zero,
-              enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: lightGrey),
-                  borderRadius: BorderRadius.circular(4)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: primaryColor),
-                  borderRadius: BorderRadius.circular(4)),
-              hintText: hint,
-              filled: true,
-              prefixIcon: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: ImageIcon(
-                    AssetImage("assets/images/lock.png"),
-                    color: textGrey,
-                    size: 24,
-                  )),
-              prefixIconConstraints:
-                  const BoxConstraints(minHeight: 24, minWidth: 24),
-              suffixIcon: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _passwordVisible = !_passwordVisible;
-                    });
-                  },
-                  child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: ImageIcon(
-                        AssetImage("assets/images/hidden.png"),
-                        color: textGrey,
-                        size: 24,
-                      ))),
-              suffixIconConstraints:
-                  const BoxConstraints(minHeight: 24, minWidth: 24),
-            ),
-            cursorColor: textPrimary,
-            style: const TextStyle(color: textPrimary, fontSize: 16),
-            obscureText: !_passwordVisible,
-          )),
-          showErrorP
-              ? Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    errorMsgP,
-                    style: const TextStyle(color: Colors.red),
-                  ))
-              : const Text(""),
-        ]));
+  final List<FocusNode> _focusNodes = [FocusNode(), FocusNode(), FocusNode()];
+
+  @override
+  void initState() {
+    for (var node in _focusNodes) {
+      node.addListener(() {
+        setState(() {});
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (var node in _focusNodes) {
+      node.removeListener(() {});
+    }
+    super.dispose();
   }
 
   @override
@@ -89,9 +59,15 @@ class _ChangePassScreen extends State<ChangePassScreen> {
               SliverFillRemaining(
                   hasScrollBody: false,
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: _keyboardVisible ||
+                              _currentPasswordController.text.isNotEmpty
+                          ? MainAxisAlignment.start
+                          : MainAxisAlignment.end,
                       children: [
-                        const Spacer(),
+                        _focusNodes[0].hasFocus ||_focusNodes[1].hasFocus ||_focusNodes[2].hasFocus ||
+                                _currentPasswordController.text.isNotEmpty
+                            ? const SizedBox.shrink()
+                            : const Spacer(),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -99,24 +75,34 @@ class _ChangePassScreen extends State<ChangePassScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(height: height * 0.23),
-                                    Image.asset(
-                                      "assets/images/zicops_logo.png",
-                                      width: 40,
-                                    ),
-                                    const SizedBox(height: 20),
+                                    _keyboardVisible ||
+                                            _currentPasswordController
+                                                .text.isNotEmpty
+                                        ? const SizedBox.shrink()
+                                        : Image.asset(
+                                            "assets/images/zicops_logo.png",
+                                            width: 40,
+                                          ),
+                                    SizedBox(
+                                        height: _focusNodes[0].hasFocus ||
+                                                _currentPasswordController
+                                                    .text.isNotEmpty
+                                            ? 0
+                                            : 20),
                                     SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.70,
                                         child: const Text(
                                           "Change password!",
-                                          style: TextStyle(fontSize: 28),
+                                          style: TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w500,
+                                              color: textPrimary),
                                           textAlign: TextAlign.start,
                                         )),
                                   ])
                             ]),
-                        const SizedBox(height: 12),
                         SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: Text(
@@ -129,33 +115,65 @@ class _ChangePassScreen extends State<ChangePassScreen> {
                                   ? TextAlign.start
                                   : TextAlign.center,
                             )),
-                        const SizedBox(height: 25),
-                        const SizedBox(height: 12),
-                        customTextField(0,"Current Password"),
-                        const SizedBox(height: 12),
-                        customTextField(1,"Enter New Password"),
-                        const SizedBox(height: 12),
-                        customTextField(2,"Re-enter New Password"),
                         const SizedBox(height: 20),
-                        InkWell(
+                        CustomPassword(
+                            _focusNodes[0],
+                            _currentPasswordController,
+                            "Current password",
+                            showErrorP,
+                            errorMsgP),
+                        const SizedBox(height: 12),
+                        CustomPassword(_focusNodes[1], _enterPasswordController,
+                            "Enter new password", false, ''),
+                        const SizedBox(height: 12),
+                        CustomPassword(
+                            _focusNodes[2],
+                            _reenterPasswordController,
+                            "Re-enter new password",
+                            false,
+                            ''),
+                        const SizedBox(height: 20),
+                        _keyboardVisible || _currentPasswordController.text.isNotEmpty
+                            ? const Spacer()
+                            : const SizedBox.shrink(),
+                        GestureDetector(
                           onTap: () {
                             print("on login");
+                            if(_enterPasswordController.text != _reenterPasswordController.text){
+                              setState(() {
+                                showErrorP= true;
+                                errorMsgP='Password did not match';
+                              });
+                            }
                           },
-                          child: Ink(
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [primaryColor, gradientTwo]),
-                            ),
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: const Text(
-                                'Reset Password',
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
+                          child: gradientButton("Reset Password"),
                         ),
+                        SizedBox(height: _keyboardVisible? 0: 35),
+
+                        _keyboardVisible
+                            ? const SizedBox.shrink()
+                            : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Privacy Policy",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: textGrey,
+                                  decoration: TextDecoration.underline),
+                            ),
+                            SizedBox(
+                              width: 24,
+                            ),
+                            Text(
+                              "Contact Us",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: textGrey,
+                                  decoration: TextDecoration.underline),
+                            )
+                          ],
+                        )
                       ]))
             ]))));
   }
