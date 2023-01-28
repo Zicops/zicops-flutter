@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-class Course {
+class UserCourseData {
   String? id;
   String? name;
   String? lspId;
@@ -38,8 +38,24 @@ class Course {
   String? sub_categories;
   String? is_active;
 
-  Course(
-      this.id,
+  //user course data-members
+
+  String? user_course_id;
+  String? user_id;
+  String? dataType;
+  String? addedOn;
+  String? expectedCompletion;
+  int? timeLeft;
+  String? added_by;
+  bool? isCourseCompleted;
+  bool? isCourseStarted;
+  int? completedPercentage;
+  int? topicsStartedPercentage;
+  String? scheduleDate;
+  String? endDate;
+
+  UserCourseData(
+      {this.id,
       this.name,
       this.publisher,
       this.description,
@@ -48,5 +64,5 @@ class Course {
       this.is_display,
       this.type,
       this.tileImage,
-      this.image);
+      this.image});
 }

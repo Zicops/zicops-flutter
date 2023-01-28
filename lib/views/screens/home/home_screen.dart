@@ -9,6 +9,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
 import 'package:zicops/models/user/home_page_model.dart';
+import 'package:zicops/models/user/user_course_model.dart';
 import 'package:zicops/models/user/user_details_model.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/utils/dummies.dart';
@@ -38,7 +39,6 @@ class _HomeScreen extends State<HomeScreen> {
   Future<List<Course>> loadCourses({String lspId: '', String? subCat}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final data = sharedPreferences.getString('userData');
-    print('$lspId lspId $subCat');
     List<Course> courseData = [];
     final allLatestCourse = await courseQClient.client()?.execute(
         LatestCoursesQuery(
@@ -54,24 +54,22 @@ class _HomeScreen extends State<HomeScreen> {
         in allLatestCourse?.data?.latestCourses?.courses?.asMap().keys ?? []) {
       final data = allLatestCourse?.data?.latestCourses?.courses?[i];
       courseData.add(Course(
-          data?.id,
-          data?.name,
-          data?.publisher,
-          data?.description,
-          data?.expertiseLevel,
-          data?.owner,
-          data?.isDisplay,
-          data?.type,
-          data?.tileImage,
-          data?.image));
+          id: data?.id,
+          name: data?.name,
+          publisher: data?.publisher,
+          description: data?.description,
+          expertiseLevel: data?.expertiseLevel,
+          owner: data?.owner,
+          isDisplay: data?.isDisplay,
+          type: data?.type,
+          tileImage: data?.tileImage,
+          image: data?.image));
     }
     return courseData;
   }
 
   Future loadUserCourseData() async {
-    // 2. get user courseprogress with the help of user_course_id array
-    // 3. get course using courseIds array
-    // 4. find progress for each courses
+    // 5. try to add data in the model
     String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
     SharedPreferences sharedPreferences =
         await SharedPreferences?.getInstance();
@@ -91,10 +89,12 @@ class _HomeScreen extends State<HomeScreen> {
     List<String>? userCourseIds = [];
     List<String?> courseIds = [];
 
-    for (int i
-        in userCourseMap?.data?.getUserCourseMaps?.userCourses?.asMap().keys ??
-            []) {
-      var data = userCourseMap?.data?.getUserCourseMaps?.userCourses?[i];
+    var assignedCourses = userCourseMap?.data?.getUserCourseMaps?.userCourses;
+
+    for (int i in assignedCourses?.asMap().keys ?? []) {
+      var data = assignedCourses?[i];
+      userCourseIds.add(data?.userCourseId ?? '');
+      courseIds?.add(data?.courseId?.toString());
     }
     final courseRes = await courseQClient.client()?.execute(
         GetCourseQuery(variables: GetCourseArguments(course_id: courseIds)));
@@ -102,6 +102,86 @@ class _HomeScreen extends State<HomeScreen> {
         GetUserCourseProgressByMapIdQuery(
             variables: GetUserCourseProgressByMapIdArguments(
                 userId: user.id!, userCourseId: userCourseIds)));
+
+    List<dynamic> courseMeta = [];
+    for (int i in assignedCourses?.asMap().keys ?? []) {
+      var data = assignedCourses?[i];
+      var courseData = courseRes?.data?.getCourse;
+      var cpData = userCourseProgress?.data?.getUserCourseProgressByMapId
+              ?.where((cp) => cp?.userCourseId == data?.userCourseId)
+              ?.toList() ??
+          [];
+
+      var courseDetails = courseData
+              ?.singleWhere((course) => course?.id == data?.courseId)
+              ?.toJson() ??
+          {};
+      courseMeta.add(Course(
+          id: courseDetails['id'],
+          name: courseDetails['name'],
+          publisher: courseDetails['publisher'],
+          courseProgress: cpData,
+          createdAt: data?.createdAt,
+          endDate: data?.endDate,
+          duration: courseDetails['duration'],
+          addedBy: data?.addedBy,
+          tileImage: courseDetails['tileImage'],
+          image: courseDetails['image'],
+          publishDate: courseDetails['publish_date'],
+          owner: courseDetails['owner'],
+          expertiseLevel: courseDetails['expertise_level'],
+          userCourseId: courseDetails['user_course_id'],
+          userLspId: courseDetails['user_lsp_id']));
+    }
+
+    List<Course> userCourseData = [];
+    //to calculate progress of user
+    for (int i in courseMeta?.asMap()?.keys ?? []) {
+      var _courseData = courseMeta[i];
+      var role = json.decode(_courseData?.addedBy);
+      var topicsCompleted = 0;
+      var topicsStarted = 0;
+      List userProgressArr = _courseData?.courseProgress ?? [];
+
+      for (int i in userProgressArr?.asMap()?.keys ?? []) {
+        if (userProgressArr[i]?.status != 'non-started')
+          ++topicsStarted;
+
+         if (userProgressArr[i]?.status == 'completed') ++topicsCompleted;
+      }
+      int progressLength = userProgressArr?.length ?? 0;
+      double cProgress = ((topicsStarted * 100) / progressLength);
+      double tProgress = ((topicsCompleted * 100) / progressLength);
+      var courseProgress = userProgressArr.isNotEmpty ? cProgress.floor() : 0;
+      var topicProgress = userProgressArr.isNotEmpty ? tProgress.floor() : 0;
+      var courseDuration = _courseData?.duration;
+      
+
+      if (_courseData?.status == 'PUBLISHED') continue;
+
+      // int? timeLeft =
+      //     (courseDuration - (courseDuration * (topicProgress ?? 0)) / 100);
+
+      userCourseData.add(Course(
+          id: _courseData?.id,
+          name: _courseData?.name,
+          publisher: _courseData?.publisher,
+          courseProgress: _courseData?.courseProgress,
+          createdAt: _courseData?.createdAt,
+          endDate: _courseData?.endDate,
+          duration: _courseData?.duration,
+          addedBy: role['role'],
+          tileImage: _courseData?.tileImage,
+          image: _courseData?.image,
+          publishDate: _courseData?.publishDate,
+          owner: _courseData?.owner,
+          expertiseLevel: _courseData?.expertiseLevel,
+          completedPercentage: topicProgress,
+          topicsStartedPercentage: courseProgress,
+          scheduleDate: _courseData?.endDate,
+          userCourseId: _courseData?.userCourseId,
+          userLspId: _courseData?.userLspId));
+    }
   }
 
   Widget sectionHeader(String label, Function() action,
@@ -449,14 +529,14 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...latestCourses.map((courseItem) => Row(
+                  ...courseItems.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
-                            courseItem?.name?.trim() ?? '',
-                            courseItem?.publisher ?? '',
-                            courseItem?.expertise_level ?? '',
-                            courseItem?.duration ?? '',
-                            courseItem?.tileImage ?? "",
+                            courseItem["courseName"],
+                            courseItem["org"],
+                            courseItem["difficulty"],
+                            courseItem["courseLength"],
+                            courseItem["preview"],
                           ),
                           SizedBox(
                             width: 8.sp,
@@ -483,14 +563,14 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...lspCourses.map((courseItem) => Row(
+                  ...courseItems.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
-                            courseItem?.name?.trim() ?? '',
-                            courseItem?.publisher ?? '',
-                            courseItem?.expertise_level ?? '',
-                            courseItem?.duration ?? '',
-                            courseItem?.tileImage ?? "",
+                            courseItem["courseName"],
+                            courseItem["org"],
+                            courseItem["difficulty"],
+                            courseItem["courseLength"],
+                            courseItem["preview"],
                           ),
                           SizedBox(
                             width: 8.sp,
