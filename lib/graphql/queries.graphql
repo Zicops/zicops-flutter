@@ -67,7 +67,7 @@ query getUserPreferences($userId: String!) {
   }
 }
 query getUserPreferenceForLsp($user_id: String!, $user_lsp_id: String!) {
-  getUserPreferenceForLsp(user_id: $user_id, user_lsp_id: $lsp_id) {
+  getUserPreferenceForLsp(user_id: $user_id, user_lsp_id: $user_lsp_id) {
     ...UserPreferenceFragment
   }
 }

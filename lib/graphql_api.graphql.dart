@@ -4775,7 +4775,7 @@ final GET_USER_PREFERENCE_FOR_LSP_QUERY_DOCUMENT = DocumentNode(definitions: [
           ),
           ArgumentNode(
             name: NameNode(value: 'user_lsp_id'),
-            value: VariableNode(name: NameNode(value: 'lsp_id')),
+            value: VariableNode(name: NameNode(value: 'user_lsp_id')),
           ),
         ],
         directives: [],

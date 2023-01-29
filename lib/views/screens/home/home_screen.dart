@@ -31,10 +31,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   int currentCarousel = 0;
   CarouselController carouselController = CarouselController();
+  // remember to refractor the code later
+  // take allCatMain from bloc and we can display that.
   List<Course> latestCourses = [];
   List<Course> lspCourses = [];
   List<Course> learningFolderCourses = [];
-  List<Course> Courses = [];
+  List<Course> subCatCourses1 = [];
+  List<Course> subCatCourses2 = [];
+  List<Course> subCatCourses3 = [];
+  List<Course> subCatCourses4 = [];
+  List<Course> subCatCourses5 = [];
 
   Future<List<Course>> loadCourses({String lspId: '', String? subCat}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -144,10 +150,9 @@ class _HomeScreen extends State<HomeScreen> {
       List userProgressArr = _courseData?.courseProgress ?? [];
 
       for (int i in userProgressArr?.asMap()?.keys ?? []) {
-        if (userProgressArr[i]?.status != 'non-started')
-          ++topicsStarted;
+        if (userProgressArr[i]?.status != 'non-started') ++topicsStarted;
 
-         if (userProgressArr[i]?.status == 'completed') ++topicsCompleted;
+        if (userProgressArr[i]?.status == 'completed') ++topicsCompleted;
       }
       int progressLength = userProgressArr?.length ?? 0;
       double cProgress = ((topicsStarted * 100) / progressLength);
@@ -155,7 +160,6 @@ class _HomeScreen extends State<HomeScreen> {
       var courseProgress = userProgressArr.isNotEmpty ? cProgress.floor() : 0;
       var topicProgress = userProgressArr.isNotEmpty ? tProgress.floor() : 0;
       var courseDuration = _courseData?.duration;
-      
 
       if (_courseData?.status == 'PUBLISHED') continue;
 
@@ -183,6 +187,31 @@ class _HomeScreen extends State<HomeScreen> {
           userLspId: _courseData?.userLspId));
     }
     return userCourseData;
+  }
+
+  Future loadUserPreferences() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> jsonDetails =
+        jsonDecode(sharedPreferences.getString('user')!);
+    var user = UserDetailsModel.fromJson(jsonDetails);
+    // String userLspId = sharedPreferences.getString('userLspId')!;
+    List userPreferences = []; 
+    // for now it is hardcoded need to be fixed in lsp screen screen
+    String userLspId = '96a30957-3bd8-41cc-87ad-9c863d423c3e';
+    final res = await userClient?.client()?.execute(
+        GetUserPreferencesQuery(
+            variables: GetUserPreferencesArguments(
+                userId: user.id!)));
+
+    for(int i in res?.data?.getUserPreferences?.asMap()?.keys ?? []){
+      var data = res?.data?.getUserPreferences?[i];
+      if(data?.userLspId == userLspId && userPreferences.length < 6){
+        userPreferences.add(data?.subCategory);
+      }
+    }
+    // after this call for loadCourses by iterating over userPreferences and passing is as subcat
+    // take that course and put it in subcatCourse1 2 3 4 5 resp.
+
   }
 
   Widget sectionHeader(String label, Function() action,
@@ -359,7 +388,8 @@ class _HomeScreen extends State<HomeScreen> {
   void initState() {
     super.initState();
     // callCourses();
-    loadUserCourseData();
+    // loadUserCourseData();
+    loadUserPreferences();
   }
 
   @override
