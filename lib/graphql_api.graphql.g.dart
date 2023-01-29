@@ -415,6 +415,62 @@ Map<String, dynamic> _$GetOrganizations$QueryRootToJson(
           instance.getOrganizations?.map((e) => e?.toJson()).toList(),
     };
 
+GetUserDetails$QueryRoot$User _$GetUserDetails$QueryRoot$UserFromJson(
+        Map<String, dynamic> json) =>
+    GetUserDetails$QueryRoot$User()
+      ..id = json['id'] as String?
+      ..firstName = json['first_name'] as String
+      ..lastName = json['last_name'] as String
+      ..status = json['status'] as String
+      ..role = json['role'] as String
+      ..isVerified = json['is_verified'] as bool
+      ..isActive = json['is_active'] as bool
+      ..gender = json['gender'] as String
+      ..createdBy = json['created_by'] as String?
+      ..updatedBy = json['updated_by'] as String?
+      ..createdAt = json['created_at'] as String
+      ..updatedAt = json['updated_at'] as String
+      ..email = json['email'] as String
+      ..phone = json['phone'] as String
+      ..photoUrl = json['photo_url'] as String?;
+
+Map<String, dynamic> _$GetUserDetails$QueryRoot$UserToJson(
+        GetUserDetails$QueryRoot$User instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'first_name': instance.firstName,
+      'last_name': instance.lastName,
+      'status': instance.status,
+      'role': instance.role,
+      'is_verified': instance.isVerified,
+      'is_active': instance.isActive,
+      'gender': instance.gender,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'email': instance.email,
+      'phone': instance.phone,
+      'photo_url': instance.photoUrl,
+    };
+
+GetUserDetails$QueryRoot _$GetUserDetails$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetUserDetails$QueryRoot()
+      ..getUserDetails = (json['getUserDetails'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : GetUserDetails$QueryRoot$User.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetUserDetails$QueryRootToJson(
+        GetUserDetails$QueryRoot instance) =>
+    <String, dynamic>{
+      'getUserDetails':
+          instance.getUserDetails?.map((e) => e?.toJson()).toList(),
+    };
+
 GetUserLspRoles$QueryRoot$UserRole _$GetUserLspRoles$QueryRoot$UserRoleFromJson(
         Map<String, dynamic> json) =>
     GetUserLspRoles$QueryRoot$UserRole()
@@ -1006,6 +1062,18 @@ Map<String, dynamic> _$GetOrganizationsArgumentsToJson(
         GetOrganizationsArguments instance) =>
     <String, dynamic>{
       'org_ids': instance.org_ids,
+    };
+
+GetUserDetailsArguments _$GetUserDetailsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetUserDetailsArguments(
+      userId: json['userId'] as String,
+    );
+
+Map<String, dynamic> _$GetUserDetailsArgumentsToJson(
+        GetUserDetailsArguments instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
     };
 
 GetUserLspRolesArguments _$GetUserLspRolesArgumentsFromJson(

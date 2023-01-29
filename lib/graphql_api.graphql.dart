@@ -81,6 +81,32 @@ mixin OrganizationFragmentMixin {
   @JsonKey(name: 'updated_by')
   String? updatedBy;
 }
+mixin UserFragmentMixin {
+  String? id;
+  @JsonKey(name: 'first_name')
+  late String firstName;
+  @JsonKey(name: 'last_name')
+  late String lastName;
+  late String status;
+  late String role;
+  @JsonKey(name: 'is_verified')
+  late bool isVerified;
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+  late String gender;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+  late String email;
+  late String phone;
+  @JsonKey(name: 'photo_url')
+  String? photoUrl;
+}
 mixin UserRoleFragmentMixin {
   @JsonKey(name: 'user_role_id')
   String? userRoleId;
@@ -684,6 +710,51 @@ class GetOrganizations$QueryRoot extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [getOrganizations];
   @override
   Map<String, dynamic> toJson() => _$GetOrganizations$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserDetails$QueryRoot$User extends JsonSerializable
+    with EquatableMixin, UserFragmentMixin {
+  GetUserDetails$QueryRoot$User();
+
+  factory GetUserDetails$QueryRoot$User.fromJson(Map<String, dynamic> json) =>
+      _$GetUserDetails$QueryRoot$UserFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        firstName,
+        lastName,
+        status,
+        role,
+        isVerified,
+        isActive,
+        gender,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt,
+        email,
+        phone,
+        photoUrl
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserDetails$QueryRoot$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserDetails$QueryRoot extends JsonSerializable with EquatableMixin {
+  GetUserDetails$QueryRoot();
+
+  factory GetUserDetails$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetUserDetails$QueryRootFromJson(json);
+
+  List<GetUserDetails$QueryRoot$User?>? getUserDetails;
+
+  @override
+  List<Object?> get props => [getUserDetails];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserDetails$QueryRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3003,6 +3074,197 @@ class GetOrganizationsQuery extends GraphQLQuery<GetOrganizations$QueryRoot,
   @override
   GetOrganizations$QueryRoot parse(Map<String, dynamic> json) =>
       GetOrganizations$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserDetailsArguments extends JsonSerializable with EquatableMixin {
+  GetUserDetailsArguments({required this.userId});
+
+  @override
+  factory GetUserDetailsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetUserDetailsArgumentsFromJson(json);
+
+  late String userId;
+
+  @override
+  List<Object?> get props => [userId];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserDetailsArgumentsToJson(this);
+}
+
+final GET_USER_DETAILS_QUERY_DOCUMENT_OPERATION_NAME = 'getUserDetails';
+final GET_USER_DETAILS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getUserDetails'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getUserDetails'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'user_ids'),
+            value: VariableNode(name: NameNode(value: 'userId')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'UserFragment'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'UserFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'User'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'first_name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'last_name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'role'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'is_verified'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'is_active'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'gender'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'email'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'phone'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'photo_url'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetUserDetailsQuery
+    extends GraphQLQuery<GetUserDetails$QueryRoot, GetUserDetailsArguments> {
+  GetUserDetailsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_USER_DETAILS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_USER_DETAILS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetUserDetailsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetUserDetails$QueryRoot parse(Map<String, dynamic> json) =>
+      GetUserDetails$QueryRoot.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
