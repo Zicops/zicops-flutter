@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../utils/colors.dart';
 
 Widget prefixInputField(FocusNode focusNode, TextEditingController controller,
-    String image, String hint,
+    String image, String hint, bool enabled,
     {bool validated = false,
     Function? onChange,
     TextInputType inputType = TextInputType.text}) {
@@ -14,6 +14,7 @@ Widget prefixInputField(FocusNode focusNode, TextEditingController controller,
       height: 48.sp,
       alignment: Alignment.centerLeft,
       child: TextField(
+          enabled: enabled,
           focusNode: focusNode,
           controller: controller,
           onChanged: (val) {

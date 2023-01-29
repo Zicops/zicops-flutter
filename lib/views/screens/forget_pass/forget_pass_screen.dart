@@ -128,6 +128,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                       _emailController,
                                       "assets/images/email.png",
                                       "Email",
+                                      true,
                                       validated: isEmailValidated,
                                       onChange: (e) {
                                     setState(() {
@@ -144,8 +145,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                     },
                                     child: gradientButton('Send Email'),
                                   ),
-                                SizedBox(height: 20.sp),
-
+                                  SizedBox(height: 20.sp),
                                   SizedBox(height: _keyboardVisible ? 0 : 35),
                                   _keyboardVisible
                                       ? const SizedBox.shrink()

@@ -23,6 +23,7 @@ class CourseGridItem extends StatefulWidget {
 
 class _CourseGridItem extends State<CourseGridItem> {
   bool isGridView = false;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -53,16 +54,24 @@ class _CourseGridItem extends State<CourseGridItem> {
                               child: Stack(
                                 alignment: Alignment.center,
                                 children: [
-                                  // Image.network(widget.preview ?? "assets/images/course_preview_2.png"),
-                                  Image.asset(
-                                    widget.preview,
-                                    fit: BoxFit.fill,
-                                    width: 156.sp,
-                                    height: 88.sp,
-                                  ),
-                                  // FadeInImage.assetNetwork(
-                                  //     placeholder: "assets/images/course_preview_2.png",
-                                  //     image: widget.preview ?? ''),
+                                  widget.preview.contains("https://")
+                                      ? Image.network(
+                                          widget.preview,
+                                          fit: BoxFit.fill,
+                                          width: 156.sp,
+                                          height: 88.sp,
+                                        )
+                                      : Image.asset(
+                                          'assets/images/course_preview_2.png',
+                                          fit: BoxFit.fill,
+                                          width: 156.sp,
+                                          height: 88.sp,
+                                        ),
+                                  // FadeInImage(
+                                  //   image: NetworkImage(widget.preview),
+                                  //   placeholder: AssetImage(
+                                  //       'assets/images/course_preview_2.png'),
+                                  // ),
                                   Container(
                                     color: Colors.black.withOpacity(0.43),
                                     height: 87.75.sp,

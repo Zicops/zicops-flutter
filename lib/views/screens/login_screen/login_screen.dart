@@ -82,7 +82,8 @@ class _LoginScreen extends State<LoginScreen> {
       // sharedPreferences.setString("token", token);
 
       final result = await userClient.client()?.execute(LoginMutation());
-      await sharedPreferences.setString("userData",result!.data!.login.toString());
+      await sharedPreferences.setString(
+          "userData", result!.data!.login.toString());
 
       UserDetailsModel userDetails = UserDetailsModel(
         result?.data?.login?.id ?? "",
@@ -256,7 +257,7 @@ class _LoginScreen extends State<LoginScreen> {
                     )),
                 SizedBox(height: isFocusedOrNotEmpty() ? 20.sp : 28.sp),
                 prefixInputField(_focusNodes[0], _emailController,
-                    "assets/images/email.png", "Email",
+                    "assets/images/email.png", "Email", true,
                     validated: isEmailValidated, onChange: (e) {
                   setState(() {
                     isEmailValidated = isValidEmail(e);

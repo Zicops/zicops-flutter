@@ -269,21 +269,25 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                   child: Column(
                     children: [
                       prefixInputField(_focusNodes[0], _firstNameController,
-                          "assets/images/person.png", "Firstname"),
+                          "assets/images/person.png", "Firstname", true),
                       const SizedBox(height: 12),
                       prefixInputField(_focusNodes[1], _lastNameController,
-                          "assets/images/person.png", "Lastname"),
+                          "assets/images/person.png", "Lastname", true),
                       const SizedBox(height: 12),
                       prefixInputField(_focusNodes[2], _emailController,
-                          "assets/images/email.png", "Email",
+                          "assets/images/email.png", "Email", false,
                           validated: isEmailValidated, onChange: (e) {
                         setState(() {
                           isEmailValidated = isValidEmail(e);
                         });
                       }),
                       const SizedBox(height: 12),
-                      prefixInputField(_focusNodes[3], _phoneController,
-                          "assets/images/phone.png", "+91 | Contact Number",
+                      prefixInputField(
+                          _focusNodes[3],
+                          _phoneController,
+                          "assets/images/phone.png",
+                          "+91 | Contact Number",
+                          true,
                           inputType: TextInputType.phone),
                       const SizedBox(height: 12),
                       GestureDetector(

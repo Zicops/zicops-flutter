@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,6 +42,10 @@ class _HomeScreen extends State<HomeScreen> {
   List<Course> subCatCourses3 = [];
   List<Course> subCatCourses4 = [];
   List<Course> subCatCourses5 = [];
+  List<Course> courseDataOne = [];
+  List<String?> userPreferences = [];
+
+  String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
 
   Future<List<Course>> loadCourses({String lspId: '', String? subCat}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -49,11 +54,10 @@ class _HomeScreen extends State<HomeScreen> {
     final allLatestCourse = await courseQClient.client()?.execute(
         LatestCoursesQuery(
             variables: LatestCoursesArguments(
-                publishTime:
-                    (DateTime.now().millisecondsSinceEpoch / 1000).toInt(),
+                publishTime: DateTime.now().millisecondsSinceEpoch ~/ 1000,
                 pageCursor: "",
                 pageSize: 1000,
-                filters: new CoursesFilters(lspId: lspId, subCategory: subCat),
+                filters: CoursesFilters(lspId: lspId, subCategory: subCat),
                 Direction: "")));
 
     for (int i
@@ -69,6 +73,7 @@ class _HomeScreen extends State<HomeScreen> {
           isDisplay: data?.isDisplay,
           type: data?.type,
           tileImage: data?.tileImage,
+          //subCategories: data?.subCategories,
           image: data?.image));
     }
     return courseData;
@@ -186,6 +191,8 @@ class _HomeScreen extends State<HomeScreen> {
           userCourseId: _courseData?.userCourseId,
           userLspId: _courseData?.userLspId));
     }
+
+    //  print(userCourseData.toString());
     return userCourseData;
   }
 
@@ -195,23 +202,61 @@ class _HomeScreen extends State<HomeScreen> {
         jsonDecode(sharedPreferences.getString('user')!);
     var user = UserDetailsModel.fromJson(jsonDetails);
     // String userLspId = sharedPreferences.getString('userLspId')!;
-    List userPreferences = []; 
+
     // for now it is hardcoded need to be fixed in lsp screen screen
     String userLspId = '96a30957-3bd8-41cc-87ad-9c863d423c3e';
-    final res = await userClient?.client()?.execute(
-        GetUserPreferencesQuery(
-            variables: GetUserPreferencesArguments(
-                userId: user.id!)));
+    final res = await userClient?.client()?.execute(GetUserPreferencesQuery(
+        variables: GetUserPreferencesArguments(userId: user.id!)));
 
-    for(int i in res?.data?.getUserPreferences?.asMap()?.keys ?? []){
+    for (int i in res?.data?.getUserPreferences?.asMap()?.keys ?? []) {
       var data = res?.data?.getUserPreferences?[i];
-      if(data?.userLspId == userLspId && userPreferences.length < 6){
+      if (data?.userLspId == userLspId && userPreferences.length < 6) {
         userPreferences.add(data?.subCategory);
       }
     }
+    for (int i in userPreferences?.asMap()?.keys ?? []) {
+      print(userPreferences);
+    }
+    subCatCourses1 =
+        await loadCourses(lspId: lspId, subCat: userPreferences[0]);
+
+    if (kDebugMode) {
+      print(subCatCourses1[0].subCategory);
+      print(subCatCourses1[0].id);
+      print(subCatCourses1[0].name);
+      print(subCatCourses1[0].publisher);
+      print(subCatCourses1[0].description);
+      print(subCatCourses1[0].expertiseLevel);
+      print(subCatCourses1[0].owner);
+      print(subCatCourses1[0].isDisplay);
+      print(subCatCourses1[0].type);
+      print(subCatCourses1[0].tileImage);
+      print(subCatCourses1[0].image);
+      // print(json.encode(subCatCourses1));
+    }
+    subCatCourses2 =
+        await loadCourses(lspId: lspId, subCat: userPreferences[1]);
+    //subCatCourses2[0].subCategory = userPreferences[1];
+    subCatCourses3 =
+        await loadCourses(lspId: lspId, subCat: userPreferences[2]);
+    subCatCourses4 =
+        await loadCourses(lspId: lspId, subCat: userPreferences[3]);
+    subCatCourses5 =
+        await loadCourses(lspId: lspId, subCat: userPreferences[4]);
+    setState(() {
+      subCatCourses1[0].subCategory = userPreferences[0];
+      subCatCourses2[0].subCategory = userPreferences[1];
+      subCatCourses3[0].subCategory = userPreferences[2];
+      //   subCatCourses4[0].subCategory = userPreferences[3];
+      //  subCatCourses5[0].subCategory = userPreferences[4];
+    });
+
+    // print(subCatCourses2[0].subCategory);
+    // print(subCatCourses4);
+    // print(subCatCourses4[0].subCategory);
+    //  print(subCatCourses5[0].subCategory);
     // after this call for loadCourses by iterating over userPreferences and passing is as subcat
     // take that course and put it in subcatCourse1 2 3 4 5 resp.
-
   }
 
   Widget sectionHeader(String label, Function() action,
@@ -382,14 +427,15 @@ class _HomeScreen extends State<HomeScreen> {
         await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
     lspCourses =
         await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
+    learningFolderCourses = await loadUserCourseData();
   }
 
   @override
   void initState() {
     super.initState();
-    // callCourses();
-    // loadUserCourseData();
     loadUserPreferences();
+    callCourses();
+    //loadUserCourseData();
   }
 
   @override
@@ -521,14 +567,14 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...courseItems.map((courseItem) => Row(
+                  ...learningFolderCourses.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
-                            courseItem["courseName"],
-                            courseItem["org"],
-                            courseItem["difficulty"],
-                            courseItem["courseLength"],
-                            courseItem["preview"],
+                            courseItem.name ?? '',
+                            courseItem.owner ?? '',
+                            courseItem.expertiseLevel ?? '',
+                            '1',
+                            courseItem.tileImage ?? '',
                           ),
                           SizedBox(
                             width: 8.sp,
@@ -560,14 +606,14 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...courseItems.map((courseItem) => Row(
+                  ...latestCourses.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
-                            courseItem["courseName"],
-                            courseItem["org"],
-                            courseItem["difficulty"],
-                            courseItem["courseLength"],
-                            courseItem["preview"],
+                            courseItem.name ?? '',
+                            courseItem.owner ?? '',
+                            courseItem.expertiseLevel ?? '',
+                            '1',
+                            courseItem.tileImage ?? '',
                           ),
                           SizedBox(
                             width: 8.sp,
@@ -594,14 +640,14 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...courseItems.map((courseItem) => Row(
+                  ...lspCourses.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
-                            courseItem["courseName"],
-                            courseItem["org"],
-                            courseItem["difficulty"],
-                            courseItem["courseLength"],
-                            courseItem["preview"],
+                            courseItem.name ?? '',
+                            courseItem.owner ?? '',
+                            courseItem.expertiseLevel ?? '',
+                            '1',
+                            courseItem.tileImage ?? '',
                           ),
                           SizedBox(
                             width: 8.sp,
@@ -658,7 +704,7 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 14.25.sp,
             ),
-            sectionHeader("UI/UX design", () {}),
+            sectionHeader(subCatCourses1[0].subCategory!, () {}),
             SizedBox(
               height: 8.sp,
             ),
@@ -671,14 +717,31 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...courseItems.map((courseItem) => Row(
+                  ...subCatCourses1.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
-                            courseItem["courseName"],
-                            courseItem["org"],
-                            courseItem["difficulty"],
-                            courseItem["courseLength"],
-                            courseItem["preview"],
+                            // id: data?.id,
+                            //     name: data?.name,
+                            //     publisher: data?.publisher,
+                            //     description: data?.description,
+                            //     expertiseLevel: data?.expertiseLevel,
+                            //     owner: data?.owner,
+                            //     isDisplay: data?.isDisplay,
+                            //     type: data?.type,
+                            //     tileImage: data?.tileImage,
+                            //     image: data?.image));
+
+                            courseItem.name!,
+                            courseItem.owner!,
+                            courseItem.expertiseLevel!,
+                            "1h 30m",
+                            courseItem.tileImage!,
+
+                            // courseItem["courseName"],
+                            // courseItem["org"],
+                            // courseItem["difficulty"],
+                            // courseItem["courseLength"],
+                            // courseItem["preview"],
                           ),
                           SizedBox(
                             width: 8.sp,
@@ -692,7 +755,7 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 14.25.sp,
             ),
-            sectionHeader("Design", () {}),
+            sectionHeader(subCatCourses2[0].subCategory ?? '', () {}),
             SizedBox(
               height: 8.sp,
             ),
@@ -705,14 +768,14 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...courseItems.map((courseItem) => Row(
+                  ...subCatCourses2.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
-                            courseItem["courseName"],
-                            courseItem["org"],
-                            courseItem["difficulty"],
-                            courseItem["courseLength"],
-                            courseItem["preview"],
+                            courseItem.name ?? "",
+                            courseItem.owner ?? "",
+                            courseItem.expertiseLevel ?? "",
+                            "1h 30m",
+                            courseItem.tileImage ?? "",
                           ),
                           SizedBox(
                             width: 8.sp,
@@ -726,6 +789,108 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 14.25.sp,
             ),
+            sectionHeader(subCatCourses3[0].subCategory ?? '', () {}),
+            SizedBox(
+              height: 8.sp,
+            ),
+            Container(
+              height: 156.sp,
+              alignment: Alignment.centerLeft,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  SizedBox(
+                    width: 20.sp,
+                  ),
+                  ...subCatCourses3.map((courseItem) => Row(
+                        children: [
+                          CourseGridItem(
+                            courseItem.name ?? '',
+                            courseItem.owner ?? '',
+                            courseItem.expertiseLevel ?? '',
+                            "1h 30m",
+                            courseItem.tileImage ?? '',
+                          ),
+                          SizedBox(
+                            width: 8.sp,
+                          )
+                        ],
+                      )),
+                  viewAll()
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 14.25.sp,
+            ),
+            // sectionHeader(subCatCourses4[0].subCategory ?? '', () {}),
+            // SizedBox(
+            //   height: 8.sp,
+            // ),
+            // Container(
+            //   height: 156.sp,
+            //   alignment: Alignment.centerLeft,
+            //   child: ListView(
+            //     scrollDirection: Axis.horizontal,
+            //     children: [
+            //       SizedBox(
+            //         width: 20.sp,
+            //       ),
+            //       ...subCatCourses4.map((courseItem) => Row(
+            //             children: [
+            //               CourseGridItem(
+            //                 courseItem.name ?? '',
+            //                 courseItem.owner ?? '',
+            //                 courseItem.expertiseLevel ?? '',
+            //                 "1h 30m",
+            //                 courseItem.tileImage ?? '',
+            //               ),
+            //               SizedBox(
+            //                 width: 8.sp,
+            //               )
+            //             ],
+            //           )),
+            //       viewAll()
+            //     ],
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 14.25.sp,
+            // ),
+            // sectionHeader(subCatCourses5[0].subCategory!, () {}),
+            // SizedBox(
+            //   height: 8.sp,
+            // ),
+            // Container(
+            //   height: 156.sp,
+            //   alignment: Alignment.centerLeft,
+            //   child: ListView(
+            //     scrollDirection: Axis.horizontal,
+            //     children: [
+            //       SizedBox(
+            //         width: 20.sp,
+            //       ),
+            //       ...subCatCourses5.map((courseItem) => Row(
+            //             children: [
+            //               CourseGridItem(
+            //                 courseItem.name ?? '',
+            //                 courseItem.owner ?? '',
+            //                 courseItem.expertiseLevel ?? '',
+            //                 "1h 30m",
+            //                 courseItem.tileImage ?? '',
+            //               ),
+            //               SizedBox(
+            //                 width: 8.sp,
+            //               )
+            //             ],
+            //           )),
+            //       viewAll()
+            //     ],
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 14.25.sp,
+            // ),
             sectionHeader("Category", () {}),
             SizedBox(
               height: 8.sp,
