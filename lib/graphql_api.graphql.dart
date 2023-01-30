@@ -1705,6 +1705,7 @@ class UpdateUserArguments extends JsonSerializable with EquatableMixin {
     required this.gender,
     required this.email,
     required this.phone,
+    this.Photo,
   });
 
   @override
@@ -1731,6 +1732,11 @@ class UpdateUserArguments extends JsonSerializable with EquatableMixin {
 
   late String phone;
 
+  @JsonKey(
+      fromJson: fromGraphQLUploadNullableToDartMultipartFileNullable,
+      toJson: fromDartMultipartFileNullableToGraphQLUploadNullable)
+  final MultipartFile? Photo;
+
   @override
   List<Object?> get props => [
         id,
@@ -1742,7 +1748,8 @@ class UpdateUserArguments extends JsonSerializable with EquatableMixin {
         is_active,
         gender,
         email,
-        phone
+        phone,
+        Photo
       ];
   @override
   Map<String, dynamic> toJson() => _$UpdateUserArgumentsToJson(this);
@@ -1844,6 +1851,15 @@ final UPDATE_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
         defaultValue: DefaultValueNode(value: null),
         directives: [],
       ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'Photo')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Upload'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
     ],
     directives: [],
     selectionSet: SelectionSetNode(selections: [
@@ -1893,6 +1909,10 @@ final UPDATE_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
               ObjectFieldNode(
                 name: NameNode(value: 'phone'),
                 value: VariableNode(name: NameNode(value: 'phone')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'Photo'),
+                value: VariableNode(name: NameNode(value: 'Photo')),
               ),
             ]),
           )

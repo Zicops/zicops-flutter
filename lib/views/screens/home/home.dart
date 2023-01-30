@@ -2,6 +2,8 @@
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar_itemar.dart';
 // import 'dart:html';
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +22,8 @@ import 'package:zicops/views/screens/settings/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
+import '../../../models/user/org_model.dart';
+import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,7 +40,29 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   bool showNavDrawerOrg = false;
   late AnimationController controller;
-  
+
+  String name = '';
+  String orgName = '';
+
+  Future getDetailsToDisplay() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> jsonUser =
+        jsonDecode(sharedPreferences.getString('user')!);
+    var user = UserDetailsModel.fromJson(jsonUser);
+    if (jsonUser.isNotEmpty) {
+      setState(() {
+        name = user.firstName! + " " + user.lastName!;
+      });
+    }
+    Map<String, dynamic> jsonOrg =
+        jsonDecode(sharedPreferences.getString('userOrg')!);
+    var userOrg = OrgModel.fromJson(jsonOrg);
+    if (jsonOrg.isNotEmpty) {
+      setState(() {
+        orgName = userOrg.orgName!;
+      });
+    }
+  }
 
   Widget getScreen() {
     switch (_bottomNavIndex) {
@@ -62,18 +88,18 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
 
   Future courseLoading() async {
     print('called');
-     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-     final data = sharedPreferences.getString('userData');
-     print(data);
-    final allLatestCourse = await courseQClient.client()?.execute(LatestCoursesQuery(
-        variables: LatestCoursesArguments(
-            publishTime:
-                (DateTime.now().millisecondsSinceEpoch / 1000).toInt(),
-            pageCursor: "",
-            pageSize: 1000,
-            filters: new CoursesFilters(),
-            Direction: ""
-            )));
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final data = sharedPreferences.getString('userData');
+    print(data);
+    final allLatestCourse = await courseQClient.client()?.execute(
+        LatestCoursesQuery(
+            variables: LatestCoursesArguments(
+                publishTime:
+                    (DateTime.now().millisecondsSinceEpoch / 1000).toInt(),
+                pageCursor: "",
+                pageSize: 1000,
+                filters: new CoursesFilters(),
+                Direction: "")));
 
     // print(allLatestCourse?.data?.toJson());
   }
@@ -82,10 +108,11 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   // void initState() {
   //   // TODO: implement initState
   //   super.initState();
-  //   courseLoading();
+  //   // courseLoading();
+  //
   // }
 
- Widget getTitle() {
+  Widget getTitle() {
     switch (_bottomNavIndex) {
       case 0:
         return Text("Self",
@@ -241,6 +268,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 400),
     );
+    getDetailsToDisplay();
   }
 
   Widget navIcon(String icon, String selectedIcon, String label,
@@ -389,7 +417,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                             });
                           },
                           child: Text(
-                            "Akash Chowdry",
+                            name,
                             style: TextStyle(
                                 color: textPrimary,
                                 fontSize: 16.sp,
@@ -412,7 +440,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Accenture",
+                                Text(orgName,
                                     style: TextStyle(
                                         color: textGrey2,
                                         fontSize: 14.sp,

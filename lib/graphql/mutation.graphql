@@ -9,6 +9,7 @@ mutation updateUser(
   $gender: String!
   $email: String!
   $phone: String!
+    $Photo: Upload
 ) {
   updateUser(
     input: {
@@ -22,6 +23,7 @@ mutation updateUser(
       gender: $gender
       email: $email
       phone: $phone
+        Photo: $Photo
     }
   ) {
     id

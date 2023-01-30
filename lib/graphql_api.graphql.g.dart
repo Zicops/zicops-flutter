@@ -1358,6 +1358,8 @@ UpdateUserArguments _$UpdateUserArgumentsFromJson(Map<String, dynamic> json) =>
       gender: json['gender'] as String,
       email: json['email'] as String,
       phone: json['phone'] as String,
+      Photo: fromGraphQLUploadNullableToDartMultipartFileNullable(
+          json['Photo'] as MultipartFile?),
     );
 
 Map<String, dynamic> _$UpdateUserArgumentsToJson(
@@ -1373,6 +1375,8 @@ Map<String, dynamic> _$UpdateUserArgumentsToJson(
       'gender': instance.gender,
       'email': instance.email,
       'phone': instance.phone,
+      'Photo':
+          fromDartMultipartFileNullableToGraphQLUploadNullable(instance.Photo),
     };
 
 AddUserOrganizationMapArguments _$AddUserOrganizationMapArgumentsFromJson(

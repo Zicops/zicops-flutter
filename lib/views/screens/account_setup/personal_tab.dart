@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/graphql_api.graphql.dart';
@@ -60,7 +62,10 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
+
       setState(() => profileImage = imageTemp);
+      print(image);
+      print(imageTemp);
     } catch (e) {
       print('Failed to pick image: $e');
     }
@@ -73,37 +78,37 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
     FocusNode()
   ];
 
-  Future catMainLoading() async {
-    print('function called');
-    final result = await courseQClient.client()?.execute(AllCatMainQuery(
-        variables: AllCatMainArguments(
-            lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
-
-    int i = 0;
-    // if (result?.data?.allCatMain != null) {
-    // final allCatMainResult = result?.data?.toJson();
-    // result?.data?.toJson();
-    Map<String, dynamic>? allCatMainsResult = result?.data?.toJson();
-    print(allCatMainsResult);
-    List<AllCat> cats = [];
-    allCatMainsResult?['allCatMain']?.forEach((e) {
-      // print(e);
-      setState(() {
-        cats.add(AllCat(
-            e['id'], e["Name"], e["Description"], e["Code"], e["ImageUrl"]));
-      });
-    });
-
-    print(cats);
-    // }
-    // while (result?.data?.allCatMain != null) {
-    //   //await Future.delayed(Duration(seconds: 1));
-    //   print(result?.data?.allCatMain![i]);
-    //   i++;
-    // }
-    //print(result?.data.toString());
-    //print('object');
-  }
+  // Future catMainLoading() async {
+  //   print('function called');
+  //   final result = await courseQClient.client()?.execute(AllCatMainQuery(
+  //       variables: AllCatMainArguments(
+  //           lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
+  //
+  //   int i = 0;
+  //   // if (result?.data?.allCatMain != null) {
+  //   // final allCatMainResult = result?.data?.toJson();
+  //   // result?.data?.toJson();
+  //   Map<String, dynamic>? allCatMainsResult = result?.data?.toJson();
+  //   print(allCatMainsResult);
+  //   List<AllCat> cats = [];
+  //   allCatMainsResult?['allCatMain']?.forEach((e) {
+  //     // print(e);
+  //     setState(() {
+  //       cats.add(AllCat(
+  //           e['id'], e["Name"], e["Description"], e["Code"], e["ImageUrl"]));
+  //     });
+  //   });
+  //
+  //   print(cats);
+  //   // }
+  //   // while (result?.data?.allCatMain != null) {
+  //   //   //await Future.delayed(Duration(seconds: 1));
+  //   //   print(result?.data?.allCatMain![i]);
+  //   //   i++;
+  //   // }
+  //   //print(result?.data.toString());
+  //   //print('object');
+  // }
 
   @override
   void initState() {
@@ -276,13 +281,21 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                           inputType: TextInputType.phone),
                       const SizedBox(height: 12),
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          var bytes =
+                              (await rootBundle.load(profileImage!.path))
+                                  .buffer
+                                  .asUint8List();
+                          var mpFile = MultipartFile.fromBytes('img', bytes,
+                              filename: 'photo.jpg');
+
                           updateUser(
                             id,
                             _firstNameController.text,
                             _lastNameController.text,
                             _emailController.text,
                             _phoneController.text,
+                            mpFile,
                           );
                           widget.changeTab();
                         },
