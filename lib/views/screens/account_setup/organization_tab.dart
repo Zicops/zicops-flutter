@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/controllers/mutation_controller.dart';
+import 'package:zicops/models/user/org_model.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 import 'package:zicops/views/widgets/PrefixInputField.dart';
 
@@ -22,11 +23,17 @@ class OrganizationTabScreen extends StatefulWidget {
 
 class _OrganizationTabScreen extends State<OrganizationTabScreen> {
   bool isloading = false;
+
   String userId = '';
   String? userOrgId;
   String? userLspId = '';
   String? lspId = '';
   String? orgId = '';
+  String? orgName = '';
+  String? orgUnit = '';
+  String? lspRole = '';
+  String? orgRole = '';
+  String? empId = '';
 
   Future orgLoading() async {
     setState(() {
@@ -97,14 +104,50 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
     userOrgId =
         getUserOrgDetailsResult?.data?.getUserOrgDetails?.userOrganizationId;
 
+    // String? orgName = '';
+    // String? orgUnit = '';
+    // String? lspRole = '';
+    // String? orgRole = '';
+    // String? empId = '';
+
     setState(() {
       _organisationController.text = orgName;
       _orgUnitController.text = lspName;
       _lspRoleController.text = lspRole;
+
+      // sharedPreferences.setString(orgName, orgName);
+      // sharedPreferences.setString(orgUnit!, lspName);
+      // sharedPreferences.setString(lspRole!, lspRole);
+      // sharedPreferences.setString(orgRole!, _roleController.text);
+      // sharedPreferences.setString(empId!, _employeeIdController.text);
     });
   }
 
+  Future<void> setDataToOrgModel() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    orgName = _organisationController.text;
+    orgUnit = _orgUnitController.text;
+    lspRole = _lspRoleController.text;
+    orgRole = _roleController.text;
+    empId = _employeeIdController.text;
+
+    OrgModel orgModel = OrgModel(
+      orgName: orgName,
+      orgUnit: orgUnit,
+      lspRole: lspRole,
+      orgRole: orgRole,
+      empId: empId,
+    );
+
+    String userOrg = jsonEncode(orgModel);
+    sharedPreferences.setString("userOrg", userOrg);
+    print(sharedPreferences.getString("userOrg"));
+  }
+
   void handleOrgTab() {
+    setDataToOrgModel();
+
     if (userOrgId != null) {
       updateUserOrganizationMap(
         userId,

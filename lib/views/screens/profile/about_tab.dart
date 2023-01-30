@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,9 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/views/screens/profile/widgets/about_info.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 
+import '../../../models/user/org_model.dart';
+import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/validation.dart';
 import '../../widgets/PrefixInputField.dart';
@@ -26,6 +30,16 @@ class _AboutTabScreen extends State<AboutTabScreen> {
   TextEditingController _controller2 = TextEditingController();
   TextEditingController _controller3 = TextEditingController();
   TextEditingController _controller4 = TextEditingController();
+
+  String name = "";
+  String phone = "";
+  String email = "";
+
+  String orgName = "";
+  String orgUnit = "";
+  String lspRole = "";
+  String orgRole = "";
+  String empId = "";
 
   bool isEmailValidated = false;
 
@@ -53,6 +67,37 @@ class _AboutTabScreen extends State<AboutTabScreen> {
     }
   }
 
+  Future getDetailsToDisplay() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> jsonUser =
+        jsonDecode(sharedPreferences.getString('user')!);
+    var user = UserDetailsModel.fromJson(jsonUser);
+    if (jsonUser.isNotEmpty) {
+      setState(() {
+        name = user.firstName! + " " + user.lastName!;
+        phone = user.phone!;
+        email = user.email!;
+      });
+    }
+    Map<String, dynamic> jsonOrg =
+        jsonDecode(sharedPreferences.getString('userOrg')!);
+    var userOrg = OrgModel.fromJson(jsonOrg);
+    if (jsonOrg.isNotEmpty) {
+      setState(() {
+        orgName = userOrg.orgName!;
+        orgUnit = userOrg.orgUnit!;
+        lspRole = userOrg.lspRole!;
+        orgRole = userOrg.orgRole!;
+        empId = userOrg.empId!;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDetailsToDisplay();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +202,7 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                 SizedBox(
                                   height: 28.sp,
                                   child: Text(
-                                    "Aakash Chakraborty",
+                                    name,
                                     style: TextStyle(
                                         color: textPrimary,
                                         fontSize: 20.sp,
@@ -167,7 +212,7 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                 SizedBox(
                                   height: 24.sp,
                                   child: Text(
-                                    "Accenture",
+                                    orgName,
                                     style: TextStyle(
                                         color: textGrey2,
                                         fontSize: 16.sp,
@@ -183,18 +228,15 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                           AboutInfo("Personal", [
                             {
                               "label": "Name.",
-                              "controller": TextEditingController(
-                                  text: "Akaash Chakraborty")
+                              "controller": TextEditingController(text: name)
                             },
                             {
                               "label": "Phone No.",
-                              "controller": TextEditingController(
-                                  text: "+91  9876543219")
+                              "controller": TextEditingController(text: phone)
                             },
                             {
                               "label": "Email ID.",
-                              "controller": TextEditingController(
-                                  text: "aakashchakraborty@zicops.com")
+                              "controller": TextEditingController(text: email)
                             },
                           ]),
                           SizedBox(
@@ -203,31 +245,28 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                           AboutInfo("Organization", [
                             {
                               "label": "Organization.",
-                              "controller": TextEditingController(
-                                  text: "Accenture")
+                              "controller": TextEditingController(text: orgName)
                             },
                             {
                               "label": "Organization Unit.",
-                              "controller": TextEditingController(
-                                  text: "Hinjewadi, Pune, Maharashtra, India")
+                              "controller": TextEditingController(text: orgUnit)
                             },
                             {
                               "label": "Role in Organization.",
-                              "controller": TextEditingController(
-                                  text: "Software Engineer")
+                              "controller": TextEditingController(text: orgRole)
                             },
                             {
-                              "label": "Other Role.",
-                              "controller": TextEditingController(
-                                  text: "Other Role Name")
-                            },{
+                              "label": "Employee ID.",
+                              "controller": TextEditingController(text: empId)
+                            },
+                            {
                               "label": "Learning Space Role.",
-                              "controller": TextEditingController(
-                                  text: "Learning Manager")
-                            },{
+                              "controller": TextEditingController(text: lspRole)
+                            },
+                            {
                               "label": "Base Cohort.",
-                              "controller": TextEditingController(
-                                  text: "IT Development")
+                              "controller":
+                                  TextEditingController(text: "IT Development")
                             },
                           ]),
                         ],
