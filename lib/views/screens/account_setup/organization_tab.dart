@@ -35,6 +35,10 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
   String? orgRole = '';
   String? empId = '';
 
+  List<String> lspIdList = [];
+  List<String> orgIdList = [];
+  List<String> userLspIdList = [];
+
   Future orgLoading() async {
     setState(() {
       isloading = true;
@@ -48,26 +52,21 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
         userId = user.id!;
       });
     }
-    print(userId);
+
     final lspResult = await userClient.client()?.execute(
           GetUserLspsQuery(
             variables: GetUserLspsArguments(userId: userId),
           ),
         );
-    print('hello lsp');
-    // print(lspResult?.data?.getUserLsps.toString());
-
-    List<String> lspIdList = [];
-    List<String> orgIdList = [];
-    List<String> userLspIdList = [];
 
     for (int i in lspResult?.data?.getUserLsps?.asMap().keys ?? []) {
-      lspIdList.add(lspResult?.data?.getUserLsps?[i]?.lspId ?? '');
-      userLspIdList.add(lspResult?.data?.getUserLsps?[i]?.userLspId ?? '');
       userLspId = lspResult?.data?.getUserLsps?[i]?.userLspId;
+      userLspIdList.add(lspResult?.data?.getUserLsps?[i]?.userLspId ?? '');
+
       lspId = lspResult?.data?.getUserLsps?[i]?.lspId;
-      // print(lspResult?.data?.getUserLsps?[i]?.use);
+      lspIdList.add(lspResult?.data?.getUserLsps?[i]?.lspId ?? '');
     }
+
     sharedPreferences.setString('userLspId', userLspId!);
     sharedPreferences.setString('lspId', lspId!);
 

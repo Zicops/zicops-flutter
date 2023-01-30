@@ -57,14 +57,15 @@ updateUserOrganizationMap(String userId, String orgId, String userOrgId,
   return;
 }
 
-addUserPreference() async {
+addUserPreference(
+    String userId, String? userLspId, String? subcategory, bool isBase) async {
   final res = await userClient.client()?.execute(AddUserPreferenceMutation(
           variables: AddUserPreferenceArguments(
-        user_id: "",
-        user_lsp_id: '',
+        user_id: userId,
+        user_lsp_id: userLspId ?? '',
         is_active: true,
-        sub_category: '',
-        is_base: false,
+        sub_category: subcategory ?? '',
+        is_base: isBase,
       )));
   print(res?.data?.toJson());
   return;

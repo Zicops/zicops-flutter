@@ -18,7 +18,9 @@ Widget prefixInputField(FocusNode focusNode, TextEditingController controller,
           focusNode: focusNode,
           controller: controller,
           onChanged: (val) {
-            onChange!(val);
+            if (onChange != null) {
+              onChange(val);
+            }
           },
           maxLines: 1,
           keyboardType: inputType,

@@ -9,8 +9,7 @@ query getUserLspByLspId($user_id: String!, $lsp_id: String!) {
     ...UserLspFragment
   }
 }
-#getLearningSpaceDetails(lsp_ids: [String]): [LearningSpace]
-#getOrganizations(org_ids: [String]): [Organization]
+
 
 query getLearningSpaceDetails($lsp_ids: [String]) {
   getLearningSpaceDetails(lsp_ids: $lsp_ids) {
@@ -24,8 +23,11 @@ query getOrganizations($org_ids: [String]) {
   }
 }
 
-#getUserLspRoles(user_id: String!, user_lsp_ids: [String!]!): [UserRole]
-
+query getUserDetails($userId: String!) {
+  getUserDetails(user_ids: $userId) {
+    ...UserFragment
+  }
+}
 query getUserLspRoles($user_id: String!, $user_lsp_ids: [String!]!) {
   getUserLspRoles(user_id: $user_id, user_lsp_ids: $user_lsp_ids) {
     ...UserRoleFragment

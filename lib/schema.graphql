@@ -22,6 +22,7 @@ scalar NaiveDateTime
 scalar Upload
 
 type QueryRoot {
+  getUserDetails(user_ids: [String]): [User]
   getUserLsps(user_id: String!): [UserLspMap]
   getUserLspByLspId(user_id: String!, lsp_id: String!): UserLspMap
   getLearningSpaceDetails(lsp_ids: [String]): [LearningSpace]
