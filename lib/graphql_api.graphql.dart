@@ -3606,13 +3606,13 @@ class GetOrganizationsQuery extends GraphQLQuery<GetOrganizations$QueryRoot,
 
 @JsonSerializable(explicitToJson: true)
 class GetUserDetailsArguments extends JsonSerializable with EquatableMixin {
-  GetUserDetailsArguments({required this.userId});
+  GetUserDetailsArguments({this.userId});
 
   @override
   factory GetUserDetailsArguments.fromJson(Map<String, dynamic> json) =>
       _$GetUserDetailsArgumentsFromJson(json);
 
-  late String userId;
+  final List<String?>? userId;
 
   @override
   List<Object?> get props => [userId];
@@ -3628,9 +3628,12 @@ final GET_USER_DETAILS_QUERY_DOCUMENT = DocumentNode(definitions: [
     variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'userId')),
-        type: NamedTypeNode(
-          name: NameNode(value: 'String'),
-          isNonNull: true,
+        type: ListTypeNode(
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
         directives: [],

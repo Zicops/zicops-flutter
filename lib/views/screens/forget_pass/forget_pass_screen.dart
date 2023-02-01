@@ -129,6 +129,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                       "assets/images/email.png",
                                       "Email",
                                       true,
+
                                       validated: isEmailValidated,
                                       onChange: (e) {
                                     setState(() {

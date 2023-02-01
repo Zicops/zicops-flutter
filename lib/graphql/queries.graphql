@@ -23,7 +23,7 @@ query getOrganizations($org_ids: [String]) {
   }
 }
 
-query getUserDetails($userId: String!) {
+query getUserDetails($userId: [String]) {
   getUserDetails(user_ids: $userId) {
     ...UserFragment
   }

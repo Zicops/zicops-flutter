@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +8,13 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zicops/graphql_api.graphql.dart';
+import 'package:zicops/main.dart';
 import 'package:zicops/views/screens/profile/widgets/about_info.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
-
+import 'package:http_parser/http_parser.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import '../../../models/user/org_model.dart';
 import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
@@ -31,25 +36,29 @@ class _AboutTabScreen extends State<AboutTabScreen> {
   TextEditingController _controller3 = TextEditingController();
   TextEditingController _controller4 = TextEditingController();
 
-  String name = "";
-  String phone = "";
-  String email = "";
+  String? name = "";
+  String? phone = "";
+  String? email = "";
+
+  String? imageUrl = "";
 
   String orgName = "";
   String orgUnit = "";
   String lspRole = "";
   String orgRole = "";
   String empId = "";
+  String userLspId = "";
 
   bool isEmailValidated = false;
 
   File? bgImage;
-  File? profileImage;
+  var profileImage;
   Future pickBgImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
+      print(imageTemp);
       setState(() => bgImage = imageTemp);
     } catch (e) {
       print('Failed to pick image: $e');
@@ -67,18 +76,38 @@ class _AboutTabScreen extends State<AboutTabScreen> {
     }
   }
 
+  Future<File> urlToFile(String imageUrl) async {
+    var rng = Random();
+
+    Directory tempDir = await getTemporaryDirectory();
+
+    String tempPath = tempDir.path;
+
+    File file = File(tempPath + (rng.nextInt(100)).toString() + '.png');
+
+    http.Response response = await http.get(Uri.parse(imageUrl));
+
+    await file.writeAsBytes(response.bodyBytes);
+
+    return file;
+  }
+
   Future getDetailsToDisplay() async {
+    String userId = "";
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonUser =
         jsonDecode(sharedPreferences.getString('user')!);
     var user = UserDetailsModel.fromJson(jsonUser);
     if (jsonUser.isNotEmpty) {
       setState(() {
+        userId = user.id!;
         name = user.firstName! + " " + user.lastName!;
         phone = user.phone!;
         email = user.email!;
+        imageUrl = user.photoUrl!;
       });
     }
+    userLspId = sharedPreferences.getString('userLspId')!;
     Map<String, dynamic> jsonOrg =
         jsonDecode(sharedPreferences.getString('userOrg')!);
     var userOrg = OrgModel.fromJson(jsonOrg);
@@ -90,6 +119,39 @@ class _AboutTabScreen extends State<AboutTabScreen> {
         orgRole = userOrg.orgRole!;
         empId = userOrg.empId!;
       });
+    }
+
+    final userResult = await userClient.client()?.execute(GetUserDetailsQuery(
+        variables: GetUserDetailsArguments(userId: [userId])));
+    if (userResult?.data?.getUserDetails != null) {
+      setState(() {
+        // name = userResult!.data!.getUserDetails?[0]?.firstName!;
+        // phone = userResult!.data!.getUserDetails?[0]?.phone!;
+        // email = userResult!.data!.getUserDetails?[0]?.email!;
+      });
+    }
+
+    print(name);
+    print(phone);
+    print(email);
+
+    final orgResult = await userClient.client()?.execute(GetUserOrgDetailsQuery(
+            variables: GetUserOrgDetailsArguments(
+          userId: userId,
+          user_lsp_id: userLspId,
+        )));
+    // if (orgResult?.data?.getUserOrgDetails != null) {
+    //   setState(() {
+    //     orgName = orgResult!.data!.getUserOrgDetails?.orgName!;
+    //     orgUnit = orgResult!.data!.getUserOrgDetails?[0]?.orgUnit!;
+    //     lspRole = orgResult!.data!.getUserOrgDetails?[0]?.lspRole!;
+    //     orgRole = orgResult!.data!.getUserOrgDetails?[0]?.orgRole!;
+    //     empId = orgResult!.data!.getUserOrgDetails?[0]?.empId!;
+    //   });
+    // }
+
+    if (imageUrl != null && imageUrl!.isNotEmpty) {
+      profileImage = await urlToFile(imageUrl!);
     }
   }
 
@@ -142,13 +204,33 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                   radius: 60.sp,
                                   backgroundColor: secondaryColorDark,
                                   child: CircleAvatar(
-                                    foregroundImage: profileImage != null
-                                        ? FileImage(profileImage!)
-                                            as ImageProvider
-                                        : const AssetImage(
-                                            "assets/images/avatar_default.png"),
+                                    child: AspectRatio(
+                                      aspectRatio: 1 / 1,
+                                      child: ClipOval(
+                                        child: FadeInImage(
+                                          placeholder: const AssetImage(
+                                              "assets/images/avatar_default.png"),
+                                          image: profileImage != null
+                                              ? FileImage(profileImage!)
+                                                  as ImageProvider
+                                              : const AssetImage(
+                                                  "assets/images/avatar_default.png"),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                                     radius: 56.sp,
                                   )))),
+
+                      // child: CircleAvatar(
+                      //
+                      //   foregroundImage: profileImage != null
+                      //       ? FileImage(profileImage!)
+                      //           as ImageProvider
+                      //       : const AssetImage(
+                      //           "assets/images/avatar_default.png"),
+                      //   radius: 56.sp,
+                      // )))),
                       Positioned(
                           top: 82.sp,
                           right: 20.sp,
@@ -202,7 +284,7 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                 SizedBox(
                                   height: 28.sp,
                                   child: Text(
-                                    name,
+                                    name!,
                                     style: TextStyle(
                                         color: textPrimary,
                                         fontSize: 20.sp,

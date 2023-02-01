@@ -1524,7 +1524,8 @@ Map<String, dynamic> _$GetOrganizationsArgumentsToJson(
 GetUserDetailsArguments _$GetUserDetailsArgumentsFromJson(
         Map<String, dynamic> json) =>
     GetUserDetailsArguments(
-      userId: json['userId'] as String,
+      userId:
+          (json['userId'] as List<dynamic>?)?.map((e) => e as String?).toList(),
     );
 
 Map<String, dynamic> _$GetUserDetailsArgumentsToJson(

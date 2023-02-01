@@ -22,7 +22,7 @@ class OrganizationTabScreen extends StatefulWidget {
 }
 
 class _OrganizationTabScreen extends State<OrganizationTabScreen> {
-  bool isloading = false;
+  bool isloading = true;
 
   String userId = '';
   String? userOrgId;
@@ -41,7 +41,7 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
 
   Future orgLoading() async {
     setState(() {
-      isloading = true;
+      isloading = false;
     });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonDetails =
@@ -209,11 +209,21 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 children: [
-                  prefixInputField(_focusNodes[0], _organisationController,
-                      "assets/images/organization.png", "Organisation", true),
+                  prefixInputField(
+                    _focusNodes[0],
+                    _organisationController,
+                    "assets/images/organization.png",
+                    "Organisation",
+                    true,
+                  ),
                   const SizedBox(height: 12),
-                  prefixInputField(_focusNodes[1], _orgUnitController,
-                      "assets/images/location.png", "Organization Unit", true),
+                  prefixInputField(
+                    _focusNodes[1],
+                    _orgUnitController,
+                    "assets/images/location.png",
+                    "Organization Unit",
+                    true,
+                  ),
                   const SizedBox(height: 12),
                   prefixInputField(
                     _focusNodes[2],
@@ -223,8 +233,13 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
                     true,
                   ),
                   const SizedBox(height: 12),
-                  prefixInputField(_focusNodes[3], _roleController,
-                      "assets/images/role.png", "Role in Organization", true),
+                  prefixInputField(
+                    _focusNodes[3],
+                    _roleController,
+                    "assets/images/role.png",
+                    "Role in Organization",
+                    true,
+                  ),
                   const SizedBox(height: 12),
                   prefixInputField(
                     _focusNodes[4],

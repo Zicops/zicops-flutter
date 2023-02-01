@@ -434,7 +434,9 @@ class _HomeScreen extends State<HomeScreen> {
   void initState() {
     super.initState();
     loadUserPreferences();
+    loadUserCourseData();
     callCourses();
+    loadCourses();
     //loadUserCourseData();
   }
 

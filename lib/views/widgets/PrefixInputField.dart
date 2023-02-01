@@ -25,6 +25,7 @@ Widget prefixInputField(FocusNode focusNode, TextEditingController controller,
           maxLines: 1,
           keyboardType: inputType,
           decoration: InputDecoration(
+              // suffix: isLoading ? CircularProgressIndicator() : null,
               isDense: true,
               contentPadding: EdgeInsets.only(
                   left: 48.sp, top: 12.sp, bottom: 12.sp, right: 12.sp),

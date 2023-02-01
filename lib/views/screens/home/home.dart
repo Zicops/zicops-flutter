@@ -43,6 +43,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
 
   String name = '';
   String orgName = '';
+  String url = '';
 
   Future getDetailsToDisplay() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -52,6 +53,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     if (jsonUser.isNotEmpty) {
       setState(() {
         name = user.firstName! + " " + user.lastName!;
+        url = user.photoUrl!;
       });
     }
     Map<String, dynamic> jsonOrg =
@@ -399,8 +401,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CircleAvatar(
-                        foregroundImage: const AssetImage(
-                            "assets/images/avatar_default.png"),
+                        foregroundImage: NetworkImage(url),
                         radius: 32.sp,
                       ),
                       SizedBox(
