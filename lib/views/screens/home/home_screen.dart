@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
-import 'package:zicops/models/user/home_page_model.dart';
+// import 'package:zicops/models/user/home_page_model.dart';
 import 'package:zicops/models/user/user_course_model.dart';
 import 'package:zicops/models/user/user_details_model.dart';
 import 'package:zicops/utils/colors.dart';
@@ -83,11 +83,11 @@ class _HomeScreen extends State<HomeScreen> {
     // 5. try to add data in the model
     String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
     SharedPreferences sharedPreferences =
-        await SharedPreferences?.getInstance();
+        await SharedPreferences.getInstance();
     Map<String, dynamic> jsonDetails =
         jsonDecode(sharedPreferences.getString('user')!);
     var user = UserDetailsModel.fromJson(jsonDetails);
-    final userCourseMap = await userClient?.client()?.execute(
+    final userCourseMap = await userClient.client()?.execute(
         GetUserCourseMapsQuery(
             variables: GetUserCourseMapsArguments(
                 user_id: user.id!,
@@ -105,7 +105,7 @@ class _HomeScreen extends State<HomeScreen> {
     for (int i in assignedCourses?.asMap().keys ?? []) {
       var data = assignedCourses?[i];
       userCourseIds.add(data?.userCourseId ?? '');
-      courseIds?.add(data?.courseId?.toString());
+      courseIds.add(data?.courseId.toString());
     }
     final courseRes = await courseQClient.client()?.execute(
         GetCourseQuery(variables: GetCourseArguments(course_id: courseIds)));
@@ -120,7 +120,7 @@ class _HomeScreen extends State<HomeScreen> {
       var courseData = courseRes?.data?.getCourse;
       var cpData = userCourseProgress?.data?.getUserCourseProgressByMapId
               ?.where((cp) => cp?.userCourseId == data?.userCourseId)
-              ?.toList() ??
+              .toList() ??
           [];
 
       var courseDetails = courseData
@@ -147,19 +147,19 @@ class _HomeScreen extends State<HomeScreen> {
 
     List<Course> userCourseData = [];
     //to calculate progress of user
-    for (int i in courseMeta?.asMap()?.keys ?? []) {
+    for (int i in courseMeta.asMap().keys) {
       var _courseData = courseMeta[i];
       var role = json.decode(_courseData?.addedBy);
       var topicsCompleted = 0;
       var topicsStarted = 0;
       List userProgressArr = _courseData?.courseProgress ?? [];
 
-      for (int i in userProgressArr?.asMap()?.keys ?? []) {
+      for (int i in userProgressArr.asMap().keys) {
         if (userProgressArr[i]?.status != 'non-started') ++topicsStarted;
 
         if (userProgressArr[i]?.status == 'completed') ++topicsCompleted;
       }
-      int progressLength = userProgressArr?.length ?? 0;
+      int progressLength = userProgressArr.length ;
       double cProgress = ((topicsStarted * 100) / progressLength);
       double tProgress = ((topicsCompleted * 100) / progressLength);
       var courseProgress = userProgressArr.isNotEmpty ? cProgress.floor() : 0;
@@ -205,18 +205,18 @@ class _HomeScreen extends State<HomeScreen> {
 
     // for now it is hardcoded need to be fixed in lsp screen screen
     String userLspId = '96a30957-3bd8-41cc-87ad-9c863d423c3e';
-    final res = await userClient?.client()?.execute(GetUserPreferencesQuery(
+    final res = await userClient.client()?.execute(GetUserPreferencesQuery(
         variables: GetUserPreferencesArguments(userId: user.id!)));
 
-    for (int i in res?.data?.getUserPreferences?.asMap()?.keys ?? []) {
+    for (int i in res?.data?.getUserPreferences?.asMap().keys ?? []) {
       var data = res?.data?.getUserPreferences?[i];
       if (data?.userLspId == userLspId && userPreferences.length < 6) {
         userPreferences.add(data?.subCategory);
       }
     }
-    for (int i in userPreferences?.asMap()?.keys ?? []) {
-      print(userPreferences);
-    }
+    // for (int i in userPreferences.asMap()?.keys ?? []) {
+    //   print(userPreferences);
+    // }
     subCatCourses1 =
         await loadCourses(lspId: lspId, subCat: userPreferences[0]);
 

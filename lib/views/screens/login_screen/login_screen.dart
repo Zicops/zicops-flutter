@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
-import 'package:zicops/views/screens/account_setup/models/category.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 
@@ -86,17 +85,17 @@ class _LoginScreen extends State<LoginScreen> {
           "userData", result!.data!.login.toString());
 
       UserDetailsModel userDetails = UserDetailsModel(
-        result?.data?.login?.id ?? "",
-        result?.data?.login?.firstName ?? "",
-        result?.data?.login?.lastName ?? "",
-        result?.data?.login?.status ?? "",
-        result?.data?.login?.role ?? "",
-        result?.data?.login?.isVerified ?? false,
-        result?.data?.login?.isActive ?? false,
-        result?.data?.login?.gender ?? "",
-        result?.data?.login?.email ?? "",
-        result?.data?.login?.phone ?? "",
-        result?.data?.login?.photoUrl ?? "",
+        result.data?.login?.id ?? "",
+        result.data?.login?.firstName ?? "",
+        result.data?.login?.lastName ?? "",
+        result.data?.login?.status ?? "",
+        result.data?.login?.role ?? "",
+        result.data?.login?.isVerified ?? false,
+        result.data?.login?.isActive ?? false,
+        result.data?.login?.gender ?? "",
+        result.data?.login?.email ?? "",
+        result.data?.login?.phone ?? "",
+        result.data?.login?.photoUrl ?? "",
       );
 
       String user = jsonEncode(userDetails);
