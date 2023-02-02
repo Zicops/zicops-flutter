@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../graphql_api.graphql.dart';
 import '../main.dart';
 import '../models/user/user_account_profile_pref.dart';
@@ -6,7 +10,19 @@ import '../models/user/user_org_model.dart';
 
 class UserRepository {
   Future<List<UserDetailsModel>> getUserDetails() async {
-    final result = await userClient.client()?.execute(LoginMutation());
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    Map<String, dynamic> jsonDetails =
+        jsonDecode(sharedPreferences.getString('user')!);
+    var user = UserDetailsModel.fromJson(jsonDetails);
+
+    // final result = await userClient.client()?.execute(LoginMutation());
+    final result = await userClient.client()?.execute(GetUserDetailsQuery(
+        variables: GetUserDetailsArguments(userId: [user.id])));
+
+    var data = result?.data?.getUserDetails?[0] ?? [];
+
+    // String user = jsonEncode(userDetails);
     // final resultJson = result?.data?.toJson();
     // final details = resultJson?['login'];
 
@@ -17,42 +33,21 @@ class UserRepository {
     //userDetails.add(userDetailsModel);
 
     // final List result = jsonDecode()['data'];
-
-    userDetails.add(
-      result?.data?.login != null
-          ? UserDetailsModel(
-              result?.data?.login?.id ?? '',
-              result?.data?.login?.firstName ?? '',
-              result?.data?.login?.lastName ?? '',
-              result?.data?.login?.status ?? '',
-              result?.data?.login?.role ?? '',
-              result?.data?.login?.isVerified ?? false,
-              result?.data?.login?.isActive ?? false,
-              result?.data?.login?.gender ?? '',
-              result?.data?.login?.email ?? '',
-              result?.data?.login?.phone ?? '',
-              result?.data?.login?.photoUrl ?? '',
-
-              //result?.data?.login?.id ?? "",
-              //result?.data?.login?.firstName ?? "",
-              //  result?.data?.login?.lastName ?? "",
-              //result?.data?.login?.email ?? "",
-              //result?.data?.login?.phone ?? "",
-            )
-          : UserDetailsModel(
-              '',
-              '',
-              '',
-              '',
-              '',
-              false,
-              false,
-              '',
-              '',
-              '',
-              '',
-            ),
-    );
+    for (int i in result?.data?.getUserDetails?.asMap().keys ?? []) {
+      var data = result?.data?.getUserDetails?[i];
+      userDetails.add(UserDetailsModel(
+          data?.id,
+          data?.firstName,
+          data?.lastName,
+          data?.status,
+          data?.role,
+          data?.isVerified,
+          data?.isActive,
+          data?.gender,
+          data?.email,
+          data?.phone,
+          data?.photoUrl));
+    }
 
     return userDetails;
   }
@@ -136,7 +131,6 @@ class GetOrgDetailsRepository {
           orgResuts?.data?.getUserOrganizations![i]?.organizationRole,
           orgResuts?.data?.getUserOrganizations![i]?.isActive,
           orgResuts?.data?.getUserOrganizations![i]?.employeeId,
-
         ),
       );
     }
