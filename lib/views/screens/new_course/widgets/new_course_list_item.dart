@@ -135,7 +135,7 @@ class _NewCourseListItem extends State<NewCourseListItem> {
                 width: 8.sp,
               ),
               Image.asset(
-                "assets/images/add_button.png",
+                "assets/images/add_button_big.png",
                 width: 28.sp,
                 height: 28.sp,
               )

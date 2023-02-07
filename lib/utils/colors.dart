@@ -12,3 +12,4 @@ const secondaryColorLight = Color(0xFF15161C);
 const secondaryColorDarkOutline = Color(0xFF596A6A);
 const gradientTwo = Color(0xFF41A9EF);
 const error = Color(0xFFEA4040);
+const delete = Color(0xFFD55755);

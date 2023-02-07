@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../utils/colors.dart';
+import '../screens/course_details/course_details_screen.dart';
 
 class CourseGridItem extends StatefulWidget {
   String courseName;
@@ -25,7 +26,9 @@ class _CourseGridItem extends State<CourseGridItem> {
   bool isGridView = false;
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return GestureDetector(onTap:(){
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> const CourseDetailsScreen()));
+    },child: Center(
         child: Container(
             width: 156.sp,
             height: 156.sp,
@@ -126,12 +129,13 @@ class _CourseGridItem extends State<CourseGridItem> {
                       top: 73.5.sp,
                       right: 13.75.sp,
                       child: Image.asset(
-                        "assets/images/add_button.png",
+                        "assets/images/add_button_big.png",
                         width: 28.sp,
                         height: 28.sp,
+                        fit: BoxFit.fill,
                       ))
                 ],
               ),
-            )));
+            ))),);
   }
 }
