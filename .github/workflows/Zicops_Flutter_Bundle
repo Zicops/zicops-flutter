@@ -1,8 +1,6 @@
-name: Zicops Fultter CI-CD<>Formec
+name: Zicops Flutter CI-CD<>Formec
 on:
   pull_request:
-    branches:
-      - main
 jobs:
   flutter_test:
     name: Run flutter test
@@ -78,7 +76,7 @@ jobs:
      - name: Zicops Mobile Apps Releases
        uses: actions/upload-artifact@v2
        with:
-          name: my-flutter-builds
+          name: zicops-mobile-build-${GITHUB_SHA}
           path: |
             build/app/outputs/bundle/
             build/ios/
