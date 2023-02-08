@@ -2,6 +2,11 @@ name: Zicops Flutter CI-CD<>Formec
 
 on:
   pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    branches: [ main ]
 
 jobs:
   flutter_test:
@@ -38,6 +43,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.pub-cache
+          key: ${{ runner.os }}-flutter-build-ios-${{ hashFiles('**/pubspec.lock') }}
       - run: flutter build ios --release --no-codesign
 
   build_appbundle:
@@ -56,7 +62,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          key: ${{ runner.os }}-flutter-build-appbundle-${{ hashFiles('**/pubspec.lock') }}
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build appbundle
@@ -65,21 +71,22 @@ jobs:
     name: Release Zicops Flutter Bundles
     needs: [build_appbundle, build_ios]
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Cache outputs of build_appbundle
         uses: actions/cache@v2
         with:
           path: build/app/outputs/bundle/
-          key: ${{ runner.os }}-flutter-build-appbundle-${{ hashFiles('**/flutter.yaml') }}
+          key: ${{ runner.os }}-flutter-build-appbundle-${{ hashFiles('**/pubspec.lock') }}
       - name: Cache outputs of build_ios
         uses: actions/cache@v2
         with:
           path: build/ios/
-          key: ${{ runner.os }}-flutter-build-ios-${{ hashFiles('**/flutter.yaml') }}
+          key: ${{ runner.os }}-flutter-build-ios-${{ hashFiles('**/pubspec.lock') }}
       - name: Zicops Mobile Apps Releases
         uses: actions/upload-artifact@v2
         with:
-          name: zicops-mobile-build-${GITHUB_SHA}
+          name: Zicops Mobile Apps Releases
           path: |
             build/app/outputs/bundle/
             build/ios/
