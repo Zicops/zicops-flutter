@@ -1,0 +1,83 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+name: "Flutter Test & Build"
+jobs:
+ flutter_test:
+    name: Run flutter test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "beta"
+      - run: flutter pub get
+      # - run: flutter analyze
+      - run: flutter test
+
+ build_ios:
+    name: Build Flutter (iOS)
+    needs: [flutter_test]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "beta"
+      - run: flutter pub get
+      - run: flutter clean
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.pub-cache
+      - run: flutter build ios --release --no-codesign
+build_appbundle:
+    name: Build Flutter (Android)
+    needs: [flutter_test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "beta"
+      - name: Cache pub packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+      - run: flutter pub get
+      - run: flutter clean
+      - run: flutter build appbundle
+
+release_apps:
+  name: Release Zicops Flutter Bundles
+  needs: [build_appbundle, build_ios]
+  runs-on: ubuntu-latest
+  steps:
+    - name: Cache outputs of build_appbundle
+      uses: actions/cache@v2
+      with:
+        path: build/app/outputs/bundle/
+        key: ${{ runner.os }}-flutter-build-appbundle-${{ hashFiles('**/flutter.yaml') }}
+    - name: Cache outputs of build_ios
+      uses: actions/cache@v2
+      with:
+        path: build/ios/
+        key: ${{ runner.os }}-flutter-build-ios-${{ hashFiles('**/flutter.yaml') }}
+    # Add the final step here to release the built app bundles
