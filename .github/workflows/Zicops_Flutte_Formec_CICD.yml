@@ -43,13 +43,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-ios
+          key: ${{ runner.os }}-pub-ios-${{ hashFiles('**/pubspec.lock') }}
       - run: flutter build ios --release --no-codesign
       - name: Cache outputs of build_ios
         uses: actions/cache@v2
         with:
-          path: build/ios/
-          key: ${{ runner.os }}-flutter-astore
+          path: build/ios/iphoneos
+          key: ${{ runner.os }}-flutter-astore-$GITHUB_SHA
 
   build_appbundle:
     name: Build Flutter (Android)
@@ -67,15 +67,15 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-android
+          key: ${{ runner.os }}-pub-android-${{ hashFiles('**/pubspec.lock') }}
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build appbundle
       - name: Cache outputs of build_appbundle
         uses: actions/cache@v2
         with:
-          path: build/app/outputs/bundle/
-          key: ${{ runner.os }}-flutter-gplay
+          path: build/app/outputs/apk/release
+          key: ${{ runner.os }}-flutter-gplay-$GITHUB_SHA
 
   upload_apps_artifacts:
     name: Upload Zicops Flutter Bundles
@@ -88,12 +88,12 @@ jobs:
         uses: actions/cache@v2
         with:
           path: build/app/outputs/bundle/
-          key: ${{ runner.os }}-flutter-gplay
+          key: ${{ runner.os }}-flutter-gplay-$GITHUB_SHA
       - name: Get iOS Bundle from cache
         uses: actions/cache@v2
         with:
           path: build/ios/
-          key: macOs-flutter-astore
+          key: macOs-flutter-astore-$GITHUB_SHA
       - name: Upload Android bundle
         uses: actions/upload-artifact@v2
         with:
