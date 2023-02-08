@@ -61,17 +61,24 @@ jobs:
       - run: flutter clean
       - run: flutter build appbundle
   release_apps:
-  name: Release Zicops Flutter Bundles
-  needs: [build_appbundle, build_ios]
-  runs-on: ubuntu-latest
-  steps:
-    - name: Cache outputs of build_appbundle
-      uses: actions/cache@v2
-      with:
-        path: build/app/outputs/bundle/
-        key: ${{ runner.os }}-flutter-build-appbundle-${{ hashFiles('**/flutter.yaml') }}
-    - name: Cache outputs of build_ios
-      uses: actions/cache@v2
-      with:
-        path: build/ios/
-        key: ${{ runner.os }}-flutter-build-ios-${{ hashFiles('**/flutter.yaml') }}
+    name: Release Zicops Flutter Bundles
+    needs: [build_appbundle, build_ios]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache outputs of build_appbundle
+        uses: actions/cache@v2
+        with:
+          path: build/app/outputs/bundle/
+          key: ${{ runner.os }}-flutter-build-appbundle-${{ hashFiles('**/flutter.yaml') }}
+      - name: Cache outputs of build_ios
+        uses: actions/cache@v2
+        with:
+          path: build/ios/
+          key: ${{ runner.os }}-flutter-build-ios-${{ hashFiles('**/flutter.yaml') }}
+     - name: Zicops Mobile Apps Releases
+       uses: actions/upload-artifact@v2
+       with:
+          name: my-flutter-builds
+          path: |
+            build/app/outputs/bundle/
+            build/ios/
