@@ -5,13 +5,17 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:zicops/blocs/user_bloc/user_bloc.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
+import 'package:zicops/repo/user_repository.dart';
 import 'package:zicops/views/screens/account_setup/models/category.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 import 'package:http_parser/http_parser.dart';
@@ -101,30 +105,30 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
   }
 
   Future getDetails() async {
-    setState(() {
-      isloading = false;
-    });
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map<String, dynamic> jsonDetails =
-        jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserModel.fromJson(jsonDetails);
-    if (jsonDetails.isNotEmpty) {
-      id = user.id.toString();
-      firstName = user.firstName.toString();
-      lastName = user.lastName.toString();
-      email = user.email.toString();
-      phone = user.phone.toString();
-      imageUrl = user.photoUrl.toString();
-    }
+    // setState(() {
+    //   isloading = false;
+    // });
+    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // Map<String, dynamic> jsonDetails =
+    //     jsonDecode(sharedPreferences.getString('user')!);
+    // var user = UserModel.fromJson(jsonDetails);
+    // if (jsonDetails.isNotEmpty) {
+    //   id = user.id.toString();
+    //   firstName = user.firstName.toString();
+    //   lastName = user.lastName.toString();
+    //   email = user.email.toString();
+    //   phone = user.phone.toString();
+    //   imageUrl = user.photoUrl.toString();
+    // }
 
-    _firstNameController.text = firstName;
-    _lastNameController.text = lastName;
-    _emailController.text = email;
-    _phoneController.text = phone;
+    // _firstNameController.text = firstName;
+    // _lastNameController.text = lastName;
+    // _emailController.text = email;
+    // _phoneController.text = phone;
 
-    if (imageUrl != null && imageUrl!.isNotEmpty) {
-      profileImage = await urlToFile(imageUrl!);
-    }
+    // if (imageUrl != null && imageUrl!.isNotEmpty) {
+    //   profileImage = await urlToFile(imageUrl!);
+    // }
   }
 
   Future<File> urlToFile(String imageUrl) async {
@@ -162,112 +166,153 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
-    return FutureBuilder(
-        future: getDetails(),
-        builder: (context, snapshot) {
-          return Scaffold(
-            body: SafeArea(
-              child: KeyboardVisibilityBuilder(
-                  builder: (context, isKeyboardVisible) {
-                return CustomScrollView(slivers: [
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Column(
-                      children: [
-                        if (isKeyboardVisible)
-                          const SizedBox.shrink()
-                        else
-                          Stack(
-                            children: [
-                              Padding(
-                                  padding: EdgeInsets.only(bottom: 85.sp),
-                                  child: bgImage != null
-                                      ? Image.file(
-                                          bgImage!,
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: 120.sp,
-                                        )
-                                      : Image.asset(
-                                          "assets/images/personal_bg.png",
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: 120.sp,
-                                        )),
-                              Positioned(
-                                top: 64.sp,
-                                left: 20.sp,
-                                child: GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () {
-                                    setState(() {
-                                      pickProfileImage();
-                                    });
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 60.sp,
-                                    backgroundColor: secondaryColorDark,
-                                    child: CircleAvatar(
-                                      foregroundImage: profileImage != null
-                                          ? FileImage(profileImage!)
-                                              as ImageProvider
-                                          : const AssetImage(
-                                              "assets/images/avatar_default.png",
-                                            ),
-                                      radius: 56.sp,
-                                    ),
+    return BlocProvider(
+      create: (context) => UserBloc(UserRepository()),
+      child: Scaffold(
+        body: SafeArea(
+          child:
+              KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
+            return CustomScrollView(slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Column(
+                  children: [
+                    if (isKeyboardVisible)
+                      const SizedBox.shrink()
+                    else
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 85.sp),
+                            child: bgImage != null
+                                ? Image.file(
+                                    bgImage!,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    height: 120.sp,
+                                  )
+                                : Image.asset(
+                                    "assets/images/personal_bg.png",
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    height: 120.sp,
                                   ),
+                          ),
+                          Positioned(
+                            top: 64.sp,
+                            left: 20.sp,
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                setState(() {
+                                  pickProfileImage();
+                                });
+                              },
+                              child: CircleAvatar(
+                                radius: 60.sp,
+                                backgroundColor: secondaryColorDark,
+                                child: CircleAvatar(
+                                  foregroundImage: profileImage != null
+                                      ? FileImage(profileImage!)
+                                          as ImageProvider
+                                      : const AssetImage(
+                                          "assets/images/avatar_default.png",
+                                        ),
+                                  radius: 56.sp,
                                 ),
                               ),
-                              Positioned(
-                                  top: 82.sp,
-                                  right: 20.sp,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        pickBgImage();
-                                      });
-                                    },
+                              // child: CircleAvatar(
+                              //   radius: 60.sp,
+                              //   backgroundColor: secondaryColorDark,
+                              //   child: BlocBuilder<UserBloc, UserState>(
+                              //     builder: (context, state) {
+                              //       if (state is UserLoadingState) {
+                              //         return const CircularProgressIndicator();
+                              //       }
+                              //       if (state is UserLoadedState) {
+                              //         imageUrl = state.users[0].photoUrl;
+                              //         profileImage = urlToFile(imageUrl!);
+                              //         //  print(imageUrl);
+                              //
+                              //       }
+                              //       return CircleAvatar(
+                              //         foregroundImage: profileImage != null
+                              //             ? FileImage(profileImage!)
+                              //                 as ImageProvider
+                              //             : const AssetImage(
+                              //                 "assets/images/avatar_default.png",
+                              //               ),
+                              //         radius: 56.sp,
+                              //       );
+                              //     },
+                              //   ),
+                              // ),
+                            ),
+                          ),
+                          Positioned(
+                              top: 82.sp,
+                              right: 20.sp,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    pickBgImage();
+                                  });
+                                },
+                                child: Image.asset(
+                                  "assets/images/camera.png",
+                                  width: 20.sp,
+                                  height: 20.sp,
+                                ),
+                              )),
+                          Positioned(
+                              top: 147.sp,
+                              left: 108.sp,
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  setState(() {
+                                    pickProfileImage();
+                                  });
+                                },
+                                child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        color: textGrey.withOpacity(0.2),
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
                                     child: Image.asset(
                                       "assets/images/camera.png",
                                       width: 20.sp,
                                       height: 20.sp,
-                                    ),
-                                  )),
-                              Positioned(
-                                  top: 147.sp,
-                                  left: 108.sp,
-                                  child: GestureDetector(
-                                    behavior: HitTestBehavior.translucent,
-                                    onTap: () {
-                                      setState(() {
-                                        pickProfileImage();
-                                      });
-                                    },
-                                    child: Container(
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                            color: textGrey.withOpacity(0.2),
-                                            borderRadius:
-                                                BorderRadius.circular(50)),
-                                        child: Image.asset(
-                                          "assets/images/camera.png",
-                                          width: 20.sp,
-                                          height: 20.sp,
-                                        )),
-                                  )),
-                            ],
-                          ),
-                        isKeyboardVisible
-                            ? const SizedBox.shrink()
-                            : const Spacer(),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                                bottom: 20,
-                                top: isKeyboardVisible ? 20 : 80),
-                            child: Column(
+                                    )),
+                              )),
+                        ],
+                      ),
+                    isKeyboardVisible
+                        ? const SizedBox.shrink()
+                        : const Spacer(),
+                    Padding(
+                        padding: EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                            bottom: 20,
+                            top: isKeyboardVisible ? 20 : 80),
+                        child: BlocBuilder<UserBloc, UserState>(
+                          builder: (context, state) {
+                            if (state is UserLoadingState) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (state is UserLoadedState) {
+                              _firstNameController.text =
+                                  state.users[0].firstName!;
+                              _lastNameController.text =
+                                  state.users[0].lastName!;
+                              _emailController.text = state.users[0].email!;
+                              _phoneController.text = state.users[0].phone!;
+                            }
+                            return Column(
                               children: [
                                 prefixInputField(
                                   _focusNodes[0],
@@ -327,14 +372,16 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                                   child: gradientButton("Next"),
                                 ),
                               ],
-                            ))
-                      ],
-                    ),
-                  )
-                ]);
-              }),
-            ),
-          );
-        });
+                            );
+                          },
+                        ))
+                  ],
+                ),
+              )
+            ]);
+          }),
+        ),
+      ),
+    );
   }
 }
