@@ -61,5 +61,3 @@ pubspec.lock
 *.js.deps
 *.js.map
 
-.github
-.github/*

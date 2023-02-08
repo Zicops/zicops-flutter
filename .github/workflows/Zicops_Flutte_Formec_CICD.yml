@@ -1,0 +1,156 @@
+name: Zicops Flutter CI-CD<>Formec
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  flutter_test:
+    name: Run flutter test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "beta"
+      - run: flutter pub get
+      # - run: flutter analyze
+      - run: flutter test
+
+  build_ios:
+    name: Build Flutter (iOS)
+    needs: [flutter_test]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "beta"
+      - run: flutter pub get
+      - run: flutter clean
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-ios-${{ hashFiles('**/pubspec.lock') }}
+      - run: flutter build ios --release --no-codesign
+      - name: Cache outputs of build_ios
+        uses: actions/cache@v2
+        with:
+          path: build/ios/
+          key: ${{ runner.os }}-flutter-astore-${{ hashFiles('**/pubspec.lock') }}
+
+  build_appbundle:
+    name: Build Flutter (Android)
+    needs: [flutter_test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "beta"
+      - name: Cache pub packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-android-${{ hashFiles('**/pubspec.lock') }}
+      - run: flutter pub get
+      - run: flutter clean
+      - run: flutter build appbundle
+      - name: Cache outputs of build_appbundle
+        uses: actions/cache@v2
+        with:
+          path: build/app/outputs/bundle/
+          key: ${{ runner.os }}-flutter-gplay-${{ hashFiles('**/pubspec.lock') }}
+
+  upload_apps_artifacts:
+    name: Upload Zicops Flutter Bundles
+    needs: [build_appbundle, build_ios]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get Android Bundle from cache
+        uses: actions/cache@v2
+        with:
+          path: build/app/outputs/bundle/
+          key: ${{ runner.os }}-flutter-gplay-${{ hashFiles('**/pubspec.lock') }}
+      - name: Get iOS Bundle from cache
+        uses: actions/cache@v2
+        with:
+          path: build/ios/
+          key: ${{ runner.os }}-flutter-astore-${{ hashFiles('**/pubspec.lock') }}
+      - name: Upload Android bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: zicops_android
+          path: build/app/outputs/bundle/
+      - name: Upload iOS bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: zicops_apple
+          path: build/ios/
+
+# TODO following is an example of how we will release our bundles to the stores
+  # release_apps:
+  #   name: Release Zicops Flutter Bundles
+  #   needs: [build_appbundle, build_ios]
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-java@v1
+  #       with:
+  #         java-version: "12.x"
+  #     - uses: subosito/flutter-action@v2
+  #       with:
+  #         channel: "beta"
+  #     - name: Cache pub packages
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: ~/.pub-cache
+  #         key: ${{ runner.os }}-flutter-release-apps-${{ hashFiles('**/pubspec.lock') }}
+  #     - run: flutter pub get
+  #     - run: flutter clean
+  #     - name: Download Android bundle
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: build_appbundle
+  #         path: build/app/outputs/bundle/
+  #     - name: Download iOS bundle
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: build_ios
+  #         path: build/ios/
+  #     # - name: Release Android bundle
+  #     #   uses: r0adkll/upload-google-play@v2
+  #     #   with:
+  #     #     serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+  #     #     packageName: com.zicops.formec
+  #     #     releaseFiles: build/app/outputs/bundle/release/app-release.aab
+  #     #     track: internal
+  #     #     userFraction: 0.1
+  #     #     whatsnewsDir: whatsnews
+  #     # - name: Release iOS bundle
+  #     #   uses: r0adkll/upload-google-play@v2
+  #     #   with:
+  #     #     serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+  #     #     packageName: com.zicops.formec
+  #     #     releaseFiles: build/ios/iphoneos/Runner.app
+  #     #     track: internal
+  #     #     userFraction: 0.1
+  #     #     whatsnewsDir: whatsnews
