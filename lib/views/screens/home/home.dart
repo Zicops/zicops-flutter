@@ -23,7 +23,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
 import '../../../models/user/org_model.dart';
-import '../../../models/user/user_details_model.dart';
+import '../../../models/user/user_model.dart';
 import '../../../utils/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -49,7 +49,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonUser =
         jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonUser);
+    var user = UserModel.fromJson(jsonUser);
     if (jsonUser.isNotEmpty) {
       setState(() {
         name = user.firstName! + " " + user.lastName!;

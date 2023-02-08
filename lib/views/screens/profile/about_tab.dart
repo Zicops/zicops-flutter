@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,15 +10,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
 import 'package:zicops/views/screens/profile/widgets/about_info.dart';
-import 'package:zicops/views/widgets/GradientButton.dart';
-import 'package:http_parser/http_parser.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import '../../../models/user/org_model.dart';
-import '../../../models/user/user_details_model.dart';
+import '../../../models/user/user_model.dart';
 import '../../../utils/colors.dart';
-import '../../../utils/validation.dart';
-import '../../widgets/PrefixInputField.dart';
 
 class AboutTabScreen extends StatefulWidget {
   AboutTabScreen({Key? key}) : super(key: key);
@@ -31,11 +27,6 @@ class AboutTabScreen extends StatefulWidget {
 }
 
 class _AboutTabScreen extends State<AboutTabScreen> {
-  TextEditingController _controller1 = TextEditingController();
-  TextEditingController _controller2 = TextEditingController();
-  TextEditingController _controller3 = TextEditingController();
-  TextEditingController _controller4 = TextEditingController();
-
   String? name = "";
   String? phone = "";
   String? email = "";
@@ -97,7 +88,7 @@ class _AboutTabScreen extends State<AboutTabScreen> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonUser =
         jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonUser);
+    var user = UserModel.fromJson(jsonUser);
     if (jsonUser.isNotEmpty) {
       setState(() {
         userId = user.id!;
@@ -135,11 +126,11 @@ class _AboutTabScreen extends State<AboutTabScreen> {
     print(phone);
     print(email);
 
-    final orgResult = await userClient.client()?.execute(GetUserOrgDetailsQuery(
-            variables: GetUserOrgDetailsArguments(
-          userId: userId,
-          user_lsp_id: userLspId,
-        )));
+    // final orgResult = await userClient.client()?.execute(GetUserOrgDetailsQuery(
+    //         variables: GetUserOrgDetailsArguments(
+    //       userId: userId,
+    //       user_lsp_id: userLspId,
+    //     )));
     // if (orgResult?.data?.getUserOrgDetails != null) {
     //   setState(() {
     //     orgName = orgResult!.data!.getUserOrgDetails?.orgName!;
@@ -163,7 +154,7 @@ class _AboutTabScreen extends State<AboutTabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _height = MediaQuery.of(context).size.height;
+    // double _height = MediaQuery.of(context).size.height;
 
     return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
       return CustomScrollView(slivers: [

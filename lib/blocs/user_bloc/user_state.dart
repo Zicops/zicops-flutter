@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:zicops/models/user/user_model.dart';
+part of 'user_bloc.dart';
 
 @immutable
 abstract class UserState extends Equatable {}

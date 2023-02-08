@@ -9,7 +9,7 @@ import 'package:zicops/views/widgets/PrefixInputField.dart';
 
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
-import '../../../models/user/user_details_model.dart';
+import '../../../models/user/user_model.dart';
 
 class OrganizationTabScreen extends StatefulWidget {
   Function() changeTab;
@@ -46,7 +46,7 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonDetails =
         jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonDetails);
+    var user = UserModel.fromJson(jsonDetails);
     if (jsonDetails.isNotEmpty) {
       setState(() {
         userId = user.id!;

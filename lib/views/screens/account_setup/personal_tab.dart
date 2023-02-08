@@ -21,7 +21,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:math';
 import '../../../controllers/mutation_controller.dart';
-import '../../../models/user/user_details_model.dart';
+import '../../../models/user/user_model.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/validation.dart';
 import '../../widgets/PrefixInputField.dart';
@@ -107,7 +107,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonDetails =
         jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonDetails);
+    var user = UserModel.fromJson(jsonDetails);
     if (jsonDetails.isNotEmpty) {
       id = user.id.toString();
       firstName = user.firstName.toString();

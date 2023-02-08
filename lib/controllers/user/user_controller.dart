@@ -1,4 +1,4 @@
-// import 'package:zicops/models/user/user_details_model.dart';
+// import 'package:zicops/models/user/user_model.dart';
 //
 // import '../../graphql_api.graphql.dart';
 // import '../../main.dart';

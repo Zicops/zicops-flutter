@@ -12,7 +12,7 @@ import 'package:zicops/controllers/mutation_controller.dart';
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
 import '../../../models/user/user_account_profile_pref.dart';
-import '../../../models/user/user_details_model.dart';
+import '../../../models/user/user_model.dart';
 import '../../../utils/colors.dart';
 
 class PreferencesTabScreen extends StatefulWidget {
@@ -69,7 +69,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonDetails =
         jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonDetails);
+    var user = UserModel.fromJson(jsonDetails);
     if (jsonDetails.isNotEmpty) {
       setState(() {
         userId = user.id!;

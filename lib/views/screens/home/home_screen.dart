@@ -9,9 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
-import 'package:zicops/models/user/home_page_model.dart';
 import 'package:zicops/models/user/user_course_model.dart';
-import 'package:zicops/models/user/user_details_model.dart';
+import 'package:zicops/models/user/user_model.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/utils/dummies.dart';
 import 'package:zicops/views/screens/new_course/new_course_screen.dart';
@@ -86,7 +85,7 @@ class _HomeScreen extends State<HomeScreen> {
         await SharedPreferences?.getInstance();
     Map<String, dynamic> jsonDetails =
         jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonDetails);
+    var user = UserModel.fromJson(jsonDetails);
     final userCourseMap = await userClient?.client()?.execute(
         GetUserCourseMapsQuery(
             variables: GetUserCourseMapsArguments(
@@ -200,7 +199,7 @@ class _HomeScreen extends State<HomeScreen> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonDetails =
         jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonDetails);
+    var user = UserModel.fromJson(jsonDetails);
     // String userLspId = sharedPreferences.getString('userLspId')!;
 
     // for now it is hardcoded need to be fixed in lsp screen screen

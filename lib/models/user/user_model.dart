@@ -1,4 +1,4 @@
-class UserDetailsModel {
+class UserModel {
   String? id;
   String? firstName;
   String? lastName;
@@ -11,7 +11,7 @@ class UserDetailsModel {
   String? phone;
   String? photoUrl;
 
-  UserDetailsModel(
+  UserModel(
       this.id,
       this.firstName,
       this.lastName,
@@ -24,7 +24,7 @@ class UserDetailsModel {
       this.phone,
       this.photoUrl);
 
-  UserDetailsModel.fromJson(Map<String, dynamic> json)
+  UserModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         firstName = json['first_name'],
         lastName = json['last_name'],

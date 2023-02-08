@@ -1,8 +1,14 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
 
-import '../repo/user_repository.dart';
-import 'app_events.dart';
-import 'app_states.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
+
+import '../../models/user/user_model.dart';
+import '../../repo/user_repository.dart';
+
+part 'user_event.dart';
+part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository _userRepository;
