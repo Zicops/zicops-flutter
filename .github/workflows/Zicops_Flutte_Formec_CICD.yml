@@ -76,9 +76,9 @@ jobs:
         with:
           path: build/ios/
           key: ${{ runner.os }}-flutter-build-ios-${{ hashFiles('**/flutter.yaml') }}
-     - name: Zicops Mobile Apps Releases
-       uses: actions/upload-artifact@v2
-       with:
+      - name: Zicops Mobile Apps Releases
+        uses: actions/upload-artifact@v2
+        with:
           name: zicops-mobile-build-${GITHUB_SHA}
           path: |
             build/app/outputs/bundle/
