@@ -1,0 +1,19 @@
+targets:
+  $default:
+    builders:
+      artemis:
+        options:
+          schema_mapping:
+            - output: lib/graphql_api.graphql.dart
+              schema: lib/schema.graphql
+              queries_glob: lib/graphql/**.graphql
+              # naming_scheme: simple
+          scalar_mapping:
+            - graphql_type: Upload
+              custom_parser_import: "package:zicops/artemis_upload.dart"
+              dart_type:
+                name: MultipartFile
+                imports:
+                  - "package:http/http.dart"
+            - graphql_type: NaiveDateTime
+              dart_type: DateTime

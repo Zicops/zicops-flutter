@@ -1,0 +1,402 @@
+schema {
+  query: QueryRoot
+  mutation: MutationRoot
+}
+
+type MutationRoot {
+  login: User
+  updateUser(input: UserInput!): User
+
+  addUserOrganizationMap(input: UserOrganizationMapInput!): UserOrganizationMap
+  updateUserOrganizationMap(input: UserOrganizationMapInput!): UserOrganizationMap
+  addUserPreference(input: [UserPreferenceInput]!): [UserPreference]
+  updateUserPreference(input: UserPreferenceInput!): UserPreference
+}
+
+# ISO 8601 combined date and time without timezone.
+#
+# # Examples
+#
+# * `2015-07-01T08:59:60.123`,
+scalar NaiveDateTime
+scalar Upload
+
+type QueryRoot {
+  getUserDetails(user_ids: [String]): [User]
+  getUserLsps(user_id: String!): [UserLspMap]
+  getUserLspByLspId(user_id: String!, lsp_id: String!): UserLspMap
+  getLearningSpaceDetails(lsp_ids: [String]): [LearningSpace]
+  getOrganizations(org_ids: [String]): [Organization]
+  getUserLspRoles(user_id: String!, user_lsp_ids: [String!]!): [UserRole]
+  getUserOrganizations(user_id: String!): [UserOrganizationMap]
+  getUserOrgDetails(user_id: String!, user_lsp_id: String!): UserOrganizationMap
+  allCatMain(lsp_ids: [String], searchText: String): [CatMain]
+  allSubCatMain(lsp_ids: [String], searchText: String): [SubCatMain]
+  allSubCatByCatId(catId: String): [SubCatMain]
+  getUserPreferences(user_id: String!): [UserPreference]
+  getUserPreferenceForLsp(user_id: String!,user_lsp_id: String!): UserPreference
+  getCourse(course_id: String):[Course]
+  latestCourses(
+    publish_time: Int
+    pageCursor: String
+    Direction: String
+    pageSize: Int
+    status: Status
+    filters: CoursesFilters
+  ): PaginatedCourse
+  getUserCourseMaps(
+    user_id: String!
+    publish_time: Int
+    pageCursor: String
+    Direction: String
+    pageSize: Int
+  ): PaginatedCourseMaps
+  getUserCourseProgressByMapId(
+    user_id: String!
+    user_course_id: [ID!]
+  ): [UserCourseProgress]
+}
+
+type User {
+  id: ID
+  first_name: String!
+  last_name: String!
+  status: String!
+  role: String!
+  is_verified: Boolean!
+  is_active: Boolean!
+  gender: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+  email: String!
+  phone: String!
+  photo_url: String
+}
+
+input UserInput {
+  id: ID
+  first_name: String!
+  last_name: String!
+  status: String!
+  role: String!
+  is_verified: Boolean!
+  is_active: Boolean!
+  gender: String!
+  email: String!
+  phone: String!
+  Photo: Upload
+  photo_url: String
+}
+
+type UserRole {
+  user_role_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  role: String!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+input UserLspMapInput {
+  user_lsp_id: ID
+  user_id: String!
+  lsp_id: String!
+  status: String!
+  created_by: String
+  updated_by: String
+}
+type UserLspMap {
+  user_lsp_id: ID
+  user_id: String!
+  lsp_id: String!
+  status: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+type Organization {
+  org_id: ID
+  name: String!
+  logo_url: String
+  industry: String!
+  type: String!
+  subdomain: String!
+  employee_count: Int!
+  website: String!
+  linkedin_url: String
+  facebook_url: String
+  twitter_url: String
+  status: String!
+  created_at: String!
+  updated_at: String!
+  created_by: String
+  updated_by: String
+}
+
+type LearningSpace {
+  lsp_id: ID
+  org_id: String!
+  ou_id: String!
+  name: String!
+  logo_url: String
+  profile_url: String
+  no_users: Int!
+  owners: [String]
+  is_default: Boolean!
+  status: String!
+  created_at: String!
+  updated_at: String!
+  created_by: String
+  updated_by: String
+}
+
+input UserOrganizationMapInput {
+  user_organization_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  organization_id: String!
+  organization_role: String!
+  is_active: Boolean!
+  employee_id: String!
+  created_by: String
+  updated_by: String
+}
+
+type UserOrganizationMap {
+  user_organization_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  organization_id: String!
+  organization_role: String!
+  is_active: Boolean!
+  employee_id: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+input UserLanguageMapInput {
+  user_id: String!
+  user_lsp_id: String!
+  language: String!
+  is_base_language: Boolean!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+}
+type UserLanguageMap {
+  user_language_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  language: String!
+  is_base_language: Boolean!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+input UserPreferenceInput {
+  user_preference_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  sub_category: String!
+  is_base: Boolean!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+}
+type UserPreference {
+  user_preference_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  sub_category: String!
+  is_base: Boolean!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+type CatMain {
+  id: ID
+  Name: String
+  Description: String
+  ImageUrl: String
+  Code: String
+  CreatedAt: String
+  UpdatedAt: String
+  CreatedBy: String
+  UpdatedBy: String
+  IsActive: Boolean
+}
+
+type SubCatMain {
+  id: ID
+  Name: String
+  Description: String
+  ImageUrl: String
+  Code: String
+  CatId: String
+  CreatedAt: String
+  UpdatedAt: String
+  CreatedBy: String
+  UpdatedBy: String
+  IsActive: Boolean
+}
+
+type Course {
+  id: ID
+  name: String
+  lspId: String
+  publisher: String
+  description: String
+  summary: String
+  instructor: String
+  image: String
+  previewVideo: String
+  tileImage: String
+  owner: String
+  duration: Int
+  expertise_level: String
+  language: [String]
+  benefits: [String]
+  outcomes: [String]
+  created_at: String
+  updated_at: String
+  type: String
+  prequisites: [String]
+  goodFor: [String]
+  mustFor: [String]
+  related_skills: [String]
+  publish_date: String
+  expiry_date: String
+  expected_completion: String
+  qa_required: Boolean
+  approvers: [String]
+  created_by: String
+  updated_by: String
+  status: Status
+  is_display: Boolean
+  category: String
+  sub_category: String
+  sub_categories: [sub_categories]
+  is_active: Boolean
+}
+
+type PaginatedCourse {
+  courses: [Course]
+  pageCursor: String
+  direction: String
+  pageSize: Int
+}
+
+#course types and enum
+enum Status {
+  SAVED
+  APPROVAL_PENDING
+  ON_HOLD
+  APPROVED
+  PUBLISHED
+  REJECTED
+}
+
+type sub_categories {
+  name: String
+  rank: Int
+}
+
+input CoursesFilters {
+  LspId: String
+  Category: String
+  SubCategory: String
+  Language: String
+  DurationMin: Int
+  DurationMax: Int
+  Type: String
+  SearchText: String
+}
+
+#user course related 
+
+input UserCourseInput {
+  user_course_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  course_id: String!
+  course_type: String!
+  added_by: String!
+  is_mandatory: Boolean!
+  end_date: String
+  course_status: String!
+  created_by: String
+  updated_by: String
+}
+
+type UserCourse {
+  user_course_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  course_id: String!
+  lsp_id: String
+  course_type: String!
+  added_by: String!
+  is_mandatory: Boolean!
+  end_date: String
+  course_status: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+input UserCourseProgressInput {
+  user_cp_id: ID
+  user_id: String!
+  user_course_id: String!
+  topic_id: String!
+  topic_type: String!
+  status: String!
+  video_progress: String!
+  time_stamp: String!
+  created_by: String
+  updated_by: String
+}
+
+type UserCourseProgress {
+  user_cp_id: ID
+  user_id: String!
+  user_course_id: String!
+  topic_id: String!
+  topic_type: String!
+  status: String!
+  video_progress: String!
+  time_stamp: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+type PaginatedCourseMaps {
+  user_courses: [UserCourse]
+  pageCursor: String
+  direction: String
+  pageSize: Int
+}
+
+input CourseMapFilters {
+  lsp_id: [String]
+  is_mandatory: Boolean
+  status: String
+  type: String
+}
