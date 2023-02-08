@@ -60,6 +60,7 @@ jobs:
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build appbundle
+
   release_apps:
     name: Release Zicops Flutter Bundles
     needs: [build_appbundle, build_ios]
