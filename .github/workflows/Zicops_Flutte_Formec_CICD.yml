@@ -49,7 +49,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: build/ios/iphoneos
-          key: ${{ runner.os }}-flutter-astore-${{}}
+          key: ${{ runner.os }}-flutter-astore-${{ github.sha }}
 
   build_appbundle:
     name: Build Flutter (Android)
