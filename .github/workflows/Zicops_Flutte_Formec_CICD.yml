@@ -45,11 +45,11 @@ jobs:
           path: ~/.pub-cache
           key: ${{ runner.os }}-pub-ios-${{ hashFiles('**/pubspec.lock') }}
       - run: flutter build ios --release --no-codesign
-      - name: Cache outputs of build_ios
+      - name: Cache outputs of build step
         uses: actions/cache@v2
         with:
           path: build/ios/iphoneos
-          key: ${{ runner.os }}-flutter-astore-${{ github.sha }}
+          key: apple-${{ github.sha }}
 
   build_appbundle:
     name: Build Flutter (Android)
@@ -71,11 +71,11 @@ jobs:
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build apk
-      - name: Cache outputs of build_appbundle
+      - name: Cache outputs of build step
         uses: actions/cache@v2
         with:
           path: build/app/outputs/apk/release
-          key: ${{ runner.os }}-flutter-gplay-${{ github.sha }}
+          key: android-${{ github.sha }}
 
   upload_apps_artifacts:
     name: Upload Zicops Flutter Bundles
@@ -83,28 +83,29 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v3
-      - name: Get Android Bundle from cache
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get the apk file from cache
         uses: actions/cache@v2
         with:
-          path: build/app/outputs/bundle/
-          key: ${{ runner.os }}-flutter-gplay-${{ github.sha }}
-      - name: Get iOS Bundle from cache
+          path: build/app/outputs/apk/release
+          key: android-${{ github.sha }}
+      - name: Get the ipa file from cache
         uses: actions/cache@v2
         with:
-          path: build/ios/
-          key: macOs-flutter-astore-${{ github.sha }}
+          path: build/ios/iphoneos
+          key: apple-${{ github.sha }}
       - name: Upload Android bundle
         uses: actions/upload-artifact@v2
         with:
-          name: zicops_android
-          path: build/app/outputs/bundle/
+          name: android_bundle
+          path: build/app/outputs/apk/release
       - name: Upload iOS bundle
         uses: actions/upload-artifact@v2
         with:
-          name: zicops_apple
-          path: build/ios/
-
+          name: apple_bundle
+          path: build/ios/iphoneos
+      
 # TODO following is an example of how we will release our bundles to the stores
   # release_apps:
   #   name: Release Zicops Flutter Bundles
