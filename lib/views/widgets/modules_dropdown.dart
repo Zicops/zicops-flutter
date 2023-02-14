@@ -5,8 +5,20 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import '../../utils/colors.dart';
 
 class ModulesDropDown extends StatefulWidget {
-  const ModulesDropDown({Key? key}) : super(key: key);
-
+  ModulesDropDown(
+      {Key? key,
+      this.dropdownList = const [
+        "Module 1",
+        "Module 2",
+        "Module 3",
+        "Module 4"
+      ],
+      this.showTitle = true,
+      this.borderRadius = 4})
+      : super(key: key);
+  List dropdownList;
+  bool showTitle;
+  double borderRadius;
   @override
   State<StatefulWidget> createState() {
     return _ModulesDropDown();
@@ -24,7 +36,8 @@ class _ModulesDropDown extends State<ModulesDropDown>
   @override
   void initState() {
     super.initState();
-    selectedModule = modules[0];
+    selectedModule = widget.dropdownList[0];
+
     controller = AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 400),
@@ -36,19 +49,21 @@ class _ModulesDropDown extends State<ModulesDropDown>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-            height: 24.sp,
-            child: Text(
-              "Modules".toUpperCase(),
-              style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                  color: textGrey2,
-                  letterSpacing: 1),
-            )),
-        SizedBox(
-          height: 4.sp,
-        ),
+        if (widget.showTitle)
+          SizedBox(
+              height: 24.sp,
+              child: Text(
+                "Modules".toUpperCase(),
+                style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                    color: textGrey2,
+                    letterSpacing: 1),
+              )),
+        if (widget.showTitle)
+          SizedBox(
+            height: 4.sp,
+          ),
         Column(
           children: [
             GestureDetector(
@@ -64,7 +79,8 @@ class _ModulesDropDown extends State<ModulesDropDown>
                     padding: EdgeInsets.symmetric(
                         vertical: 0.5.sp, horizontal: 0.5.sp),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4.sp),
+                        borderRadius:
+                            BorderRadius.circular(widget.borderRadius.sp),
                         gradient: LinearGradient(
                             colors: [
                               secondaryColorDarkOutline,
@@ -78,10 +94,13 @@ class _ModulesDropDown extends State<ModulesDropDown>
                             color:
                                 isOpen ? secondaryColorLight : secondaryColor,
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(4.sp),
-                                topRight: Radius.circular(4.sp),
-                                bottomLeft: Radius.circular(isOpen?0: 4.sp),
-                                bottomRight: Radius.circular(isOpen?0:4.sp))),
+                                topLeft:
+                                    Radius.circular(widget.borderRadius.sp),
+                                topRight:
+                                    Radius.circular(widget.borderRadius.sp),
+                                bottomLeft: Radius.circular(isOpen ? 0 : 4.sp),
+                                bottomRight:
+                                    Radius.circular(isOpen ? 0 : 4.sp))),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

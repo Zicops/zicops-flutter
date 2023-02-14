@@ -274,7 +274,7 @@ class _NewNoteScreen extends State<NewNoteScreen> {
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.zero,
                           isDense: true,
-                          hintText: "Note",
+                          hintText: "Type something...",
                           hintStyle: GoogleFonts.poppins(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500,

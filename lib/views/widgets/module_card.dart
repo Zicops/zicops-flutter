@@ -8,8 +8,12 @@ class ModuleCard extends StatefulWidget {
   String courseName;
   String courseLength;
   String preview;
+  bool isSelected;
+  Duration? position;
+  Duration? duration;
 
-  ModuleCard(this.courseName, this.courseLength, this.preview,
+  ModuleCard(this.courseName, this.courseLength, this.preview, this.isSelected,
+      this.position, this.duration,
       {Key? key})
       : super(key: key);
 
@@ -37,9 +41,11 @@ class _ModuleCard extends State<ModuleCard> {
         child: Container(
           padding: EdgeInsets.all(8.sp),
           decoration: BoxDecoration(
-            color: secondaryColor,
-            borderRadius: BorderRadius.circular(4.sp),
-          ),
+              color: widget.isSelected ? overlay : secondaryColor,
+              borderRadius: BorderRadius.circular(4.sp),
+              border: widget.isSelected
+                  ? Border.all(color: secondaryColorDarkOutline, width: 1.sp)
+                  : Border.all(width: 0)),
           child: Row(
             children: [
               ClipRRect(
@@ -54,15 +60,25 @@ class _ModuleCard extends State<ModuleCard> {
                         height: 58.sp,
                       ),
                       Container(
-                        color: Colors.black.withOpacity(0.43),
-                        height: 58.sp,
+                        color: widget.isSelected
+                            ? overlay
+                            : Colors.black.withOpacity(0.43),
+                        alignment: Alignment.center,
+                        width: 60.sp,
+                        height: 60.sp,
                       ),
-                      Image.asset(
-                        "assets/images/play_button.png",
-                        width: 20.sp,
-                        height: 20.sp,
-                        opacity: const AlwaysStoppedAnimation(0.6),
-                      )
+                      widget.isSelected
+                          ? Image.asset(
+                              "assets/images/media.png",
+                              width: 24.sp,
+                              height: 24.sp,
+                            )
+                          : Image.asset(
+                              "assets/images/play_button.png",
+                              width: 20.sp,
+                              height: 20.sp,
+                              opacity: const AlwaysStoppedAnimation(0.6),
+                            )
                     ],
                   )),
               SizedBox(
@@ -78,7 +94,7 @@ class _ModuleCard extends State<ModuleCard> {
                           Container(
                               height: 24.sp,
                               alignment: Alignment.centerLeft,
-                              child:Text(
+                              child: Text(
                                 widget.courseName,
                                 style: TextStyle(
                                     color: textPrimary,
@@ -88,16 +104,38 @@ class _ModuleCard extends State<ModuleCard> {
                                 overflow: TextOverflow.ellipsis,
                               )),
                           const Spacer(),
-                          Text(
-                            widget.courseLength,
-                            style: TextStyle(
-                                color: textGrey2,
-                                fontSize: 12.sp,
-                                height: 1.33),
-                          )
-
-
-
+                          widget.isSelected
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      ("${widget.duration!.inMilliseconds - widget.position!.inMilliseconds} mins left")
+                                          .toString(),
+                                      style: TextStyle(
+                                          color: textGrey2,
+                                          fontSize: 12.sp,
+                                          height: 1.33),
+                                    ),
+                                    SizedBox(
+                                      height: 6.sp,
+                                    ),
+                                    Container(
+                                      height: 5.sp,
+                                        alignment: Alignment.centerLeft,
+                                        child:
+                                        ProgressBar(
+                                            230,
+                                            widget.position!.inSeconds /
+                                                widget.duration!.inSeconds))
+                                  ],
+                                )
+                              : Text(
+                                  widget.courseLength,
+                                  style: TextStyle(
+                                      color: textGrey2,
+                                      fontSize: 12.sp,
+                                      height: 1.33),
+                                )
                         ],
                       ))),
             ],
