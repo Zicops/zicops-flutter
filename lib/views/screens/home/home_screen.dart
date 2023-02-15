@@ -1,17 +1,8 @@
-import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
-// import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:zicops/graphql_api.graphql.dart';
-import 'package:zicops/main.dart';
-// import 'package:zicops/models/user/home_page_model.dart';
-import 'package:zicops/models/user/user_course_model.dart';
-import 'package:zicops/models/user/user_details_model.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/utils/dummies.dart';
 import 'package:zicops/views/screens/new_course/new_course_screen.dart';
@@ -825,74 +816,6 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 14.25.sp,
             ),
-            // sectionHeader(subCatCourses4[0].subCategory ?? '', () {}),
-            // SizedBox(
-            //   height: 8.sp,
-            // ),
-            // Container(
-            //   height: 156.sp,
-            //   alignment: Alignment.centerLeft,
-            //   child: ListView(
-            //     scrollDirection: Axis.horizontal,
-            //     children: [
-            //       SizedBox(
-            //         width: 20.sp,
-            //       ),
-            //       ...subCatCourses4.map((courseItem) => Row(
-            //             children: [
-            //               CourseGridItem(
-            //                 courseItem.name ?? '',
-            //                 courseItem.owner ?? '',
-            //                 courseItem.expertiseLevel ?? '',
-            //                 "1h 30m",
-            //                 courseItem.tileImage ?? '',
-            //               ),
-            //               SizedBox(
-            //                 width: 8.sp,
-            //               )
-            //             ],
-            //           )),
-            //       viewAll()
-            //     ],
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 14.25.sp,
-            // ),
-            // sectionHeader(subCatCourses5[0].subCategory!, () {}),
-            // SizedBox(
-            //   height: 8.sp,
-            // ),
-            // Container(
-            //   height: 156.sp,
-            //   alignment: Alignment.centerLeft,
-            //   child: ListView(
-            //     scrollDirection: Axis.horizontal,
-            //     children: [
-            //       SizedBox(
-            //         width: 20.sp,
-            //       ),
-            //       ...subCatCourses5.map((courseItem) => Row(
-            //             children: [
-            //               CourseGridItem(
-            //                 courseItem.name ?? '',
-            //                 courseItem.owner ?? '',
-            //                 courseItem.expertiseLevel ?? '',
-            //                 "1h 30m",
-            //                 courseItem.tileImage ?? '',
-            //               ),
-            //               SizedBox(
-            //                 width: 8.sp,
-            //               )
-            //             ],
-            //           )),
-            //       viewAll()
-            //     ],
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 14.25.sp,
-            // ),
             sectionHeader("Category", () {}),
             SizedBox(
               height: 8.sp,

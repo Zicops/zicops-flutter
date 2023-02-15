@@ -17,7 +17,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreen extends State<ProfileScreen> {
-  int _selectedTab = 0;
+  int _selectedTab = 2;
 
   getScreen() {
     switch (_selectedTab) {

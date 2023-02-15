@@ -4,7 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zicops/gql_client.dart';
 import 'package:zicops/utils/colors.dart';
+import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
+import 'package:zicops/views/screens/course_details/course_details_screen.dart';
+import 'package:zicops/views/screens/home/home.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
+import 'package:zicops/views/screens/new_course/new_course_screen.dart';
+import 'package:zicops/views/screens/profile/profile_screen.dart';
+import 'package:zicops/views/screens/search/search_screen.dart';
+import 'package:zicops/views/widgets/landscape_video_player.dart';
 
 import 'firebase_options.dart';
 

@@ -10,5 +10,7 @@ const secondaryColor = Color(0xFF242630);
 const secondaryColorDark = Color(0xFF1A1B26);
 const secondaryColorLight = Color(0xFF15161C);
 const secondaryColorDarkOutline = Color(0xFF596A6A);
+const overlay = Color(0xE5101012);
 const gradientTwo = Color(0xFF41A9EF);
 const error = Color(0xFFEA4040);
+const delete = Color(0xFFD55755);
