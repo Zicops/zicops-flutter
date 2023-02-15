@@ -71,6 +71,7 @@ class SkillMatrix extends StatelessWidget {
             name,
             textAlign: TextAlign.center,
             softWrap: true,
+            maxLines: 2,
             style: TextStyle(fontSize: 12.sp, color: textGrey2, height: 1.33),
           ),
         )

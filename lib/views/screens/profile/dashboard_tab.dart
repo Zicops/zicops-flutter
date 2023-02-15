@@ -25,8 +25,31 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(enable: true);
-    _trackballBehavior = TrackballBehavior(enable: true);
+    _tooltipBehavior = TooltipBehavior(enable: false, canShowMarker: true);
+    _trackballBehavior = TrackballBehavior(
+        enable: true,
+        activationMode: ActivationMode.singleTap,
+        lineColor: primaryColor,
+        builder: (context, details) {
+          return Container(
+              width: 95.sp,
+              height: 58.sp,
+              padding: EdgeInsets.all(8.sp),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(color: secondaryColorDark, borderRadius: BorderRadius.circular(4.sp)),
+              child: Column(
+                children: [
+                  Text(
+                    '${details.point?.y.toString()} hour',
+                    style: TextStyle(fontSize: 16.sp, color: primaryColor),
+                  ),
+                  Text(
+                    'Day ${details.point?.x.toString()}',
+                    style: TextStyle(fontSize: 12.sp, color: textGrey2),
+                  )
+                ],
+              ));
+        });
 
     super.initState();
   }
@@ -40,7 +63,11 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
     ChartData(2011, 28),
     ChartData(2012, 34),
     ChartData(2013, 32),
-    ChartData(2014, 40)
+    ChartData(2014, 40),
+    ChartData(2015, 28),
+    ChartData(2016, 34),
+    ChartData(2017, 32),
+    ChartData(2018, 40)
   ];
 
   Widget SectionHeader(String label) {
@@ -87,16 +114,23 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
           tooltipBehavior: _tooltipBehavior,
           trackballBehavior: _trackballBehavior,
           primaryXAxis: CategoryAxis(
-            title: AxisTitle(text: "Days"),
+            title: AxisTitle(
+                text: "Days",
+                textStyle: TextStyle(fontSize: 12.sp, color: textGrey2),
+                alignment: ChartAlignment.near),
             majorGridLines: MajorGridLines(width: 0),
             majorTickLines: MajorTickLines(width: 0),
             axisLine: AxisLine(width: 0),
           ),
           primaryYAxis: NumericAxis(
-            majorTickLines: MajorTickLines(width: 0),
-            axisLine: AxisLine(width: 0),
-            opposedPosition: true,
-          ),
+              title: AxisTitle(
+                  text: "Minutes",
+                  textStyle: TextStyle(fontSize: 12.sp, color: textGrey2),
+                  alignment: ChartAlignment.far),
+              majorTickLines: MajorTickLines(width: 0),
+              axisLine: AxisLine(width: 0),
+              opposedPosition: true,
+              anchorRangeToVisiblePoints: true),
           series: [
             // Renders area chart
             AreaSeries<ChartData, double>(
@@ -108,7 +142,7 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
                   Color(0x0022AAA1),
                 ], stops: [
                   0,
-                  0.7
+                  1
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                 xValueMapper: (ChartData data, _) => data.year,
                 yValueMapper: (ChartData data, _) => data.data)
@@ -150,17 +184,20 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
                 pointers: <GaugePointer>[
                   WidgetPointer(
                     value: 80,
-                    child: Container(
-                      width: 20.sp,
-                      alignment: Alignment.center,
-                      child: Image.asset("assets/images/image_pointer.png"),
-                    ),
+                    offset: 7.sp,
+                    child: Transform.scale(
+                        scale: 1.8,
+                        child: Container(
+                          width: 20.sp,
+                          alignment: Alignment.center,
+                          child: Image.asset("assets/images/image_pointer.png"),
+                        )),
                   )
                 ],
                 annotations: [
                   GaugeAnnotation(
                       angle: 90,
-                      positionFactor: 0.3,
+                      positionFactor: 0.2,
                       widget: Column(
                         children: [
                           Text(
@@ -192,7 +229,9 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
     return Container(
       height: 68.sp,
       padding: EdgeInsets.symmetric(horizontal: 15.sp),
+      alignment: Alignment.center,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(height: 44.sp, width: 44.sp, child: Image.asset(asset)),
           SizedBox(
@@ -200,6 +239,7 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
                 height: 24.sp,
@@ -256,7 +296,7 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
               child: Row(
                 children: [
                   SizedBox(
-                    height: 24.sp,
+                    height: 16.sp,
                     child: Text(
                       "Design",
                       style: TextStyle(
@@ -278,6 +318,9 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
                   )
                 ],
               )),
+          SizedBox(
+            height: 8.sp,
+          ),
           Divider(
             height: 1.sp,
             thickness: 1.sp,
@@ -312,7 +355,17 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
                   "assets/images/course_complete.png",
                   "assets/images/course_complete.png",
                   "assets/images/course_complete.png"
-                ].map((e) => PreviewListItem(e))
+                ].map((e) => PreviewListItem(e)),
+                Container(
+                  height: 36.sp,
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: 16.sp),
+                  child: Text(
+                    "See All".toUpperCase(),
+                    style: TextStyle(
+                        fontSize: 14.sp, color: textGrey2, letterSpacing: 2),
+                  ),
+                )
               ],
             )),
             SizedBox(
@@ -390,7 +443,10 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
               height: 16.sp,
             ),
             SectionHeader("Exams"),
-            DropdownWithListCard()
+            DropdownWithListCard(),
+            SizedBox(
+              height: 20.sp,
+            )
           ])),
     );
   }

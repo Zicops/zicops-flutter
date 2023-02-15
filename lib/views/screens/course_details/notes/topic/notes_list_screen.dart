@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:zicops/views/widgets/notes_item.dart';
+import 'package:collection/collection.dart';
 
 import '../../../../../utils/dummies.dart';
 import '../../../search/widgets/bookmark_list_item.dart';
@@ -56,13 +57,13 @@ class _NotesListScreen extends State<NotesListScreen> {
               itemCount: notesItemList.length,
               itemBuilder: (context, index) {
                 return NoteItem(
-                    notesItemList[index][0], notesItemList[index][1]);
+                    "Note ${index + 1}", notesItemList[index][1]);
               })
           : ListView(
               children: [
-                ...notesItemList.map((item) => Column(
+                ...notesItemList.mapIndexed((index, item) => Column(
                       children: [
-                        NoteItem(item[0], item[1]),
+                        NoteItem("Note ${index + 1}", item[1]),
                         SizedBox(
                           height: 8.sp,
                         )

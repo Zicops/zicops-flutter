@@ -42,7 +42,7 @@ class _TopicScreen extends State<TopicScreen> {
         return Settings();
       case 1:
         return TakeNote(true, "assets/images/course_preview.png",
-            _controller != null ? _controller!.position.toString() : "00");
+            _controller != null ? _controller!.value.position.toString() : "00");
       case 2:
         return TakeNote(false, "assets/images/course_preview.png", "00");
       default:
@@ -319,7 +319,6 @@ class _TopicScreen extends State<TopicScreen> {
         maxHeight: maxPanelHeight,
         color: Colors.transparent,
         onPanelOpened: (){
-          print("panne ${_panelController.isPanelOpen}");
           setState(() {
 
           });

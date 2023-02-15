@@ -51,11 +51,12 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
           child: Stack(
               fit: StackFit.expand,
               alignment: AlignmentDirectional.center,
+              clipBehavior: Clip.none,
               children: [
-                AspectRatio(
+                Padding(padding: EdgeInsets.only(bottom: 4.sp), child:AspectRatio(
                   aspectRatio: _controller.value.aspectRatio,
                   child: VideoPlayer(_controller),
-                ),
+                )),
                 GestureDetector(
                     onTap: () {
                       setState(() {
@@ -73,6 +74,30 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                             child: ControlsOverlay(
                               controller: _controller,
                             )))),
+                if(isVisible)Positioned(
+                    left: -25.sp,
+                    bottom: -2.sp,
+                    child: Container(
+                        width: width * 1.15,
+                        height: 10.sp,
+                        padding: EdgeInsets.symmetric(vertical: 3.sp),
+                        alignment: Alignment.centerLeft,
+                        child: Slider(
+                          activeColor: primaryColor,
+                          inactiveColor: secondaryColor,
+                          thumbColor: primaryColor,
+                          value: widget.controller.value.duration.inSeconds != 0
+                              ? widget.controller.value.position.inMilliseconds /
+                              widget.controller.value.duration.inMilliseconds
+                              : 0,
+                          onChanged: (double value) {
+                            widget.controller.seekTo(Duration(
+                                milliseconds:
+                                (widget.controller.value.duration.inMilliseconds *
+                                    value)
+                                    .toInt()));
+                          },
+                        ))),
                 if (!isVisible)
                   Positioned(
                       top: height / 4,
@@ -337,29 +362,6 @@ class _ControlsOverlay extends State<ControlsOverlay> {
                 style: TextStyle(fontSize: 12.sp, color: textPrimary),
               )),
         ),
-        Positioned(
-            left: -23.sp,
-            bottom: -4.sp,
-            child: Container(
-                width: width * 1.15,
-                height: 4.sp,
-                alignment: Alignment.centerLeft,
-                child: Slider(
-                  activeColor: primaryColor,
-                  inactiveColor: secondaryColor,
-                  thumbColor: primaryColor,
-                  value: widget.controller.value.duration.inSeconds != 0
-                      ? widget.controller.value.position.inMilliseconds /
-                          widget.controller.value.duration.inMilliseconds
-                      : 0,
-                  onChanged: (double value) {
-                    widget.controller.seekTo(Duration(
-                        milliseconds:
-                            (widget.controller.value.duration.inMilliseconds *
-                                    value)
-                                .toInt()));
-                  },
-                ))),
       ],
     );
   }

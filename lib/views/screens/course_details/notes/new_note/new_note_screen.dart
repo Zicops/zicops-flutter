@@ -245,6 +245,7 @@ class _NewNoteScreen extends State<NewNoteScreen> {
                               ],
                             )
                           : TextField(
+                              readOnly:true,
                               controller: titleController,
                               maxLines: null,
                               decoration: InputDecoration(
