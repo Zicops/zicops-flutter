@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_connect/connect.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zicops/utils/colors.dart';
@@ -15,6 +18,7 @@ import 'package:zicops/views/widgets/course_grid_item.dart';
 import 'package:zicops/views/widgets/course_grid_item_large.dart';
 import 'package:zicops/views/widgets/course_list_item_with_progress.dart';
 
+import '../../../controllers/controller.dart';
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
 import '../../../models/user/user_course_model.dart';
@@ -30,20 +34,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
+  final _controller = Get.find<Controller>();
+
   int currentCarousel = 0;
   CarouselController carouselController = CarouselController();
   // remember to refractor the code later
   // take allCatMain from bloc and we can display that.
-  List<Course> latestCourses = [];
-  List<Course> lspCourses = [];
-  List<Course> learningFolderCourses = [];
-  List<Course> subCatCourses1 = [];
-  List<Course> subCatCourses2 = [];
-  List<Course> subCatCourses3 = [];
-  List<Course> subCatCourses4 = [];
-  List<Course> subCatCourses5 = [];
-  List<Course> courseDataOne = [];
-  List<String?> userPreferences = [];
 
   String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
 
@@ -209,43 +205,47 @@ class _HomeScreen extends State<HomeScreen> {
 
     for (int i in res?.data?.getUserPreferences?.asMap().keys ?? []) {
       var data = res?.data?.getUserPreferences?[i];
-      if (data?.userLspId == userLspId && userPreferences.length < 6) {
-        userPreferences.add(data?.subCategory);
+      if (data?.userLspId == userLspId &&
+          _controller.userPreferences.length < 6) {
+        _controller.userPreferences.add(data?.subCategory);
       }
     }
     // for (int i in userPreferences.asMap()?.keys ?? []) {
     //   print(userPreferences);
     // }
-    subCatCourses1 =
-        await loadCourses(lspId: lspId, subCat: userPreferences[0]);
+    _controller.subCatCourses1 =
+        await loadCourses(lspId: lspId, subCat: _controller.userPreferences[0]);
 
-    if (kDebugMode) {
-      print(subCatCourses1[0].subCategory);
-      print(subCatCourses1[0].id);
-      print(subCatCourses1[0].name);
-      print(subCatCourses1[0].publisher);
-      print(subCatCourses1[0].description);
-      print(subCatCourses1[0].expertiseLevel);
-      print(subCatCourses1[0].owner);
-      print(subCatCourses1[0].isDisplay);
-      print(subCatCourses1[0].type);
-      print(subCatCourses1[0].tileImage);
-      print(subCatCourses1[0].image);
-      // print(json.encode(subCatCourses1));
-    }
-    subCatCourses2 =
-        await loadCourses(lspId: lspId, subCat: userPreferences[1]);
+    // if (kDebugMode) {
+    //   print(subCatCourses1[0].subCategory);
+    //   print(subCatCourses1[0].id);
+    //   print(subCatCourses1[0].name);
+    //   print(subCatCourses1[0].publisher);
+    //   print(subCatCourses1[0].description);
+    //   print(subCatCourses1[0].expertiseLevel);
+    //   print(subCatCourses1[0].owner);
+    //   print(subCatCourses1[0].isDisplay);
+    //   print(subCatCourses1[0].type);
+    //   print(subCatCourses1[0].tileImage);
+    //   print(subCatCourses1[0].image);
+    //   // print(json.encode(subCatCourses1));
+    // }
+    _controller.subCatCourses2 =
+        await loadCourses(lspId: lspId, subCat: _controller.userPreferences[1]);
     //subCatCourses2[0].subCategory = userPreferences[1];
-    subCatCourses3 =
-        await loadCourses(lspId: lspId, subCat: userPreferences[2]);
-    subCatCourses4 =
-        await loadCourses(lspId: lspId, subCat: userPreferences[3]);
-    subCatCourses5 =
-        await loadCourses(lspId: lspId, subCat: userPreferences[4]);
+    _controller.subCatCourses3 =
+        await loadCourses(lspId: lspId, subCat: _controller.userPreferences[2]);
+    _controller.subCatCourses4 =
+        await loadCourses(lspId: lspId, subCat: _controller.userPreferences[3]);
+    _controller.subCatCourses5 =
+        await loadCourses(lspId: lspId, subCat: _controller.userPreferences[4]);
     setState(() {
-      subCatCourses1[0].subCategory = userPreferences[0];
-      subCatCourses2[0].subCategory = userPreferences[1];
-      subCatCourses3[0].subCategory = userPreferences[2];
+      _controller.subCatCourses1[0].subCategory =
+          _controller.userPreferences[0];
+      _controller.subCatCourses2[0].subCategory =
+          _controller.userPreferences[1];
+      _controller.subCatCourses3[0].subCategory =
+          _controller.userPreferences[2];
       //   subCatCourses4[0].subCategory = userPreferences[3];
       //  subCatCourses5[0].subCategory = userPreferences[4];
     });
@@ -256,6 +256,14 @@ class _HomeScreen extends State<HomeScreen> {
     //  print(subCatCourses5[0].subCategory);
     // after this call for loadCourses by iterating over userPreferences and passing is as subcat
     // take that course and put it in subcatCourse1 2 3 4 5 resp.
+  }
+
+  Future callCourses() async {
+    _controller.latestCourses =
+        await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
+    _controller.lspCourses =
+        await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
+    _controller.learningFolderCourses = await loadUserCourseData();
   }
 
   Widget sectionHeader(String label, Function() action,
@@ -421,14 +429,6 @@ class _HomeScreen extends State<HomeScreen> {
     ]);
   }
 
-  Future callCourses() async {
-    latestCourses =
-        await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
-    lspCourses =
-        await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
-    learningFolderCourses = await loadUserCourseData();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -443,6 +443,8 @@ class _HomeScreen extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
+    final _connect = GetConnect();
 
     return Container(
       height: height,
@@ -568,7 +570,7 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...learningFolderCourses.map((courseItem) => Row(
+                  ..._controller.learningFolderCourses.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
                             courseItem.name ?? '',
@@ -607,7 +609,7 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...latestCourses.map((courseItem) => Row(
+                  ..._controller.latestCourses.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
                             courseItem.name ?? '',
@@ -641,7 +643,7 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...lspCourses.map((courseItem) => Row(
+                  ..._controller.lspCourses.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
                             courseItem.name ?? '',
@@ -705,7 +707,7 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 14.25.sp,
             ),
-            sectionHeader(subCatCourses1[0].subCategory!, () {}),
+            sectionHeader(_controller.subCatCourses1[0].subCategory!, () {}),
             SizedBox(
               height: 8.sp,
             ),
@@ -718,7 +720,7 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...subCatCourses1.map((courseItem) => Row(
+                  ..._controller.subCatCourses1.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
                             // id: data?.id,
@@ -756,7 +758,8 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 14.25.sp,
             ),
-            sectionHeader(subCatCourses2[0].subCategory ?? '', () {}),
+            sectionHeader(
+                _controller.subCatCourses2[0].subCategory ?? '', () {}),
             SizedBox(
               height: 8.sp,
             ),
@@ -769,7 +772,7 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...subCatCourses2.map((courseItem) => Row(
+                  ..._controller.subCatCourses2.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
                             courseItem.name ?? "",
@@ -790,7 +793,8 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 14.25.sp,
             ),
-            sectionHeader(subCatCourses3[0].subCategory ?? '', () {}),
+            sectionHeader(
+                _controller.subCatCourses3[0].subCategory ?? '', () {}),
             SizedBox(
               height: 8.sp,
             ),
@@ -803,7 +807,7 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 20.sp,
                   ),
-                  ...subCatCourses3.map((courseItem) => Row(
+                  ..._controller.subCatCourses3.map((courseItem) => Row(
                         children: [
                           CourseGridItem(
                             courseItem.name ?? '',
