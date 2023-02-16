@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/utils/dummies.dart';
@@ -10,6 +14,11 @@ import 'package:zicops/views/screens/search/search_screen.dart';
 import 'package:zicops/views/widgets/course_grid_item.dart';
 import 'package:zicops/views/widgets/course_grid_item_large.dart';
 import 'package:zicops/views/widgets/course_list_item_with_progress.dart';
+
+import '../../../graphql_api.graphql.dart';
+import '../../../main.dart';
+import '../../../models/user/user_course_model.dart';
+import '../../../models/user/user_details_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -73,8 +82,7 @@ class _HomeScreen extends State<HomeScreen> {
   Future<List<Course>> loadUserCourseData() async {
     // 5. try to add data in the model
     String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
-    SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonDetails =
         jsonDecode(sharedPreferences.getString('user')!);
     var user = UserDetailsModel.fromJson(jsonDetails);
@@ -150,7 +158,7 @@ class _HomeScreen extends State<HomeScreen> {
 
         if (userProgressArr[i]?.status == 'completed') ++topicsCompleted;
       }
-      int progressLength = userProgressArr.length ;
+      int progressLength = userProgressArr.length;
       double cProgress = ((topicsStarted * 100) / progressLength);
       double tProgress = ((topicsCompleted * 100) / progressLength);
       var courseProgress = userProgressArr.isNotEmpty ? cProgress.floor() : 0;

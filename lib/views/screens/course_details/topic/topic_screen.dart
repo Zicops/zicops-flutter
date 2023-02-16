@@ -41,8 +41,12 @@ class _TopicScreen extends State<TopicScreen> {
       case 0:
         return Settings();
       case 1:
-        return TakeNote(true, "assets/images/course_preview.png",
-            _controller != null ? _controller!.value.position.toString() : "00");
+        return TakeNote(
+            true,
+            "assets/images/course_preview.png",
+            _controller != null
+                ? _controller!.value.position.toString()
+                : "00");
       case 2:
         return TakeNote(false, "assets/images/course_preview.png", "00");
       default:
@@ -179,12 +183,20 @@ class _TopicScreen extends State<TopicScreen> {
         Expanded(
             child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 20.sp),
-          children:  [
+          children: [
             CommentItem(),
             CommentItem(),
             CommentItem(),
             CommentItem(),
-            _panelController.isAttached && _panelController.isPanelShown && !_panelController.isPanelOpen? SizedBox(height: maxPanelHeight - minPanelHeight,): SizedBox(height: 100.sp,)
+            _panelController.isAttached &&
+                    _panelController.isPanelShown &&
+                    !_panelController.isPanelOpen
+                ? SizedBox(
+                    height: maxPanelHeight - minPanelHeight,
+                  )
+                : SizedBox(
+                    height: 100.sp,
+                  )
           ],
         ))
       ],
@@ -318,10 +330,8 @@ class _TopicScreen extends State<TopicScreen> {
         minHeight: minPanelHeight,
         maxHeight: maxPanelHeight,
         color: Colors.transparent,
-        onPanelOpened: (){
-          setState(() {
-
-          });
+        onPanelOpened: () {
+          setState(() {});
         },
         panel: Container(
             decoration: BoxDecoration(
@@ -499,7 +509,10 @@ class _TopicScreen extends State<TopicScreen> {
                                 setState(() {
                                   selectedChapter = e;
                                   initVideoController(
-                                      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+                                      //  'assets/images/mov_bbb.mp4');
+                                      'https://www.w3schools.com/html/mov_bbb.mp4');
+                                  //    'https://samplelib.com/lib/preview/mp4/sample-30s.mp4');
+                                  // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
                                 });
                               },
                               child: ModuleCard(
