@@ -104,6 +104,9 @@ query getCourseData($course_id: String) {
   getCourseChapters(course_id: $course_id) {
     ...courseChapterFragment
   }
+  getTopics(course_id: $course_id){
+    ...courseTopicFragment
+  }
 }
 
 query getModuleContent($module_id: String) {
@@ -385,6 +388,22 @@ fragment courseChapterFragment on Chapter {
   created_at
   updated_at
   sequence
+}
+
+fragment courseTopicFragment on Topic {
+      id
+      name
+      description
+      type
+      moduleId
+      chapterId
+      courseId
+      created_at
+      updated_at
+      sequence
+      created_by
+      updated_by
+      image
 }
 
 fragment UserCourseFragment on UserCourse {

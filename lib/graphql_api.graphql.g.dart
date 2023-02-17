@@ -1089,6 +1089,41 @@ Map<String, dynamic> _$GetCourseData$QueryRoot$ChapterToJson(
       'sequence': instance.sequence,
     };
 
+GetCourseData$QueryRoot$Topic _$GetCourseData$QueryRoot$TopicFromJson(
+        Map<String, dynamic> json) =>
+    GetCourseData$QueryRoot$Topic()
+      ..id = json['id'] as String?
+      ..name = json['name'] as String?
+      ..description = json['description'] as String?
+      ..type = json['type'] as String?
+      ..moduleId = json['moduleId'] as String?
+      ..chapterId = json['chapterId'] as String?
+      ..courseId = json['courseId'] as String?
+      ..createdAt = json['created_at'] as String?
+      ..updatedAt = json['updated_at'] as String?
+      ..sequence = json['sequence'] as int?
+      ..createdBy = json['created_by'] as String?
+      ..updatedBy = json['updated_by'] as String?
+      ..image = json['image'] as String?;
+
+Map<String, dynamic> _$GetCourseData$QueryRoot$TopicToJson(
+        GetCourseData$QueryRoot$Topic instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'description': instance.description,
+      'type': instance.type,
+      'moduleId': instance.moduleId,
+      'chapterId': instance.chapterId,
+      'courseId': instance.courseId,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'sequence': instance.sequence,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'image': instance.image,
+    };
+
 GetCourseData$QueryRoot _$GetCourseData$QueryRootFromJson(
         Map<String, dynamic> json) =>
     GetCourseData$QueryRoot()
@@ -1103,6 +1138,12 @@ GetCourseData$QueryRoot _$GetCourseData$QueryRootFromJson(
               ? null
               : GetCourseData$QueryRoot$Chapter.fromJson(
                   e as Map<String, dynamic>))
+          .toList()
+      ..getTopics = (json['getTopics'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : GetCourseData$QueryRoot$Topic.fromJson(
+                  e as Map<String, dynamic>))
           .toList();
 
 Map<String, dynamic> _$GetCourseData$QueryRootToJson(
@@ -1112,6 +1153,7 @@ Map<String, dynamic> _$GetCourseData$QueryRootToJson(
           instance.getCourseModules?.map((e) => e?.toJson()).toList(),
       'getCourseChapters':
           instance.getCourseChapters?.map((e) => e?.toJson()).toList(),
+      'getTopics': instance.getTopics?.map((e) => e?.toJson()).toList(),
     };
 
 GetModuleContent$QueryRoot$TopicContent$SubtitleUrl

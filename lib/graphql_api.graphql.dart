@@ -297,6 +297,25 @@ mixin CourseChapterFragmentMixin {
   String? updatedAt;
   int? sequence;
 }
+mixin CourseTopicFragmentMixin {
+  String? id;
+  String? name;
+  String? description;
+  String? type;
+  String? moduleId;
+  String? chapterId;
+  String? courseId;
+  @JsonKey(name: 'created_at')
+  String? createdAt;
+  @JsonKey(name: 'updated_at')
+  String? updatedAt;
+  int? sequence;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+  String? image;
+}
 mixin UserCourseFragmentMixin {
   @JsonKey(name: 'user_course_id')
   String? userCourseId;
@@ -1456,6 +1475,34 @@ class GetCourseData$QueryRoot$Chapter extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetCourseData$QueryRoot$Topic extends JsonSerializable
+    with EquatableMixin, CourseTopicFragmentMixin {
+  GetCourseData$QueryRoot$Topic();
+
+  factory GetCourseData$QueryRoot$Topic.fromJson(Map<String, dynamic> json) =>
+      _$GetCourseData$QueryRoot$TopicFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        type,
+        moduleId,
+        chapterId,
+        courseId,
+        createdAt,
+        updatedAt,
+        sequence,
+        createdBy,
+        updatedBy,
+        image
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$GetCourseData$QueryRoot$TopicToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetCourseData$QueryRoot extends JsonSerializable with EquatableMixin {
   GetCourseData$QueryRoot();
 
@@ -1466,8 +1513,10 @@ class GetCourseData$QueryRoot extends JsonSerializable with EquatableMixin {
 
   List<GetCourseData$QueryRoot$Chapter?>? getCourseChapters;
 
+  List<GetCourseData$QueryRoot$Topic?>? getTopics;
+
   @override
-  List<Object?> get props => [getCourseModules, getCourseChapters];
+  List<Object?> get props => [getCourseModules, getCourseChapters, getTopics];
   @override
   Map<String, dynamic> toJson() => _$GetCourseData$QueryRootToJson(this);
 }
@@ -5907,6 +5956,23 @@ final GET_COURSE_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
           )
         ]),
       ),
+      FieldNode(
+        name: NameNode(value: 'getTopics'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'course_id'),
+            value: VariableNode(name: NameNode(value: 'course_id')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'courseTopicFragment'),
+            directives: [],
+          )
+        ]),
+      ),
     ]),
   ),
   FragmentDefinitionNode(
@@ -6064,6 +6130,108 @@ final GET_COURSE_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
       ),
       FieldNode(
         name: NameNode(value: 'sequence'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'courseTopicFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Topic'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'description'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'type'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'moduleId'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'chapterId'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'courseId'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'sequence'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'image'),
         alias: null,
         arguments: [],
         directives: [],

@@ -39,6 +39,7 @@ type QueryRoot {
   getCourseModules(course_id: String): [Module]
   getCourseChapters(course_id: String): [Chapter]
   getTopicContentByModuleId(module_id: String): [TopicContent]
+  getTopics(course_id: String): [Topic]
   latestCourses(
     publish_time: Int
     pageCursor: String
