@@ -448,6 +448,8 @@ class _HomeScreen extends State<HomeScreen> {
 
     Future<dynamic> futureWait() async {
       return Future.wait([
+        // add delay before execution
+
         loadUserPreferences(),
         loadUserCourseData(),
         callCourses(),
