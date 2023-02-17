@@ -174,39 +174,42 @@ filterBottomSheet(BuildContext context, double maxHeight, double width,
                 key: expansionKeys[2],
               ),
               FilterExpansionContainer(
-                  "Category",
-                  Column(children: [
-                    ...[0, 1, 2].map((e) => FilterExpansionContainer(
-                          "Design",
-                          Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                              color: secondaryColorDark,
-                              child: Column(children: [
-                                ...[
-                                  "UI design",
-                                  "Industrial design",
-                                  "UX design",
-                                  "Graphic design"
-                                ].map(
-                                  (e) => filterOptions(
-                                    e,
-                                    filterList.keys.toList()[0],
-                                    filterList,
-                                    setModalState,
-                                  ),
-                                )
-                              ])),
-                          isOpen(e, subTabSelectedIndex),
-                          () {
-                            setSubTabSelectedIndex(e, setModalState);
-                          },
-                          key: subTabExpansionKeys[e],
-                          isSubTab: true,
-                        ))
-                  ]),
-                  isOpen(3, selectedIndex), () {
-                setSelectedIndex(3, setModalState);
-              }, key: expansionKeys[3],),
+                "Category",
+                Column(children: [
+                  ...[0, 1, 2].map((e) => FilterExpansionContainer(
+                        "Design",
+                        Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                            color: secondaryColorDark,
+                            child: Column(children: [
+                              ...[
+                                "UI design",
+                                "Industrial design",
+                                "UX design",
+                                "Graphic design"
+                              ].map(
+                                (e) => filterOptions(
+                                  e,
+                                  filterList.keys.toList()[0],
+                                  filterList,
+                                  setModalState,
+                                ),
+                              )
+                            ])),
+                        isOpen(e, subTabSelectedIndex),
+                        () {
+                          setSubTabSelectedIndex(e, setModalState);
+                        },
+                        key: subTabExpansionKeys[e],
+                        isSubTab: true,
+                      ))
+                ]),
+                isOpen(3, selectedIndex),
+                () {
+                  setSelectedIndex(3, setModalState);
+                },
+                key: expansionKeys[3],
+              ),
               SizedBox(
                 height: 76.sp,
               ),

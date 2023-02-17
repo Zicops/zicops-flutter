@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zicops/gql_client.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 
+import 'controller_binding.dart';
 import 'firebase_options.dart';
 
 final GQL userClient = GQL('https://demo.zicops.com/um/api/v1/query');
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
-          return MaterialApp(
+          return GetMaterialApp(
+            initialBinding: ControllerBinding(),
             title: 'Zicops Demo',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
