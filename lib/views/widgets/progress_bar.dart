@@ -31,7 +31,7 @@ class _ProgressBar extends State<ProgressBar> {
               borderRadius: BorderRadius.circular(4.sp)
             ),
             child: FractionallySizedBox(
-              widthFactor: widget.percentage,
+              widthFactor: widget.percentage > 0? widget.percentage: 0,
               heightFactor: 1,
               child:   DecoratedBox(
                 decoration: BoxDecoration(

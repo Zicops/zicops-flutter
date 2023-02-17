@@ -95,9 +95,9 @@ class _SearchScreen extends State<SearchScreen> {
   Future<bool> _onWillPop() async {
     if (searchFN.hasFocus) {
       searchFN.unfocus();
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
 
   formatSuggestedSearch() {}

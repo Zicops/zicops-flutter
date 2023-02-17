@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/colors.dart';
-import 'expansion_container.dart';
+import 'filter_expansion_container.dart';
 import 'filter_options.dart';
 
 filterBottomSheet(BuildContext context, double maxHeight, double width,
@@ -118,7 +118,7 @@ filterBottomSheet(BuildContext context, double maxHeight, double width,
               SizedBox(
                 height: 15.sp,
               ),
-              ExpansionContainer(
+              FilterExpansionContainer(
                 "type",
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.sp),
@@ -140,7 +140,7 @@ filterBottomSheet(BuildContext context, double maxHeight, double width,
                 },
                 key: expansionKeys[0],
               ),
-              ExpansionContainer(
+              FilterExpansionContainer(
                 "Expertise",
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.sp),
@@ -156,7 +156,7 @@ filterBottomSheet(BuildContext context, double maxHeight, double width,
                 },
                 key: expansionKeys[1],
               ),
-              ExpansionContainer(
+              FilterExpansionContainer(
                 "Language",
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.sp),
@@ -173,43 +173,40 @@ filterBottomSheet(BuildContext context, double maxHeight, double width,
                 },
                 key: expansionKeys[2],
               ),
-              ExpansionContainer(
-                "Category",
-                Column(children: [
-                  ...[0, 1, 2].map((e) => ExpansionContainer(
-                        "Design",
-                        Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                            color: secondaryColorDark,
-                            child: Column(children: [
-                              ...[
-                                "UI design",
-                                "Industrial design",
-                                "UX design",
-                                "Graphic design"
-                              ].map(
-                                (e) => filterOptions(
-                                  e,
-                                  filterList.keys.toList()[0],
-                                  filterList,
-                                  setModalState,
-                                ),
-                              )
-                            ])),
-                        isOpen(e, subTabSelectedIndex),
-                        () {
-                          setSubTabSelectedIndex(e, setModalState);
-                        },
-                        key: subTabExpansionKeys[e],
-                        isSubTab: true,
-                      ))
-                ]),
-                isOpen(3, selectedIndex),
-                () {
-                  setSelectedIndex(3, setModalState);
-                },
-                key: expansionKeys[3],
-              ),
+              FilterExpansionContainer(
+                  "Category",
+                  Column(children: [
+                    ...[0, 1, 2].map((e) => FilterExpansionContainer(
+                          "Design",
+                          Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                              color: secondaryColorDark,
+                              child: Column(children: [
+                                ...[
+                                  "UI design",
+                                  "Industrial design",
+                                  "UX design",
+                                  "Graphic design"
+                                ].map(
+                                  (e) => filterOptions(
+                                    e,
+                                    filterList.keys.toList()[0],
+                                    filterList,
+                                    setModalState,
+                                  ),
+                                )
+                              ])),
+                          isOpen(e, subTabSelectedIndex),
+                          () {
+                            setSubTabSelectedIndex(e, setModalState);
+                          },
+                          key: subTabExpansionKeys[e],
+                          isSubTab: true,
+                        ))
+                  ]),
+                  isOpen(3, selectedIndex), () {
+                setSelectedIndex(3, setModalState);
+              }, key: expansionKeys[3],),
               SizedBox(
                 height: 76.sp,
               ),

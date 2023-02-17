@@ -127,7 +127,7 @@ class _SearchCourseListItem extends State<SearchCourseListItem> {
             width: 8.sp,
           ),],),
           Expanded(child: Align(alignment: Alignment.centerRight,child: Image.asset(
-            "assets/images/add_button.png",
+            "assets/images/add_button_big.png",
             width: 28.sp,
             height: 28.sp,
           )),)
