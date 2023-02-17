@@ -1031,6 +1031,167 @@ Map<String, dynamic> _$CoursesFiltersToJson(CoursesFilters instance) =>
       'SearchText': instance.searchText,
     };
 
+GetCourseData$QueryRoot$Module _$GetCourseData$QueryRoot$ModuleFromJson(
+        Map<String, dynamic> json) =>
+    GetCourseData$QueryRoot$Module()
+      ..id = json['id'] as String?
+      ..name = json['name'] as String?
+      ..isChapter = json['isChapter'] as bool?
+      ..description = json['description'] as String?
+      ..courseId = json['courseId'] as String?
+      ..owner = json['owner'] as String?
+      ..duration = json['duration'] as int?
+      ..createdAt = json['created_at'] as String?
+      ..updatedAt = json['updated_at'] as String?
+      ..level = json['level'] as String?
+      ..sequence = json['sequence'] as int?
+      ..setGlobal = json['setGlobal'] as bool?;
+
+Map<String, dynamic> _$GetCourseData$QueryRoot$ModuleToJson(
+        GetCourseData$QueryRoot$Module instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'isChapter': instance.isChapter,
+      'description': instance.description,
+      'courseId': instance.courseId,
+      'owner': instance.owner,
+      'duration': instance.duration,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'level': instance.level,
+      'sequence': instance.sequence,
+      'setGlobal': instance.setGlobal,
+    };
+
+GetCourseData$QueryRoot$Chapter _$GetCourseData$QueryRoot$ChapterFromJson(
+        Map<String, dynamic> json) =>
+    GetCourseData$QueryRoot$Chapter()
+      ..id = json['id'] as String?
+      ..name = json['name'] as String?
+      ..description = json['description'] as String?
+      ..moduleId = json['moduleId'] as String?
+      ..courseId = json['courseId'] as String?
+      ..createdAt = json['created_at'] as String?
+      ..updatedAt = json['updated_at'] as String?
+      ..sequence = json['sequence'] as int?;
+
+Map<String, dynamic> _$GetCourseData$QueryRoot$ChapterToJson(
+        GetCourseData$QueryRoot$Chapter instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'description': instance.description,
+      'moduleId': instance.moduleId,
+      'courseId': instance.courseId,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'sequence': instance.sequence,
+    };
+
+GetCourseData$QueryRoot _$GetCourseData$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetCourseData$QueryRoot()
+      ..getCourseModules = (json['getCourseModules'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : GetCourseData$QueryRoot$Module.fromJson(
+                  e as Map<String, dynamic>))
+          .toList()
+      ..getCourseChapters = (json['getCourseChapters'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : GetCourseData$QueryRoot$Chapter.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetCourseData$QueryRootToJson(
+        GetCourseData$QueryRoot instance) =>
+    <String, dynamic>{
+      'getCourseModules':
+          instance.getCourseModules?.map((e) => e?.toJson()).toList(),
+      'getCourseChapters':
+          instance.getCourseChapters?.map((e) => e?.toJson()).toList(),
+    };
+
+GetModuleContent$QueryRoot$TopicContent$SubtitleUrl
+    _$GetModuleContent$QueryRoot$TopicContent$SubtitleUrlFromJson(
+            Map<String, dynamic> json) =>
+        GetModuleContent$QueryRoot$TopicContent$SubtitleUrl()
+          ..url = json['url'] as String?
+          ..language = json['language'] as String?;
+
+Map<String, dynamic>
+    _$GetModuleContent$QueryRoot$TopicContent$SubtitleUrlToJson(
+            GetModuleContent$QueryRoot$TopicContent$SubtitleUrl instance) =>
+        <String, dynamic>{
+          'url': instance.url,
+          'language': instance.language,
+        };
+
+GetModuleContent$QueryRoot$TopicContent
+    _$GetModuleContent$QueryRoot$TopicContentFromJson(
+            Map<String, dynamic> json) =>
+        GetModuleContent$QueryRoot$TopicContent()
+          ..id = json['id'] as String?
+          ..language = json['language'] as String?
+          ..topicId = json['topicId'] as String?
+          ..courseId = json['courseId'] as String?
+          ..startTime = json['startTime'] as int?
+          ..duration = json['duration'] as int?
+          ..skipIntroDuration = json['skipIntroDuration'] as int?
+          ..nextShowTime = json['nextShowTime'] as int?
+          ..fromEndTime = json['fromEndTime'] as int?
+          ..createdAt = json['created_at'] as String?
+          ..updatedAt = json['updated_at'] as String?
+          ..type = json['type'] as String?
+          ..contentUrl = json['contentUrl'] as String?
+          ..subtitleUrl = (json['subtitleUrl'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetModuleContent$QueryRoot$TopicContent$SubtitleUrl
+                      .fromJson(e as Map<String, dynamic>))
+              .toList()
+          ..isDefault = json['is_default'] as bool?;
+
+Map<String, dynamic> _$GetModuleContent$QueryRoot$TopicContentToJson(
+        GetModuleContent$QueryRoot$TopicContent instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'language': instance.language,
+      'topicId': instance.topicId,
+      'courseId': instance.courseId,
+      'startTime': instance.startTime,
+      'duration': instance.duration,
+      'skipIntroDuration': instance.skipIntroDuration,
+      'nextShowTime': instance.nextShowTime,
+      'fromEndTime': instance.fromEndTime,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'type': instance.type,
+      'contentUrl': instance.contentUrl,
+      'subtitleUrl': instance.subtitleUrl?.map((e) => e?.toJson()).toList(),
+      'is_default': instance.isDefault,
+    };
+
+GetModuleContent$QueryRoot _$GetModuleContent$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetModuleContent$QueryRoot()
+      ..getTopicContentByModuleId =
+          (json['getTopicContentByModuleId'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetModuleContent$QueryRoot$TopicContent.fromJson(
+                      e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic> _$GetModuleContent$QueryRootToJson(
+        GetModuleContent$QueryRoot instance) =>
+    <String, dynamic>{
+      'getTopicContentByModuleId':
+          instance.getTopicContentByModuleId?.map((e) => e?.toJson()).toList(),
+    };
+
 GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourse
     _$GetUserCourseMaps$QueryRoot$PaginatedCourseMaps$UserCourseFromJson(
             Map<String, dynamic> json) =>
@@ -1668,6 +1829,30 @@ Map<String, dynamic> _$LatestCoursesArgumentsToJson(
       'pageSize': instance.pageSize,
       'status': _$StatusEnumMap[instance.status],
       'filters': instance.filters?.toJson(),
+    };
+
+GetCourseDataArguments _$GetCourseDataArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetCourseDataArguments(
+      course_id: json['course_id'] as String?,
+    );
+
+Map<String, dynamic> _$GetCourseDataArgumentsToJson(
+        GetCourseDataArguments instance) =>
+    <String, dynamic>{
+      'course_id': instance.course_id,
+    };
+
+GetModuleContentArguments _$GetModuleContentArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetModuleContentArguments(
+      module_id: json['module_id'] as String?,
+    );
+
+Map<String, dynamic> _$GetModuleContentArgumentsToJson(
+        GetModuleContentArguments instance) =>
+    <String, dynamic>{
+      'module_id': instance.module_id,
     };
 
 GetUserCourseMapsArguments _$GetUserCourseMapsArgumentsFromJson(

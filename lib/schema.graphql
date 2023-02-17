@@ -36,6 +36,9 @@ type QueryRoot {
   getUserPreferences(user_id: String!): [UserPreference]
   getUserPreferenceForLsp(user_id: String!,user_lsp_id: String!): UserPreference
   getCourse(course_id: String):[Course]
+  getCourseModules(course_id: String): [Module]
+  getCourseChapters(course_id: String): [Chapter]
+  getTopicContentByModuleId(module_id: String): [TopicContent]
   latestCourses(
     publish_time: Int
     pageCursor: String
@@ -291,6 +294,71 @@ type Course {
   sub_category: String
   sub_categories: [sub_categories]
   is_active: Boolean
+}
+
+type Module{
+    id: ID
+    name: String
+    isChapter: Boolean
+    description: String
+    courseId: String
+    owner: String
+    duration: Int
+    created_at: String
+    updated_at: String
+    level : String
+    sequence: Int
+    setGlobal: Boolean
+}
+
+type Chapter {
+    id: ID
+    name: String
+    description: String
+    moduleId: String
+    courseId: String
+    created_at: String
+    updated_at: String
+    sequence: Int
+}
+
+type Topic {
+    id: ID
+    name: String
+    description: String
+    type : String
+    moduleId: String
+    chapterId: String
+    courseId: String
+    created_at: String
+    updated_at: String
+    sequence: Int
+    created_by: String
+    updated_by: String
+    image: String
+}
+
+type SubtitleUrl {
+    url : String
+    language : String
+}
+
+type TopicContent {
+    id: ID
+    language: String
+    topicId: String
+    courseId: String
+    startTime: Int
+    duration: Int
+    skipIntroDuration: Int
+    nextShowTime: Int
+    fromEndTime: Int
+    created_at: String
+    updated_at: String
+    type: String
+    contentUrl: String
+    subtitleUrl: [SubtitleUrl]
+    is_default: Boolean
 }
 
 type PaginatedCourse {

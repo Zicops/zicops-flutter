@@ -10,7 +10,6 @@ query getUserLspByLspId($user_id: String!, $lsp_id: String!) {
   }
 }
 
-
 query getLearningSpaceDetails($lsp_ids: [String]) {
   getLearningSpaceDetails(lsp_ids: $lsp_ids) {
     ...LearningSpaceFragment
@@ -98,6 +97,38 @@ query latestCourses(
   }
 }
 
+query getCourseData($course_id: String) {
+  getCourseModules(course_id: $course_id) {
+    ...courseModuleFragment
+  }
+  getCourseChapters(course_id: $course_id) {
+    ...courseChapterFragment
+  }
+}
+
+query getModuleContent($module_id: String) {
+  getTopicContentByModuleId(module_id: $module_id) {
+    id
+    language
+    topicId
+    courseId
+    startTime
+    duration
+    skipIntroDuration
+    nextShowTime
+    fromEndTime
+    created_at
+    updated_at
+    type
+    contentUrl
+    subtitleUrl {
+      url
+      language
+    }
+    is_default
+  }
+}
+
 query GetUserCourseMaps(
   $user_id: String!
   $publish_time: Int
@@ -131,11 +162,11 @@ query getUserCourseProgressByMapId($userId: String!, $userCourseId: [ID!]) {
   }
 }
 
-  query GetCourse($course_id: [String]) {
-    getCourse(course_id: $course_id) {
-     ...courseFragment
-    }
+query GetCourse($course_id: [String]) {
+  getCourse(course_id: $course_id) {
+    ...courseFragment
   }
+}
 
 fragment UserLspFragment on UserLspMap {
   user_lsp_id
@@ -328,6 +359,32 @@ fragment courseFragment on Course {
     rank
   }
   is_active
+}
+
+fragment courseModuleFragment on Module {
+  id
+  name
+  isChapter
+  description
+  courseId
+  owner
+  duration
+  created_at
+  updated_at
+  level
+  sequence
+  setGlobal
+}
+
+fragment courseChapterFragment on Chapter {
+  id
+  name
+  description
+  moduleId
+  courseId
+  created_at
+  updated_at
+  sequence
 }
 
 fragment UserCourseFragment on UserCourse {

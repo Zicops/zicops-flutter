@@ -269,6 +269,34 @@ mixin CourseFragmentMixin {
   @JsonKey(name: 'is_active')
   bool? isActive;
 }
+mixin CourseModuleFragmentMixin {
+  String? id;
+  String? name;
+  bool? isChapter;
+  String? description;
+  String? courseId;
+  String? owner;
+  int? duration;
+  @JsonKey(name: 'created_at')
+  String? createdAt;
+  @JsonKey(name: 'updated_at')
+  String? updatedAt;
+  String? level;
+  int? sequence;
+  bool? setGlobal;
+}
+mixin CourseChapterFragmentMixin {
+  String? id;
+  String? name;
+  String? description;
+  String? moduleId;
+  String? courseId;
+  @JsonKey(name: 'created_at')
+  String? createdAt;
+  @JsonKey(name: 'updated_at')
+  String? updatedAt;
+  int? sequence;
+}
 mixin UserCourseFragmentMixin {
   @JsonKey(name: 'user_course_id')
   String? userCourseId;
@@ -1374,6 +1402,174 @@ class CoursesFilters extends JsonSerializable with EquatableMixin {
       ];
   @override
   Map<String, dynamic> toJson() => _$CoursesFiltersToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetCourseData$QueryRoot$Module extends JsonSerializable
+    with EquatableMixin, CourseModuleFragmentMixin {
+  GetCourseData$QueryRoot$Module();
+
+  factory GetCourseData$QueryRoot$Module.fromJson(Map<String, dynamic> json) =>
+      _$GetCourseData$QueryRoot$ModuleFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        isChapter,
+        description,
+        courseId,
+        owner,
+        duration,
+        createdAt,
+        updatedAt,
+        level,
+        sequence,
+        setGlobal
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$GetCourseData$QueryRoot$ModuleToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetCourseData$QueryRoot$Chapter extends JsonSerializable
+    with EquatableMixin, CourseChapterFragmentMixin {
+  GetCourseData$QueryRoot$Chapter();
+
+  factory GetCourseData$QueryRoot$Chapter.fromJson(Map<String, dynamic> json) =>
+      _$GetCourseData$QueryRoot$ChapterFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        moduleId,
+        courseId,
+        createdAt,
+        updatedAt,
+        sequence
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetCourseData$QueryRoot$ChapterToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetCourseData$QueryRoot extends JsonSerializable with EquatableMixin {
+  GetCourseData$QueryRoot();
+
+  factory GetCourseData$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetCourseData$QueryRootFromJson(json);
+
+  List<GetCourseData$QueryRoot$Module?>? getCourseModules;
+
+  List<GetCourseData$QueryRoot$Chapter?>? getCourseChapters;
+
+  @override
+  List<Object?> get props => [getCourseModules, getCourseChapters];
+  @override
+  Map<String, dynamic> toJson() => _$GetCourseData$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetModuleContent$QueryRoot$TopicContent$SubtitleUrl
+    extends JsonSerializable with EquatableMixin {
+  GetModuleContent$QueryRoot$TopicContent$SubtitleUrl();
+
+  factory GetModuleContent$QueryRoot$TopicContent$SubtitleUrl.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetModuleContent$QueryRoot$TopicContent$SubtitleUrlFromJson(json);
+
+  String? url;
+
+  String? language;
+
+  @override
+  List<Object?> get props => [url, language];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetModuleContent$QueryRoot$TopicContent$SubtitleUrlToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetModuleContent$QueryRoot$TopicContent extends JsonSerializable
+    with EquatableMixin {
+  GetModuleContent$QueryRoot$TopicContent();
+
+  factory GetModuleContent$QueryRoot$TopicContent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetModuleContent$QueryRoot$TopicContentFromJson(json);
+
+  String? id;
+
+  String? language;
+
+  String? topicId;
+
+  String? courseId;
+
+  int? startTime;
+
+  int? duration;
+
+  int? skipIntroDuration;
+
+  int? nextShowTime;
+
+  int? fromEndTime;
+
+  @JsonKey(name: 'created_at')
+  String? createdAt;
+
+  @JsonKey(name: 'updated_at')
+  String? updatedAt;
+
+  String? type;
+
+  String? contentUrl;
+
+  List<GetModuleContent$QueryRoot$TopicContent$SubtitleUrl?>? subtitleUrl;
+
+  @JsonKey(name: 'is_default')
+  bool? isDefault;
+
+  @override
+  List<Object?> get props => [
+        id,
+        language,
+        topicId,
+        courseId,
+        startTime,
+        duration,
+        skipIntroDuration,
+        nextShowTime,
+        fromEndTime,
+        createdAt,
+        updatedAt,
+        type,
+        contentUrl,
+        subtitleUrl,
+        isDefault
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetModuleContent$QueryRoot$TopicContentToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetModuleContent$QueryRoot extends JsonSerializable with EquatableMixin {
+  GetModuleContent$QueryRoot();
+
+  factory GetModuleContent$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetModuleContent$QueryRootFromJson(json);
+
+  List<GetModuleContent$QueryRoot$TopicContent?>? getTopicContentByModuleId;
+
+  @override
+  List<Object?> get props => [getTopicContentByModuleId];
+  @override
+  Map<String, dynamic> toJson() => _$GetModuleContent$QueryRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -5641,6 +5837,451 @@ class LatestCoursesQuery
   @override
   LatestCourses$QueryRoot parse(Map<String, dynamic> json) =>
       LatestCourses$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetCourseDataArguments extends JsonSerializable with EquatableMixin {
+  GetCourseDataArguments({this.course_id});
+
+  @override
+  factory GetCourseDataArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetCourseDataArgumentsFromJson(json);
+
+  final String? course_id;
+
+  @override
+  List<Object?> get props => [course_id];
+  @override
+  Map<String, dynamic> toJson() => _$GetCourseDataArgumentsToJson(this);
+}
+
+final GET_COURSE_DATA_QUERY_DOCUMENT_OPERATION_NAME = 'getCourseData';
+final GET_COURSE_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getCourseData'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'course_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getCourseModules'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'course_id'),
+            value: VariableNode(name: NameNode(value: 'course_id')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'courseModuleFragment'),
+            directives: [],
+          )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'getCourseChapters'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'course_id'),
+            value: VariableNode(name: NameNode(value: 'course_id')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'courseChapterFragment'),
+            directives: [],
+          )
+        ]),
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'courseModuleFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Module'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'isChapter'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'description'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'courseId'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'owner'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'duration'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'level'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'sequence'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'setGlobal'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'courseChapterFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Chapter'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'description'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'moduleId'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'courseId'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'sequence'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetCourseDataQuery
+    extends GraphQLQuery<GetCourseData$QueryRoot, GetCourseDataArguments> {
+  GetCourseDataQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_COURSE_DATA_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_COURSE_DATA_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetCourseDataArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetCourseData$QueryRoot parse(Map<String, dynamic> json) =>
+      GetCourseData$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetModuleContentArguments extends JsonSerializable with EquatableMixin {
+  GetModuleContentArguments({this.module_id});
+
+  @override
+  factory GetModuleContentArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetModuleContentArgumentsFromJson(json);
+
+  final String? module_id;
+
+  @override
+  List<Object?> get props => [module_id];
+  @override
+  Map<String, dynamic> toJson() => _$GetModuleContentArgumentsToJson(this);
+}
+
+final GET_MODULE_CONTENT_QUERY_DOCUMENT_OPERATION_NAME = 'getModuleContent';
+final GET_MODULE_CONTENT_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getModuleContent'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'module_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getTopicContentByModuleId'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'module_id'),
+            value: VariableNode(name: NameNode(value: 'module_id')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'language'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'topicId'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'courseId'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'startTime'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'duration'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'skipIntroDuration'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'nextShowTime'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'fromEndTime'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'type'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'contentUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'subtitleUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'url'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'language'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+            ]),
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_default'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class GetModuleContentQuery extends GraphQLQuery<GetModuleContent$QueryRoot,
+    GetModuleContentArguments> {
+  GetModuleContentQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_MODULE_CONTENT_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_MODULE_CONTENT_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetModuleContentArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetModuleContent$QueryRoot parse(Map<String, dynamic> json) =>
+      GetModuleContent$QueryRoot.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

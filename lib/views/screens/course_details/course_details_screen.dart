@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zicops/graphql_api.graphql.dart';
+import 'package:zicops/main.dart';
 import 'package:zicops/views/screens/course_details/resources/resources_screen.dart';
 import 'package:zicops/views/screens/course_details/topic/topic_screen.dart';
 
@@ -18,6 +20,28 @@ class CourseDetailsScreen extends StatefulWidget {
   }
 }
 
+Future loadCourse(courseId) async {
+// steps to load a course
+// 1. getCourseModules , getCourseModules, getCourseChapter, getModulContent
+  List<String> moduleIds = [];
+  List<String> topicIds = [];
+  List<dynamic> contentData = [];
+  final result = await courseQClient.client()?.execute(GetCourseDataQuery(
+      variables: GetCourseDataArguments(course_id: courseId)));
+  final courseData = result?.data?.toJson();
+  List courseModules = courseData?['getCourseModules'];
+  for (int i in courseModules.asMap().keys) {
+    final _contentData = await courseQClient.client()?.execute(
+        GetModuleContentQuery(
+            variables:
+                GetModuleContentArguments(module_id: courseModules[i]['id'])));
+
+    final moduleContent = _contentData?.data?.toJson();
+    contentData.addAll(moduleContent?['getTopicContentByModuleId']);
+  }
+  print(contentData.length);
+}
+
 class _CourseDetailsScreen extends State<CourseDetailsScreen> {
   int _selectedTab = 0;
   getScreen() {
@@ -33,6 +57,14 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
       default:
         return const AboutScreen();
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var courseId = '91a49abe-f532-4a80-928b-cf0bf3b79a6f';
+    loadCourse(courseId);
   }
 
   @override
@@ -96,45 +128,43 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
                 color: secondaryColor,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-
                   children: [
                     GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedTab = 0;
-                            });
-                          },
-                          child: SizedBox(
-                            child: mainTab(82, "Topic", 0, _selectedTab),
-                          )),
-
-                     GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedTab = 1;
-                              });
-                            },
-                            child: SizedBox(
-                              child: mainTab(84, "Notes", 1, _selectedTab),
-                            )),
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 0;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(82, "Topic", 0, _selectedTab),
+                        )),
                     GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedTab = 2;
-                              });
-                            },
-                            child: SizedBox(
-                              child: mainTab(121, "Resources", 2, _selectedTab),
-                            )),
-                     GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedTab = 3;
-                              });
-                            },
-                            child: SizedBox(
-                              child: mainTab(87, "About", 3, _selectedTab),
-                            )),
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 1;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(84, "Notes", 1, _selectedTab),
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 2;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(121, "Resources", 2, _selectedTab),
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 3;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(87, "About", 3, _selectedTab),
+                        )),
                   ],
                 ),
               ),
