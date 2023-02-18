@@ -20,6 +20,18 @@ class CourseDetailsScreen extends StatefulWidget {
   }
 }
 
+Map<String, dynamic> combineData(Map data1, Map data2) {
+  Map<String, dynamic> result = {'dummy': 'test'};
+  // loop over first data
+  for (var i in data1.keys) {
+    result['$i'] = data1[i];
+  }
+  for (var j in data2.keys) {
+    result['$j'] = data2[j];
+  }
+  return result;
+}
+
 Future loadCourse(courseId) async {
 // steps to load a course
 // 1. getCourseModules , getCourseModules, getCourseChapter, getModulContent
@@ -30,6 +42,7 @@ Future loadCourse(courseId) async {
       variables: GetCourseDataArguments(course_id: courseId)));
   final courseData = result?.data?.toJson();
   List courseModules = courseData?['getCourseModules'];
+  List courseTopics = courseData?['getTopics'];
   for (int i in courseModules.asMap().keys) {
     final _contentData = await courseQClient.client()?.execute(
         GetModuleContentQuery(
@@ -39,7 +52,16 @@ Future loadCourse(courseId) async {
     final moduleContent = _contentData?.data?.toJson();
     contentData.addAll(moduleContent?['getTopicContentByModuleId']);
   }
-  print(contentData.length);
+
+  List data = [];
+  for (int i in courseTopics.asMap().keys) {
+    for (int j in contentData.asMap().keys) {
+      if (courseTopics[i]['id'] == contentData[j]['topicId']) {
+        data.add(combineData(courseTopics[i], contentData[j]));
+      }
+    }
+  }
+
 }
 
 class _CourseDetailsScreen extends State<CourseDetailsScreen> {
@@ -64,7 +86,8 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
     // TODO: implement initState
     super.initState();
     var courseId = '91a49abe-f532-4a80-928b-cf0bf3b79a6f';
-    loadCourse(courseId);
+    var courseId2 = '4d5df222-34cf-444c-86cd-2b0128fa40e6';
+    loadCourse(courseId2);
   }
 
   @override
