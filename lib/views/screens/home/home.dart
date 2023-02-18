@@ -7,6 +7,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:zicops/models/user/home_page_model.dart';
 import 'package:zicops/views/screens/home/home_screen.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
@@ -22,6 +24,7 @@ import 'package:zicops/views/screens/settings/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
+import '../../../controllers/controller.dart';
 import '../../../models/user/org_model.dart';
 import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
@@ -45,17 +48,21 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   String orgName = '';
   String url = '';
 
+  final _controller = Get.find<Controller>();
+
   Future getDetailsToDisplay() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map<String, dynamic> jsonUser =
-        jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonUser);
-    if (jsonUser.isNotEmpty) {
-      setState(() {
-        name = user.firstName! + " " + user.lastName!;
-        url = user.photoUrl!;
-      });
-    }
+    // Map<String, dynamic> jsonUser =
+    //     jsonDecode(sharedPreferences.getString('user')!);
+    // var user = UserDetailsModel.fromJson(jsonUser);
+
+    setState(() {
+      name = _controller.userDetails.firstName! +
+          " " +
+          _controller.userDetails.lastName!;
+      url = _controller.userDetails.photoUrl!;
+    });
+
     Map<String, dynamic> jsonOrg =
         jsonDecode(sharedPreferences.getString('userOrg')!);
     var userOrg = OrgModel.fromJson(jsonOrg);

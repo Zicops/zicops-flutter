@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/graphql_api.graphql.dart';
@@ -15,6 +17,7 @@ import 'package:zicops/views/widgets/GradientButton.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import '../../../controllers/controller.dart';
 import '../../../models/user/org_model.dart';
 import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
@@ -31,6 +34,8 @@ class AboutTabScreen extends StatefulWidget {
 }
 
 class _AboutTabScreen extends State<AboutTabScreen> {
+  final _controller = Get.find<Controller>();
+
   TextEditingController _controller1 = TextEditingController();
   TextEditingController _controller2 = TextEditingController();
   TextEditingController _controller3 = TextEditingController();
@@ -45,8 +50,8 @@ class _AboutTabScreen extends State<AboutTabScreen> {
   String orgName = "";
   String orgUnit = "";
   String lspRole = "";
-  String orgRole = "";
-  String empId = "";
+  String? orgRole = "";
+  String? empId = "";
   String userLspId = "";
 
   bool isEmailValidated = false;
@@ -93,20 +98,20 @@ class _AboutTabScreen extends State<AboutTabScreen> {
   }
 
   Future getDetailsToDisplay() async {
-    String userId = "";
+    String? userId = "";
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map<String, dynamic> jsonUser =
-        jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonUser);
-    if (jsonUser.isNotEmpty) {
-      setState(() {
-        userId = user.id!;
-        name = user.firstName! + " " + user.lastName!;
-        phone = user.phone!;
-        email = user.email!;
-        imageUrl = user.photoUrl!;
-      });
-    }
+    // Map<String, dynamic> jsonUser =
+    //     jsonDecode(sharedPreferences.getString('user')!);
+    var user = _controller.userDetails;
+
+    setState(() {
+      userId = user?.id;
+      name = user.firstName! + " " + user.lastName!;
+      phone = user.phone!;
+      email = user.email!;
+      imageUrl = user.photoUrl!;
+    });
+
     userLspId = sharedPreferences.getString('userLspId')!;
     Map<String, dynamic> jsonOrg =
         jsonDecode(sharedPreferences.getString('userOrg')!);
@@ -116,20 +121,20 @@ class _AboutTabScreen extends State<AboutTabScreen> {
         orgName = userOrg.orgName!;
         orgUnit = userOrg.orgUnit!;
         lspRole = userOrg.lspRole!;
-        orgRole = userOrg.orgRole!;
-        empId = userOrg.empId!;
+        // orgRole = userOrg.orgRole!;
+        // empId = userOrg.empId!;
       });
     }
 
-    final userResult = await userClient.client()?.execute(GetUserDetailsQuery(
-        variables: GetUserDetailsArguments(userId: [userId])));
-    if (userResult?.data?.getUserDetails != null) {
-      setState(() {
-        // name = userResult!.data!.getUserDetails?[0]?.firstName!;
-        // phone = userResult!.data!.getUserDetails?[0]?.phone!;
-        // email = userResult!.data!.getUserDetails?[0]?.email!;
-      });
-    }
+    // final userResult = await userClient.client()?.execute(GetUserDetailsQuery(
+    //     variables: GetUserDetailsArguments(userId: [userId])));
+    // if (userResult?.data?.getUserDetails != null) {
+    //   setState(() {
+    //     name = userResult!.data!.getUserDetails?[0]?.firstName;
+    //     phone = userResult!.data!.getUserDetails?[0]?.phone!;
+    //     email = userResult!.data!.getUserDetails?[0]?.email!;
+    //   });
+    // }
 
     print(name);
     print(phone);
@@ -137,18 +142,19 @@ class _AboutTabScreen extends State<AboutTabScreen> {
 
     final orgResult = await userClient.client()?.execute(GetUserOrgDetailsQuery(
             variables: GetUserOrgDetailsArguments(
-          userId: userId,
+          userId: userId!,
           user_lsp_id: userLspId,
         )));
-    // if (orgResult?.data?.getUserOrgDetails != null) {
-    //   setState(() {
-    //     orgName = orgResult!.data!.getUserOrgDetails?.orgName!;
-    //     orgUnit = orgResult!.data!.getUserOrgDetails?[0]?.orgUnit!;
-    //     lspRole = orgResult!.data!.getUserOrgDetails?[0]?.lspRole!;
-    //     orgRole = orgResult!.data!.getUserOrgDetails?[0]?.orgRole!;
-    //     empId = orgResult!.data!.getUserOrgDetails?[0]?.empId!;
-    //   });
-    // }
+    if (orgResult?.data?.getUserOrgDetails != null) {
+      setState(() {
+        // orgName = orgResult!.data!.getUserOrgDetails?.orgName!;
+        // orgUnit = orgResult!.data!.getUserOrgDetails?[0]?.orgUnit!;
+        // lspRole = orgResult!.data!.getUserOrgDetails?[0]?.lspRole!;
+        orgRole = orgResult!.data!.getUserOrgDetails?.organizationRole!;
+        empId = orgResult!.data!.getUserOrgDetails?.employeeId!;
+        // empId = orgResult!.data!.getUserOrgDetails?[0]?.empId!;
+      });
+    }
 
     if (imageUrl != null && imageUrl!.isNotEmpty) {
       profileImage = await urlToFile(imageUrl!);

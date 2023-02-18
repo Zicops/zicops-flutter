@@ -507,28 +507,37 @@ class _TopicScreen extends State<TopicScreen> {
                   ),
                   SizedBox(
                     height: 320.sp,
-                    child: ListView(
-                      children: 
-                       ( _Controller.topicData.isNotEmpty ? [..._Controller.topicData.map((e) => GestureDetector(
-                              onTap: () {
-                                print(e['contentUrl']);
-                                setState(() {
-                                  selectedChapter = e['name'];
-                                  initVideoController(
-                                      //  'assets/images/mov_bbb.mp4');
-                                      e['contentUrl']);
-                                  //    'https://samplelib.com/lib/preview/mp4/sample-30s.mp4');
-                                  // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-                                });
-                              },
-                              child: ModuleCard(
-                                  e['name'],
-                                  "1hr 50 mins",
-                                  "assets/images/course_preview_2.png",
-                                  e['name'] == selectedChapter,
-                                  _controller?.value.position,
-                                  _controller?.value.duration)))] : [] )
-                      ,
+                    child: Obx(
+                      () => ListView(
+                        children: (_Controller.topicData.isNotEmpty
+                            ? [
+                                ..._Controller.topicData.map((e) =>
+                                    GestureDetector(
+                                        onTap: () {
+                                          print(e['contentUrl']);
+                                          setState(() {
+                                            selectedChapter = e['name'];
+                                            initVideoController(
+                                                //  'assets/images/mov_bbb.mp4');
+                                                e['contentUrl']);
+                                            //    'https://samplelib.com/lib/preview/mp4/sample-30s.mp4');
+                                            // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+                                          });
+                                        },
+                                        child: ModuleCard(
+                                            e['name'],
+                                            "1hr 50 mins",
+                                            "assets/images/course_preview_2.png",
+                                            e['name'] == selectedChapter,
+                                            _controller?.value.position,
+                                            _controller?.value.duration)))
+                              ]
+                            : [
+                                Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              ]),
+                      ),
                     ),
                   ),
                   SizedBox(

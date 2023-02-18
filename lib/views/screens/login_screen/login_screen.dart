@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,8 +12,10 @@ import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
 import 'package:zicops/views/screens/course_details/course_details_screen.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
+import 'package:zicops/views/screens/home/home.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 
+import '../../../controllers/controller.dart';
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
 import '../../../models/user/user_details_model.dart';
@@ -43,6 +47,8 @@ class HttpClientWithToken extends http.BaseClient {
 class _LoginScreen extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  final _controller = Get.find<Controller>();
 
   bool _passwordVisible = false;
   bool showErrorP = false;
@@ -83,7 +89,7 @@ class _LoginScreen extends State<LoginScreen> {
       await sharedPreferences.setString(
           "userData", result!.data!.login.toString());
 
-      UserDetailsModel userDetails = UserDetailsModel(
+      _controller.userDetails = UserDetailsModel(
         result.data?.login?.id ?? "",
         result.data?.login?.firstName ?? "",
         result.data?.login?.lastName ?? "",
@@ -96,19 +102,33 @@ class _LoginScreen extends State<LoginScreen> {
         result.data?.login?.phone ?? "",
         result.data?.login?.photoUrl ?? "",
       );
+
+      // UserDetailsModel userDetails = UserDetailsModel(
+      //   result.data?.login?.id ?? "",
+      //   result.data?.login?.firstName ?? "",
+      //   result.data?.login?.lastName ?? "",
+      //   result.data?.login?.status ?? "",
+      //   result.data?.login?.role ?? "",
+      //   result.data?.login?.isVerified ?? false,
+      //   result.data?.login?.isActive ?? false,
+      //   result.data?.login?.gender ?? "",
+      //   result.data?.login?.email ?? "",
+      //   result.data?.login?.phone ?? "",
+      //   result.data?.login?.photoUrl ?? "",
+      // );
       //  print(userDetails.isVerified);
 
-      String user = jsonEncode(userDetails);
-      print(user);
-      sharedPreferences.setString("user", user);
-      print(sharedPreferences.getString("user"));
+      // String user = jsonEncode(userDetails);
+      // print(user);
+      // sharedPreferences.setString("user", user);
+      // print(sharedPreferences.getString("user"));
 
-      if (userDetails.isVerified == false) {
+      if (_controller.userDetails?.isVerified == false) {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => AccountSetupScreen()));
       } else {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const CourseDetailsScreen()));
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
       }
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => const AccountSetupScreen()));

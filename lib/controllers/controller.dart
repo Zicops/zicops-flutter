@@ -1,17 +1,20 @@
 import 'package:get/get.dart';
+import 'package:zicops/models/user/user_details_model.dart';
 
 import '../models/user/user_course_model.dart';
 
 class Controller extends GetxController {
-  List<Course> latestCourses = [];
-  List<Course> lspCourses = [];
-  List<Course> learningFolderCourses = [];
-  List<Course> subCatCourses1 = [];
-  List<Course> subCatCourses2 = [];
-  List<Course> subCatCourses3 = [];
-  List<Course> subCatCourses4 = [];
-  List<Course> subCatCourses5 = [];
-  List<Course> courseDataOne = [];
-  List<String?> userPreferences = [];
-  List<dynamic> topicData = [];
+  List latestCourses = [].obs;
+  List lspCourses = [].obs;
+  List learningFolderCourses = [].obs;
+  List subCatCourses1 = [].obs;
+  List subCatCourses2 = [].obs;
+  List subCatCourses3 = [].obs;
+  List subCatCourses4 = [].obs;
+  List subCatCourses5 = [].obs;
+  List courseDataOne = [].obs;
+  List userPreferences = [].obs;
+  List<dynamic> topicData = [].obs;
+
+  late UserDetailsModel userDetails;
 }
