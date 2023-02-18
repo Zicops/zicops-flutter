@@ -13,4 +13,5 @@ class Controller extends GetxController {
   List<Course> subCatCourses5 = [];
   List<Course> courseDataOne = [];
   List<String?> userPreferences = [];
+  List<dynamic> topicData = [];
 }

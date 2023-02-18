@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:zicops/controllers/controller.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
 import 'package:zicops/views/screens/course_details/resources/resources_screen.dart';
@@ -32,40 +34,73 @@ Map<String, dynamic> combineData(Map data1, Map data2) {
   return result;
 }
 
-Future loadCourse(courseId) async {
-// steps to load a course
-// 1. getCourseModules , getCourseModules, getCourseChapter, getModulContent
-  List<String> moduleIds = [];
-  List<String> topicIds = [];
-  List<dynamic> contentData = [];
-  final result = await courseQClient.client()?.execute(GetCourseDataQuery(
-      variables: GetCourseDataArguments(course_id: courseId)));
-  final courseData = result?.data?.toJson();
-  List courseModules = courseData?['getCourseModules'];
-  List courseTopics = courseData?['getTopics'];
-  for (int i in courseModules.asMap().keys) {
-    final _contentData = await courseQClient.client()?.execute(
-        GetModuleContentQuery(
-            variables:
-                GetModuleContentArguments(module_id: courseModules[i]['id'])));
+// Future loadCourse(courseId) async {
+// // steps to load a course
+// // 1. getCourseModules , getCourseModules, getCourseChapter, getModulContent
+//   List<String> moduleIds = [];
+//   List<String> topicIds = [];
+//   List<dynamic> contentData = [];
+//   final result = await courseQClient.client()?.execute(GetCourseDataQuery(
+//       variables: GetCourseDataArguments(course_id: courseId)));
+//   final courseData = result?.data?.toJson();
+//   List courseModules = courseData?['getCourseModules'];
+//   List courseTopics = courseData?['getTopics'];
+//   for (int i in courseModules.asMap().keys) {
+//     final _contentData = await courseQClient.client()?.execute(
+//         GetModuleContentQuery(
+//             variables:
+//                 GetModuleContentArguments(module_id: courseModules[i]['id'])));
 
-    final moduleContent = _contentData?.data?.toJson();
-    contentData.addAll(moduleContent?['getTopicContentByModuleId']);
-  }
+//     final moduleContent = _contentData?.data?.toJson();
+//     contentData.addAll(moduleContent?['getTopicContentByModuleId']);
+//   }
 
-  List data = [];
-  for (int i in courseTopics.asMap().keys) {
-    for (int j in contentData.asMap().keys) {
-      if (courseTopics[i]['id'] == contentData[j]['topicId']) {
-        data.add(combineData(courseTopics[i], contentData[j]));
-      }
-    }
-  }
+//   List data = [];
+//   for (int i in courseTopics.asMap().keys) {
+//     for (int j in contentData.asMap().keys) {
+//       if (courseTopics[i]['id'] == contentData[j]['topicId']) {
+//         data.add(combineData(courseTopics[i], contentData[j]));
+//       }
+//     }
+//   }
 
-}
+// }
 
 class _CourseDetailsScreen extends State<CourseDetailsScreen> {
   int _selectedTab = 0;
+  final _controller = Get.find<Controller>();
+
+  Future loadCourse(courseId) async {
+    List<String> moduleIds = [];
+    List<String> topicIds = [];
+    List<dynamic> contentData = [];
+    final result = await courseQClient.client()?.execute(GetCourseDataQuery(
+        variables: GetCourseDataArguments(course_id: courseId)));
+    final courseData = result?.data?.toJson();
+    List courseModules = courseData?['getCourseModules'];
+    List courseTopics = courseData?['getTopics'];
+    for (int i in courseModules.asMap().keys) {
+      final _contentData = await courseQClient.client()?.execute(
+          GetModuleContentQuery(
+              variables: GetModuleContentArguments(
+                  module_id: courseModules[i]['id'])));
+
+      final moduleContent = _contentData?.data?.toJson();
+      contentData.addAll(moduleContent?['getTopicContentByModuleId']);
+    }
+
+    List data = [];
+    for (int i in courseTopics.asMap().keys) {
+      for (int j in contentData.asMap().keys) {
+        if (courseTopics[i]['id'] == contentData[j]['topicId']) {
+          data.add(combineData(courseTopics[i], contentData[j]));
+        }
+      }
+    }
+
+    _controller.topicData.addAll(data);
+  }
+
   getScreen() {
     switch (_selectedTab) {
       case 0:
@@ -87,7 +122,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
     super.initState();
     var courseId = '91a49abe-f532-4a80-928b-cf0bf3b79a6f';
     var courseId2 = '4d5df222-34cf-444c-86cd-2b0128fa40e6';
-    loadCourse(courseId2);
+    loadCourse(courseId);
   }
 
   @override
