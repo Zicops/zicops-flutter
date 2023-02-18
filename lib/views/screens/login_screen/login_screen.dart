@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
+import 'package:zicops/views/screens/course_details/course_details_screen.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
-import 'package:zicops/views/screens/home/home.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 
 import '../../../graphql_api.graphql.dart';
@@ -108,7 +108,7 @@ class _LoginScreen extends State<LoginScreen> {
             MaterialPageRoute(builder: (context) => AccountSetupScreen()));
       } else {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const HomePage()));
+            context, MaterialPageRoute(builder: (context) => const CourseDetailsScreen()));
       }
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => const AccountSetupScreen()));
