@@ -29,9 +29,8 @@ class _NewCourseScreen extends State<NewCourseScreen> {
             backgroundColor: secondaryColor,
             leading: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-
                 onTap: () {
-                  if(Navigator.canPop(context))Navigator.pop(context);
+                  if (Navigator.canPop(context)) Navigator.pop(context);
                 },
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -129,7 +128,8 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                             courseItem["org"],
                             courseItem["difficulty"],
                             courseItem["courseLength"],
-                            courseItem["preview"]))
+                            courseItem["preview"],
+                            courseItem["courseId"]))
                       ])
                 : ListView(
                     children: [

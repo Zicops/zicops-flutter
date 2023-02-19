@@ -44,8 +44,8 @@ class _HomeScreen extends State<HomeScreen> {
   String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
 
   Future<List<Course>> loadCourses({String lspId = '', String? subCat}) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final data = sharedPreferences.getString('userData');
+    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // final data = sharedPreferences.getString('userData');
     List<Course> courseData = [];
     final allLatestCourse = await courseQClient.client()?.execute(
         LatestCoursesQuery(
@@ -72,6 +72,7 @@ class _HomeScreen extends State<HomeScreen> {
           //subCategories: data?.subCategories,
           image: data?.image));
     }
+    print(courseData);
     return courseData;
   }
 
@@ -81,7 +82,7 @@ class _HomeScreen extends State<HomeScreen> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> jsonDetails =
         jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonDetails);
+    var user = _controller.userDetails;
     final userCourseMap = await userClient.client()?.execute(
         GetUserCourseMapsQuery(
             variables: GetUserCourseMapsArguments(
@@ -450,6 +451,7 @@ class _HomeScreen extends State<HomeScreen> {
     loadUserCourseData();
     callCourses();
     loadCourses();
+    //print(_controller.latestCourses[0]);
 //    futureWait();
 
     //loadUserCourseData();
@@ -592,6 +594,7 @@ class _HomeScreen extends State<HomeScreen> {
                             courseItem.expertiseLevel ?? '',
                             '1',
                             courseItem.tileImage ?? '',
+                            courseItem.id ?? '',
                           ),
                           SizedBox(
                             width: 8.sp,
@@ -631,6 +634,7 @@ class _HomeScreen extends State<HomeScreen> {
                             courseItem.expertiseLevel ?? '',
                             '1',
                             courseItem.tileImage ?? '',
+                            courseItem.id ?? '',
                           ),
                           SizedBox(
                             width: 8.sp,
@@ -665,6 +669,7 @@ class _HomeScreen extends State<HomeScreen> {
                             courseItem.expertiseLevel ?? '',
                             '1',
                             courseItem.tileImage ?? '',
+                            courseItem.id ?? '',
                           ),
                           SizedBox(
                             width: 8.sp,
@@ -753,6 +758,7 @@ class _HomeScreen extends State<HomeScreen> {
                             courseItem.expertiseLevel!,
                             "1h 30m",
                             courseItem.tileImage!,
+                            courseItem.id ?? '',
 
                             // courseItem["courseName"],
                             // courseItem["org"],
@@ -794,6 +800,7 @@ class _HomeScreen extends State<HomeScreen> {
                             courseItem.expertiseLevel ?? "",
                             "1h 30m",
                             courseItem.tileImage ?? "",
+                            courseItem.id ?? '',
                           ),
                           SizedBox(
                             width: 8.sp,
@@ -829,6 +836,7 @@ class _HomeScreen extends State<HomeScreen> {
                             courseItem.expertiseLevel ?? '',
                             "1h 30m",
                             courseItem.tileImage ?? '',
+                            courseItem.id ?? '',
                           ),
                           SizedBox(
                             width: 8.sp,

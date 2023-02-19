@@ -14,7 +14,8 @@ import 'about/about_screen.dart';
 import 'notes/notes_screen.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
-  const CourseDetailsScreen({Key? key}) : super(key: key);
+  String courseId;
+  CourseDetailsScreen(this.courseId, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -120,9 +121,10 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    var courseId = '91a49abe-f532-4a80-928b-cf0bf3b79a6f';
-    var courseId2 = '4d5df222-34cf-444c-86cd-2b0128fa40e6';
-    loadCourse(courseId);
+    // var courseId = '91a49abe-f532-4a80-928b-cf0bf3b79a6f';
+    //var courseId2 = '4d5df222-34cf-444c-86cd-2b0128fa40e6';
+    print(widget.courseId);
+    loadCourse(widget.courseId);
   }
 
   @override
