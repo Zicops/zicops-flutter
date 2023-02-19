@@ -32,6 +32,7 @@ class UserRepository {
               result?.data?.login?.email ?? '',
               result?.data?.login?.phone ?? '',
               result?.data?.login?.photoUrl ?? '',
+              ''
 
               //result?.data?.login?.id ?? "",
               //result?.data?.login?.firstName ?? "",
@@ -51,6 +52,7 @@ class UserRepository {
               '',
               '',
               '',
+              ""
             ),
     );
 

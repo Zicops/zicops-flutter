@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:zicops/controllers/controller.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/widgets/course_grid_item_large.dart';
 
-import '../../../utils/dummies.dart';
-import '../../widgets/course_list_item_with_progress.dart';
 import '../../widgets/main_tab.dart';
 
 class MyCourseScreen extends StatefulWidget {
@@ -18,6 +18,7 @@ class MyCourseScreen extends StatefulWidget {
 
 class _MyCourseScreen extends State<MyCourseScreen> {
   int _selectedTab = 0;
+  final _controller = Get.find<Controller>();
 
   String getTitle() {
     switch (_selectedTab) {
@@ -33,6 +34,23 @@ class _MyCourseScreen extends State<MyCourseScreen> {
       default:
         {
           return "on going courses";
+        }
+    }
+  }
+
+  List getCourseList() {
+    switch (_selectedTab) {
+      case 0:
+        return _controller.onGoingCourses;
+      case 1:
+        return _controller.assignedCourses;
+      case 2:
+        return _controller.selfAddedCourses;
+      case 3:
+        return _controller.completedCourses;
+      default:
+        {
+          return _controller.onGoingCourses;
         }
     }
   }
@@ -108,16 +126,19 @@ class _MyCourseScreen extends State<MyCourseScreen> {
               Expanded(
                   child: ListView(
                 children: [
-                  ...courseItems.map((courseItem) => Column(
+                  ...getCourseList().map((courseItem) => Column(
                         children: [
                           CourseGridItemLarge(
-                            courseItem["courseName"],
-                            courseItem["org"],
-                            courseItem["difficulty"],
-                            courseItem["courseLength"],
-                            courseItem["preview"],
-                            showProgressBar: _selectedTab == 0 || _selectedTab == 3?true: false,
-                            progress: _selectedTab == 3? 1: 0.4,
+                            courseItem.name,
+                            courseItem.owner,
+                            courseItem.expertiseLevel,
+                            '1',
+                            courseItem.tileImage,
+                            showProgressBar:
+                                _selectedTab == 0 || _selectedTab == 3
+                                    ? true
+                                    : false,
+                            progress: _selectedTab == 3 ? 1 : 0.4,
                             isCompleted: _selectedTab == 3,
                           ),
                           SizedBox(

@@ -59,12 +59,14 @@ class _LoginScreen extends State<LoginScreen> {
       isLoading = true;
     });
     try {
+      String lspId = '93f3693c-d111-51aa-86ca-b883c6dfe647';
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
       String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
       if (token != null) {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
+        await prefs.setString('tenant', lspId);
       }
 
       setState(() {
@@ -86,19 +88,28 @@ class _LoginScreen extends State<LoginScreen> {
       await sharedPreferences.setString(
           "userData", result!.data!.login.toString());
 
+      // String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
+      
+      final lspData = await userClient.client()?.execute(GetUserLspByLspIdQuery(
+          variables: GetUserLspByLspIdArguments(
+              user_id: result.data?.login?.id ?? '', lsp_id: lspId)));
+
+      await sharedPreferences.setString('userLspData',
+          lspData?.data?.getUserLspByLspId?.userLspId?.toString() ?? '');
+
       _controller.userDetails = UserDetailsModel(
-        result.data?.login?.id ?? "",
-        result.data?.login?.firstName ?? "",
-        result.data?.login?.lastName ?? "",
-        result.data?.login?.status ?? "",
-        result.data?.login?.role ?? "",
-        result.data?.login?.isVerified ?? false,
-        result.data?.login?.isActive ?? false,
-        result.data?.login?.gender ?? "",
-        result.data?.login?.email ?? "",
-        result.data?.login?.phone ?? "",
-        result.data?.login?.photoUrl ?? "",
-      );
+          result.data?.login?.id ?? "",
+          result.data?.login?.firstName ?? "",
+          result.data?.login?.lastName ?? "",
+          result.data?.login?.status ?? "",
+          result.data?.login?.role ?? "",
+          result.data?.login?.isVerified ?? false,
+          result.data?.login?.isActive ?? false,
+          result.data?.login?.gender ?? "",
+          result.data?.login?.email ?? "",
+          result.data?.login?.phone ?? "",
+          result.data?.login?.photoUrl ?? "",
+          lspData?.data?.getUserLspByLspId?.userLspId ?? '');
 
       // UserDetailsModel userDetails = UserDetailsModel(
       //   result.data?.login?.id ?? "",

@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/connect.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -72,7 +71,7 @@ class _HomeScreen extends State<HomeScreen> {
           //subCategories: data?.subCategories,
           image: data?.image));
     }
-    print(courseData);
+    // print(courseData);
     return courseData;
   }
 
@@ -200,22 +199,56 @@ class _HomeScreen extends State<HomeScreen> {
     // String userLspId = sharedPreferences.getString('userLspId')!;
 
     // for now it is hardcoded need to be fixed in lsp screen screen
-    String userLspId = '96a30957-3bd8-41cc-87ad-9c863d423c3e';
+    // String userLspId = '96a30957-3bd8-41cc-87ad-9c863d423c3e';
+    String userLspId = _controller.userDetails.userLspId.toString();
+    String userId = _controller.userDetails.id.toString();
     final res = await userClient.client()?.execute(GetUserPreferencesQuery(
-        variables: GetUserPreferencesArguments(userId: user.id!)));
+        variables: GetUserPreferencesArguments(userId: userId)));
+
+    print(res?.data?.getUserPreferences?.length);
 
     for (int i in res?.data?.getUserPreferences?.asMap().keys ?? []) {
-      var data = res?.data?.getUserPreferences?[i];
-      if (data?.userLspId == userLspId &&
-          _controller.userPreferences.length < 6) {
-        _controller.userPreferences.add(data?.subCategory);
+      final data = res?.data?.getUserPreferences?[i];
+      if (data!.userLspId == userLspId &&
+          _controller.userPreferences.length < 5 &&
+          data.isActive) {
+        print(data.subCategory);
+        _controller.userPreferences.add(data.subCategory);
       }
     }
-    // for (int i in userPreferences.asMap()?.keys ?? []) {
-    //   print(userPreferences);
-    // }
-    _controller.subCatCourses1 =
-        await loadCourses(lspId: lspId, subCat: _controller.userPreferences[0]);
+
+    bool isEmpty = true;
+    if (_controller.userPreferences.isNotEmpty) {
+      for (var i in _controller.userPreferences.asMap().keys) {
+        var index = i + 1;
+        _controller.subCats['subCat$index'] = await loadCourses(
+            lspId: lspId, subCat: _controller.userPreferences[i]);
+
+        if (_controller.subCats['subCat$index']!.isNotEmpty) {
+          isEmpty = false;
+        }
+      }
+
+      print(_controller.subCats);
+      // _controller.subCatCourses1 = await loadCourses(
+      //     lspId: lspId, subCat: _controller.userPreferences[0]);
+      // _controller.subCatCourses2 = await loadCourses(
+      //     lspId: lspId, subCat: _controller.userPreferences[1]);
+      // //subCatCourses2[0].subCategory = userPreferences[1];
+      // _controller.subCatCourses3 = await loadCourses(
+      //     lspId: lspId, subCat: _controller.userPreferences[2]);
+      // _controller.subCatCourses4 = await loadCourses(
+      //     lspId: lspId, subCat: _controller.userPreferences[3]);
+      // _controller.subCatCourses5 = await loadCourses(
+      //     lspId: lspId, subCat: _controller.userPreferences[4]);
+
+      _controller.subCatCourses1 = _controller.subCats['subCat1']!.toList();
+      _controller.subCatCourses2 = _controller.subCats['subCat2']!.toList();
+      //subCatCourses2[0].subCategory = userPreferences[1];
+      _controller.subCatCourses3 = _controller.subCats['subCat3']!.toList();
+      _controller.subCatCourses4 = _controller.subCats['subCat4']!.toList();
+      _controller.subCatCourses5 = _controller.subCats['subCat5']!.toList();
+    }
 
     // if (kDebugMode) {
     //   print(subCatCourses1[0].subCategory);
@@ -231,22 +264,16 @@ class _HomeScreen extends State<HomeScreen> {
     //   print(subCatCourses1[0].image);
     //   // print(json.encode(subCatCourses1));
     // }
-    _controller.subCatCourses2 =
-        await loadCourses(lspId: lspId, subCat: _controller.userPreferences[1]);
-    //subCatCourses2[0].subCategory = userPreferences[1];
-    _controller.subCatCourses3 =
-        await loadCourses(lspId: lspId, subCat: _controller.userPreferences[2]);
-    _controller.subCatCourses4 =
-        await loadCourses(lspId: lspId, subCat: _controller.userPreferences[3]);
-    _controller.subCatCourses5 =
-        await loadCourses(lspId: lspId, subCat: _controller.userPreferences[4]);
+
     setState(() {
-      _controller.subCatCourses1[0].subCategory =
-          _controller.userPreferences[0];
-      _controller.subCatCourses2[0].subCategory =
-          _controller.userPreferences[1];
-      _controller.subCatCourses3[0].subCategory =
-          _controller.userPreferences[2];
+      if (!isEmpty) {
+        _controller.subCatCourses1[0].subCategory =
+            _controller.userPreferences[0];
+        _controller.subCatCourses2[0].subCategory =
+            _controller.userPreferences[1];
+        _controller.subCatCourses3[0].subCategory =
+            _controller.userPreferences[2];
+      }
       // _controller.subCatCourses4[0].subCategory =
       //     _controller.userPreferences[3];
       // _controller.subCatCourses5[0].subCategory =
@@ -267,6 +294,18 @@ class _HomeScreen extends State<HomeScreen> {
     _controller.lspCourses =
         await loadCourses(lspId: '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1');
     _controller.learningFolderCourses = await loadUserCourseData();
+    _controller.onGoingCourses = _controller.learningFolderCourses
+        .where((course) => course.topicsStartedPercentage > 0)
+        .toList();
+    _controller.assignedCourses = _controller.learningFolderCourses
+        .where(
+            (course) => course.addedBy == 'admin' || course.addedBy == 'cohort')
+        .toList();
+    _controller.selfAddedCourses = _controller.learningFolderCourses
+        .where((course) => course.addedBy == 'self')
+        .toList();
+    
+    
   }
 
   Widget sectionHeader(String label, Function() action,
@@ -919,54 +958,57 @@ class _HomeScreen extends State<HomeScreen> {
               alignment: Alignment.centerLeft,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  Row(
-                    children: [
-                      category("assets/images/java.png", "Java", 18, 20),
-                      SizedBox(
-                        width: 8.sp,
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      category("assets/images/coding.png", "Coding", 20, 12),
-                      SizedBox(
-                        width: 8.sp,
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      category("assets/images/writing.png", "Writing", 18, 20),
-                      SizedBox(
-                        width: 8.sp,
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      category(
-                          "assets/images/design_icon.png", "Design", 18, 18),
-                      SizedBox(
-                        width: 8.sp,
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      category(
-                          "assets/images/design_icon.png", "Design", 18, 18),
-                      SizedBox(
-                        width: 8.sp,
-                      )
-                    ],
-                  ),
-                  viewAll(height: 74, width: 74)
-                ],
+                children: _controller.userPreferences.isNotEmpty
+                    ? [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        ..._controller.userPreferences.map((e) => Row(
+                              children: [
+                                category("assets/images/java.png",
+                                    e.substring(0, 4), 18, 20),
+                                SizedBox(
+                                  width: 8.sp,
+                                )
+                              ],
+                            )),
+                        // Row(
+                        //   children: [
+                        //     category("assets/images/coding.png", "Coding", 20, 12),
+                        //     SizedBox(
+                        //       width: 8.sp,
+                        //     )
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     category("assets/images/writing.png", "Writing", 18, 20),
+                        //     SizedBox(
+                        //       width: 8.sp,
+                        //     )
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     category(
+                        //         "assets/images/design_icon.png", "Design", 18, 18),
+                        //     SizedBox(
+                        //       width: 8.sp,
+                        //     )
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     category(
+                        //         "assets/images/design_icon.png", "Design", 18, 18),
+                        //     SizedBox(
+                        //       width: 8.sp,
+                        //     )
+                        //   ],
+                        // ),
+                        viewAll(height: 74, width: 74)
+                      ]
+                    : [],
               ),
             ),
             SizedBox(

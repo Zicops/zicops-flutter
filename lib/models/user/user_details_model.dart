@@ -10,6 +10,7 @@ class UserDetailsModel {
   String? email;
   String? phone;
   String? photoUrl;
+  String? userLspId;
 
   UserDetailsModel(
       this.id,
@@ -22,7 +23,9 @@ class UserDetailsModel {
       this.gender,
       this.email,
       this.phone,
-      this.photoUrl);
+      this.photoUrl,
+      this.userLspId
+      );
 
   UserDetailsModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -35,7 +38,9 @@ class UserDetailsModel {
         gender = json['gender'],
         email = json['email'],
         phone = json['phone'],
-        photoUrl = json['photo_url'];
+        photoUrl = json['photo_url'],
+        userLspId = json['user_lsp_id']
+        ;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -48,6 +53,7 @@ class UserDetailsModel {
         'email': email,
         'phone': phone,
         'photo_url': photoUrl,
+        'user_lsp_id': userLspId
       };
 }
 
