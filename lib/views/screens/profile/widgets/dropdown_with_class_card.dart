@@ -15,13 +15,11 @@ class DropdownWithListCard extends StatefulWidget {
 }
 
 class _DropdownWithListCard extends State<DropdownWithListCard> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
         margin: EdgeInsets.symmetric(horizontal: 20.sp),
-
         alignment: Alignment.center,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4.sp),
@@ -37,7 +35,7 @@ class _DropdownWithListCard extends State<DropdownWithListCard> {
             child: Column(
               children: [
                 ModulesDropDown(
-                  dropdownList: ['Assigned', 'Inprogress', 'Completed'],
+                  // dropdownList: ['Assigned', 'Inprogress', 'Completed'],
                   showTitle: false,
                 ),
                 Divider(

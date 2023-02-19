@@ -155,6 +155,8 @@ class _AboutTabScreen extends State<AboutTabScreen> {
         // empId = orgResult!.data!.getUserOrgDetails?[0]?.empId!;
       });
     }
+    print(orgRole);
+    print(empId);
 
     if (imageUrl != null && imageUrl!.isNotEmpty) {
       profileImage = await urlToFile(imageUrl!);

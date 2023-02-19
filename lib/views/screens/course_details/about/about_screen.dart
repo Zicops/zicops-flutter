@@ -82,7 +82,6 @@ class _AboutScreen extends State<AboutScreen> {
         ));
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -116,7 +115,9 @@ class _AboutScreen extends State<AboutScreen> {
                             color: secondaryColorLight,
                             height: 1.5),
                       ),
-                      SizedBox(width: 6.sp,),
+                      SizedBox(
+                        width: 6.sp,
+                      ),
                       Text(
                         "Course Preview".toUpperCase(),
                         textAlign: TextAlign.center,

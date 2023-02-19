@@ -36,7 +36,9 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
               height: 58.sp,
               padding: EdgeInsets.all(8.sp),
               alignment: Alignment.center,
-              decoration: BoxDecoration(color: secondaryColorDark, borderRadius: BorderRadius.circular(4.sp)),
+              decoration: BoxDecoration(
+                  color: secondaryColorDark,
+                  borderRadius: BorderRadius.circular(4.sp)),
               child: Column(
                 children: [
                   Text(

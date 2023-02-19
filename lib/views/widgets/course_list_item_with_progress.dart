@@ -47,7 +47,7 @@ class _CourseListItem extends State<CourseListItem> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      Image.asset(
+                      Image.network(
                         widget.preview,
                         fit: BoxFit.fill,
                         width: 104.sp,
@@ -76,18 +76,20 @@ class _CourseListItem extends State<CourseListItem> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            height: 24.sp,
+                              height: 24.sp,
                               alignment: Alignment.centerLeft,
-                              child:Text(
-                            widget.courseName,
-                            style: TextStyle(
-                                color: textPrimary,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                height: 1.43),
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                          SizedBox(height: 2.sp,),
+                              child: Text(
+                                widget.courseName,
+                                style: TextStyle(
+                                    color: textPrimary,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.43),
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                          SizedBox(
+                            height: 2.sp,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

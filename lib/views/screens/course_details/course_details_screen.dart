@@ -72,17 +72,25 @@ Map<String, dynamic> combineData(Map data1, Map data2) {
 class _CourseDetailsScreen extends State<CourseDetailsScreen> {
   int _selectedTab = 0;
   final _controller = Get.find<Controller>();
+  List<dynamic> topicData = [];
+
+  // course -> modules-> topic -> content
 
   Future loadCourse(courseId) async {
     List<String> moduleIds = [];
     List<String> topicIds = [];
     List<dynamic> contentData = [];
+
     final result = await courseQClient.client()?.execute(GetCourseDataQuery(
         variables: GetCourseDataArguments(course_id: courseId)));
+
     final courseData = result?.data?.toJson();
+
     List courseModules = courseData?['getCourseModules'];
     print(courseModules);
+
     List courseTopics = courseData?['getTopics'];
+
     for (int i in courseModules.asMap().keys) {
       final _contentData = await courseQClient.client()?.execute(
           GetModuleContentQuery(
@@ -101,14 +109,15 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
         }
       }
     }
-    // print(_controller.topicData);
-    _controller.topicData.addAll(data);
+
+    topicData.addAll(data);
+    print('tpoic data$topicData');
   }
 
   getScreen() {
     switch (_selectedTab) {
       case 0:
-        return TopicScreen(widget.courseName);
+        return TopicScreen(widget.courseName, topicData);
       case 1:
         return const NotesScreen();
       case 2:

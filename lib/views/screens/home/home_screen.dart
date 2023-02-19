@@ -557,13 +557,23 @@ class _HomeScreen extends State<HomeScreen> {
                         crossAxisSpacing: 8.sp,
                         mainAxisSpacing: 8.sp,
                         maxCrossAxisExtent: 74.sp),
-                    children: [
-                      ...[1, 2, 3, 4].map((e) => CourseListItem(
-                          "IT Development",
-                          "Cognizent",
-                          "120mins Left",
-                          "assets/images/course_preview.png")),
-                    ],
+                    children: (_controller.learningFolderCourses.isNotEmpty)
+                        ? [
+                            ..._controller.learningFolderCourses
+                                .where((element) =>
+                                    element.completedPercentage > 0)
+                                .map((e) => CourseListItem(
+                                      e.name,
+                                      e.owner,
+                                      "120mins Left",
+                                      e.tileImage,
+                                    )),
+                          ]
+                        : [
+                            Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          ],
                   ),
                   SizedBox(
                     width: 8.sp,
@@ -588,6 +598,8 @@ class _HomeScreen extends State<HomeScreen> {
                           width: 20.sp,
                         ),
                         ..._controller.learningFolderCourses
+                            .where(
+                                (element) => element.completedPercentage <= 0)
                             .map((courseItem) => Row(
                                   children: [
                                     CourseGridItem(

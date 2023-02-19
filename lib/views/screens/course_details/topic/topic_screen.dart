@@ -16,9 +16,10 @@ import '../../../widgets/more_like_this.dart';
 import '../../../widgets/video_player.dart';
 
 class TopicScreen extends StatefulWidget {
-  TopicScreen(this.courseName, {Key? key}) : super(key: key);
+  TopicScreen(this.courseName, this.topicData, {Key? key}) : super(key: key);
 
   String courseName;
+  List topicData;
 
   @override
   State<StatefulWidget> createState() {
@@ -31,6 +32,7 @@ class _TopicScreen extends State<TopicScreen> {
   VideoPlayerController? _controller;
 
   List dropdown = [];
+  List topicData = [];
 
   String videoUrl =
       'https://storage.googleapis.com/8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1/09b68417-a93c-42de-b649-b81a1d3b17f8/25a7a60c-7dcb-4b84-9b3d-113e7172e06c/videoplayback.mp4?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=zicops-cc%40zicops-one.iam.gserviceaccount.com%2F20230218%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20230218T041325Z&X-Goog-Expires=86399&X-Goog-Signature=1d0abf133e9da32fdd6bcef18688a5ddc8a915007bd42ab9e74be0f2d758c22ce5c3dffff46c2168a73b6a77b8ab454f617838a21cf4f69201849ef220b673af046519281e9991bb437b59d317a6e13863030224f099b08de928d000d51c84365841b577a3f7b891ec6924792044f47d14d28985982142e8522cb5cfb7644d8565c3f4ad2e95de0b2041449ffa259f7d42ed49b1e30b2885d48acd445d106927ab0aa26c3ee2ae45d1b13ee97a0ec949815032457c67f2439a11413bb5ccf45637200363a41064c688d7073a96b52c3dafc2ff09ab4a6e87eef09ed60bbaf2c45873fbd11bf4ff9e411f5c4e9dfcc949837a538e992f68f78124183c72a5d910&X-Goog-SignedHeaders=host';
@@ -38,12 +40,24 @@ class _TopicScreen extends State<TopicScreen> {
   double minPanelHeight = 0;
   double maxPanelHeight = 0;
 
-  final _Controller = Get.find<Controller>();
+  //final _Controller = Get.find<Controller>();
 
   int selectedVideoOption = -1;
 
   initVideoController(videoUrl) {
     _controller = VideoPlayerController.network(videoUrl);
+  }
+
+  @override
+  void initState() {
+    if (widget.topicData.isNotEmpty) {
+      topicData = widget.topicData;
+    }
+    super.initState();
+    setState(() {
+      print('hello$widget.topicData');
+    });
+    // topicData = widget.topicData;
   }
 
   getBottomSheetChild() {
@@ -511,37 +525,34 @@ class _TopicScreen extends State<TopicScreen> {
                   ),
                   SizedBox(
                     height: 320.sp,
-                    child: Obx(
-                      () => ListView(
-                        children: (_Controller.topicData.isNotEmpty
-                            ? [
-                                ..._Controller.topicData.map((e) =>
-                                    GestureDetector(
-                                        onTap: () {
-                                          print(e['contentUrl']);
-                                          setState(() {
-                                            selectedChapter = e['name'];
-                                            initVideoController(
-                                                //  'assets/images/mov_bbb.mp4');
-                                                e['contentUrl']);
-                                            //    'https://samplelib.com/lib/preview/mp4/sample-30s.mp4');
-                                            // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-                                          });
-                                        },
-                                        child: ModuleCard(
-                                            e['name'],
-                                            "1hr 50 mins",
-                                            "assets/images/course_preview_2.png",
-                                            e['name'] == selectedChapter,
-                                            _controller?.value.position,
-                                            _controller?.value.duration)))
-                              ]
-                            : [
-                                Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ]),
-                      ),
+                    child: ListView(
+                      children: (topicData.isNotEmpty
+                          ? [
+                              ...topicData.map((e) => GestureDetector(
+                                  onTap: () {
+                                    print(e['contentUrl']);
+                                    setState(() {
+                                      selectedChapter = e['name'];
+                                      initVideoController(
+                                          //  'assets/images/mov_bbb.mp4');
+                                          e['contentUrl']);
+                                      //    'https://samplelib.com/lib/preview/mp4/sample-30s.mp4');
+                                      // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+                                    });
+                                  },
+                                  child: ModuleCard(
+                                      e['name'],
+                                      "1hr 50 mins",
+                                      "assets/images/course_preview_2.png",
+                                      e['name'] == selectedChapter,
+                                      _controller?.value.position,
+                                      _controller?.value.duration)))
+                            ]
+                          : [
+                              Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ]),
                     ),
                   ),
                   SizedBox(
