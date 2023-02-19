@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
-import 'package:zicops/views/screens/course_details/course_details_screen.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
 import 'package:zicops/views/screens/home/home.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
@@ -123,7 +120,7 @@ class _LoginScreen extends State<LoginScreen> {
       // sharedPreferences.setString("user", user);
       // print(sharedPreferences.getString("user"));
 
-      if (_controller.userDetails?.isVerified == false) {
+      if (_controller.userDetails.isVerified == false) {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => AccountSetupScreen()));
       } else {

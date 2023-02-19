@@ -2,27 +2,22 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+// import 'package:get/get_core/src/get_main.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
 import 'package:zicops/views/screens/profile/widgets/about_info.dart';
-import 'package:zicops/views/widgets/GradientButton.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
+
 import '../../../controllers/controller.dart';
 import '../../../models/user/org_model.dart';
-import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
-import '../../../utils/validation.dart';
-import '../../widgets/PrefixInputField.dart';
 
 class AboutTabScreen extends StatefulWidget {
   AboutTabScreen({Key? key}) : super(key: key);
@@ -105,7 +100,7 @@ class _AboutTabScreen extends State<AboutTabScreen> {
     var user = _controller.userDetails;
 
     setState(() {
-      userId = user?.id;
+      userId = user.id;
       name = user.firstName! + " " + user.lastName!;
       phone = user.phone!;
       email = user.email!;
@@ -150,8 +145,8 @@ class _AboutTabScreen extends State<AboutTabScreen> {
         // orgName = orgResult!.data!.getUserOrgDetails?.orgName!;
         // orgUnit = orgResult!.data!.getUserOrgDetails?[0]?.orgUnit!;
         // lspRole = orgResult!.data!.getUserOrgDetails?[0]?.lspRole!;
-        orgRole = orgResult!.data!.getUserOrgDetails?.organizationRole!;
-        empId = orgResult!.data!.getUserOrgDetails?.employeeId!;
+        orgRole = orgResult!.data!.getUserOrgDetails?.organizationRole;
+        empId = orgResult.data!.getUserOrgDetails?.employeeId;
         // empId = orgResult!.data!.getUserOrgDetails?[0]?.empId!;
       });
     }
