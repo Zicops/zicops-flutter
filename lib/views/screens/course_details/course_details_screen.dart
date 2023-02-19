@@ -15,7 +15,9 @@ import 'notes/notes_screen.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
   String courseId;
-  CourseDetailsScreen(this.courseId, {Key? key}) : super(key: key);
+  String courseName;
+  CourseDetailsScreen(this.courseId, this.courseName, {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -105,7 +107,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
   getScreen() {
     switch (_selectedTab) {
       case 0:
-        return const TopicScreen();
+        return TopicScreen(widget.courseName);
       case 1:
         return const NotesScreen();
       case 2:

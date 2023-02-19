@@ -16,7 +16,9 @@ import '../../../widgets/more_like_this.dart';
 import '../../../widgets/video_player.dart';
 
 class TopicScreen extends StatefulWidget {
-  const TopicScreen({Key? key}) : super(key: key);
+  TopicScreen(this.courseName, {Key? key}) : super(key: key);
+
+  String courseName;
 
   @override
   State<StatefulWidget> createState() {
@@ -454,7 +456,7 @@ class _TopicScreen extends State<TopicScreen> {
                     margin: EdgeInsets.only(left: 20.sp),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "$selectedChapter.Empathize",
+                      "$selectedChapter." + widget.courseName,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: 18.sp,
