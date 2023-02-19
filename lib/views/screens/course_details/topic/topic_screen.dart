@@ -30,6 +30,8 @@ class _TopicScreen extends State<TopicScreen> {
   final PanelController _panelController = PanelController();
   VideoPlayerController? _controller;
 
+  List dropdown = [];
+
   String videoUrl =
       'https://storage.googleapis.com/8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1/09b68417-a93c-42de-b649-b81a1d3b17f8/25a7a60c-7dcb-4b84-9b3d-113e7172e06c/videoplayback.mp4?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=zicops-cc%40zicops-one.iam.gserviceaccount.com%2F20230218%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20230218T041325Z&X-Goog-Expires=86399&X-Goog-Signature=1d0abf133e9da32fdd6bcef18688a5ddc8a915007bd42ab9e74be0f2d758c22ce5c3dffff46c2168a73b6a77b8ab454f617838a21cf4f69201849ef220b673af046519281e9991bb437b59d317a6e13863030224f099b08de928d000d51c84365841b577a3f7b891ec6924792044f47d14d28985982142e8522cb5cfb7644d8565c3f4ad2e95de0b2041449ffa259f7d42ed49b1e30b2885d48acd445d106927ab0aa26c3ee2ae45d1b13ee97a0ec949815032457c67f2439a11413bb5ccf45637200363a41064c688d7073a96b52c3dafc2ff09ab4a6e87eef09ed60bbaf2c45873fbd11bf4ff9e411f5c4e9dfcc949837a538e992f68f78124183c72a5d910&X-Goog-SignedHeaders=host';
   String selectedChapter = (-1).toString();
@@ -537,7 +539,7 @@ class _TopicScreen extends State<TopicScreen> {
                             : [
                                 Center(
                                   child: CircularProgressIndicator(),
-                                )
+                                ),
                               ]),
                       ),
                     ),

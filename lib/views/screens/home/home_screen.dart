@@ -582,27 +582,35 @@ class _HomeScreen extends State<HomeScreen> {
               alignment: Alignment.centerLeft,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  ..._controller.learningFolderCourses.map((courseItem) => Row(
-                        children: [
-                          CourseGridItem(
-                            courseItem.name ?? '',
-                            courseItem.owner ?? '',
-                            courseItem.expertiseLevel ?? '',
-                            '1',
-                            courseItem.tileImage ?? '',
-                            courseItem.id ?? '',
-                          ),
-                          SizedBox(
-                            width: 8.sp,
-                          )
-                        ],
-                      )),
-                  viewAll()
-                ],
+                children: (_controller.learningFolderCourses.isNotEmpty)
+                    ? [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        ..._controller.learningFolderCourses
+                            .map((courseItem) => Row(
+                                  children: [
+                                    CourseGridItem(
+                                      courseItem.name ?? '',
+                                      courseItem.owner ?? '',
+                                      courseItem.expertiseLevel ?? '',
+                                      '1',
+                                      courseItem.tileImage ?? '',
+                                      courseItem.id ?? '',
+                                    ),
+                                    SizedBox(
+                                      width: 8.sp,
+                                    )
+                                  ],
+                                )),
+                        viewAll()
+                      ]
+                    : [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        Center(child: CircularProgressIndicator()),
+                      ],
               ),
             ),
             SizedBox(
@@ -622,27 +630,34 @@ class _HomeScreen extends State<HomeScreen> {
               alignment: Alignment.centerLeft,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  ..._controller.latestCourses.map((courseItem) => Row(
-                        children: [
-                          CourseGridItem(
-                            courseItem.name ?? '',
-                            courseItem.owner ?? '',
-                            courseItem.expertiseLevel ?? '',
-                            '1',
-                            courseItem.tileImage ?? '',
-                            courseItem.id ?? '',
-                          ),
-                          SizedBox(
-                            width: 8.sp,
-                          )
-                        ],
-                      )),
-                  viewAll()
-                ],
+                children: (_controller.latestCourses.isNotEmpty)
+                    ? [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        ..._controller.latestCourses.map((courseItem) => Row(
+                              children: [
+                                CourseGridItem(
+                                  courseItem.name ?? '',
+                                  courseItem.owner ?? '',
+                                  courseItem.expertiseLevel ?? '',
+                                  '1',
+                                  courseItem.tileImage ?? '',
+                                  courseItem.id ?? '',
+                                ),
+                                SizedBox(
+                                  width: 8.sp,
+                                )
+                              ],
+                            )),
+                        viewAll(),
+                      ]
+                    : [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        Center(child: CircularProgressIndicator()),
+                      ],
               ),
             ),
             SizedBox(
@@ -657,27 +672,34 @@ class _HomeScreen extends State<HomeScreen> {
               alignment: Alignment.centerLeft,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  ..._controller.lspCourses.map((courseItem) => Row(
-                        children: [
-                          CourseGridItem(
-                            courseItem.name ?? '',
-                            courseItem.owner ?? '',
-                            courseItem.expertiseLevel ?? '',
-                            '1',
-                            courseItem.tileImage ?? '',
-                            courseItem.id ?? '',
-                          ),
-                          SizedBox(
-                            width: 8.sp,
-                          )
-                        ],
-                      )),
-                  viewAll()
-                ],
+                children: (_controller.lspCourses.isNotEmpty)
+                    ? [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        ..._controller.lspCourses.map((courseItem) => Row(
+                              children: [
+                                CourseGridItem(
+                                  courseItem.name ?? '',
+                                  courseItem.owner ?? '',
+                                  courseItem.expertiseLevel ?? '',
+                                  '1',
+                                  courseItem.tileImage ?? '',
+                                  courseItem.id ?? '',
+                                ),
+                                SizedBox(
+                                  width: 8.sp,
+                                )
+                              ],
+                            )),
+                        viewAll()
+                      ]
+                    : [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        Center(child: CircularProgressIndicator()),
+                      ],
               ),
             ),
             SizedBox(
@@ -726,7 +748,13 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 14.25.sp,
             ),
-            sectionHeader(_controller.subCatCourses1[0].subCategory!, () {}),
+            sectionHeader(
+              _controller.subCatCourses1.isNotEmpty
+                  ? _controller.subCatCourses1[0].subCategory
+                  : "",
+              // _controller.subCatCourses1?[0].subCategory,
+              () {},
+            ),
             SizedBox(
               height: 8.sp,
             ),
@@ -735,51 +763,49 @@ class _HomeScreen extends State<HomeScreen> {
               alignment: Alignment.centerLeft,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  ..._controller.subCatCourses1.map((courseItem) => Row(
-                        children: [
-                          CourseGridItem(
-                            // id: data?.id,
-                            //     name: data?.name,
-                            //     publisher: data?.publisher,
-                            //     description: data?.description,
-                            //     expertiseLevel: data?.expertiseLevel,
-                            //     owner: data?.owner,
-                            //     isDisplay: data?.isDisplay,
-                            //     type: data?.type,
-                            //     tileImage: data?.tileImage,
-                            //     image: data?.image));
-
-                            courseItem.name!,
-                            courseItem.owner!,
-                            courseItem.expertiseLevel!,
-                            "1h 30m",
-                            courseItem.tileImage!,
-                            courseItem.id ?? '',
-
-                            // courseItem["courseName"],
-                            // courseItem["org"],
-                            // courseItem["difficulty"],
-                            // courseItem["courseLength"],
-                            // courseItem["preview"],
-                          ),
-                          SizedBox(
-                            width: 8.sp,
-                          )
-                        ],
-                      )),
-                  viewAll()
-                ],
+                children: (_controller.subCatCourses1.isNotEmpty)
+                    ? [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        ..._controller.subCatCourses1.map((courseItem) => Row(
+                              children: [
+                                CourseGridItem(
+                                  courseItem.name!,
+                                  courseItem.owner!,
+                                  courseItem.expertiseLevel!,
+                                  "1h 30m",
+                                  courseItem.tileImage!,
+                                  courseItem.id ?? '',
+                                ),
+                                SizedBox(
+                                  width: 8.sp,
+                                )
+                              ],
+                            )),
+                        viewAll()
+                      ]
+                    : [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        Text(
+                          "No courses found",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
               ),
             ),
             SizedBox(
               height: 14.25.sp,
             ),
             sectionHeader(
-                _controller.subCatCourses2[0].subCategory ?? '', () {}),
+              _controller.subCatCourses2.isNotEmpty
+                  ? _controller.subCatCourses2[0].subCategory
+                  : "",
+              //_controller.subCatCourses2?[0].subCategory ?? '',
+              () {},
+            ),
             SizedBox(
               height: 8.sp,
             ),
@@ -788,34 +814,49 @@ class _HomeScreen extends State<HomeScreen> {
               alignment: Alignment.centerLeft,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  ..._controller.subCatCourses2.map((courseItem) => Row(
-                        children: [
-                          CourseGridItem(
-                            courseItem.name ?? "",
-                            courseItem.owner ?? "",
-                            courseItem.expertiseLevel ?? "",
-                            "1h 30m",
-                            courseItem.tileImage ?? "",
-                            courseItem.id ?? '',
-                          ),
-                          SizedBox(
-                            width: 8.sp,
-                          )
-                        ],
-                      )),
-                  viewAll()
-                ],
+                children: (_controller.subCatCourses2.isNotEmpty)
+                    ? [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        ..._controller.subCatCourses2.map((courseItem) => Row(
+                              children: [
+                                CourseGridItem(
+                                  courseItem.name ?? "",
+                                  courseItem.owner ?? "",
+                                  courseItem.expertiseLevel ?? "",
+                                  "1h 30m",
+                                  courseItem.tileImage ?? "",
+                                  courseItem.id ?? '',
+                                ),
+                                SizedBox(
+                                  width: 8.sp,
+                                )
+                              ],
+                            )),
+                        viewAll()
+                      ]
+                    : [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        Text(
+                          "No courses found",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
               ),
             ),
             SizedBox(
               height: 14.25.sp,
             ),
             sectionHeader(
-                _controller.subCatCourses3[0].subCategory ?? '', () {}),
+              _controller.subCatCourses3.isNotEmpty
+                  ? _controller.subCatCourses3[0].subCategory
+                  : "",
+              // _controller.subCatCourses3?[0].subCategory ?? '',
+              () {},
+            ),
             SizedBox(
               height: 8.sp,
             ),
@@ -824,27 +865,34 @@ class _HomeScreen extends State<HomeScreen> {
               alignment: Alignment.centerLeft,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  ..._controller.subCatCourses3.map((courseItem) => Row(
-                        children: [
-                          CourseGridItem(
-                            courseItem.name ?? '',
-                            courseItem.owner ?? '',
-                            courseItem.expertiseLevel ?? '',
-                            "1h 30m",
-                            courseItem.tileImage ?? '',
-                            courseItem.id ?? '',
-                          ),
-                          SizedBox(
-                            width: 8.sp,
-                          )
-                        ],
-                      )),
-                  viewAll()
-                ],
+                children: (_controller.subCatCourses3.isNotEmpty)
+                    ? [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        ..._controller.subCatCourses3.map((courseItem) => Row(
+                              children: [
+                                CourseGridItem(
+                                  courseItem.name ?? '',
+                                  courseItem.owner ?? '',
+                                  courseItem.expertiseLevel ?? '',
+                                  "1h 30m",
+                                  courseItem.tileImage ?? '',
+                                  courseItem.id ?? '',
+                                ),
+                                SizedBox(
+                                  width: 8.sp,
+                                )
+                              ],
+                            )),
+                        viewAll()
+                      ]
+                    : [
+                        SizedBox(
+                          width: 20.sp,
+                        ),
+                        Center(child: CircularProgressIndicator()),
+                      ],
               ),
             ),
             SizedBox(

@@ -81,6 +81,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
         variables: GetCourseDataArguments(course_id: courseId)));
     final courseData = result?.data?.toJson();
     List courseModules = courseData?['getCourseModules'];
+    print(courseModules);
     List courseTopics = courseData?['getTopics'];
     for (int i in courseModules.asMap().keys) {
       final _contentData = await courseQClient.client()?.execute(
@@ -100,7 +101,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
         }
       }
     }
-
+    // print(_controller.topicData);
     _controller.topicData.addAll(data);
   }
 

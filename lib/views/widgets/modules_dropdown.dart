@@ -138,7 +138,7 @@ class _ModulesDropDown extends State<ModulesDropDown>
                     clipBehavior: Clip.antiAlias,
                     child: Column(
                       children: [
-                        ...modules.map(
+                        ...widget.dropdownList.map(
                           (module) => GestureDetector(
                               onTap: () {
                                 setState(() {
