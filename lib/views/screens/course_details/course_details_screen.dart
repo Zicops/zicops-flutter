@@ -87,9 +87,12 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
     final courseData = result?.data?.toJson();
 
     List courseModules = courseData?['getCourseModules'];
-    print(courseModules);
-
     List courseTopics = courseData?['getTopics'];
+
+    if (courseModules.isNotEmpty) {
+      courseModules.sort((module1, module2) =>
+          module1?['sequence'].compareTo(module2?['sequence']));
+    }
 
     for (int i in courseModules.asMap().keys) {
       final _contentData = await courseQClient.client()?.execute(
@@ -102,6 +105,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
     }
 
     List data = [];
+    Map<String,List> finalCourseData = {'id': []};
     for (int i in courseTopics.asMap().keys) {
       for (int j in contentData.asMap().keys) {
         if (courseTopics[i]['id'] == contentData[j]['topicId']) {
@@ -110,8 +114,19 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
       }
     }
 
+    for (int i in courseModules.asMap().keys) {
+      var topics = [];
+      for (int j in data.asMap().keys) {
+        if (courseModules[i]['id'] == data[j]['moduleId']) {
+          topics.add(data[j]);
+        }
+      }
+      finalCourseData.addAll({courseModules[i]['id']: topics});
+    }
+
+    print(finalCourseData);
+    _controller.moduleData.addAll(finalCourseData);
     topicData.addAll(data);
-    print('tpoic data$topicData');
   }
 
   getScreen() {
