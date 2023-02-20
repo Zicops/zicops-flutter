@@ -4,12 +4,12 @@
 
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:zicops/models/user/home_page_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zicops/graphql_api.graphql.dart';
+import 'package:zicops/main.dart';
 import 'package:zicops/views/screens/home/home_screen.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 import 'package:zicops/views/screens/my_course/my_course_screen.dart';
@@ -21,12 +21,8 @@ import 'package:zicops/views/screens/quiz/quiz_screen.dart';
 import 'package:zicops/views/screens/search/search_screen.dart';
 import 'package:zicops/views/screens/settings/settings_screen.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zicops/graphql_api.graphql.dart';
-import 'package:zicops/main.dart';
 import '../../../controllers/controller.dart';
 import '../../../models/user/org_model.dart';
-import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -64,7 +60,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     });
 
     Map<String, dynamic> jsonOrg =
-        jsonDecode(sharedPreferences.getString('userOrg')!);
+        jsonDecode(sharedPreferences.getString('userOrg')??'');
     var userOrg = OrgModel.fromJson(jsonOrg);
     if (jsonOrg.isNotEmpty) {
       setState(() {
@@ -81,10 +77,8 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
         return const QuizScreen();
       case 2:
         return const HomeScreen();
-
       case 3:
         return const MyCourseScreen();
-
       case 4:
         return const NewCourseScreen();
 
@@ -111,7 +105,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 Direction: "")));
 
     // print(allLatestCourse?.data?.toJson());
-    //CjD33TfEMP
   }
 
   Widget getTitle() {

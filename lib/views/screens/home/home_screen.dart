@@ -1,12 +1,9 @@
 import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zicops/utils/colors.dart';
@@ -21,7 +18,6 @@ import '../../../controllers/controller.dart';
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
 import '../../../models/user/user_course_model.dart';
-import '../../../models/user/user_details_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -79,8 +75,8 @@ class _HomeScreen extends State<HomeScreen> {
     // 5. try to add data in the model
     String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map<String, dynamic> jsonDetails =
-        jsonDecode(sharedPreferences.getString('user')!);
+    // Map<String, dynamic> jsonDetails =
+        // jsonDecode(sharedPreferences.getString('user')??'');
     var user = _controller.userDetails;
     final userCourseMap = await userClient.client()?.execute(
         GetUserCourseMapsQuery(
@@ -193,9 +189,9 @@ class _HomeScreen extends State<HomeScreen> {
 
   Future loadUserPreferences() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map<String, dynamic> jsonDetails =
-        jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonDetails);
+    // Map<String, dynamic> jsonDetails =
+        // jsonDecode(sharedPreferences.getString('user') ?? '');
+    // var user = UserDetailsModel.fromJson(jsonDetails);
     // String userLspId = sharedPreferences.getString('userLspId')!;
 
     // for now it is hardcoded need to be fixed in lsp screen screen
