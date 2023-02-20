@@ -16,6 +16,7 @@ import '../../../controllers/controller.dart';
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
 import '../../../models/user/user_details_model.dart';
+import '../../../state/mobx_store.dart';
 import '../../../utils/validation.dart';
 import '../../widgets/CustomPassword.dart';
 import '../../widgets/PrefixInputField.dart';
@@ -46,6 +47,8 @@ class _LoginScreen extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   final _controller = Get.find<Controller>();
+
+  final _zstore = ZStore();
 
   bool _passwordVisible = false;
   bool showErrorP = false;
@@ -87,6 +90,9 @@ class _LoginScreen extends State<LoginScreen> {
       final result = await userClient.client()?.execute(LoginMutation());
       await sharedPreferences.setString(
           "userData", result!.data!.login.toString());
+
+      //TODO Ankit and Sharayna - Please check this works or not
+      _zstore.userDetailsModel.id = result.data?.login?.id ?? "";
 
       // String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
       
