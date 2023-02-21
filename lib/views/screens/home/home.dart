@@ -60,7 +60,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     });
 
     Map<String, dynamic> jsonOrg =
-        jsonDecode(sharedPreferences.getString('userOrg')??'');
+        jsonDecode(sharedPreferences.getString('userOrg') ?? '');
     var userOrg = OrgModel.fromJson(jsonOrg);
     if (jsonOrg.isNotEmpty) {
       setState(() {
@@ -90,7 +90,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   }
 
   Future courseLoading() async {
-    print('called');
+    //print('called');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final data = sharedPreferences.getString('userData');
     print(data);

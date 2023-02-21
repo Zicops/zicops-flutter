@@ -18,7 +18,7 @@ class Controller extends GetxController {
   List courseDataOne = [].obs;
   List userPreferences = [].obs;
   List<dynamic> topicData = [].obs;
-  Map<String,List> moduleData = {"dummy":[]}.obs;
+  Map<String, List> moduleData = {"dummy": []}.obs;
 
   late UserDetailsModel userDetails;
 }

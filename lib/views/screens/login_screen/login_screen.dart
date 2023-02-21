@@ -16,6 +16,7 @@ import '../../../controllers/controller.dart';
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
 import '../../../models/user/user_details_model.dart';
+import '../../../state/mobx_store.dart';
 import '../../../utils/validation.dart';
 import '../../widgets/CustomPassword.dart';
 import '../../widgets/PrefixInputField.dart';
@@ -47,6 +48,9 @@ class _LoginScreen extends State<LoginScreen> {
 
   final _controller = Get.find<Controller>();
 
+  // Defining MobX Store
+  final _zStore = ZStore();
+
   bool _passwordVisible = false;
   bool showErrorP = false;
   String errorMsgP = "";
@@ -55,97 +59,104 @@ class _LoginScreen extends State<LoginScreen> {
   bool isEmailValidated = false;
 
   Future firebaseLogin() async {
+    //TODO: In future, make service files for handling all the API calls and other services instead of writing them in the UI file
     setState(() {
       isLoading = true;
     });
     try {
+      //Instance for Share preferences
+      final prefs = await SharedPreferences.getInstance();
+
       String lspId = '93f3693c-d111-51aa-86ca-b883c6dfe647';
+
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
+
       String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+
       if (token != null) {
-        final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
         await prefs.setString('tenant', lspId);
+      }
+
+      //Don't know why this line is there
+      String token1 =
+          'eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg3NTNiYmFiM2U4YzBmZjdjN2ZiNzg0ZWM5MmY5ODk3YjVjZDkwN2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vemljb3BzLW9uZSIsImF1ZCI6InppY29wcy1vbmUiLCJhdXRoX3RpbWUiOjE2NzIxNjE1MDksInVzZXJfaWQiOiJwMkhSUXZtakJZV1llakRpSDByRERPb3ZUOVQyIiwic3ViIjoicDJIUlF2bWpCWVdZZWpEaUgwckRET292VDlUMiIsImlhdCI6MTY3MjE2MTUwOSwiZXhwIjoxNjcyMTY1MTA5LCJlbWFpbCI6ImFua2l0K2FqQHppY29wcy5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInBob25lX251bWJlciI6Iis5MTY2Njk2OTY5NjkiLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7InBob25lIjpbIis5MTY2Njk2OTY5NjkiXSwiZW1haWwiOlsiYW5raXQrYWpAemljb3BzLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.XCtFXD2fS5Ve0HCzOYkkM_FMJnYm9OIzEaO0-BSpWW7YlkqSVgkimvK_JJrVGs77Aps2ki1y6MpWt2tTjv3Z6eLAb4L393N7O3m3INFS3QDoBUOmEI7dN2-qM4lQAp9v_wGf4BpcmNqxqTepWY4DUk2anX5Nf5GoSv-mbaCQM009DVHkTXy8S29L6QgOa997IMSLD0NgouAEopP2rfff-NPicvBSOQN35FZ56V6Wh7cczRWHk40MpaO54goXL-aBZyFOyPGJh_l5VlFlnfMzv8JMMZaDMI1E7XUm9QxfQMjEyV8psqo93v_6dDanT5J_bYxIsMNrb3UCvje2nxTxvw';
+      IdTokenResult? tokenResult =
+          await FirebaseAuth.instance.currentUser?.getIdTokenResult();
+
+      // Queries for user details and lsp details
+      final userResult = await userClient.client()?.execute(LoginMutation());
+
+      // Getting LSP details which is paginated
+      final lspData = await userClient.client()?.execute(GetUserLspByLspIdQuery(
+          variables: GetUserLspByLspIdArguments(
+              user_id: userResult?.data?.login?.id ?? '', lsp_id: lspId)));
+
+      // Setting user details in MobX Store
+
+      UserDetailsModel userDetails = UserDetailsModel(
+        userResult?.data?.login?.id ?? "",
+        userResult?.data?.login?.firstName ?? "",
+        userResult?.data?.login?.lastName ?? "",
+        userResult?.data?.login?.status ?? "",
+        userResult?.data?.login?.role ?? "",
+        userResult?.data?.login?.isVerified ?? false,
+        userResult?.data?.login?.isActive ?? false,
+        userResult?.data?.login?.gender ?? "",
+        userResult?.data?.login?.email ?? "",
+        userResult?.data?.login?.phone ?? "",
+        userResult?.data?.login?.photoUrl ?? "",
+        lspData?.data?.getUserLspByLspId?.userLspId ?? '',
+      );
+
+      _zStore.setUserDetails(userDetails);
+
+      //Storing userID and lspID in shared preferences
+      await prefs.setString('userId', _zStore.userDetailsModel?.id ?? '');
+      await prefs.setString('lspId', lspId);
+      await prefs.setString(
+          'userLspId', lspData?.data?.getUserLspByLspId?.userLspId ?? '');
+
+      //Is this redundant? Only userID and lspID needed or complete data?
+      await prefs.setString("userData", userResult!.data!.login.toString());
+      await prefs.setString('userLspData',
+          lspData?.data?.getUserLspByLspId?.userLspId?.toString() ?? '');
+
+      print("user id: ${_zStore.userDetailsModel?.id}");
+      print("user lsp id: ${lspData?.data?.getUserLspByLspId?.userLspId}");
+
+      // String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
+
+      // Navigate to AccountSetupScreen if user is not verified else HomePage
+      if (_zStore.userDetailsModel?.isVerified == false) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const AccountSetupScreen()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
       }
 
       setState(() {
         isLoading = false;
       });
 
-      String token1 =
-          'eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg3NTNiYmFiM2U4YzBmZjdjN2ZiNzg0ZWM5MmY5ODk3YjVjZDkwN2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vemljb3BzLW9uZSIsImF1ZCI6InppY29wcy1vbmUiLCJhdXRoX3RpbWUiOjE2NzIxNjE1MDksInVzZXJfaWQiOiJwMkhSUXZtakJZV1llakRpSDByRERPb3ZUOVQyIiwic3ViIjoicDJIUlF2bWpCWVdZZWpEaUgwckRET292VDlUMiIsImlhdCI6MTY3MjE2MTUwOSwiZXhwIjoxNjcyMTY1MTA5LCJlbWFpbCI6ImFua2l0K2FqQHppY29wcy5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInBob25lX251bWJlciI6Iis5MTY2Njk2OTY5NjkiLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7InBob25lIjpbIis5MTY2Njk2OTY5NjkiXSwiZW1haWwiOlsiYW5raXQrYWpAemljb3BzLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.XCtFXD2fS5Ve0HCzOYkkM_FMJnYm9OIzEaO0-BSpWW7YlkqSVgkimvK_JJrVGs77Aps2ki1y6MpWt2tTjv3Z6eLAb4L393N7O3m3INFS3QDoBUOmEI7dN2-qM4lQAp9v_wGf4BpcmNqxqTepWY4DUk2anX5Nf5GoSv-mbaCQM009DVHkTXy8S29L6QgOa997IMSLD0NgouAEopP2rfff-NPicvBSOQN35FZ56V6Wh7cczRWHk40MpaO54goXL-aBZyFOyPGJh_l5VlFlnfMzv8JMMZaDMI1E7XUm9QxfQMjEyV8psqo93v_6dDanT5J_bYxIsMNrb3UCvje2nxTxvw';
-      IdTokenResult? tokenResult =
-          await FirebaseAuth.instance.currentUser?.getIdTokenResult();
-      //String? token = tokenResult?.token ?? "";
-      // String? token = token1;
-
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      // sharedPreferences.setString("token", token);
-
-      final result = await userClient.client()?.execute(LoginMutation());
-      await sharedPreferences.setString(
-          "userData", result!.data!.login.toString());
-
-      // String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
-      
-      final lspData = await userClient.client()?.execute(GetUserLspByLspIdQuery(
-          variables: GetUserLspByLspIdArguments(
-              user_id: result.data?.login?.id ?? '', lsp_id: lspId)));
-
-      await sharedPreferences.setString('userLspData',
-          lspData?.data?.getUserLspByLspId?.userLspId?.toString() ?? '');
-
+      //TODO: Delete this after removing getx everywhere
       _controller.userDetails = UserDetailsModel(
-          result.data?.login?.id ?? "",
-          result.data?.login?.firstName ?? "",
-          result.data?.login?.lastName ?? "",
-          result.data?.login?.status ?? "",
-          result.data?.login?.role ?? "",
-          result.data?.login?.isVerified ?? false,
-          result.data?.login?.isActive ?? false,
-          result.data?.login?.gender ?? "",
-          result.data?.login?.email ?? "",
-          result.data?.login?.phone ?? "",
-          result.data?.login?.photoUrl ?? "",
+          userResult.data?.login?.id ?? "",
+          userResult.data?.login?.firstName ?? "",
+          userResult.data?.login?.lastName ?? "",
+          userResult.data?.login?.status ?? "",
+          userResult.data?.login?.role ?? "",
+          userResult.data?.login?.isVerified ?? false,
+          userResult.data?.login?.isActive ?? false,
+          userResult.data?.login?.gender ?? "",
+          userResult.data?.login?.email ?? "",
+          userResult.data?.login?.phone ?? "",
+          userResult.data?.login?.photoUrl ?? "",
           lspData?.data?.getUserLspByLspId?.userLspId ?? '');
-
-      // UserDetailsModel userDetails = UserDetailsModel(
-      //   result.data?.login?.id ?? "",
-      //   result.data?.login?.firstName ?? "",
-      //   result.data?.login?.lastName ?? "",
-      //   result.data?.login?.status ?? "",
-      //   result.data?.login?.role ?? "",
-      //   result.data?.login?.isVerified ?? false,
-      //   result.data?.login?.isActive ?? false,
-      //   result.data?.login?.gender ?? "",
-      //   result.data?.login?.email ?? "",
-      //   result.data?.login?.phone ?? "",
-      //   result.data?.login?.photoUrl ?? "",
-      // );
-      //  print(userDetails.isVerified);
-
-      // String user = jsonEncode(userDetails);
-      // print(user);
-      // sharedPreferences.setString("user", user);
-      // print(sharedPreferences.getString("user"));
-
-      if (_controller.userDetails.isVerified == false) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => AccountSetupScreen()));
-      } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const HomePage()));
-      }
-      // Navigator.push(context,
-      //     MaterialPageRoute(builder: (context) => const AccountSetupScreen()));
-
-      // final userDetailsModel = UserDetailsModel.fromJson(
-      //     jsonDecode(result!.data!.login!.toJson().toString()));
-      // print(userDetailsModel.id);
-      //
-      // print(result?.data.toString());
 
       return credential;
     } on FirebaseAuthException catch (e) {

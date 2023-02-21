@@ -17,6 +17,7 @@ import 'package:zicops/views/screens/profile/widgets/about_info.dart';
 
 import '../../../controllers/controller.dart';
 import '../../../models/user/org_model.dart';
+import '../../../state/mobx_store.dart';
 import '../../../utils/colors.dart';
 
 class AboutTabScreen extends StatefulWidget {
@@ -29,19 +30,19 @@ class AboutTabScreen extends StatefulWidget {
 }
 
 class _AboutTabScreen extends State<AboutTabScreen> {
-  final _controller = Get.find<Controller>();
-
   TextEditingController _controller1 = TextEditingController();
   TextEditingController _controller2 = TextEditingController();
   TextEditingController _controller3 = TextEditingController();
   TextEditingController _controller4 = TextEditingController();
 
+  // Variables for user details
+  String? userId = "";
   String? name = "";
   String? phone = "";
   String? email = "";
-
   String? imageUrl = "";
 
+  // Variables for org details
   String orgName = "";
   String orgUnit = "";
   String lspRole = "";
@@ -49,10 +50,14 @@ class _AboutTabScreen extends State<AboutTabScreen> {
   String? empId = "";
   String userLspId = "";
 
+  // Get UserStore
+  final _zStore = ZStore();
+
   bool isEmailValidated = false;
 
   File? bgImage;
   var profileImage;
+
   Future pickBgImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -93,23 +98,21 @@ class _AboutTabScreen extends State<AboutTabScreen> {
   }
 
   Future getDetailsToDisplay() async {
-    String? userId = "";
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    // Map<String, dynamic> jsonUser =
-    //     jsonDecode(sharedPreferences.getString('user')!);
-    var user = _controller.userDetails;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    print("id: ${_zStore.userDetailsModel?.id!}");
+    var user = _zStore.userDetailsModel;
 
     setState(() {
-      userId = user.id;
-      name = user.firstName! + " " + user.lastName!;
-      phone = user.phone!;
-      email = user.email!;
-      imageUrl = user.photoUrl!;
+      // userId = user?.id!;
+      // name = user?.firstName!;
+      // phone = user?.phone!;
+      // email = user?.email!;
+      // imageUrl = user?.photoUrl!;
     });
 
-    userLspId = sharedPreferences.getString('userLspId')!;
-    Map<String, dynamic> jsonOrg =
-        jsonDecode(sharedPreferences.getString('userOrg')!);
+    userLspId = prefs.getString('userLspId')!;
+    Map<String, dynamic> jsonOrg = jsonDecode(prefs.getString('userOrg')!);
     var userOrg = OrgModel.fromJson(jsonOrg);
     if (jsonOrg.isNotEmpty) {
       setState(() {
@@ -150,6 +153,7 @@ class _AboutTabScreen extends State<AboutTabScreen> {
         // empId = orgResult!.data!.getUserOrgDetails?[0]?.empId!;
       });
     }
+
     print(orgRole);
     print(empId);
 
