@@ -346,6 +346,29 @@ mixin UserCourseFragmentMixin {
   @JsonKey(name: 'updated_at')
   late String updatedAt;
 }
+mixin UserCohortsFragmentMixin {
+  @JsonKey(name: 'user_cohort_id')
+  String? userCohortId;
+  @JsonKey(name: 'user_id')
+  late String userId;
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+  @JsonKey(name: 'cohort_id')
+  late String cohortId;
+  @JsonKey(name: 'added_by')
+  late String addedBy;
+  @JsonKey(name: 'membership_status')
+  late String membershipStatus;
+  late String role;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+}
 mixin UserCourseProgressFragmentMixin {
   @JsonKey(name: 'user_cp_id')
   String? userCpId;
@@ -1720,6 +1743,154 @@ class CourseMapFilters extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [lspId, isMandatory, status, type];
   @override
   Map<String, dynamic> toJson() => _$CourseMapFiltersToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohort
+    extends JsonSerializable with EquatableMixin, UserCohortsFragmentMixin {
+  GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohort();
+
+  factory GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohort.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohortFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        userCohortId,
+        userId,
+        userLspId,
+        cohortId,
+        addedBy,
+        membershipStatus,
+        role,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohortToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserCohorts$QueryRoot$PaginatedCohorts extends JsonSerializable
+    with EquatableMixin {
+  GetUserCohorts$QueryRoot$PaginatedCohorts();
+
+  factory GetUserCohorts$QueryRoot$PaginatedCohorts.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserCohorts$QueryRoot$PaginatedCohortsFromJson(json);
+
+  List<GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohort?>? cohorts;
+
+  String? pageCursor;
+
+  String? direction;
+
+  int? pageSize;
+
+  @override
+  List<Object?> get props => [cohorts, pageCursor, direction, pageSize];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserCohorts$QueryRoot$PaginatedCohortsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserCohorts$QueryRoot extends JsonSerializable with EquatableMixin {
+  GetUserCohorts$QueryRoot();
+
+  factory GetUserCohorts$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetUserCohorts$QueryRootFromJson(json);
+
+  GetUserCohorts$QueryRoot$PaginatedCohorts? getLatestCohorts;
+
+  @override
+  List<Object?> get props => [getLatestCohorts];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserCohorts$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetCohortDetails$QueryRoot$CohortMain extends JsonSerializable
+    with EquatableMixin {
+  GetCohortDetails$QueryRoot$CohortMain();
+
+  factory GetCohortDetails$QueryRoot$CohortMain.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetCohortDetails$QueryRoot$CohortMainFromJson(json);
+
+  @JsonKey(name: 'cohort_id')
+  String? cohortId;
+
+  late String name;
+
+  late String description;
+
+  @JsonKey(name: 'lsp_id')
+  late String lspId;
+
+  late String code;
+
+  late String status;
+
+  late String type;
+
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+
+  late int size;
+
+  String? imageUrl;
+
+  @override
+  List<Object?> get props => [
+        cohortId,
+        name,
+        description,
+        lspId,
+        code,
+        status,
+        type,
+        isActive,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt,
+        size,
+        imageUrl
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetCohortDetails$QueryRoot$CohortMainToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetCohortDetails$QueryRoot extends JsonSerializable with EquatableMixin {
+  GetCohortDetails$QueryRoot();
+
+  factory GetCohortDetails$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetCohortDetails$QueryRootFromJson(json);
+
+  GetCohortDetails$QueryRoot$CohortMain? getCohortDetails;
+
+  @override
+  List<Object?> get props => [getCohortDetails];
+  @override
+  Map<String, dynamic> toJson() => _$GetCohortDetails$QueryRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -6738,6 +6909,441 @@ class GetUserCourseMapsQuery extends GraphQLQuery<GetUserCourseMaps$QueryRoot,
   @override
   GetUserCourseMaps$QueryRoot parse(Map<String, dynamic> json) =>
       GetUserCourseMaps$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserCohortsArguments extends JsonSerializable with EquatableMixin {
+  GetUserCohortsArguments({
+    this.user_id,
+    this.user_lsp_id,
+    this.publish_time,
+    this.pageCursor,
+    this.pageSize,
+  });
+
+  @override
+  factory GetUserCohortsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetUserCohortsArgumentsFromJson(json);
+
+  final String? user_id;
+
+  final String? user_lsp_id;
+
+  final int? publish_time;
+
+  final String? pageCursor;
+
+  final int? pageSize;
+
+  @override
+  List<Object?> get props =>
+      [user_id, user_lsp_id, publish_time, pageCursor, pageSize];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserCohortsArgumentsToJson(this);
+}
+
+final GET_USER_COHORTS_QUERY_DOCUMENT_OPERATION_NAME = 'GetUserCohorts';
+final GET_USER_COHORTS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'GetUserCohorts'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'publish_time')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'pageCursor')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'pageSize')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getLatestCohorts'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'user_id'),
+            value: VariableNode(name: NameNode(value: 'user_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'user_lsp_id'),
+            value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'publish_time'),
+            value: VariableNode(name: NameNode(value: 'publish_time')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'pageCursor'),
+            value: VariableNode(name: NameNode(value: 'pageCursor')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'Direction'),
+            value: StringValueNode(
+              value: '',
+              isBlock: false,
+            ),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'pageSize'),
+            value: VariableNode(name: NameNode(value: 'pageSize')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'cohorts'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                name: NameNode(value: 'UserCohortsFragment'),
+                directives: [],
+              )
+            ]),
+          ),
+          FieldNode(
+            name: NameNode(value: 'pageCursor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'direction'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'pageSize'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'UserCohortsFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'UserCohort'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'user_cohort_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_lsp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'cohort_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'added_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'membership_status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'role'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetUserCohortsQuery
+    extends GraphQLQuery<GetUserCohorts$QueryRoot, GetUserCohortsArguments> {
+  GetUserCohortsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_USER_COHORTS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_USER_COHORTS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetUserCohortsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetUserCohorts$QueryRoot parse(Map<String, dynamic> json) =>
+      GetUserCohorts$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetCohortDetailsArguments extends JsonSerializable with EquatableMixin {
+  GetCohortDetailsArguments({required this.cohort_id});
+
+  @override
+  factory GetCohortDetailsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetCohortDetailsArgumentsFromJson(json);
+
+  late String cohort_id;
+
+  @override
+  List<Object?> get props => [cohort_id];
+  @override
+  Map<String, dynamic> toJson() => _$GetCohortDetailsArgumentsToJson(this);
+}
+
+final GET_COHORT_DETAILS_QUERY_DOCUMENT_OPERATION_NAME = 'GetCohortDetails';
+final GET_COHORT_DETAILS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'GetCohortDetails'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'cohort_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getCohortDetails'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'cohort_id'),
+            value: VariableNode(name: NameNode(value: 'cohort_id')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'cohort_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'description'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'code'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'type'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'size'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'imageUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class GetCohortDetailsQuery extends GraphQLQuery<GetCohortDetails$QueryRoot,
+    GetCohortDetailsArguments> {
+  GetCohortDetailsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_COHORT_DETAILS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_COHORT_DETAILS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetCohortDetailsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetCohortDetails$QueryRoot parse(Map<String, dynamic> json) =>
+      GetCohortDetails$QueryRoot.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

@@ -1327,6 +1327,128 @@ Map<String, dynamic> _$CourseMapFiltersToJson(CourseMapFilters instance) =>
       'type': instance.type,
     };
 
+GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohort
+    _$GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohortFromJson(
+            Map<String, dynamic> json) =>
+        GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohort()
+          ..userCohortId = json['user_cohort_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..cohortId = json['cohort_id'] as String
+          ..addedBy = json['added_by'] as String
+          ..membershipStatus = json['membership_status'] as String
+          ..role = json['role'] as String
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic>
+    _$GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohortToJson(
+            GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohort instance) =>
+        <String, dynamic>{
+          'user_cohort_id': instance.userCohortId,
+          'user_id': instance.userId,
+          'user_lsp_id': instance.userLspId,
+          'cohort_id': instance.cohortId,
+          'added_by': instance.addedBy,
+          'membership_status': instance.membershipStatus,
+          'role': instance.role,
+          'created_by': instance.createdBy,
+          'updated_by': instance.updatedBy,
+          'created_at': instance.createdAt,
+          'updated_at': instance.updatedAt,
+        };
+
+GetUserCohorts$QueryRoot$PaginatedCohorts
+    _$GetUserCohorts$QueryRoot$PaginatedCohortsFromJson(
+            Map<String, dynamic> json) =>
+        GetUserCohorts$QueryRoot$PaginatedCohorts()
+          ..cohorts = (json['cohorts'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetUserCohorts$QueryRoot$PaginatedCohorts$UserCohort
+                      .fromJson(e as Map<String, dynamic>))
+              .toList()
+          ..pageCursor = json['pageCursor'] as String?
+          ..direction = json['direction'] as String?
+          ..pageSize = json['pageSize'] as int?;
+
+Map<String, dynamic> _$GetUserCohorts$QueryRoot$PaginatedCohortsToJson(
+        GetUserCohorts$QueryRoot$PaginatedCohorts instance) =>
+    <String, dynamic>{
+      'cohorts': instance.cohorts?.map((e) => e?.toJson()).toList(),
+      'pageCursor': instance.pageCursor,
+      'direction': instance.direction,
+      'pageSize': instance.pageSize,
+    };
+
+GetUserCohorts$QueryRoot _$GetUserCohorts$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetUserCohorts$QueryRoot()
+      ..getLatestCohorts = json['getLatestCohorts'] == null
+          ? null
+          : GetUserCohorts$QueryRoot$PaginatedCohorts.fromJson(
+              json['getLatestCohorts'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetUserCohorts$QueryRootToJson(
+        GetUserCohorts$QueryRoot instance) =>
+    <String, dynamic>{
+      'getLatestCohorts': instance.getLatestCohorts?.toJson(),
+    };
+
+GetCohortDetails$QueryRoot$CohortMain
+    _$GetCohortDetails$QueryRoot$CohortMainFromJson(
+            Map<String, dynamic> json) =>
+        GetCohortDetails$QueryRoot$CohortMain()
+          ..cohortId = json['cohort_id'] as String?
+          ..name = json['name'] as String
+          ..description = json['description'] as String
+          ..lspId = json['lsp_id'] as String
+          ..code = json['code'] as String
+          ..status = json['status'] as String
+          ..type = json['type'] as String
+          ..isActive = json['is_active'] as bool
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String
+          ..size = json['size'] as int
+          ..imageUrl = json['imageUrl'] as String?;
+
+Map<String, dynamic> _$GetCohortDetails$QueryRoot$CohortMainToJson(
+        GetCohortDetails$QueryRoot$CohortMain instance) =>
+    <String, dynamic>{
+      'cohort_id': instance.cohortId,
+      'name': instance.name,
+      'description': instance.description,
+      'lsp_id': instance.lspId,
+      'code': instance.code,
+      'status': instance.status,
+      'type': instance.type,
+      'is_active': instance.isActive,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'size': instance.size,
+      'imageUrl': instance.imageUrl,
+    };
+
+GetCohortDetails$QueryRoot _$GetCohortDetails$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetCohortDetails$QueryRoot()
+      ..getCohortDetails = json['getCohortDetails'] == null
+          ? null
+          : GetCohortDetails$QueryRoot$CohortMain.fromJson(
+              json['getCohortDetails'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetCohortDetails$QueryRootToJson(
+        GetCohortDetails$QueryRoot instance) =>
+    <String, dynamic>{
+      'getCohortDetails': instance.getCohortDetails?.toJson(),
+    };
+
 GetUserCourseProgressByMapId$QueryRoot$UserCourseProgress
     _$GetUserCourseProgressByMapId$QueryRoot$UserCourseProgressFromJson(
             Map<String, dynamic> json) =>
@@ -1917,6 +2039,38 @@ Map<String, dynamic> _$GetUserCourseMapsArgumentsToJson(
       'pageCursor': instance.pageCursor,
       'pageSize': instance.pageSize,
       'filters': instance.filters?.toJson(),
+    };
+
+GetUserCohortsArguments _$GetUserCohortsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetUserCohortsArguments(
+      user_id: json['user_id'] as String?,
+      user_lsp_id: json['user_lsp_id'] as String?,
+      publish_time: json['publish_time'] as int?,
+      pageCursor: json['pageCursor'] as String?,
+      pageSize: json['pageSize'] as int?,
+    );
+
+Map<String, dynamic> _$GetUserCohortsArgumentsToJson(
+        GetUserCohortsArguments instance) =>
+    <String, dynamic>{
+      'user_id': instance.user_id,
+      'user_lsp_id': instance.user_lsp_id,
+      'publish_time': instance.publish_time,
+      'pageCursor': instance.pageCursor,
+      'pageSize': instance.pageSize,
+    };
+
+GetCohortDetailsArguments _$GetCohortDetailsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetCohortDetailsArguments(
+      cohort_id: json['cohort_id'] as String,
+    );
+
+Map<String, dynamic> _$GetCohortDetailsArgumentsToJson(
+        GetCohortDetailsArguments instance) =>
+    <String, dynamic>{
+      'cohort_id': instance.cohort_id,
     };
 
 GetUserCourseProgressByMapIdArguments

@@ -104,7 +104,7 @@ query getCourseData($course_id: String) {
   getCourseChapters(course_id: $course_id) {
     ...courseChapterFragment
   }
-  getTopics(course_id: $course_id){
+  getTopics(course_id: $course_id) {
     ...courseTopicFragment
   }
 }
@@ -155,6 +155,50 @@ query GetUserCourseMaps(
     pageSize
   }
 }
+
+
+query GetUserCohorts(
+    $user_id: String
+    $user_lsp_id: String
+    $publish_time: Int
+    $pageCursor: String
+    $pageSize: Int
+  ) {
+    getLatestCohorts(
+      user_id: $user_id
+      user_lsp_id: $user_lsp_id
+      publish_time: $publish_time
+      pageCursor: $pageCursor
+      Direction: ""
+      pageSize: $pageSize
+    ) {
+      cohorts {
+        ...UserCohortsFragment
+      }
+      pageCursor
+      direction
+      pageSize
+    }
+  }
+
+query GetCohortDetails($cohort_id: String!) {
+    getCohortDetails(cohort_id: $cohort_id) {
+      cohort_id
+      name
+      description
+      lsp_id
+      code
+      status
+      type
+      is_active
+      created_by
+      updated_by
+      created_at
+      updated_at
+      size
+      imageUrl
+    }
+  }
 
 query getUserCourseProgressByMapId($userId: String!, $userCourseId: [ID!]) {
   getUserCourseProgressByMapId(
@@ -391,19 +435,19 @@ fragment courseChapterFragment on Chapter {
 }
 
 fragment courseTopicFragment on Topic {
-      id
-      name
-      description
-      type
-      moduleId
-      chapterId
-      courseId
-      created_at
-      updated_at
-      sequence
-      created_by
-      updated_by
-      image
+  id
+  name
+  description
+  type
+  moduleId
+  chapterId
+  courseId
+  created_at
+  updated_at
+  sequence
+  created_by
+  updated_by
+  image
 }
 
 fragment UserCourseFragment on UserCourse {
@@ -432,6 +476,20 @@ fragment UserCourseProgressFragment on UserCourseProgress {
   status
   video_progress
   time_stamp
+  created_by
+  updated_by
+  created_at
+  updated_at
+}
+
+fragment UserCohortsFragment on UserCohort {
+  user_cohort_id
+  user_id
+  user_lsp_id
+  cohort_id
+  added_by
+  membership_status
+  role
   created_by
   updated_by
   created_at

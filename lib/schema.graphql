@@ -55,6 +55,15 @@ type QueryRoot {
     Direction: String
     pageSize: Int
   ): PaginatedCourseMaps
+  getLatestCohorts(
+    user_id: String
+    user_lsp_id: String
+    publish_time: Int
+    pageCursor: String
+    Direction: String
+    pageSize: Int
+  ): PaginatedCohorts
+  getCohortDetails(cohort_id: String!): CohortMain
   getUserCourseProgressByMapId(
     user_id: String!
     user_course_id: [ID!]
@@ -468,4 +477,43 @@ input CourseMapFilters {
   is_mandatory: Boolean
   status: String
   type: String
+}
+
+
+type PaginatedCohorts {
+  cohorts: [UserCohort]
+  pageCursor: String
+  direction: String
+  pageSize: Int
+}
+
+type UserCohort {
+  user_cohort_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  cohort_id: String!
+  added_by: String!
+  membership_status: String!
+  role: String!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+type CohortMain {
+  cohort_id: ID
+  name: String!
+  description: String!
+  lsp_id: String!
+  code: String!
+  status: String!
+  type: String!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+  size: Int!
+  imageUrl: String
 }
