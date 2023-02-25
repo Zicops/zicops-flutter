@@ -5,7 +5,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 // import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -15,9 +14,7 @@ import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
 import 'package:zicops/views/screens/profile/widgets/about_info.dart';
 
-import '../../../controllers/controller.dart';
 import '../../../models/user/org_model.dart';
-import '../../../state/mobx_store.dart';
 import '../../../utils/colors.dart';
 
 class AboutTabScreen extends StatefulWidget {
@@ -51,7 +48,7 @@ class _AboutTabScreen extends State<AboutTabScreen> {
   String userLspId = "";
 
   // Get UserStore
-  final _zStore = ZStore();
+  // final _zStore = ZStore();
 
   bool isEmailValidated = false;
 
@@ -99,18 +96,20 @@ class _AboutTabScreen extends State<AboutTabScreen> {
 
   Future getDetailsToDisplay() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    print("id: ${_zStore.userDetailsModel?.id!}");
-    var user = _zStore.userDetailsModel;
+    //
+    // print("id: ${_zStore.userDetailsModel?.id!}");
+    // var user = _zStore.userDetailsModel;
 
     setState(() {
       // userId = user?.id!;
-      // name = user?.firstName!;
-      // phone = user?.phone!;
-      // email = user?.email!;
-      // imageUrl = user?.photoUrl!;
+      name = zStoreInstance.userDetailsModel.firstName! +
+          " " +
+          zStoreInstance.userDetailsModel.lastName!;
+      phone = zStoreInstance.userDetailsModel.phone!;
+      email = zStoreInstance.userDetailsModel.email!;
+      imageUrl = zStoreInstance.userDetailsModel.photoUrl!;
     });
-
+    userId = prefs.getString('userId')!;
     userLspId = prefs.getString('userLspId')!;
     Map<String, dynamic> jsonOrg = jsonDecode(prefs.getString('userOrg')!);
     var userOrg = OrgModel.fromJson(jsonOrg);
@@ -134,9 +133,13 @@ class _AboutTabScreen extends State<AboutTabScreen> {
     //   });
     // }
 
-    print(name);
-    print(phone);
-    print(email);
+    // print(name);
+    // print(phone);
+    // print(email);
+
+    print('firestName is');
+
+    print(zStoreInstance.userDetailsModel.firstName!);
 
     final orgResult = await userClient.client()?.execute(GetUserOrgDetailsQuery(
             variables: GetUserOrgDetailsArguments(
@@ -154,8 +157,8 @@ class _AboutTabScreen extends State<AboutTabScreen> {
       });
     }
 
-    print(orgRole);
-    print(empId);
+    // print(orgRole);
+    // print(empId);
 
     if (imageUrl != null && imageUrl!.isNotEmpty) {
       profileImage = await urlToFile(imageUrl!);

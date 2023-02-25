@@ -16,7 +16,6 @@ import '../../../controllers/controller.dart';
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
 import '../../../models/user/user_details_model.dart';
-import '../../../state/mobx_store.dart';
 import '../../../utils/validation.dart';
 import '../../widgets/CustomPassword.dart';
 import '../../widgets/PrefixInputField.dart';
@@ -49,7 +48,9 @@ class _LoginScreen extends State<LoginScreen> {
   final _controller = Get.find<Controller>();
 
   // Defining MobX Store
-  final _zStore = ZStore();
+//  final _zStore = ZStore();
+
+  UserDetailsModel? _userDetails;
 
   bool _passwordVisible = false;
   bool showErrorP = false;
@@ -110,10 +111,11 @@ class _LoginScreen extends State<LoginScreen> {
         lspData?.data?.getUserLspByLspId?.userLspId ?? '',
       );
 
-      _zStore.setUserDetails(userDetails);
+      // _zStore.setUserDetails(userDetails);
+      zStoreInstance.setUserDetails(userDetails);
 
       //Storing userID and lspID in shared preferences
-      await prefs.setString('userId', _zStore.userDetailsModel?.id ?? '');
+      await prefs.setString('userId', userDetails.id!);
       await prefs.setString('lspId', lspId);
       await prefs.setString(
           'userLspId', lspData?.data?.getUserLspByLspId?.userLspId ?? '');
@@ -123,13 +125,13 @@ class _LoginScreen extends State<LoginScreen> {
       await prefs.setString('userLspData',
           lspData?.data?.getUserLspByLspId?.userLspId?.toString() ?? '');
 
-      print("user id: ${_zStore.userDetailsModel?.id}");
+      print("user id: ${userDetails.id}");
       print("user lsp id: ${lspData?.data?.getUserLspByLspId?.userLspId}");
 
       // String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
 
       // Navigate to AccountSetupScreen if user is not verified else HomePage
-      if (_zStore.userDetailsModel?.isVerified == false) {
+      if (userDetails.isVerified == false) {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -202,6 +204,14 @@ class _LoginScreen extends State<LoginScreen> {
 
   @override
   void initState() {
+    // _userDetails = zStoreInstance.userDetailsModel;
+    //
+    // zStoreInstance.listen((_) {
+    //   setState(() {
+    //     _userDetails = zStoreInstance.userDetailsModel;
+    //   });
+    // });
+
     for (var node in _focusNodes) {
       node.addListener(() {
         setState(() {});
@@ -232,159 +242,168 @@ class _LoginScreen extends State<LoginScreen> {
     _keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
     return Scaffold(
-        body: SafeArea(
-      child: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/images/login_bg.png"),
-          fit: BoxFit.fill,
-        )),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: CustomScrollView(slivers: [
-          SliverFillRemaining(
-              hasScrollBody: false,
-              child:
-                  Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                    mainAxisAlignment: isFocusedOrNotEmpty()
-                        ? MainAxisAlignment.start
-                        : MainAxisAlignment.center,
-                    children: [
-                      isFocusedOrNotEmpty()
-                          ? Text(
-                              'Welcome!',
-                              style: TextStyle(
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: textPrimary),
-                              textAlign: TextAlign.start,
-                            )
-                          : Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                  Image.asset(
-                                    "assets/images/zicops_logo.png",
-                                    width: 40.sp,
-                                  ),
-                                  SizedBox(height: 20.sp),
-                                  Image.asset(
-                                    "assets/images/zicops_name.png",
-                                    width: 120.sp,
-                                    height: 20.sp,
-                                  ),
-                                  SizedBox(height: 20.sp),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.70,
-                                      child: Text(
-                                        "Sign Into your Learning Space!",
-                                        style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 28.sp,
-                                            color: textPrimary,
-                                            height: 1.3),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                ])
-                    ]),
-                SizedBox(height: 4.sp),
-                SizedBox(
-                    width: isFocusedOrNotEmpty()
-                        ? double.infinity
-                        : MediaQuery.of(context).size.width * 0.5,
-                    child: Text(
-                      "Start your first step to learning here!",
-                      style: TextStyle(
-                          fontSize: 16.sp, color: textGrey2, height: 1.5),
-                      textAlign: isFocusedOrNotEmpty()
-                          ? TextAlign.start
-                          : TextAlign.center,
-                    )),
-                SizedBox(height: isFocusedOrNotEmpty() ? 20.sp : 28.sp),
-                prefixInputField(_focusNodes[0], _emailController,
-                    "assets/images/email.png", "Email", true,
-                    validated: isEmailValidated, onChange: (e) {
-                  setState(() {
-                    isEmailValidated = isValidEmail(e);
-                  });
-                }),
-                SizedBox(height: 12.sp),
-                CustomPassword(_focusNodes[1], _passwordController, "Password",
-                    showErrorP, errorMsgP,
-                    onChange: onPasswordChange()),
-                !isFocusedOrNotEmpty()
-                    ? SizedBox(
-                        height: 20.sp,
-                      )
-                    : const Spacer(),
-                Row(
-                  children: [
-                    Expanded(
-                        child: Column(
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+            image: AssetImage("assets/images/login_bg.png"),
+            fit: BoxFit.fill,
+          )),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: CustomScrollView(slivers: [
+            SliverFillRemaining(
+                hasScrollBody: false,
+                child:
+                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                      mainAxisAlignment: isFocusedOrNotEmpty()
+                          ? MainAxisAlignment.start
+                          : MainAxisAlignment.center,
                       children: [
-                        Align(
-                            alignment: Alignment.centerRight,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ForgetPassScreen()));
-                              },
-                              child: Text(
-                                "Forgot Password?",
+                        isFocusedOrNotEmpty()
+                            ? Text(
+                                'Welcome!',
                                 style: TextStyle(
-                                    color: textGrey,
-                                    fontSize: 14.sp,
-                                    decoration: TextDecoration.underline),
-                              ),
-                            )),
-                        const SizedBox(height: 20),
-                        GestureDetector(
-                          onTap: () {
-                            firebaseLogin();
-                          },
-                          child: gradientButton("Login", isLoading: isLoading),
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: textPrimary),
+                                textAlign: TextAlign.start,
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                    Image.asset(
+                                      "assets/images/zicops_logo.png",
+                                      width: 40.sp,
+                                    ),
+                                    SizedBox(height: 20.sp),
+                                    Image.asset(
+                                      "assets/images/zicops_name.png",
+                                      width: 120.sp,
+                                      height: 20.sp,
+                                    ),
+                                    SizedBox(height: 20.sp),
+                                    SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.70,
+                                        child: Text(
+                                          "Sign Into your Learning Space!",
+                                          style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 28.sp,
+                                              color: textPrimary,
+                                              height: 1.3),
+                                          textAlign: TextAlign.center,
+                                        )),
+                                  ])
+                      ]),
+                  SizedBox(height: 4.sp),
+                  SizedBox(
+                      width: isFocusedOrNotEmpty()
+                          ? double.infinity
+                          : MediaQuery.of(context).size.width * 0.5,
+                      child: Text(
+                        "Start your first step to learning here!",
+                        style: TextStyle(
+                            fontSize: 16.sp, color: textGrey2, height: 1.5),
+                        textAlign: isFocusedOrNotEmpty()
+                            ? TextAlign.start
+                            : TextAlign.center,
+                      )),
+                  SizedBox(height: isFocusedOrNotEmpty() ? 20.sp : 28.sp),
+                  prefixInputField(_focusNodes[0], _emailController,
+                      "assets/images/email.png", "Email", true,
+                      validated: isEmailValidated, onChange: (e) {
+                    setState(() {
+                      isEmailValidated = isValidEmail(e);
+                    });
+                  }),
+                  SizedBox(height: 12.sp),
+                  CustomPassword(
+                    _focusNodes[1],
+                    _passwordController,
+                    "Password",
+                    showErrorP,
+                    errorMsgP,
+                    onChange: onPasswordChange(),
+                  ),
+                  !isFocusedOrNotEmpty()
+                      ? SizedBox(
+                          height: 20.sp,
                         )
-                      ],
-                    ))
-                  ],
-                ),
-                SizedBox(height: _keyboardVisible ? 0 : 35.sp),
-                !_keyboardVisible
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      : const Spacer(),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Column(
                         children: [
-                          Text(
-                            "Privacy Policy",
-                            style: TextStyle(
-                                fontSize: 12.sp,
-                                color: textGrey,
-                                decoration: TextDecoration.underline),
-                          ),
-                          SizedBox(
-                            width: 24.sp,
-                          ),
-                          Text(
-                            "Contact Us",
-                            style: TextStyle(
-                                fontSize: 12.sp,
-                                color: textGrey,
-                                decoration: TextDecoration.underline),
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ForgetPassScreen()));
+                                },
+                                child: Text(
+                                  "Forgot Password?",
+                                  style: TextStyle(
+                                      color: textGrey,
+                                      fontSize: 14.sp,
+                                      decoration: TextDecoration.underline),
+                                ),
+                              )),
+                          const SizedBox(height: 20),
+                          GestureDetector(
+                            onTap: () {
+                              firebaseLogin();
+                              print(zStoreInstance.userDetailsModel.firstName);
+                            },
+                            child:
+                                gradientButton("Login", isLoading: isLoading),
                           )
                         ],
-                      )
-                    : const SizedBox.shrink(),
-                const SizedBox(
-                  height: 20,
-                )
-              ]))
-        ]),
+                      ))
+                    ],
+                  ),
+                  SizedBox(height: _keyboardVisible ? 0 : 35.sp),
+                  !_keyboardVisible
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Privacy Policy",
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: textGrey,
+                                  decoration: TextDecoration.underline),
+                            ),
+                            SizedBox(
+                              width: 24.sp,
+                            ),
+                            Text(
+                              "Contact Us",
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: textGrey,
+                                  decoration: TextDecoration.underline),
+                            )
+                          ],
+                        )
+                      : const SizedBox.shrink(),
+                  const SizedBox(
+                    height: 20,
+                  )
+                ]))
+          ]),
+        ),
       ),
-    ));
+    );
   }
 }
