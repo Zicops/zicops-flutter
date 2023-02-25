@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/user_model.dart';
 import '../../repositories/auth_repository.dart';
 
 part 'auth_event.dart';
@@ -14,11 +15,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignInRequested>((event, emit) async {
       emit(Loading());
       try {
-        await authRepository.firebaseLogin(
+        final user = await authRepository.firebaseLogin(
           email: event.email,
           password: event.password,
         );
-        emit(Authenticated());
+        emit(Authenticated(user));
       } catch (e) {
         emit(AuthError(error: e.toString()));
         emit(Unauthenticated());

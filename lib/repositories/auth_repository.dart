@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../graphql_api.graphql.dart';
+import '../main.dart';
+import '../models/user_model.dart';
+
 class AuthRepository {
   final _firebaseAuth = FirebaseAuth.instance;
 
@@ -17,6 +21,10 @@ class AuthRepository {
       if (token != null) {
         await prefs.setString('token', token);
         await prefs.setString('tenant', lspId);
+      }
+      final userResult = await userClient.client()?.execute(LoginMutation());
+      if (userResult?.data?.login != null) {
+        return UserModel.fromJson(userResult!.data!.login!.toJson());
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

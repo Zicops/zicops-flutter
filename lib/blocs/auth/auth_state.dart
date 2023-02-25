@@ -11,6 +11,9 @@ class Loading extends AuthState {
 
 // When authentication is successful, the state will be changed to Authenticated
 class Authenticated extends AuthState {
+  final UserModel userModel;
+
+  Authenticated(this.userModel);
   @override
   List<Object?> get props => [];
 }
