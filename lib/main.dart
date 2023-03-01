@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zicops/blocs/auth/auth_bloc.dart';
 import 'package:zicops/gql_client.dart';
 import 'package:zicops/repositories/auth_repository.dart';
+import 'package:zicops/repositories/home_repository.dart';
 import 'package:zicops/state/mobx_store.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
@@ -31,8 +32,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => AuthRepository(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => AuthRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => HomeRepository(),
+        ),
+      ],
       child: BlocProvider(
         create: (context) => AuthBloc(
             authRepository: RepositoryProvider.of<AuthRepository>(context)),

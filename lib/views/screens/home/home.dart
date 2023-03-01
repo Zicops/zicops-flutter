@@ -2,11 +2,8 @@
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar_itemar.dart';
 // import 'dart:html';
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/graphql_api.graphql.dart';
 import 'package:zicops/main.dart';
@@ -21,8 +18,6 @@ import 'package:zicops/views/screens/quiz/quiz_screen.dart';
 import 'package:zicops/views/screens/search/search_screen.dart';
 import 'package:zicops/views/screens/settings/settings_screen.dart';
 
-import '../../../controllers/controller.dart';
-import '../../../models/user/org_model.dart';
 import '../../../utils/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -44,30 +39,30 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   String orgName = '';
   String url = '';
 
-  final _controller = Get.find<Controller>();
-
-  Future getDetailsToDisplay() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    // Map<String, dynamic> jsonUser =
-    //     jsonDecode(sharedPreferences.getString('user')!);
-    // var user = UserDetailsModel.fromJson(jsonUser);
-
-    setState(() {
-      name = _controller.userDetails.firstName! +
-          " " +
-          _controller.userDetails.lastName!;
-      url = _controller.userDetails.photoUrl!;
-    });
-
-    Map<String, dynamic> jsonOrg =
-        jsonDecode(sharedPreferences.getString('userOrg') ?? '');
-    var userOrg = OrgModel.fromJson(jsonOrg);
-    if (jsonOrg.isNotEmpty) {
-      setState(() {
-        orgName = userOrg.orgName!;
-      });
-    }
-  }
+  //final _controller = Get.find<Controller>();
+  //
+  // Future getDetailsToDisplay() async {
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   // Map<String, dynamic> jsonUser =
+  //   //     jsonDecode(sharedPreferences.getString('user')!);
+  //   // var user = UserDetailsModel.fromJson(jsonUser);
+  //
+  //   // setState(() {
+  //   //   name = _controller.userDetails.firstName! +
+  //   //       " " +
+  //   //       _controller.userDetails.lastName!;
+  //   //   url = _controller.userDetails.photoUrl!;
+  //   // });
+  //
+  //   Map<String, dynamic> jsonOrg =
+  //       jsonDecode(sharedPreferences.getString('userOrg') ?? '');
+  //   var userOrg = OrgModel.fromJson(jsonOrg);
+  //   if (jsonOrg.isNotEmpty) {
+  //     setState(() {
+  //       orgName = userOrg.orgName!;
+  //     });
+  //   }
+  // }
 
   Widget getScreen() {
     switch (_bottomNavIndex) {
@@ -263,7 +258,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 400),
     );
-    getDetailsToDisplay();
+    //  getDetailsToDisplay();
     courseLoading();
   }
 
