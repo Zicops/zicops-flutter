@@ -5,8 +5,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zicops/graphql_api.graphql.dart';
-import 'package:zicops/main.dart';
 import 'package:zicops/views/screens/home/home_screen.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 import 'package:zicops/views/screens/my_course/my_course_screen.dart';
@@ -86,18 +84,25 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
 
   Future courseLoading() async {
     //print('called');
+    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // final data = sharedPreferences.getString('userData');
+    // print(data);
+    // final allLatestCourse = await courseQClient.client()?.execute(
+    //     LatestCoursesQuery(
+    //         variables: LatestCoursesArguments(
+    //             publishTime:
+    //                 (DateTime.now().millisecondsSinceEpoch / 1000).toInt(),
+    //             pageCursor: "",
+    //             pageSize: 1000,
+    //             filters: new CoursesFilters(),
+    //             Direction: "")));
+
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final data = sharedPreferences.getString('userData');
-    print(data);
-    final allLatestCourse = await courseQClient.client()?.execute(
-        LatestCoursesQuery(
-            variables: LatestCoursesArguments(
-                publishTime:
-                    (DateTime.now().millisecondsSinceEpoch / 1000).toInt(),
-                pageCursor: "",
-                pageSize: 1000,
-                filters: new CoursesFilters(),
-                Direction: "")));
+    name = sharedPreferences.getString('name')!;
+    url = sharedPreferences.getString('profilepic')!;
+
+    print(name);
+    print(url);
 
     // print(allLatestCourse?.data?.toJson());
   }

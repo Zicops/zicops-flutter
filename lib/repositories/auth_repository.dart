@@ -34,6 +34,12 @@ class AuthRepository {
         await prefs.setString('lspId', lspId);
         await prefs.setString(
             'userLspId', lspData!.data?.getUserLspByLspId?.userLspId ?? '');
+        await prefs.setString(
+            'name',
+            userResult!.data!.login!.firstName! +
+                ' ' +
+                userResult!.data!.login!.lastName!);
+        await prefs.setString('profilepic', userResult!.data!.login!.photoUrl!);
         return UserModel.fromJson(userResult.data!.login!.toJson());
       }
     } on FirebaseAuthException catch (e) {

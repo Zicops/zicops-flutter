@@ -33,5 +33,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(LatestCourseError(error: e.toString()));
       }
     });
+    on<SubCategoryCourseRequested>((event, emit) async {
+      emit(SubCategoryCourseLoading());
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        String lspId = prefs.getString('lspId') ?? '';
+        final subCategoryCourses = await homeRepository.loadUserPreferences();
+        List<Course> subCatCourses1 = subCategoryCourses['subCat1']!.toList();
+        List<Course> subCatCourses2 = subCategoryCourses['subCat2']!.toList();
+        List<Course> subCatCourses3 = subCategoryCourses['subCat3']!.toList();
+        List<Course> subCatCourses4 = subCategoryCourses['subCat4']!.toList();
+        List<Course> subCatCourses5 = subCategoryCourses['subCat5']!.toList();
+        emit(SubCategoryCourseLoaded(
+          subCatCourses1,
+          subCatCourses2,
+          subCatCourses3,
+          subCatCourses4,
+          subCatCourses5,
+        ));
+      } catch (e) {
+        emit(SubCategoryCourseError(error: e.toString()));
+      }
+    });
   }
 }

@@ -15,3 +15,11 @@ class LatestCourseRequested extends HomeEvent {
 class LearningFolderCourseRequested extends HomeEvent {
   const LearningFolderCourseRequested();
 }
+
+
+// Sub Category Course Events
+class SubCategoryCourseRequested extends HomeEvent {
+
+
+  const SubCategoryCourseRequested();
+}

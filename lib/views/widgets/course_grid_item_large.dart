@@ -60,7 +60,7 @@ class _CourseGridItemLarge extends State<CourseGridItemLarge> {
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(4.sp),
                                   topLeft: Radius.circular(4.sp)),
-                              child: Image.asset(
+                              child: Image.network(
                                 widget.preview,
                                 fit: BoxFit.fill,
                                 width: 320.sp,

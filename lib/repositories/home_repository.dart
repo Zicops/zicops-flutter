@@ -229,6 +229,8 @@ class HomeRepository {
       subCatCourses3 = subCats['subCat3']!.toList();
       subCatCourses4 = subCats['subCat4']!.toList();
       subCatCourses5 = subCats['subCat5']!.toList();
+
+      print('printing subcat$subCatCourses1');
     }
 
     subCatCourses1[0].subCategory = userPreferences[0];
@@ -239,6 +241,4 @@ class HomeRepository {
 
     return subCats;
   }
-
-  Future latestCourses() async {}
 }
