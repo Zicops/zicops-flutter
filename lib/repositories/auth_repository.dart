@@ -26,14 +26,14 @@ class AuthRepository {
       String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
 
       final userResult = await userClient.client()?.execute(LoginMutation());
-      // final lspData = await userClient.client()?.execute(GetUserLspByLspIdQuery(
-      //     variables: GetUserLspByLspIdArguments(
-      //         user_id: userResult!.data!.login!.id!, lsp_id: lspId!)));
+      final lspData = await userClient.client()?.execute(GetUserLspByLspIdQuery(
+          variables: GetUserLspByLspIdArguments(
+              user_id: userResult!.data!.login!.id!, lsp_id: lspId!)));
       if (userResult?.data?.login != null) {
         await prefs.setString('userId', userResult!.data!.login!.id!);
         await prefs.setString('lspId', lspId);
-        // await prefs.setString(
-        //     'userLspId', lspData!.data?.getUserLspByLspId?.userLspId ?? '');
+        await prefs.setString(
+            'userLspId', lspData!.data?.getUserLspByLspId?.userLspId ?? '');
         return UserModel.fromJson(userResult.data!.login!.toJson());
       }
     } on FirebaseAuthException catch (e) {

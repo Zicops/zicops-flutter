@@ -17,8 +17,8 @@ class HomeRepository {
     String? lspId = sharedPreferences.getString('lspId');
     //   String? lspId = ''
 
-    print('user id: $userId');
-    print('lsp id: $lspId');
+    // print('user id: $userId');
+    // print('lsp id: $lspId');
 
     final userCourseMap = await userClient.client()?.execute(
         GetUserCourseMapsQuery(
@@ -29,12 +29,12 @@ class HomeRepository {
                 pageSize: 50,
                 filters: CourseMapFilters(lspId: [lspId]))));
 
-    print(
-        'userCourseMap: ${userCourseMap?.data?.getUserCourseMaps?.userCourses}');
+    // print(
+    //     'userCourseMap: ${userCourseMap?.data?.getUserCourseMaps?.userCourses}');
 
     var assignedCourses = userCourseMap?.data?.getUserCourseMaps?.userCourses;
 
-    print('assignedCourses: $assignedCourses');
+    // print('assignedCourses: $assignedCourses');
 
     for (int i in assignedCourses?.asMap().keys ?? []) {
       var data = assignedCourses?[i];
@@ -42,8 +42,8 @@ class HomeRepository {
       courseIds.add(data?.courseId.toString());
     }
 
-    print('userCourseIds: $userCourseIds');
-    print('courseIds: $courseIds');
+    // print('userCourseIds: $userCourseIds');
+    // print('courseIds: $courseIds');
 
     final courseRes = await courseQClient.client()?.execute(
         GetCourseQuery(variables: GetCourseArguments(course_id: courseIds)));
@@ -55,7 +55,7 @@ class HomeRepository {
         );
 
     // print('courseRes: ${courseRes?.data?.getCourse![0]?.name}');
-    print('userCourseProgress: $userCourseProgress');
+    //  print('userCourseProgress: $userCourseProgress');
 
     List<dynamic> courseMeta = [];
     for (int i in assignedCourses?.asMap().keys ?? []) {
@@ -87,7 +87,7 @@ class HomeRepository {
           userCourseId: courseDetails['user_course_id'],
           userLspId: courseDetails['user_lsp_id']));
     }
-    print('courseMeta: $courseMeta');
+    //  print('courseMeta: $courseMeta');
 
     List<Course> userCourseData = [];
     //to calculate progress of user
@@ -136,11 +136,12 @@ class HomeRepository {
           userLspId: _courseData?.userLspId));
     }
 
-    print(userCourseData.toString());
+    // print(userCourseData.toString());
     return userCourseData;
   }
 
-  Future<List<Course>> loadCourses({String lspId = '', String? subCat}) async {
+  // Query for getting latest courses
+  Future<List<Course>> loadCourses(String lspId, {String? subCat}) async {
     List<Course> courseData = [];
     final allLatestCourse = await courseQClient.client()?.execute(
           LatestCoursesQuery(
@@ -215,7 +216,7 @@ class HomeRepository {
       for (var i in userPreferences.asMap().keys) {
         var index = i + 1;
         subCats['subCat$index'] =
-            await loadCourses(lspId: lspId!, subCat: userPreferences[i]);
+            await loadCourses(lspId!, subCat: userPreferences[i]);
 
         if (subCats['subCat$index']!.isNotEmpty) {
           isEmpty = false;
@@ -239,9 +240,5 @@ class HomeRepository {
     return subCats;
   }
 
-  Future getLearningFolderCourses() async {
-    // List<Course> learningFolderCourses = [];
-
-    return loadUserCourseData();
-  }
+  Future latestCourses() async {}
 }

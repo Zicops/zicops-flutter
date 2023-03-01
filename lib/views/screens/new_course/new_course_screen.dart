@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/new_course/widgets/new_course_list_item.dart';
 import 'package:zicops/views/widgets/course_grid_item.dart';
 
-import '../../../controllers/controller.dart';
 import '../../../utils/dummies.dart';
-import '../../widgets/course_list_item_with_progress.dart';
 
 class NewCourseScreen extends StatefulWidget {
   const NewCourseScreen({Key? key}) : super(key: key);
@@ -20,8 +16,6 @@ class NewCourseScreen extends StatefulWidget {
 }
 
 class _NewCourseScreen extends State<NewCourseScreen> {
-  final _controller = Get.find<Controller>();
-
   bool isGridView = false;
 
   @override
@@ -128,26 +122,25 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                     mainAxisSpacing: 8.sp,
                     crossAxisCount: 2,
                     children: [
-                        ..._controller.latestCourses.map((courseItem) =>
-                            CourseGridItem(
-                                courseItem.name,
-                                courseItem.owner,
-                                courseItem.expertiseLevel,
-                                courseItem.duration,
-                                courseItem.tileImage,
-                                courseItem.id))
+                        ...courseItems.map((courseItem) => CourseGridItem(
+                              courseItem["courseName"],
+                              courseItem["org"],
+                              courseItem["difficulty"],
+                              courseItem["courseLength"],
+                              courseItem["preview"],
+                              courseItem["courseId"],
+                            ))
                       ])
                 : ListView(
                     children: [
-                      ..._controller.latestCourses.map((courseItem) => Column(
+                      ...courseItems.map((courseItem) => Column(
                             children: [
                               NewCourseListItem(
-                                courseItem.name,
-                                courseItem.owner,
-                                courseItem.expertiseLevel,
-                                courseItem.duration ?? '1',
-                                courseItem.tileImage,
-                              ),
+                                  courseItem["courseName"],
+                                  courseItem["org"],
+                                  courseItem["difficulty"],
+                                  courseItem["courseLength"],
+                                  courseItem["preview"]),
                               SizedBox(
                                 height: 8.sp,
                               )

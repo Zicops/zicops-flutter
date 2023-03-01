@@ -6,10 +6,12 @@ abstract class HomeEvent extends Equatable {
   List<Object> get props => [];
 }
 
+// Latest Course Events
 class LatestCourseRequested extends HomeEvent {
   const LatestCourseRequested();
 }
 
+// Learning Folder Course Events
 class LearningFolderCourseRequested extends HomeEvent {
   const LearningFolderCourseRequested();
 }

@@ -9,6 +9,7 @@ class HomeInitial extends HomeState {
   List<Object?> get props => [];
 }
 
+// Latest Course States
 class LatestCourseLoading extends HomeState {
   @override
   List<Object?> get props => [];
@@ -23,6 +24,16 @@ class LatestCourseLoaded extends HomeState {
   List<Object?> get props => [latestCourses];
 }
 
+class LatestCourseError extends HomeState {
+  final String error;
+
+  LatestCourseError({required this.error});
+
+  @override
+  List<Object?> get props => [error];
+}
+
+// Learning Folder Course States
 class LearningFolderCourseLoading extends HomeState {
   @override
   List<Object?> get props => [];

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/user/user_course_model.dart';
 import '../../repositories/home_repository.dart';
@@ -19,6 +20,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             learningFolderCourses: learningFolderCourses));
       } catch (e) {
         emit(LearningFolderCourseError(error: e.toString()));
+      }
+    });
+    on<LatestCourseRequested>((event, emit) async {
+      emit(LatestCourseLoading());
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        String lspId = prefs.getString('lspId') ?? '';
+        final latestCourses = await homeRepository.loadCourses(lspId);
+        emit(LatestCourseLoaded(latestCourses: latestCourses));
+      } catch (e) {
+        emit(LatestCourseError(error: e.toString()));
       }
     });
   }
