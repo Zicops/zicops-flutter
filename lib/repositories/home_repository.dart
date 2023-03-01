@@ -7,65 +7,44 @@ import '../graphql_api.graphql.dart';
 import '../main.dart';
 
 class HomeRepository {
-  Future<List<Course>> loadCourses({String lspId = '', String? subCat}) async {
-    List<Course> courseData = [];
-    final allLatestCourse = await courseQClient.client()?.execute(
-          LatestCoursesQuery(
-            variables: LatestCoursesArguments(
-              publishTime: DateTime.now().millisecondsSinceEpoch ~/ 1000,
-              pageCursor: "",
-              pageSize: 1000,
-              filters: CoursesFilters(lspId: lspId, subCategory: subCat),
-              Direction: "",
-            ),
-          ),
-        );
-
-    for (int i
-        in allLatestCourse?.data?.latestCourses?.courses?.asMap().keys ?? []) {
-      final data = allLatestCourse?.data?.latestCourses?.courses?[i];
-      courseData.add(
-        Course(
-            id: data?.id,
-            name: data?.name,
-            publisher: data?.publisher,
-            description: data?.description,
-            expertiseLevel: data?.expertiseLevel,
-            owner: data?.owner,
-            isDisplay: data?.isDisplay,
-            type: data?.type,
-            tileImage: data?.tileImage,
-            //subCategories: data?.subCategories,
-            image: data?.image),
-      );
-    }
-    return courseData;
-  }
-
-  Future<List<Course>> loadUserCourseData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? userId = sharedPreferences.getString('userId');
-    String? lspId = sharedPreferences.getString('lspId');
-    final userCourseMap = await userClient.client()?.execute(
-        GetUserCourseMapsQuery(
-            variables: GetUserCourseMapsArguments(
-                user_id: userId!,
-                publish_time:
-                    (DateTime.now().millisecondsSinceEpoch / 1000).toInt(),
-                pageCursor: '',
-                pageSize: 50,
-                filters: new CourseMapFilters(lspId: [lspId]))));
-
+  // Query for getting latest courses
+  Future loadUserCourseData() async {
     List<String>? userCourseIds = [];
     List<String?> courseIds = [];
 
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? userId = sharedPreferences.getString('userId');
+    String? lspId = sharedPreferences.getString('lspId');
+    //   String? lspId = ''
+
+    print('user id: $userId');
+    print('lsp id: $lspId');
+
+    final userCourseMap = await userClient.client()?.execute(
+        GetUserCourseMapsQuery(
+            variables: GetUserCourseMapsArguments(
+                user_id: userId ?? '',
+                publish_time: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+                pageCursor: '',
+                pageSize: 50,
+                filters: CourseMapFilters(lspId: [lspId]))));
+
+    print(
+        'userCourseMap: ${userCourseMap?.data?.getUserCourseMaps?.userCourses}');
+
     var assignedCourses = userCourseMap?.data?.getUserCourseMaps?.userCourses;
+
+    print('assignedCourses: $assignedCourses');
 
     for (int i in assignedCourses?.asMap().keys ?? []) {
       var data = assignedCourses?[i];
       userCourseIds.add(data?.userCourseId ?? '');
       courseIds.add(data?.courseId.toString());
     }
+
+    print('userCourseIds: $userCourseIds');
+    print('courseIds: $courseIds');
+
     final courseRes = await courseQClient.client()?.execute(
         GetCourseQuery(variables: GetCourseArguments(course_id: courseIds)));
     final userCourseProgress = await userClient.client()?.execute(
@@ -74,6 +53,9 @@ class HomeRepository {
                 userId: userId!, userCourseId: userCourseIds),
           ),
         );
+
+    // print('courseRes: ${courseRes?.data?.getCourse![0]?.name}');
+    print('userCourseProgress: $userCourseProgress');
 
     List<dynamic> courseMeta = [];
     for (int i in assignedCourses?.asMap().keys ?? []) {
@@ -105,6 +87,7 @@ class HomeRepository {
           userCourseId: courseDetails['user_course_id'],
           userLspId: courseDetails['user_lsp_id']));
     }
+    print('courseMeta: $courseMeta');
 
     List<Course> userCourseData = [];
     //to calculate progress of user
@@ -155,6 +138,41 @@ class HomeRepository {
 
     print(userCourseData.toString());
     return userCourseData;
+  }
+
+  Future<List<Course>> loadCourses({String lspId = '', String? subCat}) async {
+    List<Course> courseData = [];
+    final allLatestCourse = await courseQClient.client()?.execute(
+          LatestCoursesQuery(
+            variables: LatestCoursesArguments(
+              publishTime: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+              pageCursor: "",
+              pageSize: 1000,
+              filters: CoursesFilters(lspId: lspId, subCategory: subCat),
+              Direction: "",
+            ),
+          ),
+        );
+
+    for (int i
+        in allLatestCourse?.data?.latestCourses?.courses?.asMap().keys ?? []) {
+      final data = allLatestCourse?.data?.latestCourses?.courses?[i];
+      courseData.add(
+        Course(
+            id: data?.id,
+            name: data?.name,
+            publisher: data?.publisher,
+            description: data?.description,
+            expertiseLevel: data?.expertiseLevel,
+            owner: data?.owner,
+            isDisplay: data?.isDisplay,
+            type: data?.type,
+            tileImage: data?.tileImage,
+            //subCategories: data?.subCategories,
+            image: data?.image),
+      );
+    }
+    return courseData;
   }
 
   Future loadUserPreferences() async {
@@ -222,9 +240,8 @@ class HomeRepository {
   }
 
   Future getLearningFolderCourses() async {
-    List<Course> learningFolderCourses = [];
+    // List<Course> learningFolderCourses = [];
 
-    loadUserCourseData();
-    return learningFolderCourses;
+    return loadUserCourseData();
   }
 }

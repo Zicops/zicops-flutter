@@ -11,21 +11,15 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepository homeRepository;
   HomeBloc({required this.homeRepository}) : super(HomeInitial()) {
-    on<LearningFolderCourseRequested>((event, emit) {
+    on<LearningFolderCourseRequested>((event, emit) async {
       emit(LearningFolderCourseLoading());
       try {
-        homeRepository.getLearningFolderCourses().then((learningFolderCourses) {
-          emit(LearningFolderCourseLoaded(
-              learningFolderCourses: learningFolderCourses));
-        });
+        final learningFolderCourses = await homeRepository.loadUserCourseData();
+        emit(LearningFolderCourseLoaded(
+            learningFolderCourses: learningFolderCourses));
       } catch (e) {
         emit(LearningFolderCourseError(error: e.toString()));
       }
-
-      // homeRepository.getLearningFolderCourses().then((learningFolderCourses) {
-      //   emit(LearningFolderCourseLoaded(
-      //       learningFolderCourses: learningFolderCourses));
-      // });
     });
   }
 }
