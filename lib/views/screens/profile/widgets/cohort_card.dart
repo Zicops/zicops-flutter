@@ -22,6 +22,7 @@ class CohortCard extends StatefulWidget {
 class _CohortCard extends State<CohortCard> {
   @override
   Widget build(BuildContext context) {
+    //CjD33TfEMP
     return Container(
         padding: EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
         alignment: Alignment.center,
@@ -51,7 +52,7 @@ class _CohortCard extends State<CohortCard> {
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(4.sp),
                                   topLeft: Radius.circular(4.sp)),
-                              child: Image.asset(
+                              child: Image.network(
                                 widget.preview,
                                 fit: BoxFit.fill,
                                 height: 179.sp,
@@ -91,7 +92,7 @@ class _CohortCard extends State<CohortCard> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             CircleAvatar(
-                              foregroundImage: AssetImage(widget.managerPic),
+                              foregroundImage: NetworkImage(widget.managerPic),
                               radius: 10.sp,
                             ),
                             SizedBox(
