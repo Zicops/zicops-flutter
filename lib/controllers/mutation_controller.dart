@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:http/http.dart';
 
 import '../graphql_api.graphql.dart';
@@ -15,10 +13,10 @@ updateUser(String id, String firstNameController, String lastNameController,
             first_name: firstNameController,
             last_name: lastNameController,
             status: "active",
-            role: 'admin',
+            role: 'learner',
             is_verified: true,
             is_active: true,
-            gender: 'female',
+            gender: 'male',
             email: emailController,
             phone: phoneController,
             Photo: image,
@@ -26,7 +24,7 @@ updateUser(String id, String firstNameController, String lastNameController,
         ),
       );
 
-  print(res?.data?.toJson());
+  // print(res?.data?.toJson());
   return;
 }
 
@@ -41,7 +39,7 @@ addUserOrganization(String userId, String orgId, String userLspId,
         is_active: true,
         employee_id: employeeId,
       )));
-  print(res?.data?.toJson());
+  // print(res?.data?.toJson());
   return;
 }
 
@@ -58,7 +56,7 @@ updateUserOrganizationMap(String userId, String orgId, String userOrgId,
             is_active: true,
             employee_id: employeeId,
           )));
-  print(res?.data?.toJson());
+  // print(res?.data?.toJson());
   return;
 }
 
@@ -72,7 +70,7 @@ addUserPreference(
         sub_category: subcategory ?? '',
         is_base: isBase,
       )));
-  print(res?.data?.toJson());
+  // print(res?.data?.toJson());
   return;
 }
 

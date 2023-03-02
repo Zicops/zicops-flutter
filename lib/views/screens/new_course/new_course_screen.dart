@@ -4,11 +4,12 @@ import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/new_course/widgets/new_course_list_item.dart';
 import 'package:zicops/views/widgets/course_grid_item.dart';
 
-import '../../../utils/dummies.dart';
-import '../../widgets/course_list_item_with_progress.dart';
-
 class NewCourseScreen extends StatefulWidget {
-  const NewCourseScreen({Key? key}) : super(key: key);
+  final List courseList;
+  final String title;
+  const NewCourseScreen(
+      {Key? key, required this.courseList, required this.title})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -29,9 +30,8 @@ class _NewCourseScreen extends State<NewCourseScreen> {
             backgroundColor: secondaryColor,
             leading: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-
                 onTap: () {
-                  if(Navigator.canPop(context))Navigator.pop(context);
+                  if (Navigator.canPop(context)) Navigator.pop(context);
                 },
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -50,7 +50,7 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Latest courses",
+                    widget.title,
                     style: TextStyle(
                         color: textPrimary,
                         fontSize: 18.sp,
@@ -124,23 +124,26 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                     mainAxisSpacing: 8.sp,
                     crossAxisCount: 2,
                     children: [
-                        ...courseItems.map((courseItem) => CourseGridItem(
-                            courseItem["courseName"],
-                            courseItem["org"],
-                            courseItem["difficulty"],
-                            courseItem["courseLength"],
-                            courseItem["preview"]))
+                        ...widget.courseList.map((courseItem) => CourseGridItem(
+                              courseItem.name ?? '',
+                              courseItem.owner ?? '',
+                              courseItem.expertiseLevel ?? '',
+                              '1',
+                              courseItem.tileImage ?? '',
+                              courseItem.id ?? '',
+                            ))
                       ])
                 : ListView(
                     children: [
-                      ...courseItems.map((courseItem) => Column(
+                      ...widget.courseList.map((courseItem) => Column(
                             children: [
                               NewCourseListItem(
-                                  courseItem["courseName"],
-                                  courseItem["org"],
-                                  courseItem["difficulty"],
-                                  courseItem["courseLength"],
-                                  courseItem["preview"]),
+                                courseItem.name ?? '',
+                                courseItem.owner ?? '',
+                                courseItem.expertiseLevel ?? '',
+                                '1',
+                                courseItem.tileImage ?? '',
+                              ),
                               SizedBox(
                                 height: 8.sp,
                               )

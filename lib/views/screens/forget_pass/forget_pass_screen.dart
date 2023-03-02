@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart' as http;
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 
@@ -35,6 +38,27 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
     FocusNode(),
     FocusNode()
   ];
+
+  resetPassword(String email) async {
+    email = email.trim().toLowerCase();
+    print(email);
+    var response = await http.post(
+      Uri.parse("https://demo.zicops.com/um/reset-password"),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+      }),
+    );
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        mailSent = true;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -129,7 +153,6 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                       "assets/images/email.png",
                                       "Email",
                                       true,
-
                                       validated: isEmailValidated,
                                       onChange: (e) {
                                     setState(() {
@@ -140,6 +163,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                   GestureDetector(
                                     onTap: () {
                                       setState(() {
+                                        resetPassword(_emailController.text);
                                         mailSent = true;
                                         mailSuccessful = true;
                                       });

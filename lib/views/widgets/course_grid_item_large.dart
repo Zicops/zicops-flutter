@@ -60,12 +60,19 @@ class _CourseGridItemLarge extends State<CourseGridItemLarge> {
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(4.sp),
                                   topLeft: Radius.circular(4.sp)),
-                              child: Image.asset(
-                                widget.preview,
-                                fit: BoxFit.fill,
-                                width: 320.sp,
-                                height: 179.5.sp,
-                              )),
+                              child: widget.preview.contains("https://")
+                                  ? Image.network(
+                                      widget.preview,
+                                      fit: BoxFit.fill,
+                                      width: 320.sp,
+                                      height: 179.5.sp,
+                                    )
+                                  : Image.asset(
+                                      widget.preview,
+                                      fit: BoxFit.fill,
+                                      width: 320.sp,
+                                      height: 179.5.sp,
+                                    )),
                           if (widget.showProgressBar)
                             Positioned(
                                 top: 176.sp,
@@ -170,11 +177,16 @@ class _CourseGridItemLarge extends State<CourseGridItemLarge> {
                     Positioned(
                         bottom: 56.sp,
                         right: 13.75.sp,
-                        child: Image.asset(
-                          "assets/images/add_button.png",
-                          width: 28.sp,
-                          height: 28.sp,
-                        ))
+                        child: Container(
+                            width: 28.sp,
+                            height: 28.sp,
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              "assets/images/add_button_big.png",
+                              width: 28.sp,
+                              height: 28.sp,
+                              fit: BoxFit.fill,
+                            )))
                 ],
               ),
             )));

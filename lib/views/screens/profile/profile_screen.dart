@@ -46,18 +46,18 @@ class _ProfileScreen extends State<ProfileScreen> {
             elevation: 0,
             leading: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-
-                onTap: (){
-              if(Navigator.canPop(context))Navigator.pop(context);
-            },child: Padding(
-              padding: EdgeInsets.only(
-                  right: 4.sp, top: 16.sp, bottom: 16.sp, left: 20.sp),
-              child: Image.asset(
-                "assets/images/back_arrow.png",
-                height: 16.sp,
-                width: 16.sp,
-              ),
-            )),
+                onTap: () {
+                  if (Navigator.canPop(context)) Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      right: 4.sp, top: 16.sp, bottom: 16.sp, left: 20.sp),
+                  child: Image.asset(
+                    "assets/images/back_arrow.png",
+                    height: 16.sp,
+                    width: 16.sp,
+                  ),
+                )),
             leadingWidth: 40.sp,
             title: SizedBox(
               height: 24.sp,
@@ -75,7 +75,6 @@ class _ProfileScreen extends State<ProfileScreen> {
             children: [
               Container(
                 color: secondaryColor,
-
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -87,7 +86,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                             });
                           },
                           child: SizedBox(
-                            child: mainTab(120,"About", 0, _selectedTab),
+                            child: mainTab(120, "About", 0, _selectedTab),
                           )),
                     ),
                     Expanded(
@@ -98,7 +97,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                               });
                             },
                             child: SizedBox(
-                              child: mainTab(120,"Cohorts", 1, _selectedTab),
+                              child: mainTab(120, "Cohorts", 1, _selectedTab),
                             ))),
                     Expanded(
                         child: GestureDetector(
@@ -108,7 +107,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                               });
                             },
                             child: SizedBox(
-                              child: mainTab(120,"Dashboard", 2, _selectedTab),
+                              child: mainTab(120, "Dashboard", 2, _selectedTab),
                             ))),
                   ],
                 ),
@@ -119,4 +118,3 @@ class _ProfileScreen extends State<ProfileScreen> {
             ]));
   }
 }
-

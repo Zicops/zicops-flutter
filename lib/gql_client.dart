@@ -42,15 +42,22 @@ extension Artemis on ArtemisClient {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getString("token") ?? '';
   }
+
+  static Future<String> tenant() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString("tenant") ?? '';
+  }
 }
 
 class AuthenticatedClient extends BaseClient {
   final Client _inner = Client();
   Future<StreamedResponse> send(BaseRequest request) async {
     final token = await Artemis.token();
+    final tenant = await Artemis.tenant();
     if (token != '') {
       request.headers['zmobile'] = 'true';
       request.headers['Authorization'] = 'Bearer $token';
+      request.headers['tenant'] = tenant;
     }
     return _inner.send(request);
   }

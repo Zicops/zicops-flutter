@@ -49,12 +49,25 @@ class _NewCourseListItem extends State<NewCourseListItem> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      Image.asset(
-                        widget.preview,
-                        fit: BoxFit.fill,
-                        width: 104.sp,
-                        height: 58.sp,
-                      ),
+                      widget.preview.contains("https://")
+                          ? Image.network(
+                              widget.preview,
+                              fit: BoxFit.fill,
+                              width: 104.sp,
+                              height: 58.sp,
+                            )
+                          : Image.asset(
+                              'assets/images/course_preview_2.png',
+                              fit: BoxFit.fill,
+                              width: 104.sp,
+                              height: 58.sp,
+                            ),
+                      // Image.network(
+                      //   widget.preview,
+                      //   fit: BoxFit.fill,
+                      //   width: 104.sp,
+                      //   height: 58.sp,
+                      // ),
                       Container(
                         color: Colors.black.withOpacity(0.43),
                         height: 58.sp,
@@ -135,7 +148,7 @@ class _NewCourseListItem extends State<NewCourseListItem> {
                 width: 8.sp,
               ),
               Image.asset(
-                "assets/images/add_button.png",
+                "assets/images/add_button_big.png",
                 width: 28.sp,
                 height: 28.sp,
               )
