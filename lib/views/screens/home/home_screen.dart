@@ -273,70 +273,86 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 14.25.sp,
             ),
-            sectionHeader("Ongoing Courses", () {}),
-            SizedBox(
-              height: 8.sp,
-            ),
             BlocProvider(
               create: (context) => HomeBloc(homeRepository: HomeRepository())
                 ..add(LearningFolderCourseRequested()),
-              child: Container(
-                height: 156.sp,
-                alignment: Alignment.centerLeft,
-                child: BlocBuilder<HomeBloc, HomeState>(
-                  builder: (context, state) {
-                    if (state is LearningFolderCourseLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (state is LearningFolderCourseLoaded) {
-                      if (state.learningFolderCourses.isEmpty) {
-                        return const Center(
-                          child: Text("No course Found"),
-                        );
-                      } else {
-                        return ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            SizedBox(
-                              width: 20.sp,
-                            ),
-                            ...state.learningFolderCourses
-                                .where((course) =>
-                                    course.topicsStartedPercentage != 0)
-                                .toList()
-                                .map((courseItem) => Row(
-                                      children: [
-                                        CourseGridItem(
-                                          courseItem.name ?? '',
-                                          courseItem.owner ?? '',
-                                          courseItem.expertiseLevel ?? '',
-                                          '1',
-                                          courseItem.tileImage ?? '',
-                                          courseItem.id ?? '',
-                                        ),
-                                        SizedBox(
-                                          width: 8.sp,
-                                        )
-                                      ],
-                                    )),
-                            viewAll()
-                          ],
-                        );
+              child: Column(
+                children: [
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state is LearningFolderCourseLoaded) {
+                        return sectionHeader("Ongoing Courses", () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewCourseScreen(
+                                        courseList: state.learningFolderCourses
+                                            .where((course) =>
+                                                course
+                                                    .topicsStartedPercentage !=
+                                                0)
+                                            .toList(),
+                                        title: 'Ongoing Courses',
+                                      )));
+                        });
                       }
-                    }
-                    if (state is LearningFolderCourseError) {
-                      return Container(
-                        child: const Text("I am an error"),
-                      );
-                    }
-                    return Container(
-                      child: const Text("No data"),
-                    );
-                  },
-                ),
+                      return sectionHeader("Ongoing Courses", () {});
+                    },
+                  ),
+                  SizedBox(
+                    height: 8.sp,
+                  ),
+                  Container(
+                    height: 156.sp,
+                    alignment: Alignment.centerLeft,
+                    child: BlocBuilder<HomeBloc, HomeState>(
+                      builder: (context, state) {
+                        if (state is LearningFolderCourseLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (state is LearningFolderCourseLoaded) {
+                          return ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              SizedBox(
+                                width: 20.sp,
+                              ),
+                              ...state.learningFolderCourses
+                                  .where((course) =>
+                                      course.topicsStartedPercentage != 0)
+                                  .toList()
+                                  .map((courseItem) => Row(
+                                        children: [
+                                          CourseGridItem(
+                                            courseItem.name ?? '',
+                                            courseItem.owner ?? '',
+                                            courseItem.expertiseLevel ?? '',
+                                            '1',
+                                            courseItem.tileImage ?? '',
+                                            courseItem.id ?? '',
+                                          ),
+                                          SizedBox(
+                                            width: 8.sp,
+                                          )
+                                        ],
+                                      )),
+                              viewAll()
+                            ],
+                          );
+                        }
+                        return Container(
+                          child: const Text("No data"),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
+            ),
+            SizedBox(
+              height: 14.25.sp,
             ),
             // Container(
             //     height: 156.sp,
@@ -366,184 +382,225 @@ class _HomeScreen extends State<HomeScreen> {
             //       ),
             //       viewAll()
             //     ])),
-            SizedBox(
-              height: 14.25.sp,
-            ),
-            sectionHeader("Learning Folder", () {}),
-            SizedBox(
-              height: 8.sp,
-            ),
             BlocProvider(
               create: (context) => HomeBloc(homeRepository: HomeRepository())
                 ..add(LearningFolderCourseRequested()),
-              child: Container(
-                height: 156.sp,
-                alignment: Alignment.centerLeft,
-                child: BlocBuilder<HomeBloc, HomeState>(
-                  builder: (context, state) {
-                    if (state is LearningFolderCourseLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (state is LearningFolderCourseLoaded) {
-                      if (state.learningFolderCourses.isEmpty) {
-                        return const Center(
-                          child: Text("No course Found"),
-                        );
-                      } else {
-                        return ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            SizedBox(
-                              width: 20.sp,
-                            ),
-                            ...state.learningFolderCourses
-                                .map((courseItem) => Row(
-                                      children: [
-                                        CourseGridItem(
-                                          courseItem.name ?? '',
-                                          courseItem.owner ?? '',
-                                          courseItem.expertiseLevel ?? '',
-                                          '1',
-                                          courseItem.tileImage ?? '',
-                                          courseItem.id ?? '',
-                                        ),
-                                        SizedBox(
-                                          width: 8.sp,
-                                        )
-                                      ],
-                                    )),
-                            viewAll()
-                          ],
-                        );
+              child: Column(
+                children: [
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state is LearningFolderCourseLoaded) {
+                        return sectionHeader("Learning Folder courses", () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewCourseScreen(
+                                        courseList: state.learningFolderCourses,
+                                        title: 'Learning Folder courses',
+                                      )));
+                        });
                       }
-                    }
-                    if (state is LearningFolderCourseError) {
-                      return Container(
-                        child: const Text("I am an error"),
-                      );
-                    }
-                    return Container(
-                      child: const Text("No data"),
-                    );
-                  },
-                ),
+                      return sectionHeader("Learning Folder courses", () {});
+                    },
+                  ),
+                  SizedBox(
+                    height: 8.sp,
+                  ),
+                  Container(
+                    height: 156.sp,
+                    alignment: Alignment.centerLeft,
+                    child: BlocBuilder<HomeBloc, HomeState>(
+                      builder: (context, state) {
+                        if (state is LearningFolderCourseLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (state is LearningFolderCourseLoaded) {
+                          return ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              SizedBox(
+                                width: 20.sp,
+                              ),
+                              ...state.learningFolderCourses
+                                  .map((courseItem) => Row(
+                                        children: [
+                                          CourseGridItem(
+                                            courseItem.name ?? '',
+                                            courseItem.owner ?? '',
+                                            courseItem.expertiseLevel ?? '',
+                                            '1',
+                                            courseItem.tileImage ?? '',
+                                            courseItem.id ?? '',
+                                          ),
+                                          SizedBox(
+                                            width: 8.sp,
+                                          )
+                                        ],
+                                      )),
+                              viewAll()
+                            ],
+                          );
+                        }
+                        return Container(
+                          child: const Text("No data"),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
+
             SizedBox(
               height: 14.25.sp,
-            ),
-            sectionHeader("Latest courses", () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const NewCourseScreen()));
-            }),
-            SizedBox(
-              height: 8.sp,
             ),
             BlocProvider(
               create: (context) => HomeBloc(homeRepository: HomeRepository())
                 ..add(LatestCourseRequested()),
-              child: Container(
-                height: 156.sp,
-                alignment: Alignment.centerLeft,
-                child: BlocBuilder<HomeBloc, HomeState>(
-                  builder: (context, state) {
-                    print("latest course $state");
-                    if (state is LatestCourseLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (state is LatestCourseLoaded) {
-                      return ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          SizedBox(
-                            width: 20.sp,
-                          ),
-                          ...state.latestCourses.map((courseItem) => Row(
-                                children: [
-                                  CourseGridItem(
-                                    courseItem.name ?? '',
-                                    courseItem.owner ?? '',
-                                    courseItem.expertiseLevel ?? '',
-                                    '1',
-                                    courseItem.tileImage ?? '',
-                                    courseItem.id ?? '',
-                                  ),
-                                  SizedBox(
-                                    width: 8.sp,
-                                  )
-                                ],
-                              )),
-                          viewAll()
-                        ],
-                      );
-                    }
-                    return Container(
-                      child: const Text("No data"),
-                    );
-                  },
-                ),
+              child: Column(
+                children: [
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state is LatestCourseLoaded) {
+                        return sectionHeader("Latest courses", () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewCourseScreen(
+                                        courseList: state.latestCourses,
+                                        title: 'Latest courses',
+                                      )));
+                        });
+                      }
+                      return sectionHeader("Latest courses", () {});
+                    },
+                  ),
+                  SizedBox(
+                    height: 8.sp,
+                  ),
+                  Container(
+                    height: 156.sp,
+                    alignment: Alignment.centerLeft,
+                    child: BlocBuilder<HomeBloc, HomeState>(
+                      builder: (context, state) {
+                        print("latest course $state");
+                        if (state is LatestCourseLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (state is LatestCourseLoaded) {
+                          return ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              SizedBox(
+                                width: 20.sp,
+                              ),
+                              ...state.latestCourses.map((courseItem) => Row(
+                                    children: [
+                                      CourseGridItem(
+                                        courseItem.name ?? '',
+                                        courseItem.owner ?? '',
+                                        courseItem.expertiseLevel ?? '',
+                                        '1',
+                                        courseItem.tileImage ?? '',
+                                        courseItem.id ?? '',
+                                      ),
+                                      SizedBox(
+                                        width: 8.sp,
+                                      )
+                                    ],
+                                  )),
+                              viewAll()
+                            ],
+                          );
+                        }
+                        return Container(
+                          child: const Text("No data"),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
+
             SizedBox(
               height: 14.25.sp,
-            ),
-            sectionHeader("Learning space", () {}),
-            SizedBox(
-              height: 8.sp,
             ),
             BlocProvider(
               create: (context) => HomeBloc(homeRepository: HomeRepository())
                 ..add(LatestCourseRequested()),
-              child: Container(
-                height: 156.sp,
-                alignment: Alignment.centerLeft,
-                child: BlocBuilder<HomeBloc, HomeState>(
-                  builder: (context, state) {
-                    print("latest course $state");
-                    if (state is LatestCourseLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (state is LatestCourseLoaded) {
-                      return ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          SizedBox(
-                            width: 20.sp,
-                          ),
-                          ...state.latestCourses.map((courseItem) => Row(
-                                children: [
-                                  CourseGridItem(
-                                    courseItem.name ?? '',
-                                    courseItem.owner ?? '',
-                                    courseItem.expertiseLevel ?? '',
-                                    '1',
-                                    courseItem.tileImage ?? '',
-                                    courseItem.id ?? '',
-                                  ),
-                                  SizedBox(
-                                    width: 8.sp,
-                                  )
-                                ],
-                              )),
-                          viewAll()
-                        ],
-                      );
-                    }
-                    return Container(
-                      child: const Text("No data"),
-                    );
-                  },
-                ),
+              child: Column(
+                children: [
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state is LatestCourseLoaded) {
+                        return sectionHeader("Learning space", () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewCourseScreen(
+                                        courseList: state.latestCourses,
+                                        title: 'Learning space',
+                                      )));
+                        });
+                      }
+                      return sectionHeader("Learning space", () {});
+                    },
+                  ),
+                  SizedBox(
+                    height: 8.sp,
+                  ),
+                  Container(
+                    height: 156.sp,
+                    alignment: Alignment.centerLeft,
+                    child: BlocBuilder<HomeBloc, HomeState>(
+                      builder: (context, state) {
+                        print("latest course $state");
+                        if (state is LatestCourseLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (state is LatestCourseLoaded) {
+                          return ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              SizedBox(
+                                width: 20.sp,
+                              ),
+                              ...state.latestCourses.map((courseItem) => Row(
+                                    children: [
+                                      CourseGridItem(
+                                        courseItem.name ?? '',
+                                        courseItem.owner ?? '',
+                                        courseItem.expertiseLevel ?? '',
+                                        '1',
+                                        courseItem.tileImage ?? '',
+                                        courseItem.id ?? '',
+                                      ),
+                                      SizedBox(
+                                        width: 8.sp,
+                                      )
+                                    ],
+                                  )),
+                              viewAll()
+                            ],
+                          );
+                        }
+                        return Container(
+                          child: const Text("No data"),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
+
             // Container(
             //   height: 156.sp,
             //   alignment: Alignment.centerLeft,

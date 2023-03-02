@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/views/screens/home/home_screen.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 import 'package:zicops/views/screens/my_course/my_course_screen.dart';
-import 'package:zicops/views/screens/new_course/new_course_screen.dart';
 import 'package:zicops/views/screens/notifications/notification_screen.dart';
 import 'package:zicops/views/screens/preferences/preferences_screen.dart';
 import 'package:zicops/views/screens/profile/profile_screen.dart';
@@ -73,7 +72,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
       case 3:
         return const MyCourseScreen();
       case 4:
-        return const NewCourseScreen();
+        return const MyCourseScreen();
 
       default:
         {
