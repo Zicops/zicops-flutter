@@ -1,0 +1,208 @@
+name: Zicops Flutter CI-CD<>Formec App Bundle
+
+on:
+ workflow_dispatch:
+  #push:
+   # branches:
+    #  - main
+  #pull_request:
+   # branches:
+    #  - main
+
+jobs:
+ 
+  version:
+    name: Create version number
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Fetch all history for all tags and branches
+        run: |
+          git config remote.origin.url https://x-access-token:${{ secrets.TOKEN }}@github.com/${{ github.repository }}
+          git fetch --prune --depth=10000
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: "5.x"
+      - name: Use GitVersion
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.7
+      - name: Create version.txt with nuGetVersion
+        run: echo ${{ steps.gitversion.outputs.nuGetVersion  }} > version.txt
+      - name: Upload version.txt
+        uses: actions/upload-artifact@v2
+        with:
+          name: gitversion
+          path: version.txt
+ 
+  flutter_test:
+    name: Run flutter test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "beta"
+      - run: flutter pub get
+      # - run: flutter analyze
+      - run: flutter test
+
+  build_ios:
+    name: Build Flutter (iOS)
+    needs: [flutter_test]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "beta"
+      - run: flutter pub get
+      - run: flutter clean
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-ios-${{ hashFiles('**/pubspec.lock') }}
+      - run: flutter build ios --release --no-codesign
+      - name: Cache outputs of build step
+        uses: actions/cache@v2
+        with:
+          path: build/ios/iphoneos
+          key: apple-${{ github.sha }}
+
+  build_appbundle:
+    name: Build Flutter (Android)
+    needs: [flutter_test, version]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get version.txt
+        uses: actions/download-artifact@v2
+        with:
+          name: gitversion
+      - name: Create new file without newline char from version.txt
+        run: tr -d '\n' < version.txt > version1.txt
+      - name: Read version
+        id: version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: version1.txt
+      - name: Update version in YAML
+        run: sed -i 's/99.99.99+99/${{ steps.version.outputs.content }}+${{ github.run_number }}/g' pubspec.yaml
+      - name: Update KeyStore password in gradle properties
+        run: sed -i 's/#{KEYSTORE_PASS}#/${{ secrets.STORE_PASSWORD }}/g' android/key.properties
+      - name: Update KeyStore key password in gradle properties
+        run: sed -i 's/#{KEYSTORE_KEY_PASS}#/${{ secrets.KEYSTORE_PASSWORD }}/g' android/key.properties
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "beta"
+      - name: Cache pub packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-android-${{ hashFiles('**/pubspec.lock') }}
+      - run: flutter pub get
+      - run: flutter clean
+      - run: flutter build apk --release --split-per-abi
+      - run: flutter build appbundle --release
+      - name: Create a Release in GitHub
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/release/*.apk,build/app/outputs/bundle/release/app-release.aab"
+          token: ${{ secrets.TOKEN }}
+          tag: ${{ steps.version.outputs.content }}
+          commit: ${{ github.sha }}
+      - name: Upload app bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: appbundle
+          path: build/app/outputs/bundle/release/app-release.aab
+
+  upload_apps_artifacts:
+    name: Upload Zicops Flutter Bundles
+    needs: [build_appbundle, build_ios]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get the apk file from cache
+        uses: actions/cache@v2
+        with:
+          path: build/app/outputs/apk/release
+          key: android-${{ github.sha }}
+      - name: Get the ipa file from cache
+        uses: actions/cache@v2
+        with:
+          path: build/ios/iphoneos
+          key: apple-${{ github.sha }}
+      - name: Upload Android bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: android_bundle
+          path: build/app/outputs/apk/release
+      - name: Upload iOS bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: apple_bundle
+          path: build/ios/iphoneos
+      
+# TODO following is an example of how we will release our bundles to the stores
+  # release_apps:
+  #   name: Release Zicops Flutter Bundles
+  #   needs: [build_appbundle, build_ios]
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-java@v1
+  #       with:
+  #         java-version: "12.x"
+  #     - uses: subosito/flutter-action@v2
+  #       with:
+  #         channel: "beta"
+  #     - name: Cache pub packages
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: ~/.pub-cache
+  #         key: ${{ runner.os }}-flutter-release-apps
+  #     - run: flutter pub get
+  #     - run: flutter clean
+  #     - name: Download Android bundle
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: build_appbundle
+  #         path: build/app/outputs/bundle/
+  #     - name: Download iOS bundle
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: build_ios
+  #         path: build/ios/
+  #     # - name: Release Android bundle
+  #     #   uses: r0adkll/upload-google-play@v2
+  #     #   with:
+  #     #     serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+  #     #     packageName: com.zicops.formec
+  #     #     releaseFiles: build/app/outputs/bundle/release/app-release.aab
+  #     #     track: internal
+  #     #     userFraction: 0.1
+  #     #     whatsnewsDir: whatsnews
+  #     # - name: Release iOS bundle
+  #     #   uses: r0adkll/upload-google-play@v2
+  #     #   with:
+  #     #     serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+  #     #     packageName: com.zicops.formec
+  #     #     releaseFiles: build/ios/iphoneos/Runner.app
+  #     #     track: internal
+  #     #     userFraction: 0.1
+  #     #     whatsnewsDir: whatsnews
