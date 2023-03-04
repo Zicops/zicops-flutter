@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v1
         with:
-          java-version: "12.x"
+          java-version: "18.x"
       - uses: subosito/flutter-action@v2
         with:
           channel: "beta"
@@ -44,7 +44,7 @@ jobs:
         with:
           path: ~/.pub-cache
           key: ${{ runner.os }}-pub-ios-${{ hashFiles('**/pubspec.lock') }}
-      - run: flutter build ios --release --no-codesign
+      - run: flutter build ios --release --no-codesign --no-sound-null-safety
       - name: Cache outputs of build step
         uses: actions/cache@v2
         with:
@@ -59,7 +59,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v1
         with:
-          java-version: "12.x"
+          java-version: "18.x"
       - uses: subosito/flutter-action@v2
         with:
           channel: "beta"
@@ -70,7 +70,7 @@ jobs:
           key: ${{ runner.os }}-pub-android-${{ hashFiles('**/pubspec.lock') }}
       - run: flutter pub get
       - run: flutter clean
-      - run: flutter build apk
+      - run: flutter build appbundle --release --no-sound-null-safety
       - name: Cache outputs of build step
         uses: actions/cache@v2
         with:
