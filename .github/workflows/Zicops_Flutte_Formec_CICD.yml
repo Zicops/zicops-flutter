@@ -44,7 +44,7 @@ jobs:
         with:
           path: ~/.pub-cache
           key: ${{ runner.os }}-pub-ios-${{ hashFiles('**/pubspec.lock') }}
-      - run: flutter build ios --release --no-codesign --no-sound-null-safety
+      - run: flutter build ios --release --no-codesign
       - name: Cache outputs of build step
         uses: actions/cache@v2
         with:
@@ -70,7 +70,7 @@ jobs:
           key: ${{ runner.os }}-pub-android-${{ hashFiles('**/pubspec.lock') }}
       - run: flutter pub get
       - run: flutter clean
-      - run: flutter build appbundle --release --no-sound-null-safety
+      - run: flutter build appbundle --release
       - name: Cache outputs of build step
         uses: actions/cache@v2
         with:
