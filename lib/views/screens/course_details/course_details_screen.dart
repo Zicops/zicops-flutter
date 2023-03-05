@@ -133,6 +133,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
 
     print(finalCourseData);
     topicData.addAll(data);
+    print(topicData);
     // for topic data
     return topicData;
   }
@@ -140,7 +141,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
   getScreen() {
     switch (_selectedTab) {
       case 0:
-        return TopicScreen(widget.courseName, topicData);
+        return TopicScreen(widget.courseId, widget.courseName, topicData = []);
       case 1:
         return const NotesScreen();
       case 2:
@@ -159,7 +160,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
     // var courseId = '91a49abe-f532-4a80-928b-cf0bf3b79a6f';
     //var courseId2 = '4d5df222-34cf-444c-86cd-2b0128fa40e6';
     print(widget.courseId);
-    loadCourse("da5c2348-62ef-4725-838a-c1c23170b1bc");
+    // loadCourse("da5c2348-62ef-4725-838a-c1c23170b1bc");
   }
 
   @override

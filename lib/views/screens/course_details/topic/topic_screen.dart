@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:video_player/video_player.dart';
-import 'package:zicops/controllers/controller.dart';
 
 import '../../../../utils/colors.dart';
 import '../../../widgets/VideoCourseBadge.dart';
@@ -16,9 +14,11 @@ import '../../../widgets/more_like_this.dart';
 import '../../../widgets/video_player.dart';
 
 class TopicScreen extends StatefulWidget {
-  TopicScreen(this.courseName, this.topicData, {Key? key}) : super(key: key);
+  TopicScreen(this.courseId, this.courseName, this.topicData, {Key? key})
+      : super(key: key);
 
   String courseName;
+  String courseId;
   List topicData;
 
   @override

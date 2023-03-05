@@ -485,7 +485,7 @@ class _HomeScreen extends State<HomeScreen> {
                     alignment: Alignment.centerLeft,
                     child: BlocBuilder<HomeBloc, HomeState>(
                       builder: (context, state) {
-                        print("latest course $state");
+                        // print("latest course $state");
                         if (state is LatestCourseLoading) {
                           return const Center(
                             child: CircularProgressIndicator(),
@@ -559,7 +559,7 @@ class _HomeScreen extends State<HomeScreen> {
                     alignment: Alignment.centerLeft,
                     child: BlocBuilder<HomeBloc, HomeState>(
                       builder: (context, state) {
-                        print("latest course $state");
+                        //    print("latest course $state");
                         if (state is LatestCourseLoading) {
                           return const Center(
                             child: CircularProgressIndicator(),
