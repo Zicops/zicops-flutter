@@ -14,7 +14,9 @@ import 'notes/notes_screen.dart';
 class CourseDetailsScreen extends StatefulWidget {
   String courseId;
   String courseName;
-  CourseDetailsScreen(this.courseId, this.courseName, {Key? key})
+  String difficulty;
+  CourseDetailsScreen(this.courseId, this.courseName, this.difficulty,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -131,7 +133,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
       finalCourseData.addAll({courseModules[i]['id']: topics});
     }
 
-    print(finalCourseData);
+    // print(finalCourseData);
     topicData.addAll(data);
     print(topicData);
     // for topic data
@@ -141,7 +143,8 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
   getScreen() {
     switch (_selectedTab) {
       case 0:
-        return TopicScreen(widget.courseId, widget.courseName, topicData = []);
+        return TopicScreen(
+            widget.courseId, widget.courseName, widget.difficulty);
       case 1:
         return const NotesScreen();
       case 2:
@@ -160,7 +163,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
     // var courseId = '91a49abe-f532-4a80-928b-cf0bf3b79a6f';
     //var courseId2 = '4d5df222-34cf-444c-86cd-2b0128fa40e6';
     print(widget.courseId);
-    // loadCourse("da5c2348-62ef-4725-838a-c1c23170b1bc");
+    loadCourse("da5c2348-62ef-4725-838a-c1c23170b1bc");
   }
 
   @override

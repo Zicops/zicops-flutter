@@ -9,7 +9,7 @@ part 'course_state.dart';
 
 class CourseBloc extends Bloc<CourseEvent, CourseState> {
   final CourseRepository courseRepository;
-  CourseBloc(this.courseRepository) : super(CourseInitial()) {
+  CourseBloc({required this.courseRepository}) : super(CourseInitial()) {
     on<CourseRequested>((event, emit) async {
       emit(CourseLoading());
       try {

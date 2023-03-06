@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:video_player/video_player.dart';
+import 'package:zicops/blocs/course/course_bloc.dart';
+import 'package:zicops/repositories/course_repository.dart';
 
 import '../../../../utils/colors.dart';
 import '../../../widgets/VideoCourseBadge.dart';
@@ -14,12 +17,13 @@ import '../../../widgets/more_like_this.dart';
 import '../../../widgets/video_player.dart';
 
 class TopicScreen extends StatefulWidget {
-  TopicScreen(this.courseId, this.courseName, this.topicData, {Key? key})
+  TopicScreen(this.courseId, this.courseName, this.difficulty, {Key? key})
       : super(key: key);
 
   String courseName;
   String courseId;
-  List topicData;
+  String difficulty;
+  // List topicData;
 
   @override
   State<StatefulWidget> createState() {
@@ -50,9 +54,9 @@ class _TopicScreen extends State<TopicScreen> {
 
   @override
   void initState() {
-    if (widget.topicData.isNotEmpty) {
-      topicData = widget.topicData;
-    }
+    // if (widget.topicData.isNotEmpty) {
+    //   // topicData = widget.topicData;
+    // }
     super.initState();
     setState(() {
       print('hello$widget.topicData');
@@ -349,263 +353,304 @@ class _TopicScreen extends State<TopicScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    return SlidingUpPanel(
-        controller: _panelController,
-        minHeight: minPanelHeight,
-        maxHeight: maxPanelHeight,
-        color: Colors.transparent,
-        onPanelOpened: () {
-          setState(() {});
-        },
-        panel: Container(
-            decoration: BoxDecoration(
-                color: secondaryColor,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16)),
-                border: Border.all(color: lightGrey)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 4.sp,
-                  width: 36,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: 8.sp, bottom: 10.sp),
-                  decoration: BoxDecoration(
-                      color: secondaryColorDark,
-                      borderRadius: BorderRadius.circular(4.sp)),
-                ),
-                Expanded(child: getBottomSheetChild()),
-              ],
-            )),
-        body: SingleChildScrollView(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            // SizedBox(height: 11.sp),
-            if (selectedChapter != -1)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                      height: 48.sp,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                              width: 24.sp,
-                              height: 24.sp,
-                              alignment: Alignment.center,
-                              child: Image.asset(
-                                "assets/images/quiz.png",
-                                width: 20.sp,
-                                height: 20.sp,
-                              )),
-                          GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedVideoOption = 2;
-                                  if (_panelController.isAttached) {
-                                    minPanelHeight = 163.sp;
-                                    maxPanelHeight = height;
-                                    _panelController.show();
-                                  }
-                                });
-                              },
-                              child: Container(
-                                  width: 24.sp,
-                                  height: 24.sp,
-                                  alignment: Alignment.center,
-                                  child: Image.asset(
-                                    "assets/images/notes.png",
-                                    width: 18.sp,
-                                    height: 18.sp,
-                                  ))),
-                          GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedVideoOption = 1;
-                                  if (_panelController.isAttached) {
-                                    minPanelHeight = 209.sp;
-                                    maxPanelHeight = height;
-                                    _panelController.show();
-                                  }
-                                });
-                              },
-                              child: Container(
-                                  width: 24.sp,
-                                  height: 24.sp,
-                                  alignment: Alignment.center,
-                                  child: Image.asset(
-                                    "assets/images/bookmark.png",
-                                    width: 14.sp,
-                                    height: 18.sp,
-                                  ))),
-                          GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedVideoOption = 0;
-                                  maxPanelHeight = 370.sp;
-                                  _panelController.show();
-                                });
-                              },
-                              child: Container(
-                                  width: 24.sp,
-                                  height: 24.sp,
-                                  alignment: Alignment.center,
-                                  child: Image.asset(
-                                    "assets/images/settings.png",
-                                    width: 20.sp,
-                                    height: 20.sp,
-                                  ))),
-                        ],
-                      )),
-                  if (_controller != null)
-                    PortraitVideoPlayer(controller: _controller!),
-                  SizedBox(
-                    height: 23.sp,
-                  ),
-                  Container(
-                    height: 24.sp,
-                    margin: EdgeInsets.only(left: 20.sp),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "$selectedChapter." + widget.courseName,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                          color: textPrimary),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 4.sp,
-                  ),
-                  Container(
-                    height: 16.sp,
-                    margin: EdgeInsets.only(left: 16.sp),
-                    alignment: Alignment.center,
-                    child: Row(
-                      children: [
-                        VideoCourseBadge(
-                            "assets/images/signal.png", 'Competent'),
-                        SizedBox(
-                          width: 16.sp,
-                        ),
-                        VideoCourseBadge(
-                            "assets/images/gradient_clock.png", "1hrs 20mins")
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            Container(
-              padding: EdgeInsets.only(top: 11.sp, right: 20.sp, left: 20.sp),
+    return BlocProvider(
+      create: (context) => CourseBloc(courseRepository: CourseRepository())
+        ..add(CourseRequested(courseId: widget.courseId)),
+      child: SlidingUpPanel(
+          controller: _panelController,
+          minHeight: minPanelHeight,
+          maxHeight: maxPanelHeight,
+          color: Colors.transparent,
+          onPanelOpened: () {
+            setState(() {});
+          },
+          panel: Container(
+              decoration: BoxDecoration(
+                  color: secondaryColor,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16)),
+                  border: Border.all(color: lightGrey)),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ModulesDropDown(),
-                  SizedBox(
-                    height: 13.sp,
+                  Container(
+                    height: 4.sp,
+                    width: 36,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(top: 8.sp, bottom: 10.sp),
+                    decoration: BoxDecoration(
+                        color: secondaryColorDark,
+                        borderRadius: BorderRadius.circular(4.sp)),
                   ),
-                  SizedBox(
-                    height: 16.sp,
-                    child: Text("Chapter 1: Introduction".toUpperCase(),
-                        style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: textGrey2,
-                            height: 1.33,
-                            letterSpacing: 1)),
-                  ),
-                  SizedBox(
-                    height: 8.sp,
-                  ),
-                  SizedBox(
-                    height: 320.sp,
-                    child: ListView(
-                      children: (topicData.isNotEmpty
-                          ? [
-                              ...topicData.map((e) => GestureDetector(
-                                  onTap: () {
-                                    print(e['contentUrl']);
-                                    setState(() {
-                                      selectedChapter = e['name'];
-                                      initVideoController(
-                                          //  'assets/images/mov_bbb.mp4');
-                                          e['contentUrl']);
-                                      //    'https://samplelib.com/lib/preview/mp4/sample-30s.mp4');
-                                      // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-                                    });
-                                  },
-                                  child: ModuleCard(
-                                      e['name'],
-                                      "1hr 50 mins",
-                                      "assets/images/course_preview_2.png",
-                                      e['name'] == selectedChapter,
-                                      _controller?.value.position,
-                                      _controller?.value.duration)))
-                            ]
-                          : [
-                              Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            ]),
+                  Expanded(child: getBottomSheetChild()),
+                ],
+              )),
+          body: SingleChildScrollView(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              // SizedBox(height: 11.sp),
+              if (selectedChapter != -1)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        height: 48.sp,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                width: 24.sp,
+                                height: 24.sp,
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                  "assets/images/quiz.png",
+                                  width: 20.sp,
+                                  height: 20.sp,
+                                )),
+                            GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedVideoOption = 2;
+                                    if (_panelController.isAttached) {
+                                      minPanelHeight = 163.sp;
+                                      maxPanelHeight = height;
+                                      _panelController.show();
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                    width: 24.sp,
+                                    height: 24.sp,
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/notes.png",
+                                      width: 18.sp,
+                                      height: 18.sp,
+                                    ))),
+                            GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedVideoOption = 1;
+                                    if (_panelController.isAttached) {
+                                      minPanelHeight = 209.sp;
+                                      maxPanelHeight = height;
+                                      _panelController.show();
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                    width: 24.sp,
+                                    height: 24.sp,
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/bookmark.png",
+                                      width: 14.sp,
+                                      height: 18.sp,
+                                    ))),
+                            GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedVideoOption = 0;
+                                    maxPanelHeight = 370.sp;
+                                    _panelController.show();
+                                  });
+                                },
+                                child: Container(
+                                    width: 24.sp,
+                                    height: 24.sp,
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/settings.png",
+                                      width: 20.sp,
+                                      height: 20.sp,
+                                    ))),
+                          ],
+                        )),
+                    if (_controller != null)
+                      PortraitVideoPlayer(controller: _controller!),
+                    SizedBox(
+                      height: 23.sp,
                     ),
-                  ),
-                  SizedBox(
-                    height: 12.sp,
-                  ),
-                  Divider(
-                    height: 1.sp,
-                    thickness: 1.sp,
-                    color: lightGrey,
-                  ),
-                  SizedBox(
-                    height: 14.sp,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Discussion",
+                    Container(
+                      height: 24.sp,
+                      margin: EdgeInsets.only(left: 20.sp),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "$selectedChapter." + widget.courseName,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: textPrimary),
                       ),
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedVideoOption = 3;
-                              if (_panelController.isAttached) {
-                                minPanelHeight = height - 340.sp;
-                                maxPanelHeight = height;
-                                _panelController.show();
-                              }
-                            });
-                          },
-                          child: Container(
-                            width: 24.sp,
-                            height: 24.sp,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 3.sp, horizontal: 7.4.sp),
-                            child: Image.asset("assets/images/unfold_more.png"),
-                          ))
-                    ],
-                  ),
-                  CommentItem(),
-                  SizedBox(
-                    height: 14.sp,
-                  ),
-                ],
-              ),
-            ),
-            const MoreLikeThis()
-          ]),
-        ));
+                    ),
+                    SizedBox(
+                      height: 4.sp,
+                    ),
+                    BlocBuilder<CourseBloc, CourseState>(
+                      builder: (context, state) {
+                        if (state is CourseLoading) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        if (state is CourseLoaded) {
+                          topicData = state.topicData;
+                          return Column(
+                            children: [
+                              Container(
+                                height: 16.sp,
+                                margin: EdgeInsets.only(left: 16.sp),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  children: [
+                                    VideoCourseBadge("assets/images/signal.png",
+                                        widget.difficulty),
+                                    SizedBox(
+                                      width: 16.sp,
+                                    ),
+                                    VideoCourseBadge(
+                                        "assets/images/gradient_clock.png",
+                                        "1hrs 20mins")
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    top: 11.sp, right: 20.sp, left: 20.sp),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ModulesDropDown(),
+                                    SizedBox(
+                                      height: 13.sp,
+                                    ),
+                                    SizedBox(
+                                      height: 16.sp,
+                                      child: Text(
+                                          "Chapter 1: Introduction"
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w600,
+                                              color: textGrey2,
+                                              height: 1.33,
+                                              letterSpacing: 1)),
+                                    ),
+                                    SizedBox(
+                                      height: 8.sp,
+                                    ),
+                                    SizedBox(
+                                      height: 320.sp,
+                                      child: ListView(
+                                        children: (topicData.isNotEmpty
+                                            ? [
+                                                ...topicData.map((e) =>
+                                                    GestureDetector(
+                                                        onTap: () {
+                                                          print(
+                                                              e['contentUrl']);
+                                                          setState(() {
+                                                            selectedChapter =
+                                                                e['name'];
+                                                            initVideoController(
+                                                                //  'assets/images/mov_bbb.mp4');
+                                                                e['contentUrl']);
+                                                            //    'https://samplelib.com/lib/preview/mp4/sample-30s.mp4');
+                                                            // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+                                                          });
+                                                        },
+                                                        child: ModuleCard(
+                                                            e['name'],
+                                                            "1hr 50 mins",
+                                                            "assets/images/course_preview_2.png",
+                                                            e['name'] ==
+                                                                selectedChapter,
+                                                            _controller?.value
+                                                                .position,
+                                                            _controller?.value
+                                                                .duration)))
+                                              ]
+                                            : [
+                                                Center(
+                                                    child: Text(
+                                                  "No Data",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                )),
+                                              ]),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 12.sp,
+                                    ),
+                                    Divider(
+                                      height: 1.sp,
+                                      thickness: 1.sp,
+                                      color: lightGrey,
+                                    ),
+                                    SizedBox(
+                                      height: 14.sp,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Discussion",
+                                          style: TextStyle(
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: textPrimary),
+                                        ),
+                                        GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                selectedVideoOption = 3;
+                                                if (_panelController
+                                                    .isAttached) {
+                                                  minPanelHeight =
+                                                      height - 340.sp;
+                                                  maxPanelHeight = height;
+                                                  _panelController.show();
+                                                }
+                                              });
+                                            },
+                                            child: Container(
+                                              width: 24.sp,
+                                              height: 24.sp,
+                                              alignment: Alignment.center,
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 3.sp,
+                                                  horizontal: 7.4.sp),
+                                              child: Image.asset(
+                                                  "assets/images/unfold_more.png"),
+                                            ))
+                                      ],
+                                    ),
+                                    CommentItem(),
+                                    SizedBox(
+                                      height: 14.sp,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                        if (state is CourseError) {
+                          return Center(child: Text(state.error));
+                        }
+                        return Container();
+                      },
+                    )
+                  ],
+                ),
+
+              const MoreLikeThis()
+            ]),
+          )),
+    );
   }
 }

@@ -39,6 +39,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final prefs = await SharedPreferences.getInstance();
         String lspId = prefs.getString('lspId') ?? '';
         final subCategoryCourses = await homeRepository.loadUserPreferences();
+
         List<Course> subCatCourses1 = subCategoryCourses['subCat1']!.toList();
         List<Course> subCatCourses2 = subCategoryCourses['subCat2']!.toList();
         List<Course> subCatCourses3 = subCategoryCourses['subCat3']!.toList();
