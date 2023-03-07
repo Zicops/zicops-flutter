@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
 import 'package:zicops/views/screens/course_details/course_details_screen.dart';
+import 'package:zicops/views/screens/exam/answer_key_screen.dart';
+import 'package:zicops/views/screens/exam/exam_screen.dart';
 import 'package:zicops/views/screens/home/home.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 import 'package:zicops/views/screens/new_course/new_course_screen.dart';

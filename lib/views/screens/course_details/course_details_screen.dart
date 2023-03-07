@@ -19,7 +19,7 @@ class CourseDetailsScreen extends StatefulWidget {
 }
 
 class _CourseDetailsScreen extends State<CourseDetailsScreen> {
-  int _selectedTab = 0;
+  int _selectedTab = 3;
   getScreen() {
     switch (_selectedTab) {
       case 0:

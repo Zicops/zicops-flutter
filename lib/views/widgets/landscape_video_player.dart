@@ -10,7 +10,8 @@ import 'CourseBadge.dart';
 import 'VideoSettingsItem.dart';
 
 class LandscapeVideoPlayer extends StatefulWidget {
-  const LandscapeVideoPlayer({Key? key}) : super(key: key);
+  LandscapeVideoPlayer({Key? key, required this.controller}) : super(key: key);
+  final VideoPlayerController controller;
 
   @override
   State<StatefulWidget> createState() {
@@ -24,9 +25,132 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
   bool showDiscussion = false;
   bool showDescription = false;
   bool showSettings = false;
+  bool showBookmarkNotes = false;
+  bool isBookmark = false;
   bool showSkipBack = false;
   bool showSkipForward = false;
   bool showSeeAllOverlay = false;
+
+  Widget TakeNote(bool isBookmark, String preview, String bookmarkTime,
+      double width, double height) {
+    return Container(
+      width: width,
+      height: height,
+      child: Column(children: [
+        SizedBox(
+          height: 16.sp,
+        ),
+        Container(
+            height: 24.sp,
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 20.sp),
+            margin: EdgeInsets.only(bottom: 20.sp),
+            child: Row(
+              children: [
+                Text(
+                  isBookmark ? "Bookmark" : "Note 1",
+                  style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500,
+                      color: textPrimary,
+                      height: 1.33),
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: 24.sp,
+                ),
+                InkWell(
+                    onTap: () {
+                      setState(() {
+                        showBookmarkNotes = false;
+                      });
+                    },
+                    child: Container(
+                        width: 24.sp,
+                        height: 48.sp,
+                        alignment: Alignment.center,
+                        child: Image.asset(
+                          "assets/images/cross.png",
+                          width: 14.sp,
+                          height: 14.sp,
+                        ))),
+              ],
+            )),
+        isBookmark
+            ? Padding(
+                padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 20.sp),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(2.sp),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Image.asset(
+                              preview,
+                              fit: BoxFit.fill,
+                              width: 74.sp,
+                              height: 74.sp,
+                            ),
+                            Container(
+                              color: Colors.black.withOpacity(0.43),
+                              height: 48.sp,
+                            ),
+                            Image.asset(
+                              "assets/images/play_button.png",
+                              width: 20.sp,
+                              height: 20.sp,
+                              opacity: const AlwaysStoppedAnimation(0.7),
+                            )
+                          ],
+                        )),
+                    SizedBox(
+                      width: 16.sp,
+                    ),
+                    Text(
+                      bookmarkTime,
+                      style: TextStyle(
+                          color: primaryColor,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                          height: 1.5),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ))
+            : SizedBox(
+                height: 7.sp,
+              ),
+        Padding(
+            padding: EdgeInsets.only(
+                left: 20.sp, right: 20.sp, top: 14.sp, bottom: 14.sp),
+            child: TextField(
+              onSubmitted: (val) {},
+              maxLines: null,
+              autofocus: true,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.zero,
+                isDense: true,
+                hintText: "Type something...",
+                hintStyle: GoogleFonts.poppins(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    color: textGrey2,
+                    height: 1.43),
+                border: const OutlineInputBorder(borderSide: BorderSide.none),
+              ),
+              style: GoogleFonts.poppins(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                  color: textGrey2,
+                  height: 1.43),
+            ))
+      ]),
+    );
+  }
 
   @override
   void initState() {
@@ -35,18 +159,18 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
     ]);
-    _controller = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+    _controller = widget.controller;
 
     _controller.addListener(() {
       setState(() {});
     });
-    _controller.initialize();
+    if (!_controller.value.isInitialized) {
+      _controller.initialize();
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: SystemUiOverlay.values);
     SystemChrome.setPreferredOrientations([
@@ -85,6 +209,13 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
       });
     }
 
+    toggleBookmarkNotes(bool state, bool bookmark) {
+      setState(() {
+        showBookmarkNotes = state;
+        isBookmark = bookmark;
+      });
+    }
+
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -107,7 +238,6 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
                         controller: _controller)
                   else
                     GestureDetector(
-
                       onTap: () {
                         setState(() {
                           if (_controller.value.isPlaying) {
@@ -129,6 +259,7 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
                             toggleDescription,
                             toggleSettings,
                             toggleSeeAllOverlay,
+                            toggleBookmarkNotes,
                             controller: _controller,
                           )),
                     ),
@@ -158,6 +289,11 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
                                 setState(() {
                                   isVisible = false;
                                   showSkipBack = true;
+                                  widget.controller.seekTo(Duration(
+                                      milliseconds: (widget.controller.value
+                                                  .position.inMilliseconds -
+                                              10000)
+                                          .toInt()));
                                 });
                                 Future.delayed(
                                     const Duration(milliseconds: 300), () {
@@ -204,69 +340,76 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
                         top: !isVisible ? 0 : height / 4,
                         right: 0,
                         child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (_controller.value.isPlaying) {
-                                isVisible = !isVisible;
-                                toggleSeeAllOverlay(false);
-                              } else {
-                                _controller.play();
-                              }
-                            });
-                          },
-                          onDoubleTap: () {
-                            setState(() {
-                              isVisible = false;
-                              showSkipForward = true;
-                            });
-                            Future.delayed(const Duration(milliseconds: 300),
-                                () {
+                            onTap: () {
                               setState(() {
-                                isVisible = true;
-                                showSkipForward = false;
+                                if (_controller.value.isPlaying) {
+                                  isVisible = !isVisible;
+                                  toggleSeeAllOverlay(false);
+                                } else {
+                                  _controller.play();
+                                }
                               });
-                            });
-                          },
-                          child: Visibility(
-                            visible: showSkipForward,
-                            maintainState: true,
-                            maintainAnimation: true,
-                            maintainSize: true,
-                            maintainInteractivity: true,
-                            child: Container(
-                              width: width / 2.5,
-                              height: !isVisible ? height : height / 3,
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(left: 65.sp),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.1),
-                                borderRadius: BorderRadius.horizontal(
-                                    left: Radius.elliptical(
-                                  450,
-                                  MediaQuery.of(context).size.width,
-                                )),
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 68.sp,
-                                    height: 32.sp,
-                                    alignment: Alignment.center,
-                                    child: Image.asset(
-                                        "assets/images/skip_forward.png"),
+                            },
+                            onDoubleTap: () {
+                              setState(() {
+                                isVisible = false;
+                                showSkipForward = true;
+                                widget.controller.seekTo(Duration(
+                                    milliseconds: (widget.controller.value
+                                                .position.inMilliseconds +
+                                            10000)
+                                        .toInt()));
+                              });
+                              Future.delayed(const Duration(milliseconds: 300),
+                                  () {
+                                setState(() {
+                                  isVisible = true;
+                                  showSkipForward = false;
+                                });
+                              });
+                            },
+                            child: Visibility(
+                              visible: showSkipForward,
+                              maintainState: true,
+                              maintainAnimation: true,
+                              maintainSize: true,
+                              maintainInteractivity: true,
+                              child: GestureDetector(
+                                child: Container(
+                                  width: width / 2.5,
+                                  height: !isVisible ? height : height / 3,
+                                  alignment: Alignment.centerLeft,
+                                  padding: EdgeInsets.only(left: 65.sp),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.1),
+                                    borderRadius: BorderRadius.horizontal(
+                                        left: Radius.elliptical(
+                                      450,
+                                      MediaQuery.of(context).size.width,
+                                    )),
                                   ),
-                                  Text(
-                                    "10 seconds",
-                                    style: TextStyle(
-                                        fontSize: 12.sp, color: textPrimary),
-                                  )
-                                ],
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 68.sp,
+                                        height: 32.sp,
+                                        alignment: Alignment.center,
+                                        child: Image.asset(
+                                            "assets/images/skip_forward.png"),
+                                      ),
+                                      Text(
+                                        "10 seconds",
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color: textPrimary),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        )),
+                            ))),
                 ])),
                 if (showDiscussion)
                   Discussion(toggleDiscussion)
@@ -274,6 +417,9 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
                   Description(toggleDescription)
                 else if (showSettings)
                   Settings(toggleSettings)
+                else if (showBookmarkNotes)
+                  TakeNote(isBookmark, 'assets/images/course_preview.png',
+                      _controller.value.position.toString(), width, height)
               ],
             )));
   }
@@ -281,7 +427,7 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
 
 class ControlsOverlay extends StatefulWidget {
   ControlsOverlay(this.toggleDiscussion, this.toggleDescription,
-      this.toggleSettings, this.toggleSeeAllOverlay,
+      this.toggleSettings, this.toggleSeeAllOverlay, this.toggleBookmarkNotes,
       {Key? key, required this.controller})
       : super(key: key);
 
@@ -290,6 +436,7 @@ class ControlsOverlay extends StatefulWidget {
   Function toggleDescription;
   Function toggleSettings;
   Function toggleSeeAllOverlay;
+  Function toggleBookmarkNotes;
   @override
   State<StatefulWidget> createState() {
     return _ControlsOverlay();
@@ -297,6 +444,7 @@ class ControlsOverlay extends StatefulWidget {
 }
 
 class _ControlsOverlay extends State<ControlsOverlay> {
+  bool showSliderTooltip = false;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -311,35 +459,43 @@ class _ControlsOverlay extends State<ControlsOverlay> {
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 50),
               reverseDuration: const Duration(milliseconds: 200),
-              child: widget.controller.value.isPlaying
-                  ? InkWell(
-                      onTap: () {
-                        widget.controller.pause();
-                      },
-                      child: Container(
-                          width: 40.sp,
-                          height: 40.sp,
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            "assets/images/pause.png",
-                            width: 33.sp,
-                            height: 33.sp,
-                          )),
-                    )
-                  : InkWell(
-                      onTap: () {
-                        widget.controller.play();
-                      },
-                      child: Container(
-                          width: 40.sp,
-                          height: 40.sp,
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            "assets/images/video_play.png",
-                            width: 33.sp,
-                            height: 33.sp,
-                          )),
-                    ),
+              child: widget.controller.value.isBuffering
+                  ? Container(
+                      width: 40.sp,
+                      height: 40.sp,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(
+                        color: primaryColor,
+                      ))
+                  : widget.controller.value.isPlaying
+                      ? InkWell(
+                          onTap: () {
+                            widget.controller.pause();
+                          },
+                          child: Container(
+                              width: 40.sp,
+                              height: 40.sp,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                "assets/images/pause.png",
+                                width: 33.sp,
+                                height: 33.sp,
+                              )),
+                        )
+                      : InkWell(
+                          onTap: () {
+                            widget.controller.play();
+                          },
+                          child: Container(
+                              width: 40.sp,
+                              height: 40.sp,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                "assets/images/video_play.png",
+                                width: 33.sp,
+                                height: 33.sp,
+                              )),
+                        ),
             ),
             Positioned(
                 top: 18.sp,
@@ -439,27 +595,35 @@ class _ControlsOverlay extends State<ControlsOverlay> {
                       SizedBox(
                         width: 24.sp,
                       ),
-                      Container(
-                          width: 24.sp,
-                          height: 24.sp,
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            "assets/images/notes.png",
-                            width: 18.sp,
-                            height: 18.sp,
-                          )),
+                      GestureDetector(
+                          onTap: () {
+                            widget.toggleBookmarkNotes(true, false);
+                          },
+                          child: Container(
+                              width: 24.sp,
+                              height: 24.sp,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                "assets/images/notes.png",
+                                width: 18.sp,
+                                height: 18.sp,
+                              ))),
                       SizedBox(
                         width: 24.sp,
                       ),
-                      Container(
-                          width: 24.sp,
-                          height: 24.sp,
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            "assets/images/bookmark.png",
-                            width: 14.sp,
-                            height: 18.sp,
-                          )),
+                      GestureDetector(
+                          onTap: () {
+                            widget.toggleBookmarkNotes(true, true);
+                          },
+                          child: Container(
+                              width: 24.sp,
+                              height: 24.sp,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                "assets/images/bookmark.png",
+                                width: 14.sp,
+                                height: 18.sp,
+                              ))),
                       SizedBox(
                         width: 24.sp,
                       ),
@@ -514,6 +678,25 @@ class _ControlsOverlay extends State<ControlsOverlay> {
                         height: 14.sp,
                       )),
                 )),
+            if (widget.controller.value.position.inSeconds < 10)
+              Positioned(
+                  bottom: 108.sp,
+                  right: 62.sp,
+                  child: Text(
+                    "Skip Intro".toUpperCase(),
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: primaryColor,
+                        letterSpacing: 2),
+                  )),
+            // Positioned(
+            //     bottom: 84.sp,
+            //     child: Container(
+            //         width: width,
+            //         height: 4.sp,
+            //         alignment: Alignment.center,
+            //         child: const LinearProgressIndicator(backgroundColor: secondaryColor, valueColor: AlwaysStoppedAnimation(textGrey2), value: 0.8,))),
             Positioned(
                 bottom: 84.sp,
                 child: Container(
@@ -524,6 +707,16 @@ class _ControlsOverlay extends State<ControlsOverlay> {
                       activeColor: primaryColor,
                       inactiveColor: secondaryColor,
                       thumbColor: primaryColor,
+                      onChangeStart: (change) {
+                        setState(() {
+                          showSliderTooltip = true;
+                        });
+                      },
+                      onChangeEnd: (change) {
+                        setState(() {
+                          showSliderTooltip = false;
+                        });
+                      },
                       value: widget.controller.value.duration.inSeconds != 0
                           ? widget.controller.value.position.inMilliseconds /
                               widget.controller.value.duration.inMilliseconds
@@ -536,6 +729,7 @@ class _ControlsOverlay extends State<ControlsOverlay> {
                                 .toInt()));
                       },
                     ))),
+
             Positioned(
                 bottom: 20.sp,
                 left: 0,
@@ -567,6 +761,18 @@ class _ControlsOverlay extends State<ControlsOverlay> {
                               height: 14.sp,
                             )),
                         const Spacer(),
+                        if (widget.controller.value.duration.inSeconds -
+                                widget.controller.value.position.inSeconds <
+                            10)
+                          Text("Next Topic >".toUpperCase(),
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: textPrimary,
+                                  letterSpacing: 2)),
+                        SizedBox(
+                          width: 16.sp,
+                        ),
                         GestureDetector(
                             onTap: () {
                               widget.toggleSeeAllOverlay(true);
@@ -627,6 +833,28 @@ class _ControlsOverlay extends State<ControlsOverlay> {
                             )),
                       ],
                     ))),
+            if (showSliderTooltip)
+              Positioned(
+                  bottom: 120.sp,
+                  left: (widget.controller.value.position.inMilliseconds /
+                          widget.controller.value.duration.inMilliseconds) *
+                      width *
+                      0.9,
+                  child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 12.sp, vertical: 8.sp),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: const Color(0xFF101012),
+                          borderRadius: BorderRadius.circular(2.sp)),
+                      child: Text(
+                          widget.controller.value.position
+                              .toString()
+                              .split('.')
+                              .first
+                              .padLeft(8, "0"),
+                          style:
+                              TextStyle(fontSize: 12.sp, color: textPrimary))))
           ],
         ));
   }

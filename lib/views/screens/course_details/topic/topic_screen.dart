@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:video_player/video_player.dart';
+import 'package:zicops/views/screens/exam/exam_screen.dart';
 
 import '../../../../utils/colors.dart';
 import '../../../widgets/CourseBadge.dart';
@@ -41,8 +42,12 @@ class _TopicScreen extends State<TopicScreen> {
       case 0:
         return Settings();
       case 1:
-        return TakeNote(true, "assets/images/course_preview.png",
-            _controller != null ? _controller!.value.position.toString() : "00");
+        return TakeNote(
+            true,
+            "assets/images/course_preview.png",
+            _controller != null
+                ? _controller!.value.position.toString()
+                : "00");
       case 2:
         return TakeNote(false, "assets/images/course_preview.png", "00");
       default:
@@ -179,12 +184,20 @@ class _TopicScreen extends State<TopicScreen> {
         Expanded(
             child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 20.sp),
-          children:  [
+          children: [
             CommentItem(),
             CommentItem(),
             CommentItem(),
             CommentItem(),
-            _panelController.isAttached && _panelController.isPanelShown && !_panelController.isPanelOpen? SizedBox(height: maxPanelHeight - minPanelHeight,): SizedBox(height: 100.sp,)
+            _panelController.isAttached &&
+                    _panelController.isPanelShown &&
+                    !_panelController.isPanelOpen
+                ? SizedBox(
+                    height: maxPanelHeight - minPanelHeight,
+                  )
+                : SizedBox(
+                    height: 100.sp,
+                  )
           ],
         ))
       ],
@@ -318,10 +331,8 @@ class _TopicScreen extends State<TopicScreen> {
         minHeight: minPanelHeight,
         maxHeight: maxPanelHeight,
         color: Colors.transparent,
-        onPanelOpened: (){
-          setState(() {
-
-          });
+        onPanelOpened: () {
+          setState(() {});
         },
         panel: Container(
             decoration: BoxDecoration(
@@ -414,7 +425,7 @@ class _TopicScreen extends State<TopicScreen> {
                                 setState(() {
                                   selectedVideoOption = 0;
                                   maxPanelHeight = 370.sp;
-                                  _panelController.show();
+                                  _panelController.open();
                                 });
                               },
                               child: Container(
@@ -493,23 +504,39 @@ class _TopicScreen extends State<TopicScreen> {
                     height: 320.sp,
                     child: ListView(
                       children: [
-                        ...[1, 2, 3, 4, 5].map(
-                          (e) => GestureDetector(
+                        ...[1, 2, 3, 4, 5].map((e) => GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  selectedChapter = e;
-                                  initVideoController(
-                                      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-                                });
+                                if (e != 3) {
+                                  setState(() {
+                                    selectedChapter = e;
+                                    initVideoController(
+                                        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+                                  });
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ExamScreen()));
+                                }
                               },
-                              child: ModuleCard(
-                                  "$e.Empathize",
-                                  "1hr 50 mins",
-                                  "assets/images/course_preview_2.png",
-                                  e == selectedChapter,
-                                  _controller?.value.position,
-                                  _controller?.value.duration)),
-                        )
+                              child: e != 3
+                                  ? ModuleCard(
+                                      "$e.Empathize",
+                                      "1hr 50 mins",
+                                      "assets/images/course_preview_2.png",
+                                      e == selectedChapter,
+                                      _controller?.value.position,
+                                      _controller?.value.duration)
+                                  : ModuleCard(
+                                      "Exam 1: IT development: Core java fundamentals",
+                                      "1hr 50 mins",
+                                      "assets/images/course_preview_2.png",
+                                      e == selectedChapter,
+                                      _controller?.value.position,
+                                      _controller?.value.duration,
+                                      isExam: true,
+                                    ),
+                            ))
                       ],
                     ),
                   ),
@@ -562,7 +589,10 @@ class _TopicScreen extends State<TopicScreen> {
                 ],
               ),
             ),
-            const MoreLikeThis()
+            const MoreLikeThis(),
+            SizedBox(
+              height: 128.sp,
+            )
           ]),
         ));
   }
