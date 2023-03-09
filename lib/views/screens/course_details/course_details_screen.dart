@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zicops/graphql_api.graphql.dart';
-import 'package:zicops/main.dart';
 import 'package:zicops/views/screens/course_details/resources/resources_screen.dart';
 import 'package:zicops/views/screens/course_details/topic/topic_screen.dart';
 
@@ -70,6 +68,7 @@ Map<String, dynamic> combineData(Map data1, Map data2) {
 // }
 
 class _CourseDetailsScreen extends State<CourseDetailsScreen> {
+  int _selectedTab = 3;
   int _selectedTab = 0;
   // final _controller = Get.find<Controller>();
   List<dynamic> topicData = [];
@@ -227,6 +226,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
                 color: secondaryColor,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
+
                   children: [
                     GestureDetector(
                         onTap: () {

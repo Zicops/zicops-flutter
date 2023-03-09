@@ -5,7 +5,6 @@ import 'package:zicops/utils/colors.dart';
 class ProgressBar extends StatefulWidget {
   double width;
   double percentage;
-
   ProgressBar(this.width, this.percentage, {Key? key}) : super(key: key);
 
   @override

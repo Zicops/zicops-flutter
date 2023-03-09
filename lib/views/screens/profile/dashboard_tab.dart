@@ -31,6 +31,7 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
         activationMode: ActivationMode.singleTap,
         lineColor: primaryColor,
         builder: (context, details) {
+
           return Container(
               width: 95.sp,
               height: 58.sp,
@@ -344,9 +345,6 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
               height: 15.sp,
             ),
             SectionHeader("Skill matrix dashboard"),
-            SizedBox(
-              height: 15.sp,
-            ),
             const SkillMatrix(),
             SizedBox(
               height: 8.sp,
@@ -420,9 +418,8 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
                     .sublist(0, 4)
                     .map((e) => EngagedSubCatListItem()),
                 Container(
-                  height: 36.sp,
                   alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: 16.sp),
+                  padding: EdgeInsets.only(right: 16.sp, bottom: 10.sp, top: 2.sp),
                   child: Text(
                     "See All".toUpperCase(),
                     style: TextStyle(

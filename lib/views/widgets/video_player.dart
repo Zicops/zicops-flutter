@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zicops/views/widgets/landscape_video_player.dart';
+import 'package:zicops/views/widgets/progress_bar.dart';
 
 import '../../utils/colors.dart';
 
@@ -21,6 +22,7 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
   bool showSkipBack = false;
   bool showSkipForward = false;
   double height = 202.sp;
+  bool showSliderTooltip = false;
 
   @override
   void initState() {
@@ -31,6 +33,7 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
       setState(() {});
     });
     _controller.initialize();
+    _controller.play();
   }
 
   @override
@@ -53,10 +56,12 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
               alignment: AlignmentDirectional.center,
               clipBehavior: Clip.none,
               children: [
-                Padding(padding: EdgeInsets.only(bottom: 4.sp), child:AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller),
-                )),
+                Padding(
+                    padding: EdgeInsets.only(bottom: 4.sp),
+                    child: AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    )),
                 GestureDetector(
                     onTap: () {
                       setState(() {
@@ -74,33 +79,81 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                             child: ControlsOverlay(
                               controller: _controller,
                             )))),
-                if(isVisible)Positioned(
-                    left: -25.sp,
-                    bottom: -2.sp,
-                    child: Container(
-                        width: width * 1.15,
-                        height: 10.sp,
-                        padding: EdgeInsets.symmetric(vertical: 3.sp),
-                        alignment: Alignment.centerLeft,
-                        child: Slider(
-                          activeColor: primaryColor,
-                          inactiveColor: secondaryColor,
-                          thumbColor: primaryColor,
-                          value: widget.controller.value.duration.inSeconds != 0
-                              ? widget.controller.value.position.inMilliseconds /
-                              widget.controller.value.duration.inMilliseconds
-                              : 0,
-                          onChanged: (double value) {
-                            widget.controller.seekTo(Duration(
-                                milliseconds:
-                                (widget.controller.value.duration.inMilliseconds *
-                                    value)
-                                    .toInt()));
-                          },
-                        ))),
+                if (false)
+                  Positioned(
+                      left: -25.sp,
+                      bottom: -2.sp,
+                      child: Container(
+                          width: width * 1.15,
+                          height: 10.sp,
+                          padding: EdgeInsets.symmetric(vertical: 3.sp),
+                          alignment: Alignment.centerLeft,
+                          child: const LinearProgressIndicator(
+                            backgroundColor: secondaryColor,
+                            valueColor: AlwaysStoppedAnimation(textGrey2),
+                            value: 0.8,
+                          ))),
+                if (isVisible)
+                  Positioned(
+                      left: -25.sp,
+                      bottom: -2.sp,
+                      child: Container(
+                          width: width * 1.15,
+                          height: 10.sp,
+                          padding: EdgeInsets.symmetric(vertical: 3.sp),
+                          alignment: Alignment.centerLeft,
+                          child: Slider(
+                            activeColor: primaryColor,
+                            inactiveColor: secondaryColor,
+                            thumbColor: primaryColor,
+                            onChangeStart: (change) {
+                              setState(() {
+                                showSliderTooltip = true;
+                              });
+                            },
+                            onChangeEnd: (change) {
+                              setState(() {
+                                showSliderTooltip = false;
+                              });
+                            },
+                            value:
+                                widget.controller.value.duration.inSeconds != 0
+                                    ? widget.controller.value.position
+                                            .inMilliseconds /
+                                        widget.controller.value.duration
+                                            .inMilliseconds
+                                    : 0,
+                            onChanged: (double value) {
+                              widget.controller.seekTo(Duration(
+                                  milliseconds: (widget.controller.value
+                                              .duration.inMilliseconds *
+                                          value)
+                                      .toInt()));
+                            },
+                          ))),
+                if (showSliderTooltip)
+                  Positioned(
+                      bottom: 30.sp,
+                      left: (widget.controller.value.position.inMilliseconds /
+                              widget.controller.value.duration.inMilliseconds) *
+                          width * 0.8,
+                      child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.sp, vertical: 8.sp),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: const Color(0xFF101012),
+                              borderRadius: BorderRadius.circular(2.sp)),
+                          child: Text(
+                              widget.controller.value.position
+                                  .toString()
+                                  .split('.')
+                                  .first
+                                  .padLeft(8, "0"),
+                              style: TextStyle(
+                                  fontSize: 12.sp, color: textPrimary)))),
                 if (!isVisible)
                   Positioned(
-                      top: height / 4,
                       left: 0,
                       child: Visibility(
                           visible: showSkipBack,
@@ -114,6 +167,11 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                               setState(() {
                                 if (_controller.value.isPlaying) {
                                   isVisible = !isVisible;
+                                  _controller.seekTo(Duration(
+                                      milliseconds: (widget.controller.value
+                                                  .position.inMilliseconds -
+                                              10000)
+                                          .toInt()));
                                 } else {
                                   _controller.play();
                                 }
@@ -134,14 +192,14 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                             },
                             child: Container(
                               width: width / 2.5,
-                              height: height / 3.5,
+                              height: isVisible ? height / 3.5 : height,
                               alignment: Alignment.centerRight,
                               padding: EdgeInsets.only(right: 65.sp),
                               decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.1),
                                   borderRadius: BorderRadius.horizontal(
                                       right: Radius.elliptical(
-                                    450,
+                                    height,
                                     MediaQuery.of(context).size.width,
                                   ))),
                               child: Column(
@@ -172,6 +230,11 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                           setState(() {
                             if (_controller.value.isPlaying) {
                               isVisible = !isVisible;
+                              _controller.seekTo(Duration(
+                                  milliseconds: (widget.controller.value
+                                              .position.inMilliseconds +
+                                          10000)
+                                      .toInt()));
                             } else {
                               _controller.play();
                             }
@@ -197,7 +260,7 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                           maintainInteractivity: true,
                           child: Container(
                             width: width / 2.5,
-                            height: height,
+                            height: isVisible ? height / 3.5 : height,
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 65.sp),
                             decoration: BoxDecoration(
@@ -275,35 +338,43 @@ class _ControlsOverlay extends State<ControlsOverlay> {
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 50),
               reverseDuration: const Duration(milliseconds: 200),
-              child: widget.controller.value.isPlaying
-                  ? InkWell(
-                      onTap: () {
-                        widget.controller.pause();
-                      },
-                      child: Container(
-                          width: 40.sp,
-                          height: 40.sp,
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            "assets/images/pause.png",
-                            width: 33.sp,
-                            height: 33.sp,
-                          )),
-                    )
-                  : InkWell(
-                      onTap: () {
-                        widget.controller.play();
-                      },
-                      child: Container(
-                          width: 40.sp,
-                          height: 40.sp,
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            "assets/images/video_play.png",
-                            width: 33.sp,
-                            height: 33.sp,
-                          )),
-                    ),
+              child: widget.controller.value.isBuffering
+                  ? Container(
+                      width: 40.sp,
+                      height: 40.sp,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(
+                        color: primaryColor,
+                      ))
+                  : widget.controller.value.isPlaying
+                      ? InkWell(
+                          onTap: () {
+                            widget.controller.pause();
+                          },
+                          child: Container(
+                              width: 40.sp,
+                              height: 40.sp,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                "assets/images/pause.png",
+                                width: 33.sp,
+                                height: 33.sp,
+                              )),
+                        )
+                      : InkWell(
+                          onTap: () {
+                            widget.controller.play();
+                          },
+                          child: Container(
+                              width: 40.sp,
+                              height: 40.sp,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                "assets/images/video_play.png",
+                                width: 33.sp,
+                                height: 33.sp,
+                              )),
+                        ),
             ),
             SizedBox(
               width: 48.sp,
@@ -319,17 +390,32 @@ class _ControlsOverlay extends State<ControlsOverlay> {
                 )),
           ],
         ),
-        if(false)Positioned(
-            bottom: 7.sp,
-            right: 51.sp,
-            child: Text(
-              "Next Topic >".toUpperCase(),
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: textPrimary,
-                  letterSpacing: 2),
-            )),
+        if (widget.controller.value.duration.inSeconds -
+                widget.controller.value.position.inSeconds <
+            10)
+          Positioned(
+              bottom: 7.sp,
+              right: 51.sp,
+              child: Text(
+                "Next Topic >".toUpperCase(),
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: textPrimary,
+                    letterSpacing: 2),
+              )),
+        if (widget.controller.value.position.inSeconds < 10)
+          Positioned(
+              bottom: 7.sp,
+              right: 51.sp,
+              child: Text(
+                "Skip Intro".toUpperCase(),
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: primaryColor,
+                    letterSpacing: 2),
+              )),
         Positioned(
             bottom: 7.sp,
             right: 15.sp,
@@ -339,7 +425,9 @@ class _ControlsOverlay extends State<ControlsOverlay> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const LandscapeVideoPlayer()));
+                        builder: (context) => LandscapeVideoPlayer(
+                              controller: widget.controller,
+                            )));
               },
               child: Container(
                   width: 24.sp,
