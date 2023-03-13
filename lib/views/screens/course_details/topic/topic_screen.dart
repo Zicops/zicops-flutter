@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zicops/blocs/course/course_bloc.dart';
 import 'package:zicops/repositories/course_repository.dart';
-import 'package:zicops/views/screens/exam/exam_screen.dart';
 
 import '../../../../utils/colors.dart';
-import '../../../widgets/CourseBadge.dart';
 import '../../../widgets/VideoCourseBadge.dart';
 import '../../../widgets/VideoSettingsItem.dart';
 import '../../../widgets/comment_item.dart';

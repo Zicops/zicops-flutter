@@ -12,6 +12,8 @@ import 'package:zicops/views/screens/search/search_screen.dart';
 import 'package:zicops/views/widgets/course_grid_item.dart';
 import 'package:zicops/views/widgets/course_grid_item_large.dart';
 
+import '../../widgets/course_list_item_with_progress.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -128,13 +130,11 @@ class _HomeScreen extends State<HomeScreen> {
         ));
   }
 
-  Widget viewAll({int height = 156, int width = 156}) {
+  Widget viewAll(Future Function() onTapFunc,
+      {int height = 156, int width = 156}) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SearchScreen()));
-          },
+          onTap: onTapFunc,
           child: Container(
               padding:
                   EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
@@ -314,33 +314,94 @@ class _HomeScreen extends State<HomeScreen> {
                         }
                         if (state is LearningFolderCourseLoaded) {
                           return ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              SizedBox(
-                                width: 20.sp,
-                              ),
-                              ...state.learningFolderCourses
-                                  .where((course) =>
-                                      course.topicsStartedPercentage != 0)
-                                  .toList()
-                                  .map((courseItem) => Row(
-                                        children: [
-                                          CourseGridItem(
-                                            courseItem.name ?? '',
-                                            courseItem.owner ?? '',
-                                            courseItem.expertiseLevel ?? '',
-                                            '1',
-                                            courseItem.tileImage ?? '',
-                                            courseItem.id ?? '',
-                                          ),
-                                          SizedBox(
-                                            width: 8.sp,
-                                          )
-                                        ],
-                                      )),
-                              viewAll()
-                            ],
-                          );
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                GridView(
+                                  scrollDirection: Axis.horizontal,
+                                  physics:
+                                      const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.only(left: 20.sp),
+                                  gridDelegate:
+                                      SliverGridDelegateWithMaxCrossAxisExtent(
+                                          childAspectRatio: 0.23,
+                                          crossAxisSpacing: 8.sp,
+                                          mainAxisSpacing: 8.sp,
+                                          maxCrossAxisExtent: 74.sp),
+                                  children: [
+                                    ...state.learningFolderCourses
+                                        .where((course) =>
+                                            course.topicsStartedPercentage != 0)
+                                        .toList()
+                                        .map((courseItem) => CourseListItem(
+                                              courseItem.name ?? '',
+                                              courseItem.owner ?? '',
+                                              '1',
+                                              courseItem.tileImage ?? '',
+                                            )),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 8.sp,
+                                ),
+                                viewAll(
+                                  () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => NewCourseScreen(
+                                                courseList: state
+                                                    .learningFolderCourses
+                                                    .where((course) =>
+                                                        course
+                                                            .topicsStartedPercentage !=
+                                                        0)
+                                                    .toList(),
+                                                title: 'Ongoing Courses',
+                                              ))),
+                                ),
+                              ]);
+                          // return ListView(
+                          //   scrollDirection: Axis.horizontal,
+                          //   children: [
+                          //     SizedBox(
+                          //       width: 20.sp,
+                          //     ),
+                          //     ...state.learningFolderCourses
+                          //         .where((course) =>
+                          //             course.topicsStartedPercentage != 0)
+                          //         .toList()
+                          //         .map((courseItem) => Row(
+                          //               children: [
+                          //                 CourseGridItem(
+                          //                   courseItem.name ?? '',
+                          //                   courseItem.owner ?? '',
+                          //                   courseItem.expertiseLevel ?? '',
+                          //                   '1',
+                          //                   courseItem.tileImage ?? '',
+                          //                   courseItem.id ?? '',
+                          //                 ),
+                          //                 SizedBox(
+                          //                   width: 8.sp,
+                          //                 )
+                          //               ],
+                          //             )),
+                          //     viewAll(
+                          //       () => Navigator.push(
+                          //           context,
+                          //           MaterialPageRoute(
+                          //               builder: (context) => NewCourseScreen(
+                          //                     courseList: state
+                          //                         .learningFolderCourses
+                          //                         .where((course) =>
+                          //                             course
+                          //                                 .topicsStartedPercentage !=
+                          //                             0)
+                          //                         .toList(),
+                          //                     title: 'Ongoing Courses',
+                          //                   ))),
+                          //     ),
+                          //   ],
+                          // );
                         }
                         return Container(
                           child: const Text("No data"),
@@ -380,7 +441,7 @@ class _HomeScreen extends State<HomeScreen> {
             //       SizedBox(
             //         width: 8.sp,
             //       ),
-            //       viewAll()
+            //       // viewAll()
             //     ])),
             BlocProvider(
               create: (context) => HomeBloc(homeRepository: HomeRepository())
@@ -439,7 +500,17 @@ class _HomeScreen extends State<HomeScreen> {
                                           )
                                         ],
                                       )),
-                              viewAll()
+                              viewAll(
+                                () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NewCourseScreen(
+                                              courseList: state
+                                                  .learningFolderCourses
+                                                  .toList(),
+                                              title: 'Learning Folder courses',
+                                            ))),
+                              ),
                             ],
                           );
                         }
@@ -513,7 +584,16 @@ class _HomeScreen extends State<HomeScreen> {
                                       )
                                     ],
                                   )),
-                              viewAll()
+                              viewAll(
+                                () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NewCourseScreen(
+                                              courseList:
+                                                  state.latestCourses.toList(),
+                                              title: 'Latest courses',
+                                            ))),
+                              ),
                             ],
                           );
                         }
@@ -587,7 +667,16 @@ class _HomeScreen extends State<HomeScreen> {
                                       )
                                     ],
                                   )),
-                              viewAll()
+                              viewAll(
+                                () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NewCourseScreen(
+                                              courseList:
+                                                  state.latestCourses.toList(),
+                                              title: 'Learning space',
+                                            ))),
+                              ),
                             ],
                           );
                         }
@@ -721,7 +810,11 @@ class _HomeScreen extends State<HomeScreen> {
                                       )
                                     ],
                                   )),
-                              viewAll()
+                              viewAll(() => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SearchScreen()))),
                             ],
                           ),
                         ),
@@ -756,7 +849,11 @@ class _HomeScreen extends State<HomeScreen> {
                                       )
                                     ],
                                   )),
-                              viewAll()
+                              viewAll(() => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SearchScreen()))),
                             ],
                           ),
                         ),
@@ -826,7 +923,14 @@ class _HomeScreen extends State<HomeScreen> {
                       )
                     ],
                   ),
-                  viewAll(height: 74, width: 74)
+                  viewAll(
+                    () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SearchScreen())),
+                    height: 74,
+                    width: 74,
+                  ),
                 ],
               ),
             ),
@@ -862,7 +966,13 @@ class _HomeScreen extends State<HomeScreen> {
                           )
                         ],
                       )),
-                  viewAll(height: 248, width: 320)
+                  viewAll(
+                      () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SearchScreen())),
+                      height: 248,
+                      width: 320),
                 ],
               ),
             ),
@@ -900,7 +1010,13 @@ class _HomeScreen extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  viewAll(height: 248, width: 320)
+                  viewAll(
+                      () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SearchScreen())),
+                      height: 248,
+                      width: 320)
                 ],
               ),
             ),

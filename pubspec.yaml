@@ -117,7 +117,6 @@ flutter:
      - family: DigitalDream
        fonts:
          - asset: fonts/DIGITALDREAM.ttf
-         - asset: fonts/DIGITALDREAMFAT.ttf
            weight: 600
 #     - family: Trajan Pro
 #       fonts:

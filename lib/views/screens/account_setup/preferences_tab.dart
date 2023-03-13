@@ -1,18 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:zicops/controllers/mutation_controller.dart';
 import 'package:zicops/views/screens/account_setup/models/category.dart';
 import 'package:zicops/views/screens/home/home.dart';
-import 'package:zicops/controllers/mutation_controller.dart';
+
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
 import '../../../models/user/user_account_profile_pref.dart';
-import '../../../models/user/user_details_model.dart';
 import '../../../utils/colors.dart';
 
 class PreferencesTabScreen extends StatefulWidget {
@@ -66,18 +64,23 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
   String? userLspId = '';
 
   Future catSubCatLoading() async {
+    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // Map<String, dynamic> jsonDetails =
+    //     jsonDecode(sharedPreferences.getString('user')!);
+    // var user = UserDetailsModel.fromJson(jsonDetails);
+    // if (jsonDetails.isNotEmpty) {
+    //   setState(() {
+    //     userId = user.id!;
+    //   });
+    // }
+    // lspId = sharedPreferences.getString('lspId');
+    // userLspId = sharedPreferences.getString('userLspId');
+    // print('lspId: $lspId');
+
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map<String, dynamic> jsonDetails =
-        jsonDecode(sharedPreferences.getString('user')!);
-    var user = UserDetailsModel.fromJson(jsonDetails);
-    if (jsonDetails.isNotEmpty) {
-      setState(() {
-        userId = user.id!;
-      });
-    }
-    lspId = sharedPreferences.getString('lspId');
-    userLspId = sharedPreferences.getString('userLspId');
-    print('lspId: $lspId');
+    String? userId = sharedPreferences.getString('userId');
+    String? lspId = sharedPreferences.getString('lspId');
+    String? userLspId = sharedPreferences.getString('userLspId');
 
     //All Cat Details
 
