@@ -14,13 +14,25 @@ class CourseRepository {
     return result;
   }
 
-  Future loadCourse(courseId) async {
+  Future courseDetails(courseId) async {
+    final result = await courseQClient.client()?.execute(GetCourseDataQuery(
+        variables: GetCourseDataArguments(course_id: courseId)));
+    final courseData = result?.data?.toJson();
+    List courseModules = courseData?['getCourseModules'];
+    List courseTopics = courseData?['getTopics'];
+    List courseResouces = courseData?['getResourcesByCourseId'];
+    var courseDetails = courseData?['getCourse'];
+    return courseData;
+  }
+
+  Future topicData(courseId) async {
     // steps to load a course
     // 1. getCourseModules , getCourseModules, getCourseChapter, getModulContent
     List<String> moduleIds = [];
     List<String> topicIds = [];
     List<dynamic> topicData = [];
     List<dynamic> contentData = [];
+
     final result = await courseQClient.client()?.execute(GetCourseDataQuery(
         variables: GetCourseDataArguments(course_id: courseId)));
     final courseData = result?.data?.toJson();

@@ -71,7 +71,7 @@ Map<String, dynamic> combineData(Map data1, Map data2) {
 
 class _CourseDetailsScreen extends State<CourseDetailsScreen> {
   int _selectedTab = 3;
- // int _selectedTab = 0;
+  // int _selectedTab = 0;
   // final _controller = Get.find<Controller>();
   List<dynamic> topicData = [];
 
@@ -151,9 +151,13 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
       case 2:
         return const ResourcesScreen();
       case 3:
-        return const AboutScreen();
+        return AboutScreen(
+          courseId: widget.courseId,
+        );
       default:
-        return const AboutScreen();
+        return AboutScreen(
+          courseId: widget.courseId,
+        );
     }
   }
 

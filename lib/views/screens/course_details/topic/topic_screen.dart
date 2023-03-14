@@ -341,7 +341,7 @@ class _TopicScreen extends State<TopicScreen> {
     final height = MediaQuery.of(context).size.height;
     return BlocProvider(
       create: (context) => CourseBloc(courseRepository: CourseRepository())
-        ..add(CourseRequested(courseId: widget.courseId)),
+        ..add(TopicDataRequested(courseId: widget.courseId)),
       child: SlidingUpPanel(
           controller: _panelController,
           minHeight: minPanelHeight,
@@ -478,10 +478,10 @@ class _TopicScreen extends State<TopicScreen> {
                     ),
                     BlocBuilder<CourseBloc, CourseState>(
                       builder: (context, state) {
-                        if (state is CourseLoading) {
+                        if (state is TopicLoading) {
                           return Center(child: CircularProgressIndicator());
                         }
-                        if (state is CourseLoaded) {
+                        if (state is TopicLoaded) {
                           topicData = state.topicData;
                           return Column(
                             children: [
@@ -625,7 +625,7 @@ class _TopicScreen extends State<TopicScreen> {
                             ],
                           );
                         }
-                        if (state is CourseError) {
+                        if (state is TopicError) {
                           return Center(child: Text(state.error));
                         }
                         return Container();
