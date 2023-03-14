@@ -29,5 +29,15 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         emit(CourseError(error: e.toString()));
       }
     });
+    on<NotesAndBookmarkRequested>((event, emit) async {
+      emit(NotesAndBookmarkLoading());
+      try {
+        var notesAndBookmark =
+            await courseRepository.loadUserNotesAndBookmark(event.courseId);
+        emit(NotesAndBookmarkLoaded(notesAndBookmarkData: notesAndBookmark));
+      } catch (e) {
+        emit(NotesAndBookmarkError(error: e.toString()));
+      }
+    });
   }
 }

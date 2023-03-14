@@ -338,6 +338,8 @@ class _HomeScreen extends State<HomeScreen> {
                                               courseItem.owner ?? '',
                                               '1',
                                               courseItem.tileImage ?? '',
+                                              courseItem.id ?? '',
+                                              courseItem.expertiseLevel ?? '',
                                             )),
                                   ],
                                 ),

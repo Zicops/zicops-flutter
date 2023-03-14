@@ -226,8 +226,9 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                                         foregroundImage: profileImage != null
                                             ? FileImage(profileImage!)
                                                 as ImageProvider
-                                            : const AssetImage(
-                                                "assets/images/avatar_default.png",
+                                            : NetworkImage(
+                                                imageUrl ??
+                                                    "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
                                               ),
                                         radius: 56.sp,
                                       ),
@@ -323,24 +324,36 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                                   const SizedBox(height: 12),
                                   GestureDetector(
                                     onTap: () async {
-                                      var byteData =
-                                          profileImage.readAsBytesSync();
-                                      var multipartFile =
-                                          MultipartFile.fromBytes(
-                                              'photo', byteData,
-                                              filename: profileImage.path
-                                                  .split('/')
-                                                  .last,
-                                              contentType:
-                                                  MediaType('image', 'png'));
-                                      updateUser(
-                                        id,
-                                        _firstNameController.text,
-                                        _lastNameController.text,
-                                        _emailController.text,
-                                        _phoneController.text,
-                                        multipartFile,
-                                      );
+                                      if (profileImage != null) {
+                                        var byteData =
+                                            profileImage.readAsBytesSync();
+                                        var multipartFile = MultipartFile
+                                            .fromBytes('photo', byteData,
+                                                filename: profileImage
+                                                    .path
+                                                    .split('/')
+                                                    .last,
+                                                contentType:
+                                                    MediaType('image', 'png'));
+                                        updateUser(
+                                          id,
+                                          _firstNameController.text,
+                                          _lastNameController.text,
+                                          _emailController.text,
+                                          _phoneController.text,
+                                          multipartFile,
+                                        );
+                                      } else {
+                                        updateUser(
+                                          id,
+                                          _firstNameController.text,
+                                          _lastNameController.text,
+                                          _emailController.text,
+                                          _phoneController.text,
+                                          null,
+                                        );
+                                      }
+
                                       widget.changeTab();
                                     },
                                     child: gradientButton("Next"),

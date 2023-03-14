@@ -10,8 +10,10 @@ class CohortCard extends StatefulWidget {
   final String managerPic;
   final String preview;
 
-  CohortCard(this.courseName, this.description, this.manager, this.managerPic,
-      this.preview);
+  const CohortCard(this.courseName, this.description, this.manager,
+      this.managerPic, this.preview,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -49,14 +51,21 @@ class _CohortCard extends State<CohortCard> {
                         fit: StackFit.expand,
                         children: [
                           ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(4.sp),
-                                  topLeft: Radius.circular(4.sp)),
-                              child: Image.network(
-                                widget.preview,
-                                fit: BoxFit.fill,
-                                height: 179.sp,
-                              )),
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(4.sp),
+                                topLeft: Radius.circular(4.sp)),
+                            child: widget.preview.contains("https://")
+                                ? Image.network(
+                                    widget.preview,
+                                    fit: BoxFit.fill,
+                                    height: 179.sp,
+                                  )
+                                : Image.asset(
+                                    'assets/images/course_preview_2.png',
+                                    fit: BoxFit.fill,
+                                    height: 179.sp,
+                                  ),
+                          ),
                         ],
                       )),
                   Container(

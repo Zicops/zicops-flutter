@@ -57,3 +57,26 @@ class TopicError extends CourseState {
   @override
   List<Object?> get props => [error];
 }
+
+class NotesAndBookmarkLoading extends CourseState {
+  @override
+  List<Object?> get props => [];
+}
+
+class NotesAndBookmarkLoaded extends CourseState {
+  final notesAndBookmarkData;
+
+  NotesAndBookmarkLoaded({required this.notesAndBookmarkData});
+
+  @override
+  List<Object?> get props => [notesAndBookmarkData];
+}
+
+class NotesAndBookmarkError extends CourseState {
+  final String error;
+
+  NotesAndBookmarkError({required this.error});
+
+  @override
+  List<Object?> get props => [error];
+}

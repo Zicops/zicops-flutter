@@ -17,3 +17,9 @@ class CourseDataRequested extends CourseEvent {
 
   const CourseDataRequested({required this.courseId});
 }
+
+class NotesAndBookmarkRequested extends CourseEvent {
+  final String courseId;
+
+  const NotesAndBookmarkRequested({required this.courseId});
+}

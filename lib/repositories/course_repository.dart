@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../graphql_api.graphql.dart';
 import '../main.dart';
 
@@ -83,5 +85,28 @@ class CourseRepository {
     topicData.addAll(data);
     // for topic data
     return topicData;
+  }
+
+  Future loadUserNotesAndBookmark(String courseId) async {
+    final prefs = await SharedPreferences.getInstance();
+    // this is the function to get user notes and bookmarks. Notes that this will only be called when course is assigned to the user.
+    // this query need user id, user_lsp_id, current epoch time in unix,pagecursor etc and returns there notes and bookmarks if any present.
+    String? userId = prefs.getString('userId');
+    String? userLspId = prefs.getString('userLspId');
+    int publishTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    // this is the course id which we have clicked on
+    //String courseId = "da5c2348-62ef-4725-838a-c1c23170b1bc";
+    final res = await userClient.client()?.execute(GetUserNotesBookmarksQuery(
+        variables: GetUserNotesBookmarksArguments(
+            user_id: userId!,
+            user_lsp_id: '4fa13f53-5df3-4fdb-b34e-77af7bd20824',
+            publish_time: publishTime,
+            pageCursor: '',
+            pageSize: 25,
+            course_id: courseId)));
+
+    print(res?.data?.toJson());
+    // this is basically map containing getUserNotes and getUserBookmarks keys from which you will get users notes and book marks.
+    return res?.data?.toJson();
   }
 }

@@ -69,6 +69,7 @@ class _CohortTabScreen extends State<CohortTabScreen> {
           ProfileBloc(ProfileRepository())..add(CohortDetailsRequested()),
       child: Container(
           color: secondaryColorDark,
+          height: MediaQuery.of(context).size.height * 0.8,
           padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 13.sp),
           child: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
@@ -87,37 +88,39 @@ class _CohortTabScreen extends State<CohortTabScreen> {
               }
               if (state is CohortDetailsLoaded) {
                 if (state.cohorts.isNotEmpty) {
-                  print('cohort data: ${state.cohorts[0]}');
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "your cohorts".toUpperCase(),
-                        style: TextStyle(
-                            color: neutral,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1,
-                            height: 1.33),
-                      ),
-                      SizedBox(
-                        height: 8.sp,
-                      ),
-                      ...state.cohorts.map((e) => Column(
-                            children: [
-                              CohortCard(
-                                e.name ?? '',
-                                e.description ?? '',
-                                e.role ?? '',
-                                e.imageUrl ?? '',
-                                e.imageUrl ?? '',
-                              ),
-                              SizedBox(
-                                height: 16.sp,
-                              )
-                            ],
-                          ))
-                    ],
+                  print('cohort data: ${state.cohorts[0].cohortId}');
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "your cohorts".toUpperCase(),
+                          style: TextStyle(
+                              color: neutral,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1,
+                              height: 1.33),
+                        ),
+                        SizedBox(
+                          height: 8.sp,
+                        ),
+                        ...state.cohorts.map((e) => Column(
+                              children: [
+                                CohortCard(
+                                  e.name ?? '',
+                                  e.description ?? '',
+                                  e.role ?? '',
+                                  e.imageUrl ?? '',
+                                  e.imageUrl ?? '',
+                                ),
+                                SizedBox(
+                                  height: 16.sp,
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
                   );
                 } else {
                   return SizedBox(

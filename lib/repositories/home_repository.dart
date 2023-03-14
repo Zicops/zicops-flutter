@@ -183,12 +183,12 @@ class HomeRepository {
     String? userLspId;
 
     List userPreferences = [];
-    Map<String, List> subCats = {};
-    List subCatCourses1 = [];
-    List subCatCourses2 = [];
-    List subCatCourses3 = [];
-    List subCatCourses4 = [];
-    List subCatCourses5 = [];
+    Map<String, List<Course>> subCats = {};
+    List<Course> subCatCourses1 = [];
+    List<Course> subCatCourses2 = [];
+    List<Course> subCatCourses3 = [];
+    List<Course> subCatCourses4 = [];
+    List<Course> subCatCourses5 = [];
 
     final lspData = await userClient.client()?.execute(GetUserLspByLspIdQuery(
         variables: GetUserLspByLspIdArguments(
@@ -223,14 +223,16 @@ class HomeRepository {
         }
       }
 
-      print(subCats);
-      subCatCourses1 = subCats['subCat1']!.toList();
-      subCatCourses2 = subCats['subCat2']!.toList();
-      subCatCourses3 = subCats['subCat3']!.toList();
-      subCatCourses4 = subCats['subCat4']!.toList();
-      subCatCourses5 = subCats['subCat5']!.toList();
+      print('priniting subcats map $subCats');
+      subCatCourses1 = subCats['subCat1']!;
+      subCatCourses2 = subCats['subCat2']!;
+      subCatCourses3 = subCats['subCat3']!;
+      subCatCourses4 = subCats['subCat4']!;
+      subCatCourses5 = subCats['subCat5']!;
 
-      print('printing subcat$subCatCourses1');
+      print('printing subcat ${subCatCourses2[0].name}');
+
+      print('printing subcat ${subCatCourses5[0].subCategory}');
     }
 
     subCatCourses1[0].subCategory = userPreferences[0];
@@ -238,6 +240,8 @@ class HomeRepository {
     subCatCourses3[0].subCategory = userPreferences[2];
     subCatCourses4[0].subCategory = userPreferences[3];
     subCatCourses5[0].subCategory = userPreferences[4];
+
+    print(subCatCourses5[0].subCategory);
 
     return subCats;
   }

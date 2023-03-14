@@ -147,7 +147,9 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
         return TopicScreen(
             widget.courseId, widget.courseName, widget.difficulty);
       case 1:
-        return const NotesScreen();
+        return NotesScreen(
+          courseId: widget.courseId,
+        );
       case 2:
         return const ResourcesScreen();
       case 3:
