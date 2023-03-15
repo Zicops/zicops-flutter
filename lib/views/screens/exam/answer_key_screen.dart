@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zicops/views/screens/exam/widgets/exam_quiz_item.dart';
-import 'package:zicops/views/widgets/bulleted_text.dart';
 
 import '../../../utils/colors.dart';
-import '../../widgets/GradientButton.dart';
 import '../../widgets/alternate_color_container.dart';
 import '../../widgets/modules_dropdown.dart';
-import '../quiz/widgets/quiz_item.dart';
 
 class AnswerKeyScreen extends StatefulWidget {
   const AnswerKeyScreen({Key? key}) : super(key: key);
@@ -151,7 +148,6 @@ class _AnswerKeyScreen extends State<AnswerKeyScreen> {
                         thickness: 1.sp,
                         color: lightGrey,
                       ),
-
                       ...quizItems.map((quizItem) => ExamQuizItem(
                           quizItem["index"],
                           quizItem["questionImage"],

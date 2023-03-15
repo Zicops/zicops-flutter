@@ -69,13 +69,14 @@ class SubCategoryCourseLoaded extends HomeState {
   final List<Course>? subCategoryCourses3;
   final List<Course>? subCategoryCourses4;
   final List<Course>? subCategoryCourses5;
-
+  final userPref;
   SubCategoryCourseLoaded(
     this.subCategoryCourses1,
     this.subCategoryCourses2,
     this.subCategoryCourses3,
     this.subCategoryCourses4,
     this.subCategoryCourses5,
+    this.userPref,
   );
 
   @override

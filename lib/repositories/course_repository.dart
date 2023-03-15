@@ -27,6 +27,17 @@ class CourseRepository {
     return courseData;
   }
 
+  Future getCourseModule(courseId) async {
+    final result = await courseQClient.client()?.execute(GetCourseDataQuery(
+        variables: GetCourseDataArguments(course_id: courseId)));
+    final courseData = result?.data?.toJson();
+
+    List courseModules = courseData?['getCourseModules'];
+    print('courseModules: $courseModules');
+
+    return courseModules;
+  }
+
   Future topicData(courseId) async {
     // steps to load a course
     // 1. getCourseModules , getCourseModules, getCourseChapter, getModulContent
@@ -83,6 +94,7 @@ class CourseRepository {
 
     print(finalCourseData);
     topicData.addAll(data);
+    print(topicData);
     // for topic data
     return topicData;
   }

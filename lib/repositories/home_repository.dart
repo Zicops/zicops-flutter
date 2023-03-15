@@ -176,20 +176,13 @@ class HomeRepository {
     return courseData;
   }
 
-  Future loadUserPreferences() async {
+  Future loadUserPref() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? userId = sharedPreferences.getString('userId');
     String? lspId = sharedPreferences.getString('lspId');
     String? userLspId;
 
     List userPreferences = [];
-    Map<String, List<Course>> subCats = {};
-    List<Course> subCatCourses1 = [];
-    List<Course> subCatCourses2 = [];
-    List<Course> subCatCourses3 = [];
-    List<Course> subCatCourses4 = [];
-    List<Course> subCatCourses5 = [];
-
     final lspData = await userClient.client()?.execute(GetUserLspByLspIdQuery(
         variables: GetUserLspByLspIdArguments(
             user_id: userId ?? '', lsp_id: lspId ?? "")));
@@ -210,6 +203,18 @@ class HomeRepository {
         userPreferences.add(data.subCategory);
       }
     }
+    return userPreferences;
+  }
+
+  Future getSubCats() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? userId = sharedPreferences.getString('userId');
+    String? lspId = sharedPreferences.getString('lspId');
+    String? userLspId;
+
+    List userPreferences = [];
+    userPreferences = await loadUserPref();
+    Map<String, List<Course>> subCats = {};
 
     bool isEmpty = true;
     if (userPreferences.isNotEmpty) {
@@ -224,24 +229,7 @@ class HomeRepository {
       }
 
       print('priniting subcats map $subCats');
-      subCatCourses1 = subCats['subCat1']!;
-      subCatCourses2 = subCats['subCat2']!;
-      subCatCourses3 = subCats['subCat3']!;
-      subCatCourses4 = subCats['subCat4']!;
-      subCatCourses5 = subCats['subCat5']!;
-
-      print('printing subcat ${subCatCourses2[0].name}');
-
-      print('printing subcat ${subCatCourses5[0].subCategory}');
     }
-
-    subCatCourses1[0].subCategory = userPreferences[0];
-    subCatCourses2[0].subCategory = userPreferences[1];
-    subCatCourses3[0].subCategory = userPreferences[2];
-    subCatCourses4[0].subCategory = userPreferences[3];
-    subCatCourses5[0].subCategory = userPreferences[4];
-
-    print(subCatCourses5[0].subCategory);
 
     return subCats;
   }

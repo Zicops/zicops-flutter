@@ -4,7 +4,6 @@ import 'package:zicops/views/widgets/modules_dropdown.dart';
 
 import '../../../../utils/colors.dart';
 import '../../../../utils/dummies.dart';
-import '../../../widgets/main_tab.dart';
 import 'dropdown_list_item.dart';
 
 class DropdownWithListCard extends StatefulWidget {

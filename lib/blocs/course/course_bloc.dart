@@ -15,7 +15,9 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       try {
         List<dynamic> topicData = [];
         topicData = await courseRepository.topicData(event.courseId);
-        emit(TopicLoaded(topicData: topicData));
+        var courseModules =
+            await courseRepository.getCourseModule(event.courseId);
+        emit(TopicLoaded(courseModules: courseModules, topicData: topicData));
       } catch (e) {
         emit(TopicError(error: e.toString()));
       }
@@ -24,6 +26,8 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       emit(CourseLoading());
       try {
         var courseData = await courseRepository.courseDetails(event.courseId);
+        var courseModules =
+            await courseRepository.getCourseModule(event.courseId);
         emit(CourseLoaded(courseData: courseData));
       } catch (e) {
         emit(CourseError(error: e.toString()));

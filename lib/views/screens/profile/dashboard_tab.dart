@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/profile/widgets/date_card.dart';
-import 'package:zicops/views/screens/profile/widgets/dropdown_list_item.dart';
 import 'package:zicops/views/screens/profile/widgets/dropdown_with_class_card.dart';
 import 'package:zicops/views/screens/profile/widgets/skill_matrix.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:zicops/views/widgets/modules_dropdown.dart';
+
 import '../../../utils/dummies.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class DashboardTabScreen extends StatefulWidget {
   const DashboardTabScreen({Key? key}) : super(key: key);
@@ -31,7 +31,6 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
         activationMode: ActivationMode.singleTap,
         lineColor: primaryColor,
         builder: (context, details) {
-
           return Container(
               width: 95.sp,
               height: 58.sp,
@@ -419,7 +418,8 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
                     .map((e) => EngagedSubCatListItem()),
                 Container(
                   alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: 16.sp, bottom: 10.sp, top: 2.sp),
+                  padding:
+                      EdgeInsets.only(right: 16.sp, bottom: 10.sp, top: 2.sp),
                   child: Text(
                     "See All".toUpperCase(),
                     style: TextStyle(
