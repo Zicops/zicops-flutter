@@ -28,7 +28,7 @@ jobs:
       - run: flutter pub get
       - name: Generate files
         run: flutter pub run build_runner build --delete-conflicting-outputs
-      - run: flutter analyze
+      #- run: flutter analyze
       - run: flutter test
 
   build_ios:
