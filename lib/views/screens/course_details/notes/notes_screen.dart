@@ -121,6 +121,12 @@ class _NotesScreen extends State<NotesScreen> {
           if (state is NotesAndBookmarkLoaded) {
             if (state.notesAndBookmarkData["getUserNotes"] == null &&
                 state.notesAndBookmarkData["getUserBookmarks"] == null) {
+              for (var i = 0;
+                  i < state.notesAndBookmarkData["getUserNotes"].length;
+                  i++) {
+                print(
+                    state.notesAndBookmarkData["getUserNotes"][i]["topic_id"]);
+              }
               return Center(
                   child: Text(
                 "No Notes and Bookmarks",

@@ -12,9 +12,10 @@ class CourseListItem extends StatefulWidget {
   String preview;
   String courseId;
   String difficulty;
+  int topicPercentage;
 
   CourseListItem(this.courseName, this.org, this.courseLength, this.preview,
-      this.courseId, this.difficulty,
+      this.courseId, this.difficulty, this.topicPercentage,
       {Key? key})
       : super(key: key);
 
@@ -127,7 +128,7 @@ class _CourseListItem extends State<CourseListItem> {
                               ],
                             ),
                             const Spacer(),
-                            ProgressBar(192, 0.6)
+                            ProgressBar(192, widget.topicPercentage / 100),
                           ],
                         ))),
               ],

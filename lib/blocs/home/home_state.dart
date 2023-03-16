@@ -64,11 +64,11 @@ class SubCategoryCourseLoading extends HomeState {
 }
 
 class SubCategoryCourseLoaded extends HomeState {
-  final List<Course>? subCategoryCourses1;
-  final List<Course>? subCategoryCourses2;
-  final List<Course>? subCategoryCourses3;
-  final List<Course>? subCategoryCourses4;
-  final List<Course>? subCategoryCourses5;
+  final List<Course> subCategoryCourses1;
+  final List<Course> subCategoryCourses2;
+  final List<Course> subCategoryCourses3;
+  final List<Course> subCategoryCourses4;
+  final List<Course> subCategoryCourses5;
   final userPref;
   SubCategoryCourseLoaded(
     this.subCategoryCourses1,
