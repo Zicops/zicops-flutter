@@ -1102,19 +1102,11 @@ class _HomeScreen extends State<HomeScreen> {
                                                     )
                                                   ],
                                                 )),
-                                        viewAll(
-                                          () => Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      NewCourseScreen(
-                                                        courseList: state
-                                                            .subCategoryCourses5
-                                                            .toList(),
-                                                        title:
-                                                            state.userPref[4],
-                                                      ))),
-                                        ),
+                                        viewAll(() => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SearchScreen()))),
                                       ],
                                     ),
                                   ),
