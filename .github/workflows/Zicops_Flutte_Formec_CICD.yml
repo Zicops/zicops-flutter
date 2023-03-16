@@ -86,7 +86,7 @@ jobs:
         with:
           path: ~/.pub-cache
           key: ${{ runner.os }}-pub-ios-${{ hashFiles('**/pubspec.lock') }}
-      - run: flutter build appbundle --release
+      - run: flutter build apk --release --split-per-abi
       - name: Cache outputs of build step
         uses: actions/cache@v2
         with:
