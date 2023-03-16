@@ -316,6 +316,22 @@ mixin CourseTopicFragmentMixin {
   String? updatedBy;
   String? image;
 }
+mixin CourseResourceFragmentMixin {
+  String? id;
+  String? name;
+  String? type;
+  String? topicId;
+  String? courseId;
+  @JsonKey(name: 'created_at')
+  String? createdAt;
+  @JsonKey(name: 'updated_at')
+  String? updatedAt;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+  String? url;
+}
 mixin UserCourseFragmentMixin {
   @JsonKey(name: 'user_course_id')
   String? userCourseId;
@@ -360,6 +376,62 @@ mixin UserCohortsFragmentMixin {
   @JsonKey(name: 'membership_status')
   late String membershipStatus;
   late String role;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+}
+mixin UserNoteFragmentMixin {
+  @JsonKey(name: 'user_notes_id')
+  String? userNotesId;
+  @JsonKey(name: 'user_id')
+  late String userId;
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+  @JsonKey(name: 'course_id')
+  late String courseId;
+  @JsonKey(name: 'module_id')
+  late String moduleId;
+  @JsonKey(name: 'topic_id')
+  late String topicId;
+  late int sequence;
+  late String status;
+  late String details;
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+}
+mixin UserBookmarkFragmentMixin {
+  @JsonKey(name: 'user_bm_id')
+  String? userBmId;
+  @JsonKey(name: 'user_id')
+  late String userId;
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+  @JsonKey(name: 'user_course_id')
+  late String userCourseId;
+  @JsonKey(name: 'course_id')
+  late String courseId;
+  @JsonKey(name: 'module_id')
+  late String moduleId;
+  @JsonKey(name: 'topic_id')
+  late String topicId;
+  late String name;
+  @JsonKey(name: 'time_stamp')
+  late String timeStamp;
+  @JsonKey(name: 'is_active')
+  late bool isActive;
   @JsonKey(name: 'created_by')
   String? createdBy;
   @JsonKey(name: 'updated_by')
@@ -1526,6 +1598,191 @@ class GetCourseData$QueryRoot$Topic extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetCourseData$QueryRoot$TopicResource extends JsonSerializable
+    with EquatableMixin, CourseResourceFragmentMixin {
+  GetCourseData$QueryRoot$TopicResource();
+
+  factory GetCourseData$QueryRoot$TopicResource.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetCourseData$QueryRoot$TopicResourceFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        type,
+        topicId,
+        courseId,
+        createdAt,
+        updatedAt,
+        createdBy,
+        updatedBy,
+        url
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetCourseData$QueryRoot$TopicResourceToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetCourseData$QueryRoot$Course$SubCategories extends JsonSerializable
+    with EquatableMixin {
+  GetCourseData$QueryRoot$Course$SubCategories();
+
+  factory GetCourseData$QueryRoot$Course$SubCategories.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetCourseData$QueryRoot$Course$SubCategoriesFromJson(json);
+
+  String? name;
+
+  int? rank;
+
+  @override
+  List<Object?> get props => [name, rank];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetCourseData$QueryRoot$Course$SubCategoriesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetCourseData$QueryRoot$Course extends JsonSerializable
+    with EquatableMixin {
+  GetCourseData$QueryRoot$Course();
+
+  factory GetCourseData$QueryRoot$Course.fromJson(Map<String, dynamic> json) =>
+      _$GetCourseData$QueryRoot$CourseFromJson(json);
+
+  String? id;
+
+  String? name;
+
+  String? lspId;
+
+  String? publisher;
+
+  String? description;
+
+  String? summary;
+
+  String? instructor;
+
+  String? image;
+
+  String? previewVideo;
+
+  String? tileImage;
+
+  String? owner;
+
+  int? duration;
+
+  @JsonKey(name: 'expertise_level')
+  String? expertiseLevel;
+
+  List<String?>? language;
+
+  List<String?>? benefits;
+
+  List<String?>? outcomes;
+
+  @JsonKey(name: 'created_at')
+  String? createdAt;
+
+  @JsonKey(name: 'updated_at')
+  String? updatedAt;
+
+  String? type;
+
+  List<String?>? prequisites;
+
+  List<String?>? goodFor;
+
+  List<String?>? mustFor;
+
+  @JsonKey(name: 'related_skills')
+  List<String?>? relatedSkills;
+
+  @JsonKey(name: 'publish_date')
+  String? publishDate;
+
+  @JsonKey(name: 'expiry_date')
+  String? expiryDate;
+
+  @JsonKey(name: 'expected_completion')
+  String? expectedCompletion;
+
+  @JsonKey(name: 'qa_required')
+  bool? qaRequired;
+
+  List<String?>? approvers;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(unknownEnumValue: Status.artemisUnknown)
+  Status? status;
+
+  @JsonKey(name: 'is_display')
+  bool? isDisplay;
+
+  String? category;
+
+  @JsonKey(name: 'sub_category')
+  String? subCategory;
+
+  @JsonKey(name: 'sub_categories')
+  List<GetCourseData$QueryRoot$Course$SubCategories?>? subCategories;
+
+  @JsonKey(name: 'is_active')
+  bool? isActive;
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        lspId,
+        publisher,
+        description,
+        summary,
+        instructor,
+        image,
+        previewVideo,
+        tileImage,
+        owner,
+        duration,
+        expertiseLevel,
+        language,
+        benefits,
+        outcomes,
+        createdAt,
+        updatedAt,
+        type,
+        prequisites,
+        goodFor,
+        mustFor,
+        relatedSkills,
+        publishDate,
+        expiryDate,
+        expectedCompletion,
+        qaRequired,
+        approvers,
+        createdBy,
+        updatedBy,
+        status,
+        isDisplay,
+        category,
+        subCategory,
+        subCategories,
+        isActive
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$GetCourseData$QueryRoot$CourseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetCourseData$QueryRoot extends JsonSerializable with EquatableMixin {
   GetCourseData$QueryRoot();
 
@@ -1538,8 +1795,18 @@ class GetCourseData$QueryRoot extends JsonSerializable with EquatableMixin {
 
   List<GetCourseData$QueryRoot$Topic?>? getTopics;
 
+  List<GetCourseData$QueryRoot$TopicResource?>? getResourcesByCourseId;
+
+  List<GetCourseData$QueryRoot$Course?>? getCourse;
+
   @override
-  List<Object?> get props => [getCourseModules, getCourseChapters, getTopics];
+  List<Object?> get props => [
+        getCourseModules,
+        getCourseChapters,
+        getTopics,
+        getResourcesByCourseId,
+        getCourse
+      ];
   @override
   Map<String, dynamic> toJson() => _$GetCourseData$QueryRootToJson(this);
 }
@@ -1810,6 +2077,138 @@ class GetUserCohorts$QueryRoot extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [getLatestCohorts];
   @override
   Map<String, dynamic> toJson() => _$GetUserCohorts$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotes
+    extends JsonSerializable with EquatableMixin, UserNoteFragmentMixin {
+  GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotes();
+
+  factory GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotes.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotesFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        userNotesId,
+        userId,
+        userLspId,
+        courseId,
+        moduleId,
+        topicId,
+        sequence,
+        status,
+        details,
+        isActive,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserNotesBookmarks$QueryRoot$PaginatedNotes extends JsonSerializable
+    with EquatableMixin {
+  GetUserNotesBookmarks$QueryRoot$PaginatedNotes();
+
+  factory GetUserNotesBookmarks$QueryRoot$PaginatedNotes.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserNotesBookmarks$QueryRoot$PaginatedNotesFromJson(json);
+
+  List<GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotes?>? notes;
+
+  String? pageCursor;
+
+  String? direction;
+
+  int? pageSize;
+
+  @override
+  List<Object?> get props => [notes, pageCursor, direction, pageSize];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserNotesBookmarks$QueryRoot$PaginatedNotesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmark
+    extends JsonSerializable with EquatableMixin, UserBookmarkFragmentMixin {
+  GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmark();
+
+  factory GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmark.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmarkFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [
+        userBmId,
+        userId,
+        userLspId,
+        userCourseId,
+        courseId,
+        moduleId,
+        topicId,
+        name,
+        timeStamp,
+        isActive,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmarkToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks
+    extends JsonSerializable with EquatableMixin {
+  GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks();
+
+  factory GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserNotesBookmarks$QueryRoot$PaginatedBookmarksFromJson(json);
+
+  List<GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmark?>?
+      bookmarks;
+
+  String? pageCursor;
+
+  String? direction;
+
+  int? pageSize;
+
+  @override
+  List<Object?> get props => [bookmarks, pageCursor, direction, pageSize];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserNotesBookmarks$QueryRoot$PaginatedBookmarksToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserNotesBookmarks$QueryRoot extends JsonSerializable
+    with EquatableMixin {
+  GetUserNotesBookmarks$QueryRoot();
+
+  factory GetUserNotesBookmarks$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetUserNotesBookmarks$QueryRootFromJson(json);
+
+  GetUserNotesBookmarks$QueryRoot$PaginatedNotes? getUserNotes;
+
+  GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks? getUserBookmarks;
+
+  @override
+  List<Object?> get props => [getUserNotes, getUserBookmarks];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserNotesBookmarks$QueryRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -6144,6 +6543,304 @@ final GET_COURSE_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
           )
         ]),
       ),
+      FieldNode(
+        name: NameNode(value: 'getResourcesByCourseId'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'course_id'),
+            value: VariableNode(name: NameNode(value: 'course_id')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'courseResourceFragment'),
+            directives: [],
+          )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'getCourse'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'course_id'),
+            value: ListValueNode(
+                values: [VariableNode(name: NameNode(value: 'course_id'))]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'lspId'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'publisher'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'description'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'summary'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'instructor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'image'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'previewVideo'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'tileImage'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'owner'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'duration'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'expertise_level'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'language'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'benefits'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'outcomes'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'type'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'prequisites'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'goodFor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'mustFor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'related_skills'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'publish_date'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'expiry_date'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'expected_completion'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'qa_required'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'approvers'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_display'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'category'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'sub_category'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'sub_categories'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'name'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'rank'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+            ]),
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
     ]),
   ),
   FragmentDefinitionNode(
@@ -6403,6 +7100,87 @@ final GET_COURSE_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
       ),
       FieldNode(
         name: NameNode(value: 'image'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'courseResourceFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'TopicResource'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'type'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'topicId'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'courseId'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'url'),
         alias: null,
         arguments: [],
         directives: [],
@@ -7175,6 +7953,494 @@ class GetUserCohortsQuery
   @override
   GetUserCohorts$QueryRoot parse(Map<String, dynamic> json) =>
       GetUserCohorts$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetUserNotesBookmarksArguments extends JsonSerializable
+    with EquatableMixin {
+  GetUserNotesBookmarksArguments({
+    required this.user_id,
+    this.user_lsp_id,
+    this.course_id,
+    this.publish_time,
+    this.pageCursor,
+    this.pageSize,
+  });
+
+  @override
+  factory GetUserNotesBookmarksArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetUserNotesBookmarksArgumentsFromJson(json);
+
+  late String user_id;
+
+  final String? user_lsp_id;
+
+  final String? course_id;
+
+  final int? publish_time;
+
+  final String? pageCursor;
+
+  final int? pageSize;
+
+  @override
+  List<Object?> get props =>
+      [user_id, user_lsp_id, course_id, publish_time, pageCursor, pageSize];
+  @override
+  Map<String, dynamic> toJson() => _$GetUserNotesBookmarksArgumentsToJson(this);
+}
+
+final GET_USER_NOTES_BOOKMARKS_QUERY_DOCUMENT_OPERATION_NAME =
+    'GetUserNotesBookmarks';
+final GET_USER_NOTES_BOOKMARKS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'GetUserNotesBookmarks'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'course_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'publish_time')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'pageCursor')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'pageSize')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'getUserNotes'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'user_id'),
+            value: VariableNode(name: NameNode(value: 'user_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'user_lsp_id'),
+            value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'course_id'),
+            value: VariableNode(name: NameNode(value: 'course_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'publish_time'),
+            value: VariableNode(name: NameNode(value: 'publish_time')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'pageCursor'),
+            value: VariableNode(name: NameNode(value: 'pageCursor')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'Direction'),
+            value: StringValueNode(
+              value: '',
+              isBlock: false,
+            ),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'pageSize'),
+            value: VariableNode(name: NameNode(value: 'pageSize')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'notes'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                name: NameNode(value: 'UserNoteFragment'),
+                directives: [],
+              )
+            ]),
+          ),
+          FieldNode(
+            name: NameNode(value: 'pageCursor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'direction'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'pageSize'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'getUserBookmarks'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'user_id'),
+            value: VariableNode(name: NameNode(value: 'user_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'user_lsp_id'),
+            value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'course_id'),
+            value: VariableNode(name: NameNode(value: 'course_id')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'publish_time'),
+            value: VariableNode(name: NameNode(value: 'publish_time')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'pageCursor'),
+            value: VariableNode(name: NameNode(value: 'pageCursor')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'Direction'),
+            value: StringValueNode(
+              value: '',
+              isBlock: false,
+            ),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'pageSize'),
+            value: VariableNode(name: NameNode(value: 'pageSize')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'bookmarks'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                name: NameNode(value: 'UserBookmarkFragment'),
+                directives: [],
+              )
+            ]),
+          ),
+          FieldNode(
+            name: NameNode(value: 'pageCursor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'direction'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'pageSize'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'UserNoteFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'UserNotes'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'user_notes_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_lsp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'course_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'module_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'topic_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'sequence'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'details'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'is_active'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'UserBookmarkFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'UserBookmark'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'user_bm_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_lsp_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'user_course_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'course_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'module_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'topic_id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'time_stamp'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'is_active'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_by'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'created_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'updated_at'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetUserNotesBookmarksQuery extends GraphQLQuery<
+    GetUserNotesBookmarks$QueryRoot, GetUserNotesBookmarksArguments> {
+  GetUserNotesBookmarksQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_USER_NOTES_BOOKMARKS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName =
+      GET_USER_NOTES_BOOKMARKS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetUserNotesBookmarksArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetUserNotesBookmarks$QueryRoot parse(Map<String, dynamic> json) =>
+      GetUserNotesBookmarks$QueryRoot.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

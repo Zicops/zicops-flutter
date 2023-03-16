@@ -40,6 +40,7 @@ type QueryRoot {
   getCourseChapters(course_id: String): [Chapter]
   getTopicContentByModuleId(module_id: String): [TopicContent]
   getTopics(course_id: String): [Topic]
+  getResourcesByCourseId(course_id: String): [TopicResource]
   latestCourses(
     publish_time: Int
     pageCursor: String
@@ -55,6 +56,24 @@ type QueryRoot {
     Direction: String
     pageSize: Int
   ): PaginatedCourseMaps
+  getUserNotes(
+    user_id: String!
+    user_lsp_id: String
+    course_id: String
+    publish_time: Int
+    pageCursor: String
+    Direction: String
+    pageSize: Int
+  ): PaginatedNotes
+  getUserBookmarks(
+    user_id: String!
+    user_lsp_id: String
+    course_id: String
+    publish_time: Int
+    pageCursor: String
+    Direction: String
+    pageSize: Int
+  ): PaginatedBookmarks
   getLatestCohorts(
     user_id: String
     user_lsp_id: String
@@ -371,6 +390,19 @@ type TopicContent {
     is_default: Boolean
 }
 
+type TopicResource{
+    id: ID
+    name: String
+    type: String
+    topicId: String
+    courseId: String
+    created_at: String
+    updated_at: String
+    created_by: String
+    updated_by: String
+    url: String
+}
+
 type PaginatedCourse {
   courses: [Course]
   pageCursor: String
@@ -477,6 +509,85 @@ input CourseMapFilters {
   is_mandatory: Boolean
   status: String
   type: String
+}
+
+type PaginatedNotes {
+  notes: [UserNotes]
+  pageCursor: String
+  direction: String
+  pageSize: Int
+}
+
+type UserNotes {
+  user_notes_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  course_id: String!
+  module_id: String!
+  topic_id: String!
+  sequence: Int!
+  status: String!
+  details: String!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+input UserNotesInput {
+  user_notes_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  course_id: String!
+  module_id: String!
+  topic_id: String!
+  sequence: Int!
+  status: String!
+  details: String!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+}
+
+
+type PaginatedBookmarks {
+  bookmarks: [UserBookmark]
+  pageCursor: String
+  direction: String
+  pageSize: Int
+}
+
+type UserBookmark {
+  user_bm_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  user_course_id: String!
+  course_id: String!
+  module_id: String!
+  topic_id: String!
+  name: String!
+  time_stamp: String!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
+  created_at: String!
+  updated_at: String!
+}
+
+input UserBookmarkInput {
+  user_bm_id: ID
+  user_id: String!
+  user_lsp_id: String!
+  user_course_id: String!
+  course_id: String!
+  module_id: String!
+  topic_id: String!
+  name: String!
+  time_stamp: String!
+  is_active: Boolean!
+  created_by: String
+  updated_by: String
 }
 
 

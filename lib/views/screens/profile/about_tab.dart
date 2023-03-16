@@ -185,116 +185,117 @@ class _AboutTabScreen extends State<AboutTabScreen> {
               child: BlocProvider(
                 create: (context) => ProfileBloc(ProfileRepository())
                   ..add(AboutDetailsRequested()),
-                child: Column(
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 85.sp),
-                          child: bgImage != null
-                              ? Image.file(
-                                  bgImage!,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: 120.sp,
-                                )
-                              : Image.asset(
-                                  "assets/images/personal_bg.png",
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: 120.sp,
-                                ),
-                        ),
-                        // TODO: Check for image and its manipulation
-                        Positioned(
-                          top: 64.sp,
-                          left: 20.sp,
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () {
-                              setState(() {
-                                pickProfileImage();
-                              });
-                            },
-                            child: CircleAvatar(
-                              radius: 60.sp,
-                              backgroundColor: secondaryColorDark,
-                              child: CircleAvatar(
-                                child: AspectRatio(
-                                  aspectRatio: 1 / 1,
-                                  child: ClipOval(
-                                    child: FadeInImage(
-                                      placeholder: const AssetImage(
-                                          "assets/images/avatar_default.png"),
-                                      image: profileImage != null
-                                          ? FileImage(profileImage!)
-                                              as ImageProvider
-                                          : const AssetImage(
-                                              "assets/images/avatar_default.png"),
-                                      fit: BoxFit.cover,
+                child: BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) {
+                    if (state is AboutDetailsLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (state is AboutDetailsLoaded) {
+                      return Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 85.sp),
+                                child: bgImage != null
+                                    ? Image.file(
+                                        bgImage!,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: 120.sp,
+                                      )
+                                    : Image.asset(
+                                        "assets/images/personal_bg.png",
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: 120.sp,
+                                      ),
+                              ),
+                              // TODO: Check for image and its manipulation
+                              Positioned(
+                                top: 64.sp,
+                                left: 20.sp,
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    setState(() {
+                                      pickProfileImage();
+                                    });
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 60.sp,
+                                    backgroundColor: secondaryColorDark,
+                                    child: CircleAvatar(
+                                      child: AspectRatio(
+                                        aspectRatio: 1 / 1,
+                                        child: ClipOval(
+                                          child: FadeInImage(
+                                            placeholder: const AssetImage(
+                                                "assets/images/avatar_default.png"),
+                                            image: profileImage != null
+                                                ? FileImage(profileImage!)
+                                                    as ImageProvider
+                                                : NetworkImage(
+                                                    state.user.photoUrl!),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      radius: 56.sp,
                                     ),
                                   ),
                                 ),
-                                radius: 56.sp,
                               ),
-                            ),
-                          ),
-                        ),
 
-                        // child: CircleAvatar(
-                        //
-                        //   foregroundImage: profileImage != null
-                        //       ? FileImage(profileImage!)
-                        //           as ImageProvider
-                        //       : const AssetImage(
-                        //           "assets/images/avatar_default.png"),
-                        //   radius: 56.sp,
-                        // )))),
-                        Positioned(
-                            top: 82.sp,
-                            right: 20.sp,
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  pickBgImage();
-                                });
-                              },
-                              child: Image.asset(
-                                "assets/images/camera.png",
-                                width: 20.sp,
-                                height: 20.sp,
-                              ),
-                            )),
-                        Positioned(
-                            top: 147.sp,
-                            left: 108.sp,
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                setState(() {
-                                  pickProfileImage();
-                                });
-                              },
-                              child: Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                      color: textGrey.withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(50)),
-                                  child: Image.asset(
-                                    "assets/images/camera.png",
-                                    width: 20.sp,
-                                    height: 20.sp,
+                              // child: CircleAvatar(
+                              //
+                              //   foregroundImage: profileImage != null
+                              //       ? FileImage(profileImage!)
+                              //           as ImageProvider
+                              //       : const AssetImage(
+                              //           "assets/images/avatar_default.png"),
+                              //   radius: 56.sp,
+                              // )))),
+                              Positioned(
+                                  top: 82.sp,
+                                  right: 20.sp,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        pickBgImage();
+                                      });
+                                    },
+                                    child: Image.asset(
+                                      "assets/images/camera.png",
+                                      width: 20.sp,
+                                      height: 20.sp,
+                                    ),
                                   )),
-                            )),
-                      ],
-                    ),
-                    BlocBuilder<ProfileBloc, ProfileState>(
-                      builder: (context, state) {
-                        if (state is AboutDetailsLoading) {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                        if (state is AboutDetailsLoaded) {
-                          return Padding(
+                              Positioned(
+                                  top: 147.sp,
+                                  left: 108.sp,
+                                  child: GestureDetector(
+                                    behavior: HitTestBehavior.translucent,
+                                    onTap: () {
+                                      setState(() {
+                                        pickProfileImage();
+                                      });
+                                    },
+                                    child: Container(
+                                        padding: const EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                            color: textGrey.withOpacity(0.2),
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Image.asset(
+                                          "assets/images/camera.png",
+                                          width: 20.sp,
+                                          height: 20.sp,
+                                        )),
+                                  )),
+                            ],
+                          ),
+                          Padding(
                               padding: EdgeInsets.only(
                                   left: 20.sp,
                                   right: 20.sp,
@@ -393,16 +394,15 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                     },
                                   ]),
                                 ],
-                              ));
-                        }
-                        if (state is AboutDetailsError) {
-                          return Center(child: Text(state.message));
-                        }
-
-                        return Container();
-                      },
-                    )
-                  ],
+                              )),
+                        ],
+                      );
+                    }
+                    if (state is AboutDetailsError) {
+                      return Center(child: Text(state.message));
+                    }
+                    return Container();
+                  },
                 ),
               ),
             ))

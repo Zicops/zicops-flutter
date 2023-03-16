@@ -1124,6 +1124,152 @@ Map<String, dynamic> _$GetCourseData$QueryRoot$TopicToJson(
       'image': instance.image,
     };
 
+GetCourseData$QueryRoot$TopicResource
+    _$GetCourseData$QueryRoot$TopicResourceFromJson(
+            Map<String, dynamic> json) =>
+        GetCourseData$QueryRoot$TopicResource()
+          ..id = json['id'] as String?
+          ..name = json['name'] as String?
+          ..type = json['type'] as String?
+          ..topicId = json['topicId'] as String?
+          ..courseId = json['courseId'] as String?
+          ..createdAt = json['created_at'] as String?
+          ..updatedAt = json['updated_at'] as String?
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..url = json['url'] as String?;
+
+Map<String, dynamic> _$GetCourseData$QueryRoot$TopicResourceToJson(
+        GetCourseData$QueryRoot$TopicResource instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'type': instance.type,
+      'topicId': instance.topicId,
+      'courseId': instance.courseId,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'url': instance.url,
+    };
+
+GetCourseData$QueryRoot$Course$SubCategories
+    _$GetCourseData$QueryRoot$Course$SubCategoriesFromJson(
+            Map<String, dynamic> json) =>
+        GetCourseData$QueryRoot$Course$SubCategories()
+          ..name = json['name'] as String?
+          ..rank = json['rank'] as int?;
+
+Map<String, dynamic> _$GetCourseData$QueryRoot$Course$SubCategoriesToJson(
+        GetCourseData$QueryRoot$Course$SubCategories instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'rank': instance.rank,
+    };
+
+GetCourseData$QueryRoot$Course _$GetCourseData$QueryRoot$CourseFromJson(
+        Map<String, dynamic> json) =>
+    GetCourseData$QueryRoot$Course()
+      ..id = json['id'] as String?
+      ..name = json['name'] as String?
+      ..lspId = json['lspId'] as String?
+      ..publisher = json['publisher'] as String?
+      ..description = json['description'] as String?
+      ..summary = json['summary'] as String?
+      ..instructor = json['instructor'] as String?
+      ..image = json['image'] as String?
+      ..previewVideo = json['previewVideo'] as String?
+      ..tileImage = json['tileImage'] as String?
+      ..owner = json['owner'] as String?
+      ..duration = json['duration'] as int?
+      ..expertiseLevel = json['expertise_level'] as String?
+      ..language = (json['language'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..benefits = (json['benefits'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..outcomes = (json['outcomes'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..createdAt = json['created_at'] as String?
+      ..updatedAt = json['updated_at'] as String?
+      ..type = json['type'] as String?
+      ..prequisites = (json['prequisites'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..goodFor =
+          (json['goodFor'] as List<dynamic>?)?.map((e) => e as String?).toList()
+      ..mustFor =
+          (json['mustFor'] as List<dynamic>?)?.map((e) => e as String?).toList()
+      ..relatedSkills = (json['related_skills'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..publishDate = json['publish_date'] as String?
+      ..expiryDate = json['expiry_date'] as String?
+      ..expectedCompletion = json['expected_completion'] as String?
+      ..qaRequired = json['qa_required'] as bool?
+      ..approvers = (json['approvers'] as List<dynamic>?)
+          ?.map((e) => e as String?)
+          .toList()
+      ..createdBy = json['created_by'] as String?
+      ..updatedBy = json['updated_by'] as String?
+      ..status = $enumDecodeNullable(_$StatusEnumMap, json['status'],
+          unknownValue: Status.artemisUnknown)
+      ..isDisplay = json['is_display'] as bool?
+      ..category = json['category'] as String?
+      ..subCategory = json['sub_category'] as String?
+      ..subCategories = (json['sub_categories'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : GetCourseData$QueryRoot$Course$SubCategories.fromJson(
+                  e as Map<String, dynamic>))
+          .toList()
+      ..isActive = json['is_active'] as bool?;
+
+Map<String, dynamic> _$GetCourseData$QueryRoot$CourseToJson(
+        GetCourseData$QueryRoot$Course instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'lspId': instance.lspId,
+      'publisher': instance.publisher,
+      'description': instance.description,
+      'summary': instance.summary,
+      'instructor': instance.instructor,
+      'image': instance.image,
+      'previewVideo': instance.previewVideo,
+      'tileImage': instance.tileImage,
+      'owner': instance.owner,
+      'duration': instance.duration,
+      'expertise_level': instance.expertiseLevel,
+      'language': instance.language,
+      'benefits': instance.benefits,
+      'outcomes': instance.outcomes,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'type': instance.type,
+      'prequisites': instance.prequisites,
+      'goodFor': instance.goodFor,
+      'mustFor': instance.mustFor,
+      'related_skills': instance.relatedSkills,
+      'publish_date': instance.publishDate,
+      'expiry_date': instance.expiryDate,
+      'expected_completion': instance.expectedCompletion,
+      'qa_required': instance.qaRequired,
+      'approvers': instance.approvers,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'status': _$StatusEnumMap[instance.status],
+      'is_display': instance.isDisplay,
+      'category': instance.category,
+      'sub_category': instance.subCategory,
+      'sub_categories':
+          instance.subCategories?.map((e) => e?.toJson()).toList(),
+      'is_active': instance.isActive,
+    };
+
 GetCourseData$QueryRoot _$GetCourseData$QueryRootFromJson(
         Map<String, dynamic> json) =>
     GetCourseData$QueryRoot()
@@ -1144,6 +1290,19 @@ GetCourseData$QueryRoot _$GetCourseData$QueryRootFromJson(
               ? null
               : GetCourseData$QueryRoot$Topic.fromJson(
                   e as Map<String, dynamic>))
+          .toList()
+      ..getResourcesByCourseId =
+          (json['getResourcesByCourseId'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetCourseData$QueryRoot$TopicResource.fromJson(
+                      e as Map<String, dynamic>))
+              .toList()
+      ..getCourse = (json['getCourse'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : GetCourseData$QueryRoot$Course.fromJson(
+                  e as Map<String, dynamic>))
           .toList();
 
 Map<String, dynamic> _$GetCourseData$QueryRootToJson(
@@ -1154,6 +1313,9 @@ Map<String, dynamic> _$GetCourseData$QueryRootToJson(
       'getCourseChapters':
           instance.getCourseChapters?.map((e) => e?.toJson()).toList(),
       'getTopics': instance.getTopics?.map((e) => e?.toJson()).toList(),
+      'getResourcesByCourseId':
+          instance.getResourcesByCourseId?.map((e) => e?.toJson()).toList(),
+      'getCourse': instance.getCourse?.map((e) => e?.toJson()).toList(),
     };
 
 GetModuleContent$QueryRoot$TopicContent$SubtitleUrl
@@ -1395,6 +1557,150 @@ Map<String, dynamic> _$GetUserCohorts$QueryRootToJson(
         GetUserCohorts$QueryRoot instance) =>
     <String, dynamic>{
       'getLatestCohorts': instance.getLatestCohorts?.toJson(),
+    };
+
+GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotes
+    _$GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotesFromJson(
+            Map<String, dynamic> json) =>
+        GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotes()
+          ..userNotesId = json['user_notes_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..courseId = json['course_id'] as String
+          ..moduleId = json['module_id'] as String
+          ..topicId = json['topic_id'] as String
+          ..sequence = json['sequence'] as int
+          ..status = json['status'] as String
+          ..details = json['details'] as String
+          ..isActive = json['is_active'] as bool
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String,
+    dynamic> _$GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotesToJson(
+        GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotes instance) =>
+    <String, dynamic>{
+      'user_notes_id': instance.userNotesId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'course_id': instance.courseId,
+      'module_id': instance.moduleId,
+      'topic_id': instance.topicId,
+      'sequence': instance.sequence,
+      'status': instance.status,
+      'details': instance.details,
+      'is_active': instance.isActive,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+GetUserNotesBookmarks$QueryRoot$PaginatedNotes
+    _$GetUserNotesBookmarks$QueryRoot$PaginatedNotesFromJson(
+            Map<String, dynamic> json) =>
+        GetUserNotesBookmarks$QueryRoot$PaginatedNotes()
+          ..notes = (json['notes'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetUserNotesBookmarks$QueryRoot$PaginatedNotes$UserNotes
+                      .fromJson(e as Map<String, dynamic>))
+              .toList()
+          ..pageCursor = json['pageCursor'] as String?
+          ..direction = json['direction'] as String?
+          ..pageSize = json['pageSize'] as int?;
+
+Map<String, dynamic> _$GetUserNotesBookmarks$QueryRoot$PaginatedNotesToJson(
+        GetUserNotesBookmarks$QueryRoot$PaginatedNotes instance) =>
+    <String, dynamic>{
+      'notes': instance.notes?.map((e) => e?.toJson()).toList(),
+      'pageCursor': instance.pageCursor,
+      'direction': instance.direction,
+      'pageSize': instance.pageSize,
+    };
+
+GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmark
+    _$GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmarkFromJson(
+            Map<String, dynamic> json) =>
+        GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmark()
+          ..userBmId = json['user_bm_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..userCourseId = json['user_course_id'] as String
+          ..courseId = json['course_id'] as String
+          ..moduleId = json['module_id'] as String
+          ..topicId = json['topic_id'] as String
+          ..name = json['name'] as String
+          ..timeStamp = json['time_stamp'] as String
+          ..isActive = json['is_active'] as bool
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic>
+    _$GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmarkToJson(
+            GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmark
+                instance) =>
+        <String, dynamic>{
+          'user_bm_id': instance.userBmId,
+          'user_id': instance.userId,
+          'user_lsp_id': instance.userLspId,
+          'user_course_id': instance.userCourseId,
+          'course_id': instance.courseId,
+          'module_id': instance.moduleId,
+          'topic_id': instance.topicId,
+          'name': instance.name,
+          'time_stamp': instance.timeStamp,
+          'is_active': instance.isActive,
+          'created_by': instance.createdBy,
+          'updated_by': instance.updatedBy,
+          'created_at': instance.createdAt,
+          'updated_at': instance.updatedAt,
+        };
+
+GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks
+    _$GetUserNotesBookmarks$QueryRoot$PaginatedBookmarksFromJson(
+            Map<String, dynamic> json) =>
+        GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks()
+          ..bookmarks = (json['bookmarks'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks$UserBookmark
+                      .fromJson(e as Map<String, dynamic>))
+              .toList()
+          ..pageCursor = json['pageCursor'] as String?
+          ..direction = json['direction'] as String?
+          ..pageSize = json['pageSize'] as int?;
+
+Map<String, dynamic> _$GetUserNotesBookmarks$QueryRoot$PaginatedBookmarksToJson(
+        GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks instance) =>
+    <String, dynamic>{
+      'bookmarks': instance.bookmarks?.map((e) => e?.toJson()).toList(),
+      'pageCursor': instance.pageCursor,
+      'direction': instance.direction,
+      'pageSize': instance.pageSize,
+    };
+
+GetUserNotesBookmarks$QueryRoot _$GetUserNotesBookmarks$QueryRootFromJson(
+        Map<String, dynamic> json) =>
+    GetUserNotesBookmarks$QueryRoot()
+      ..getUserNotes = json['getUserNotes'] == null
+          ? null
+          : GetUserNotesBookmarks$QueryRoot$PaginatedNotes.fromJson(
+              json['getUserNotes'] as Map<String, dynamic>)
+      ..getUserBookmarks = json['getUserBookmarks'] == null
+          ? null
+          : GetUserNotesBookmarks$QueryRoot$PaginatedBookmarks.fromJson(
+              json['getUserBookmarks'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetUserNotesBookmarks$QueryRootToJson(
+        GetUserNotesBookmarks$QueryRoot instance) =>
+    <String, dynamic>{
+      'getUserNotes': instance.getUserNotes?.toJson(),
+      'getUserBookmarks': instance.getUserBookmarks?.toJson(),
     };
 
 GetCohortDetails$QueryRoot$CohortMain
@@ -2056,6 +2362,28 @@ Map<String, dynamic> _$GetUserCohortsArgumentsToJson(
     <String, dynamic>{
       'user_id': instance.user_id,
       'user_lsp_id': instance.user_lsp_id,
+      'publish_time': instance.publish_time,
+      'pageCursor': instance.pageCursor,
+      'pageSize': instance.pageSize,
+    };
+
+GetUserNotesBookmarksArguments _$GetUserNotesBookmarksArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetUserNotesBookmarksArguments(
+      user_id: json['user_id'] as String,
+      user_lsp_id: json['user_lsp_id'] as String?,
+      course_id: json['course_id'] as String?,
+      publish_time: json['publish_time'] as int?,
+      pageCursor: json['pageCursor'] as String?,
+      pageSize: json['pageSize'] as int?,
+    );
+
+Map<String, dynamic> _$GetUserNotesBookmarksArgumentsToJson(
+        GetUserNotesBookmarksArguments instance) =>
+    <String, dynamic>{
+      'user_id': instance.user_id,
+      'user_lsp_id': instance.user_lsp_id,
+      'course_id': instance.course_id,
       'publish_time': instance.publish_time,
       'pageCursor': instance.pageCursor,
       'pageSize': instance.pageSize,

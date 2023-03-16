@@ -128,7 +128,7 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                               courseItem.name ?? '',
                               courseItem.owner ?? '',
                               courseItem.expertiseLevel ?? '',
-                              '1',
+                              "",
                               courseItem.tileImage ?? '',
                               courseItem.id ?? '',
                             ))
@@ -141,7 +141,10 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                                 courseItem.name ?? '',
                                 courseItem.owner ?? '',
                                 courseItem.expertiseLevel ?? '',
-                                '1',
+                                // (courseItem.duration / 60).round().toString() +
+                                //         " min" ??
+                                //     '',
+                                "",
                                 courseItem.tileImage ?? '',
                               ),
                               SizedBox(

@@ -9,12 +9,13 @@ class ModuleCard extends StatefulWidget {
   String courseLength;
   String preview;
   bool isSelected;
+  bool isExam;
   Duration? position;
   Duration? duration;
 
   ModuleCard(this.courseName, this.courseLength, this.preview, this.isSelected,
       this.position, this.duration,
-      {Key? key})
+      {Key? key, this.isExam = false, })
       : super(key: key);
 
   @override
@@ -53,32 +54,40 @@ class _ModuleCard extends State<ModuleCard> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      Image.asset(
+                      if(!widget.isExam)Image.asset(
                         widget.preview,
                         fit: BoxFit.fill,
                         width: 58.sp,
                         height: 58.sp,
                       ),
                       Container(
-                        color: widget.isSelected
-                            ? overlay
-                            : Colors.black.withOpacity(0.43),
+                        color: widget.isExam
+                            ? secondaryColorDark
+                            : widget.isSelected
+                                ? overlay
+                                : Colors.black.withOpacity(0.43),
                         alignment: Alignment.center,
                         width: 60.sp,
                         height: 60.sp,
                       ),
-                      widget.isSelected
+                      widget.isExam
                           ? Image.asset(
-                              "assets/images/media.png",
-                              width: 24.sp,
-                              height: 24.sp,
-                            )
-                          : Image.asset(
-                              "assets/images/play_button.png",
+                              'assets/images/quiz.png',
                               width: 20.sp,
                               height: 20.sp,
-                              opacity: const AlwaysStoppedAnimation(0.6),
                             )
+                          : widget.isSelected
+                              ? Image.asset(
+                                  "assets/images/media.png",
+                                  width: 24.sp,
+                                  height: 24.sp,
+                                )
+                              : Image.asset(
+                                  "assets/images/play_button.png",
+                                  width: 20.sp,
+                                  height: 20.sp,
+                                  opacity: const AlwaysStoppedAnimation(0.6),
+                                )
                     ],
                   )),
               SizedBox(
@@ -120,10 +129,9 @@ class _ModuleCard extends State<ModuleCard> {
                                       height: 6.sp,
                                     ),
                                     Container(
-                                      height: 5.sp,
+                                        height: 5.sp,
                                         alignment: Alignment.centerLeft,
-                                        child:
-                                        ProgressBar(
+                                        child: ProgressBar(
                                             230,
                                             widget.position!.inSeconds /
                                                 widget.duration!.inSeconds))

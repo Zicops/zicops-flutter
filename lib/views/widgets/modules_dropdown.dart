@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 
 import '../../utils/colors.dart';
 
 class ModulesDropDown extends StatefulWidget {
   ModulesDropDown(
       {Key? key,
+      this.courseModuleList = const [],
       this.dropdownList = const [
         "Module 1",
         "Module 2",
@@ -16,6 +16,7 @@ class ModulesDropDown extends StatefulWidget {
       this.showTitle = true,
       this.borderRadius = 4})
       : super(key: key);
+  List courseModuleList;
   List dropdownList;
   bool showTitle;
   double borderRadius;
@@ -32,12 +33,17 @@ class _ModulesDropDown extends State<ModulesDropDown>
   List modules = ["Module 1", "Module 2", "Module 3", "Module 4"];
   String selectedModule = "";
   bool isOpen = false;
+  var moduleId = '';
 
   @override
   void initState() {
     super.initState();
     selectedModule = widget.dropdownList[0];
-
+    if (widget.courseModuleList.isNotEmpty) {
+      moduleId = widget.courseModuleList[0]['id'];
+    }
+    // moduleId = widget.courseModuleList[0]['id'];
+    print(moduleId);
     controller = AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 400),
@@ -143,6 +149,20 @@ class _ModulesDropDown extends State<ModulesDropDown>
                               onTap: () {
                                 setState(() {
                                   selectedModule = module;
+
+                                  var index = widget.dropdownList
+                                      .indexOf(selectedModule);
+                                  for (int i = 0;
+                                      i < widget.courseModuleList.length;
+                                      i++) {
+                                    if (widget.courseModuleList[i]
+                                            ['sequence'] ==
+                                        index + 1) {
+                                      moduleId =
+                                          widget.courseModuleList[i]['id'];
+                                    }
+                                  }
+                                  print(moduleId);
                                   isOpen = false;
                                 });
                                 controller.reverse();

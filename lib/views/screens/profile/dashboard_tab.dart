@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/profile/widgets/date_card.dart';
-import 'package:zicops/views/screens/profile/widgets/dropdown_list_item.dart';
 import 'package:zicops/views/screens/profile/widgets/dropdown_with_class_card.dart';
 import 'package:zicops/views/screens/profile/widgets/skill_matrix.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:zicops/views/widgets/modules_dropdown.dart';
+
 import '../../../utils/dummies.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class DashboardTabScreen extends StatefulWidget {
   const DashboardTabScreen({Key? key}) : super(key: key);
@@ -344,9 +344,6 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
               height: 15.sp,
             ),
             SectionHeader("Skill matrix dashboard"),
-            SizedBox(
-              height: 15.sp,
-            ),
             const SkillMatrix(),
             SizedBox(
               height: 8.sp,
@@ -420,9 +417,9 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
                     .sublist(0, 4)
                     .map((e) => EngagedSubCatListItem()),
                 Container(
-                  height: 36.sp,
                   alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: 16.sp),
+                  padding:
+                      EdgeInsets.only(right: 16.sp, bottom: 10.sp, top: 2.sp),
                   child: Text(
                     "See All".toUpperCase(),
                     style: TextStyle(

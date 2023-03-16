@@ -46,11 +46,13 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
       Uri.parse("https://demo.zicops.com/um/reset-password"),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Origin': 'https://demo.zicops.com',
       },
       body: jsonEncode(<String, String>{
         'email': email,
       }),
     );
+    print(response.body);
     print(response.statusCode);
 
     if (response.statusCode == 200) {

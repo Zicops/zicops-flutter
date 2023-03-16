@@ -3,8 +3,13 @@ import 'package:http/http.dart';
 import '../graphql_api.graphql.dart';
 import '../main.dart';
 
-updateUser(String id, String firstNameController, String lastNameController,
-    String emailController, String phoneController, MultipartFile image) async {
+updateUser(
+    String id,
+    String firstNameController,
+    String lastNameController,
+    String emailController,
+    String phoneController,
+    MultipartFile? image) async {
   //print(_firstNameController.text);
   final res = await userClient.client()?.execute(
         UpdateUserMutation(

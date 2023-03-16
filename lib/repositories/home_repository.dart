@@ -176,20 +176,13 @@ class HomeRepository {
     return courseData;
   }
 
-  Future loadUserPreferences() async {
+  Future loadUserPref() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? userId = sharedPreferences.getString('userId');
     String? lspId = sharedPreferences.getString('lspId');
     String? userLspId;
 
     List userPreferences = [];
-    Map<String, List> subCats = {};
-    List subCatCourses1 = [];
-    List subCatCourses2 = [];
-    List subCatCourses3 = [];
-    List subCatCourses4 = [];
-    List subCatCourses5 = [];
-
     final lspData = await userClient.client()?.execute(GetUserLspByLspIdQuery(
         variables: GetUserLspByLspIdArguments(
             user_id: userId ?? '', lsp_id: lspId ?? "")));
@@ -210,6 +203,18 @@ class HomeRepository {
         userPreferences.add(data.subCategory);
       }
     }
+    return userPreferences;
+  }
+
+  Future getSubCats() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? userId = sharedPreferences.getString('userId');
+    String? lspId = sharedPreferences.getString('lspId');
+    String? userLspId;
+
+    List userPreferences = [];
+    userPreferences = await loadUserPref();
+    Map<String, List<Course>> subCats = {};
 
     bool isEmpty = true;
     if (userPreferences.isNotEmpty) {
@@ -223,21 +228,8 @@ class HomeRepository {
         }
       }
 
-      print(subCats);
-      subCatCourses1 = subCats['subCat1']!.toList();
-      subCatCourses2 = subCats['subCat2']!.toList();
-      subCatCourses3 = subCats['subCat3']!.toList();
-      subCatCourses4 = subCats['subCat4']!.toList();
-      subCatCourses5 = subCats['subCat5']!.toList();
-
-      print('printing subcat$subCatCourses1');
+      print('priniting subcats map $subCats');
     }
-
-    subCatCourses1[0].subCategory = userPreferences[0];
-    subCatCourses2[0].subCategory = userPreferences[1];
-    subCatCourses3[0].subCategory = userPreferences[2];
-    subCatCourses4[0].subCategory = userPreferences[3];
-    subCatCourses5[0].subCategory = userPreferences[4];
 
     return subCats;
   }

@@ -18,7 +18,7 @@ Widget mainTab(double width, String tabTitle, int index, int selectedTab) {
           color: index == selectedTab ? textPrimary : textGrey2,
           fontSize: 16.sp,
           height: 1.5,
-          fontWeight: FontWeight.w500),
+          fontWeight: index == selectedTab? FontWeight.w500: FontWeight.w400),
     ),
   );
 }
