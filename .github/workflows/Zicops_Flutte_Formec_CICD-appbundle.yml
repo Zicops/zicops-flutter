@@ -76,36 +76,7 @@ jobs:
       #- run: flutter analyze
       - run: flutter test
 
-  build_ios:
-    name: Build Flutter (iOS)
-    needs: [flutter_test]
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 11
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: ${{ env.flutter-channel }}
-      - run: flutter clean
-      - run: flutter pub get
-      - name: Generate files
-        run: flutter pub run build_runner build --delete-conflicting-outputs
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-ios-${{ hashFiles('**/pubspec.lock') }}
-      - run: flutter build ios --release --no-codesign
-      - name: Cache outputs of build step
-        uses: actions/cache@v2
-        with:
-          path: build/ios/iphoneos
-          key: apple-${{ github.sha }}
+  
 
   build_appbundle:
     name: Build Flutter (Android)
@@ -146,7 +117,7 @@ jobs:
 
   upload_apps_artifacts:
     name: Upload Zicops Flutter Bundles
-    needs: [build_appbundle, build_ios]
+    needs: [build_appbundle]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/androidapp'
     steps:
@@ -162,11 +133,6 @@ jobs:
         with:
           path: build/app/outputs/bundle/release
           key: android-${{ github.sha }}    
-      - name: Get the ipa file from cache
-        uses: actions/cache@v2
-        with:
-          path: build/ios/iphoneos
-          key: apple-${{ github.sha }}
       - name: Upload Android apk
         uses: actions/upload-artifact@v2
         with:
@@ -177,12 +143,7 @@ jobs:
         with:
           name: android_bundle
           path: build/app/outputs/bundle/release
-      - name: Upload iOS bundle
-        uses: actions/upload-artifact@v2
-        with:
-          name: apple_bundle
-          path: build/ios/iphoneos
-      
+
 # TODO following is an example of how we will release our bundles to the stores
   # release_apps:
   #   name: Release Zicops Flutter Bundles
