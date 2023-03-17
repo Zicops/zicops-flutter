@@ -75,15 +75,6 @@ jobs:
         run: flutter pub run build_runner build --delete-conflicting-outputs
       #- run: flutter analyze
       - run: flutter test
-
-  
-
-  build_appbundle:
-    name: Build Flutter (Android)
-    needs: [flutter_test, version]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -103,46 +94,21 @@ jobs:
           path: ~/.pub-cache
           key: ${{ runner.os }}-pub-ios-${{ hashFiles('**/pubspec.lock') }}
       - run: flutter build apk --release --split-per-abi
-      - name: Cache outputs of build step
-        uses: actions/cache@v2
+      - run: flutter build appbundle
+      - name: Create a Release in GitHub
+        uses: ncipollo/release-action@v1
         with:
-          path: build/app/outputs/apk/release
-          key: android-${{ github.sha }}
-      - run: flutter build appbundle --release    
-      - name: Cache outputs of bundle_build step
-        uses: actions/cache@v2
+         artifacts: "build/app/outputs/apk/release/*.apk,build/app/outputs/bundle/release/app-release.aab"
+         token: ${{ secrets.GH_TOKEN }}
+         tag: ${{ steps.version.outputs.content }}
+         commit: ${{ github.sha }}
+      - name: Upload app bundle
+        uses: actions/upload-artifact@v2
         with:
-          path: build/app/outputs/bundle/release
-          key: android-${{ github.sha }}    
+          name: appbundle
+          path: build/app/outputs/bundle/release/app-release.aab  
 
-  upload_apps_artifacts:
-    name: Upload Zicops Flutter Bundles
-    needs: [build_appbundle]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/androidapp'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Get the apk file from cache
-        uses: actions/cache@v2
-        with:
-          path: build/app/outputs/apk/release
-          key: android-${{ github.sha }}
-      - name: Get the bundle file from cache
-        uses: actions/cache@v2
-        with:
-          path: build/app/outputs/bundle/release
-          key: android-${{ github.sha }}    
-      - name: Upload Android apk
-        uses: actions/upload-artifact@v2
-        with:
-          name: android_apk
-          path: build/app/outputs/apk/release    
-      - name: Upload Android bundle
-        uses: actions/upload-artifact@v2
-        with:
-          name: android_bundle
-          path: build/app/outputs/bundle/release
+
 
 # TODO following is an example of how we will release our bundles to the stores
   # release_apps:
