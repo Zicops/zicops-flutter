@@ -106,7 +106,7 @@ jobs:
     name: Upload Zicops Flutter Bundles
     needs: [build_appbundle, build_ios]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/androidapp'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
