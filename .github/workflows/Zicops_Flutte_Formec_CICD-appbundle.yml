@@ -125,6 +125,11 @@ jobs:
         with:
           path: build/ios/iphoneos
           key: apple-${{ github.sha }}
+      - name: Upload Android apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: android_apk
+          path: build/app/outputs/apk/release    
       - name: Upload Android bundle
         uses: actions/upload-artifact@v2
         with:
