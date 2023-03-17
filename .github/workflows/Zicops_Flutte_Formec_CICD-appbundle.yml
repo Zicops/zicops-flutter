@@ -115,6 +115,11 @@ jobs:
         with:
           path: build/app/outputs/apk/release
           key: android-${{ github.sha }}
+      - name: Get the bundle file from cache
+        uses: actions/cache@v2
+        with:
+          path: build/app/outputs/bundle/release
+          key: android-${{ github.sha }}    
       - name: Get the ipa file from cache
         uses: actions/cache@v2
         with:
