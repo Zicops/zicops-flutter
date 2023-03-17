@@ -39,6 +39,7 @@ jobs:
           path: version.txt
   flutter_test:
     name: Run flutter test
+    needs: [version]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -108,7 +109,7 @@ jobs:
 
   build_appbundle:
     name: Build Flutter (Android)
-    needs: [flutter_test]
+    needs: [flutter_test, version]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
