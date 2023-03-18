@@ -16,6 +16,14 @@ class ResourcesScreen extends StatefulWidget {
 }
 
 class _ResourcesScreen extends State<ResourcesScreen> {
+  String _selectedValue = '';
+
+  void _onDropdownChanged(String newValue) {
+    setState(() {
+      _selectedValue = newValue;
+    });
+  }
+
   Widget folder(String label, String totalFiles) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +69,9 @@ class _ResourcesScreen extends State<ResourcesScreen> {
     return Container(
       padding: EdgeInsets.only(top: 11.sp, right: 20.sp, left: 20.sp),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        ModulesDropDown(),
+        ModulesDropDown(
+          onChanged: _onDropdownChanged,
+        ),
         SizedBox(
           height: 9.sp,
         ),

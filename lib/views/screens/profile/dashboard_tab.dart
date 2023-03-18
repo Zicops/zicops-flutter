@@ -377,6 +377,7 @@ class _DashboardTabScreen extends State<DashboardTabScreen> {
                   height: 8.sp,
                 ),
                 ModulesDropDown(
+                  onChanged: (value) {},
                   dropdownList: const [
                     'Learning hour',
                     'Learning hour',

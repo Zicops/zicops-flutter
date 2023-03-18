@@ -8,6 +8,7 @@ import 'package:zicops/blocs/course/course_bloc.dart';
 import 'package:zicops/repositories/course_repository.dart';
 
 import '../../../../utils/colors.dart';
+import '../../../../utils/time_format.dart';
 import '../../../widgets/VideoCourseBadge.dart';
 import '../../../widgets/VideoSettingsItem.dart';
 import '../../../widgets/comment_item.dart';
@@ -17,13 +18,13 @@ import '../../../widgets/more_like_this.dart';
 import '../../../widgets/video_player.dart';
 
 class TopicScreen extends StatefulWidget {
-  TopicScreen(this.courseId, this.courseName, this.difficulty, {Key? key})
-      : super(key: key);
-
-  String courseName;
-  String courseId;
-  String difficulty;
-  // List topicData;
+  final String courseId;
+  final String difficulty;
+  const TopicScreen(
+    this.courseId,
+    this.difficulty, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -34,18 +35,21 @@ class TopicScreen extends StatefulWidget {
 class _TopicScreen extends State<TopicScreen> {
   final PanelController _panelController = PanelController();
   VideoPlayerController? _controller;
-
-  List dropdown = [];
-  List topicData = [];
-  List courseModules = [];
-
-  String videoUrl =
-      'https://storage.googleapis.com/8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1/09b68417-a93c-42de-b649-b81a1d3b17f8/25a7a60c-7dcb-4b84-9b3d-113e7172e06c/videoplayback.mp4?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=zicops-cc%40zicops-one.iam.gserviceaccount.com%2F20230218%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20230218T041325Z&X-Goog-Expires=86399&X-Goog-Signature=1d0abf133e9da32fdd6bcef18688a5ddc8a915007bd42ab9e74be0f2d758c22ce5c3dffff46c2168a73b6a77b8ab454f617838a21cf4f69201849ef220b673af046519281e9991bb437b59d317a6e13863030224f099b08de928d000d51c84365841b577a3f7b891ec6924792044f47d14d28985982142e8522cb5cfb7644d8565c3f4ad2e95de0b2041449ffa259f7d42ed49b1e30b2885d48acd445d106927ab0aa26c3ee2ae45d1b13ee97a0ec949815032457c67f2439a11413bb5ccf45637200363a41064c688d7073a96b52c3dafc2ff09ab4a6e87eef09ed60bbaf2c45873fbd11bf4ff9e411f5c4e9dfcc949837a538e992f68f78124183c72a5d910&X-Goog-SignedHeaders=host';
-  String selectedChapter = (-1).toString();
+  int selectedChapter = -1;
+  String selectedChapterName = "";
+  String selectedChapterExpertise = "";
+  String selectedChapterDuration = "";
   double minPanelHeight = 0;
   double maxPanelHeight = 0;
 
   int selectedVideoOption = -1;
+
+  String _selectedValue = "";
+  void _onDropdownChanged(String newValue) {
+    setState(() {
+      _selectedValue = newValue;
+    });
+  }
 
   initVideoController(videoUrl) {
     _controller = VideoPlayerController.network(videoUrl);
@@ -343,160 +347,167 @@ class _TopicScreen extends State<TopicScreen> {
     return BlocProvider(
       create: (context) => CourseBloc(courseRepository: CourseRepository())
         ..add(TopicDataRequested(courseId: widget.courseId)),
-      child: SlidingUpPanel(
-          controller: _panelController,
-          minHeight: minPanelHeight,
-          maxHeight: maxPanelHeight,
-          color: Colors.transparent,
-          onPanelOpened: () {
-            setState(() {});
-          },
-          panel: Container(
-              decoration: BoxDecoration(
-                  color: secondaryColor,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16)),
-                  border: Border.all(color: lightGrey)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 4.sp,
-                    width: 36,
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(top: 8.sp, bottom: 10.sp),
-                    decoration: BoxDecoration(
-                        color: secondaryColorDark,
-                        borderRadius: BorderRadius.circular(4.sp)),
-                  ),
-                  Expanded(child: getBottomSheetChild()),
-                ],
-              )),
-          body: SingleChildScrollView(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              // SizedBox(height: 11.sp),
-              if (selectedChapter != -1)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        height: 48.sp,
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                                width: 24.sp,
-                                height: 24.sp,
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  "assets/images/quiz.png",
-                                  width: 20.sp,
-                                  height: 20.sp,
-                                )),
-                            GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedVideoOption = 2;
-                                    if (_panelController.isAttached) {
-                                      minPanelHeight = 163.sp;
-                                      maxPanelHeight = height;
-                                      _panelController.show();
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                    width: 24.sp,
-                                    height: 24.sp,
-                                    alignment: Alignment.center,
-                                    child: Image.asset(
-                                      "assets/images/notes.png",
-                                      width: 18.sp,
-                                      height: 18.sp,
-                                    ))),
-                            GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedVideoOption = 1;
-                                    if (_panelController.isAttached) {
-                                      minPanelHeight = 209.sp;
-                                      maxPanelHeight = height;
-                                      _panelController.show();
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                    width: 24.sp,
-                                    height: 24.sp,
-                                    alignment: Alignment.center,
-                                    child: Image.asset(
-                                      "assets/images/bookmark.png",
-                                      width: 14.sp,
-                                      height: 18.sp,
-                                    ))),
-                            GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedVideoOption = 0;
-                                    maxPanelHeight = 370.sp;
-                                    _panelController.show();
-                                  });
-                                },
-                                child: Container(
-                                    width: 24.sp,
-                                    height: 24.sp,
-                                    alignment: Alignment.center,
-                                    child: Image.asset(
-                                      "assets/images/settings.png",
-                                      width: 20.sp,
-                                      height: 20.sp,
-                                    ))),
-                          ],
-                        )),
-                    if (_controller != null)
-                      PortraitVideoPlayer(controller: _controller!),
-                    SizedBox(
-                      height: 23.sp,
-                    ),
-                    Container(
-                      height: 24.sp,
-                      margin: EdgeInsets.only(left: 20.sp),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "$selectedChapter." + widget.courseName,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500,
-                            color: textPrimary),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 4.sp,
-                    ),
-                    BlocBuilder<CourseBloc, CourseState>(
-                      builder: (context, state) {
-                        if (state is TopicLoading) {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                        if (state is TopicLoaded) {
-                          topicData = state.topicData;
-                          courseModules = state.courseModules;
+      child: BlocBuilder<CourseBloc, CourseState>(
+        builder: (context, state) {
+          print(state);
+          if (state is TopicLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is TopicLoaded) {
+            var topicData = state.topicData;
+            List dropdownItems = [];
+            Map<String, String> moduleData = {};
+            state.courseModules.forEach((element) {
+              dropdownItems.add('Module ${element['sequence']}');
 
-                          List dropdownItems = [];
-                          print(courseModules[0]['sequence']);
-                          // print(courseModules[0].sequence);
-                          courseModules.forEach((element) {
-                            dropdownItems.add('Module ${element['sequence']}');
-                          });
-                          print(dropdownItems);
-                          // courseModules.map((e) => { return e?.sequence})
-                          // 'Module ${e.sequence}'} : null;
-                          return Column(
+              moduleData['Module ${element['sequence']}'] = element['id'];
+            });
+            dropdownItems.sort();
+            if (_selectedValue == "") {
+              _selectedValue = dropdownItems[0];
+            }
+            String selectedSequence = _selectedValue.split(' ')[1];
+            print('module data: $moduleData');
+
+            return SlidingUpPanel(
+                controller: _panelController,
+                minHeight: minPanelHeight,
+                maxHeight: maxPanelHeight,
+                color: Colors.transparent,
+                onPanelOpened: () {
+                  setState(() {});
+                },
+                panel: Container(
+                    decoration: BoxDecoration(
+                        color: secondaryColor,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16)),
+                        border: Border.all(color: lightGrey)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 4.sp,
+                          width: 36,
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(top: 8.sp, bottom: 10.sp),
+                          decoration: BoxDecoration(
+                              color: secondaryColorDark,
+                              borderRadius: BorderRadius.circular(4.sp)),
+                        ),
+                        Expanded(child: getBottomSheetChild()),
+                      ],
+                    )),
+                body: SingleChildScrollView(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // SizedBox(height: 11.sp),
+                        if (selectedChapter != -1)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Container(
+                                  height: 48.sp,
+                                  alignment: Alignment.center,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 18.sp),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                          width: 24.sp,
+                                          height: 24.sp,
+                                          alignment: Alignment.center,
+                                          child: Image.asset(
+                                            "assets/images/quiz.png",
+                                            width: 20.sp,
+                                            height: 20.sp,
+                                          )),
+                                      GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              selectedVideoOption = 2;
+                                              if (_panelController.isAttached) {
+                                                minPanelHeight = 163.sp;
+                                                maxPanelHeight = height;
+                                                _panelController.show();
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                              width: 24.sp,
+                                              height: 24.sp,
+                                              alignment: Alignment.center,
+                                              child: Image.asset(
+                                                "assets/images/notes.png",
+                                                width: 18.sp,
+                                                height: 18.sp,
+                                              ))),
+                                      GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              selectedVideoOption = 1;
+                                              if (_panelController.isAttached) {
+                                                minPanelHeight = 209.sp;
+                                                maxPanelHeight = height;
+                                                _panelController.show();
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                              width: 24.sp,
+                                              height: 24.sp,
+                                              alignment: Alignment.center,
+                                              child: Image.asset(
+                                                "assets/images/bookmark.png",
+                                                width: 14.sp,
+                                                height: 18.sp,
+                                              ))),
+                                      GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              selectedVideoOption = 0;
+                                              maxPanelHeight = 370.sp;
+                                              _panelController.open();
+                                            });
+                                          },
+                                          child: Container(
+                                              width: 24.sp,
+                                              height: 24.sp,
+                                              alignment: Alignment.center,
+                                              child: Image.asset(
+                                                "assets/images/settings.png",
+                                                width: 20.sp,
+                                                height: 20.sp,
+                                              ))),
+                                    ],
+                                  )),
+                              if (_controller != null)
+                                PortraitVideoPlayer(controller: _controller!),
+                              SizedBox(
+                                height: 23.sp,
+                              ),
+                              Container(
+                                height: 24.sp,
+                                margin: EdgeInsets.only(left: 20.sp),
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "$selectedChapter. $selectedChapterName",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: textPrimary),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 4.sp,
+                              ),
                               Container(
                                 height: 16.sp,
                                 margin: EdgeInsets.only(left: 16.sp),
@@ -510,148 +521,152 @@ class _TopicScreen extends State<TopicScreen> {
                                     ),
                                     VideoCourseBadge(
                                         "assets/images/gradient_clock.png",
-                                        "1hrs 20mins")
+                                        selectedChapterDuration),
                                   ],
                                 ),
+                              )
+                            ],
+                          ),
+                        Container(
+                          padding: EdgeInsets.only(
+                              top: 11.sp, right: 20.sp, left: 20.sp),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ModulesDropDown(
+                                dropdownList: dropdownItems,
+                                onChanged: _onDropdownChanged,
                               ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                    top: 11.sp, right: 20.sp, left: 20.sp),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ModulesDropDown(
-                                      courseModuleList: courseModules,
-                                      dropdownList: dropdownItems,
-                                    ),
-                                    SizedBox(
-                                      height: 13.sp,
-                                    ),
-                                    SizedBox(
-                                      height: 16.sp,
-                                      child: Text(
-                                          "Chapter 1: Introduction"
-                                              .toUpperCase(),
-                                          style: TextStyle(
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: textGrey2,
-                                              height: 1.33,
-                                              letterSpacing: 1)),
-                                    ),
-                                    SizedBox(
-                                      height: 8.sp,
-                                    ),
-                                    SizedBox(
-                                      height: 320.sp,
-                                      child: ListView(
-                                        children: (topicData.isNotEmpty
-                                            ? [
-                                                ...topicData.map((e) =>
-                                                    GestureDetector(
-                                                        onTap: () {
-                                                          print(
-                                                              e['contentUrl']);
-                                                          setState(() {
-                                                            selectedChapter =
-                                                                e['name'];
-                                                            initVideoController(
-                                                                //  'assets/images/mov_bbb.mp4');
-                                                                e['contentUrl']);
-                                                            //    'https://samplelib.com/lib/preview/mp4/sample-30s.mp4');
-                                                            // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-                                                          });
-                                                        },
-                                                        child: ModuleCard(
-                                                            e['name'],
-                                                            "1hr 50 mins",
-                                                            "assets/images/course_preview_2.png",
-                                                            e['name'] ==
-                                                                selectedChapter,
-                                                            _controller?.value
-                                                                .position,
-                                                            _controller?.value
-                                                                .duration)))
-                                              ]
-                                            : [
-                                                Center(
-                                                    child: Text(
-                                                  "No Data",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                )),
-                                              ]),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 12.sp,
-                                    ),
-                                    Divider(
-                                      height: 1.sp,
-                                      thickness: 1.sp,
-                                      color: lightGrey,
-                                    ),
-                                    SizedBox(
-                                      height: 14.sp,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Discussion",
-                                          style: TextStyle(
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.w500,
-                                              color: textPrimary),
-                                        ),
-                                        GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                selectedVideoOption = 3;
-                                                if (_panelController
-                                                    .isAttached) {
-                                                  minPanelHeight =
-                                                      height - 340.sp;
-                                                  maxPanelHeight = height;
-                                                  _panelController.show();
-                                                }
-                                              });
-                                            },
-                                            child: Container(
-                                              width: 24.sp,
-                                              height: 24.sp,
-                                              alignment: Alignment.center,
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 3.sp,
-                                                  horizontal: 7.4.sp),
-                                              child: Image.asset(
-                                                  "assets/images/unfold_more.png"),
-                                            ))
-                                      ],
-                                    ),
-                                    CommentItem(),
-                                    SizedBox(
-                                      height: 14.sp,
-                                    ),
-                                  ],
-                                ),
+                              SizedBox(
+                                height: 13.sp,
+                              ),
+                              SizedBox(
+                                height: 16.sp,
+                                child: Text(
+                                    "Chapter 1: Introduction".toUpperCase(),
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: textGrey2,
+                                        height: 1.33,
+                                        letterSpacing: 1)),
+                              ),
+                              SizedBox(
+                                height: 8.sp,
+                              ),
+                              SizedBox(
+                                height: 320.sp,
+                                child: topicData
+                                        .where((element) =>
+                                            element['moduleId'] ==
+                                            moduleData[_selectedValue])
+                                        .isNotEmpty
+                                    ? ListView(children: [
+                                        ...topicData
+                                            .where((element) =>
+                                                element['moduleId'] ==
+                                                moduleData[_selectedValue])
+                                            .map((e) => GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    selectedChapter = topicData
+                                                            .where((element) =>
+                                                                element[
+                                                                    'moduleId'] ==
+                                                                moduleData[
+                                                                    _selectedValue])
+                                                            .toList()
+                                                            .indexOf(e) +
+                                                        1;
+                                                    selectedChapterName =
+                                                        e['name'];
+                                                    selectedChapterDuration =
+                                                        formatDuration(
+                                                            e['duration']);
+                                                    initVideoController(
+                                                        e['contentUrl']);
+                                                  });
+                                                },
+                                                child: ModuleCard(
+                                                    e['name'],
+                                                    formatDuration(
+                                                        e['duration']),
+                                                    "assets/images/course_preview_2.png",
+                                                    e == selectedChapter,
+                                                    _controller?.value.position,
+                                                    _controller
+                                                        ?.value.duration)))
+                                      ])
+                                    : Center(
+                                        child: Text(
+                                        "No Topics in this Module",
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                              ),
+                              SizedBox(
+                                height: 12.sp,
+                              ),
+                              Divider(
+                                height: 1.sp,
+                                thickness: 1.sp,
+                                color: lightGrey,
+                              ),
+                              SizedBox(
+                                height: 14.sp,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Discussion",
+                                    style: TextStyle(
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: textPrimary),
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedVideoOption = 3;
+                                          if (_panelController.isAttached) {
+                                            minPanelHeight = height - 340.sp;
+                                            maxPanelHeight = height;
+                                            _panelController.show();
+                                          }
+                                        });
+                                      },
+                                      child: Container(
+                                        width: 24.sp,
+                                        height: 24.sp,
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 3.sp, horizontal: 7.4.sp),
+                                        child: Image.asset(
+                                            "assets/images/unfold_more.png"),
+                                      ))
+                                ],
+                              ),
+                              CommentItem(),
+                              SizedBox(
+                                height: 14.sp,
                               ),
                             ],
-                          );
-                        }
-                        if (state is TopicError) {
-                          return Center(child: Text(state.error));
-                        }
-                        return Container();
-                      },
-                    )
-                  ],
-                ),
-
-              const MoreLikeThis()
-            ]),
-          )),
+                          ),
+                        ),
+                        const MoreLikeThis(),
+                        SizedBox(
+                          height: 128.sp,
+                        )
+                      ]),
+                ));
+          }
+          if (state is TopicError) {
+            return Center(child: Text(state.error));
+          }
+          return Container();
+        },
+      ),
     );
   }
 }

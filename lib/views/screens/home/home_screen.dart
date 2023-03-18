@@ -12,6 +12,7 @@ import 'package:zicops/views/screens/search/search_screen.dart';
 import 'package:zicops/views/widgets/course_grid_item.dart';
 import 'package:zicops/views/widgets/course_grid_item_large.dart';
 
+import '../../../utils/time_format.dart';
 import '../../widgets/course_list_item_with_progress.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -336,11 +337,8 @@ class _HomeScreen extends State<HomeScreen> {
                                         .map((courseItem) => CourseListItem(
                                               courseItem.name ?? '',
                                               courseItem.owner ?? '',
-                                              (courseItem.duration! / 60)
-                                                          .round()
-                                                          .toString() +
-                                                      " min" ??
-                                                  '',
+                                              formatDuration(
+                                                  courseItem.duration ?? 0),
                                               courseItem.tileImage ?? '',
                                               courseItem.id ?? '',
                                               courseItem.expertiseLevel ?? '',

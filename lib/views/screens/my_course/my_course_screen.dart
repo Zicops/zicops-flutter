@@ -6,6 +6,7 @@ import 'package:zicops/repositories/home_repository.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/widgets/course_grid_item_large.dart';
 
+import '../../../utils/time_format.dart';
 import '../../widgets/main_tab.dart';
 
 class MyCourseScreen extends StatefulWidget {
@@ -166,10 +167,11 @@ class _MyCourseScreen extends State<MyCourseScreen> {
                                     courseItem.name,
                                     courseItem.owner,
                                     courseItem.expertiseLevel,
-                                    (courseItem.duration / 60)
-                                            .round()
-                                            .toString() +
-                                        " min",
+                                    formatDuration(courseItem.duration),
+                                    // (courseItem.duration / 60)
+                                    //         .round()
+                                    //         .toString() +
+                                    //     " min",
                                     courseItem.tileImage,
                                     showProgressBar:
                                         _selectedTab == 0 || _selectedTab == 3
