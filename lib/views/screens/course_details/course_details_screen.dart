@@ -144,8 +144,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
   getScreen() {
     switch (_selectedTab) {
       case 0:
-        return TopicScreen(
-            widget.courseId, widget.courseName, widget.difficulty);
+        return TopicScreen(widget.courseId, widget.difficulty);
       case 1:
         return NotesScreen(
           courseId: widget.courseId,

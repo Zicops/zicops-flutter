@@ -34,6 +34,7 @@ class _DropdownWithListCard extends State<DropdownWithListCard> {
             child: Column(
               children: [
                 ModulesDropDown(
+                  onChanged: (value) {},
                   // dropdownList: ['Assigned', 'Inprogress', 'Completed'],
                   showTitle: false,
                 ),

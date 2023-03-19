@@ -33,8 +33,6 @@ class CourseRepository {
     final courseData = result?.data?.toJson();
 
     List courseModules = courseData?['getCourseModules'];
-    print('courseModules: $courseModules');
-
     return courseModules;
   }
 
@@ -92,7 +90,7 @@ class CourseRepository {
       finalCourseData.addAll({courseModules[i]['id']: topics});
     }
 
-    print(finalCourseData);
+    // print(finalCourseData);
     topicData.addAll(data);
     print(topicData);
     // for topic data

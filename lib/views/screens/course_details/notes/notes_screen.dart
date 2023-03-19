@@ -43,6 +43,14 @@ class _NotesScreen extends State<NotesScreen> {
   //   return res?.data?.toJson();
   // }
 
+  String _selectedValue = '';
+
+  void _onDropdownChanged(String newValue) {
+    setState(() {
+      _selectedValue = newValue;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -138,7 +146,9 @@ class _NotesScreen extends State<NotesScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ModulesDropDown(),
+                    ModulesDropDown(
+                      onChanged: _onDropdownChanged,
+                    ),
                     SizedBox(
                       height: 9.sp,
                     ),

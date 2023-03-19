@@ -42,6 +42,13 @@ class _AnswerKeyScreen extends State<AnswerKeyScreen> {
       "selectedOption": "Tiger"
     }
   ];
+  String _selectedValue = '';
+
+  void _onDropdownChanged(String newValue) {
+    setState(() {
+      _selectedValue = newValue;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +117,7 @@ class _AnswerKeyScreen extends State<AnswerKeyScreen> {
                       SizedBox(
                         height: 8.sp,
                       ),
-                      ModulesDropDown(),
+                      ModulesDropDown(onChanged: _onDropdownChanged),
                       SizedBox(
                         height: 18.sp,
                       ),
