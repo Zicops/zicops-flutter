@@ -334,6 +334,9 @@ class _TopicScreen extends State<TopicScreen> {
         onPanelOpened: () {
           setState(() {});
         },
+        onPanelClosed: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
         panel: Container(
             decoration: BoxDecoration(
                 color: secondaryColor,
