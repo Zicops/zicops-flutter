@@ -6,16 +6,16 @@ abstract class CourseEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class TopicDataRequested extends CourseEvent {
-  final String courseId;
-
-  const TopicDataRequested({required this.courseId});
-}
-
 class CourseDataRequested extends CourseEvent {
   final String courseId;
 
   const CourseDataRequested({required this.courseId});
+}
+
+class TopicDataRequested extends CourseEvent {
+  final String courseId;
+
+  const TopicDataRequested({required this.courseId});
 }
 
 class NotesAndBookmarkRequested extends CourseEvent {

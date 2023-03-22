@@ -169,6 +169,7 @@ class HomeRepository {
             isDisplay: data?.isDisplay,
             type: data?.type,
             tileImage: data?.tileImage,
+            duration: data?.duration,
             //subCategories: data?.subCategories,
             image: data?.image),
       );

@@ -65,9 +65,14 @@ class NotesAndBookmarkLoading extends CourseState {
 }
 
 class NotesAndBookmarkLoaded extends CourseState {
+  final List<dynamic> topicData;
   final notesAndBookmarkData;
+  final courseModules;
 
-  NotesAndBookmarkLoaded({required this.notesAndBookmarkData});
+  NotesAndBookmarkLoaded(
+      {required this.topicData,
+      required this.courseModules,
+      required this.notesAndBookmarkData});
 
   @override
   List<Object?> get props => [notesAndBookmarkData];

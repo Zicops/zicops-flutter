@@ -39,12 +39,19 @@ class _BookmarkListItem extends State<BookmarkListItem> {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            Image.asset(
-                              widget.preview,
-                              fit: BoxFit.fill,
-                              width: 48.sp,
-                              height: 48.sp,
-                            ),
+                            widget.preview.contains("https://")
+                                ? Image.network(
+                                    widget.preview,
+                                    fit: BoxFit.fill,
+                                    width: 48.sp,
+                                    height: 48.sp,
+                                  )
+                                : Image.asset(
+                                    'assets/images/course_preview_2.png',
+                                    fit: BoxFit.fill,
+                                    width: 48.sp,
+                                    height: 48.sp,
+                                  ),
                             Container(
                               color: Colors.black.withOpacity(0.43),
                               height: 48.sp,
@@ -96,8 +103,16 @@ class _BookmarkListItem extends State<BookmarkListItem> {
                 ),
               ],
             ),
-            if(widget.showDivider) SizedBox(height: 12.sp,),
-            if(widget.showDivider) Divider(height: 1.sp, thickness: 1.sp, color: lightGrey,)
+            if (widget.showDivider)
+              SizedBox(
+                height: 12.sp,
+              ),
+            if (widget.showDivider)
+              Divider(
+                height: 1.sp,
+                thickness: 1.sp,
+                color: lightGrey,
+              )
           ],
         ));
   }

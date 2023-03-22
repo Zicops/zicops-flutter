@@ -497,7 +497,8 @@ class _HomeScreen extends State<HomeScreen> {
                                             courseItem.name ?? '',
                                             courseItem.owner ?? '',
                                             courseItem.expertiseLevel ?? '',
-                                            '1',
+                                            formatDuration(
+                                                courseItem.duration ?? 0),
                                             courseItem.tileImage ?? '',
                                             courseItem.id ?? '',
                                           ),
@@ -581,7 +582,8 @@ class _HomeScreen extends State<HomeScreen> {
                                         courseItem.name ?? '',
                                         courseItem.owner ?? '',
                                         courseItem.expertiseLevel ?? '',
-                                        '1',
+                                        formatDuration(
+                                            courseItem.duration ?? 0),
                                         courseItem.tileImage ?? '',
                                         courseItem.id ?? '',
                                       ),
@@ -664,7 +666,8 @@ class _HomeScreen extends State<HomeScreen> {
                                         courseItem.name ?? '',
                                         courseItem.owner ?? '',
                                         courseItem.expertiseLevel ?? '',
-                                        '1',
+                                        formatDuration(
+                                            courseItem.duration ?? 0),
                                         courseItem.tileImage ?? '',
                                         courseItem.id ?? '',
                                       ),
@@ -823,7 +826,9 @@ class _HomeScreen extends State<HomeScreen> {
                                                       courseItem
                                                               .expertiseLevel ??
                                                           '',
-                                                      '1',
+                                                      formatDuration(
+                                                          courseItem.duration ??
+                                                              0),
                                                       courseItem.tileImage ??
                                                           '',
                                                       courseItem.id ?? '',
@@ -890,7 +895,9 @@ class _HomeScreen extends State<HomeScreen> {
                                                       courseItem
                                                               .expertiseLevel ??
                                                           '',
-                                                      '1',
+                                                      formatDuration(
+                                                          courseItem.duration ??
+                                                              0),
                                                       courseItem.tileImage ??
                                                           '',
                                                       courseItem.id ?? '',
@@ -957,7 +964,9 @@ class _HomeScreen extends State<HomeScreen> {
                                                       courseItem
                                                               .expertiseLevel ??
                                                           '',
-                                                      '1',
+                                                      formatDuration(
+                                                          courseItem.duration ??
+                                                              0),
                                                       courseItem.tileImage ??
                                                           '',
                                                       courseItem.id ?? '',
@@ -1024,7 +1033,9 @@ class _HomeScreen extends State<HomeScreen> {
                                                       courseItem
                                                               .expertiseLevel ??
                                                           '',
-                                                      '1',
+                                                      formatDuration(
+                                                          courseItem.duration ??
+                                                              0),
                                                       courseItem.tileImage ??
                                                           '',
                                                       courseItem.id ?? '',
@@ -1090,7 +1101,9 @@ class _HomeScreen extends State<HomeScreen> {
                                                       courseItem
                                                               .expertiseLevel ??
                                                           '',
-                                                      '1',
+                                                      formatDuration(
+                                                          courseItem.duration ??
+                                                              0),
                                                       courseItem.tileImage ??
                                                           '',
                                                       courseItem.id ?? '',

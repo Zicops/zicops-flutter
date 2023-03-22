@@ -85,7 +85,6 @@ class _NewNoteScreen extends State<NewNoteScreen> {
                           height: 18.sp,
                           color: textPrimary,
                         ))),
-
               ]),
         ),
       ),
@@ -210,12 +209,20 @@ class _NewNoteScreen extends State<NewNoteScreen> {
                                     child: Stack(
                                       alignment: Alignment.center,
                                       children: [
-                                        Image.asset(
-                                          widget.bookmarkPreview,
-                                          fit: BoxFit.fill,
-                                          width: 74.sp,
-                                          height: 74.sp,
-                                        ),
+                                        widget.bookmarkPreview
+                                                .contains("https://")
+                                            ? Image.network(
+                                                widget.bookmarkPreview,
+                                                fit: BoxFit.fill,
+                                                width: 74.sp,
+                                                height: 74.sp,
+                                              )
+                                            : Image.asset(
+                                                'assets/images/course_preview_2.png',
+                                                fit: BoxFit.fill,
+                                                width: 74.sp,
+                                                height: 74.sp,
+                                              ),
                                         Container(
                                           color: Colors.black.withOpacity(0.43),
                                           height: 48.sp,
@@ -245,7 +252,7 @@ class _NewNoteScreen extends State<NewNoteScreen> {
                               ],
                             )
                           : TextField(
-                              readOnly:true,
+                              readOnly: true,
                               controller: titleController,
                               maxLines: null,
                               decoration: InputDecoration(
