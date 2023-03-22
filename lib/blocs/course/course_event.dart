@@ -23,3 +23,9 @@ class NotesAndBookmarkRequested extends CourseEvent {
 
   const NotesAndBookmarkRequested({required this.courseId});
 }
+
+class ResourceDataRequested extends CourseEvent {
+  final String courseId;
+
+  const ResourceDataRequested({required this.courseId});
+}

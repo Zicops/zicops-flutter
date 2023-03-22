@@ -50,5 +50,22 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         emit(NotesAndBookmarkError(error: e.toString()));
       }
     });
+    on<ResourceDataRequested>((event, emit) async {
+      emit(ResourcesLoading());
+      try {
+        var courseModules =
+            await courseRepository.getCourseModule(event.courseId);
+        var topicData = await courseRepository.topicData(event.courseId);
+        var resourceData =
+            await courseRepository.getCourseResources(event.courseId);
+        emit(ResourcesLoaded(
+          courseModules: courseModules,
+          resourcesData: resourceData,
+          topicData: topicData,
+        ));
+      } catch (e) {
+        emit(ResourcesError(error: e.toString()));
+      }
+    });
   }
 }

@@ -27,6 +27,15 @@ class CourseRepository {
     return courseData;
   }
 
+  Future getCourseResources(courseId) async {
+    final result = await courseQClient.client()?.execute(GetCourseDataQuery(
+        variables: GetCourseDataArguments(course_id: courseId)));
+    final courseData = result?.data?.toJson();
+    print(courseData);
+    List courseResouces = courseData?['getResourcesByCourseId'];
+    return courseResouces;
+  }
+
   Future getCourseModule(courseId) async {
     final result = await courseQClient.client()?.execute(GetCourseDataQuery(
         variables: GetCourseDataArguments(course_id: courseId)));

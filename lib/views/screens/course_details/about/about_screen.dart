@@ -99,8 +99,10 @@ class _AboutScreen extends State<AboutScreen> {
           if (state is CourseLoaded) {
             print('course data${state.courseData}');
             var courseDetails = state.courseData?['getCourse'][0];
-            print('course details $courseDetails');
-            print('course details ${courseDetails['name']}');
+            var courseData = state.courseData;
+            var assesmentTopic = courseData['getTopics']
+                .where((element) => element['type'] == 'Assessment')
+                .toList();
 
             return SingleChildScrollView(
               child: Column(
@@ -254,24 +256,22 @@ class _AboutScreen extends State<AboutScreen> {
                             SizedBox(
                               height: 13.sp,
                             ),
-                            SizedBox(
-                              height: 200.sp,
-                              child: ListView.builder(
-                                  itemCount: courseDetails['outcomes'].length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        BulletedText(
-                                            courseDetails['outcomes']
-                                                .elementAt(index),
-                                            horizontal: 15.sp),
-                                        SizedBox(
-                                          height: 20.sp,
-                                        ),
-                                      ],
-                                    );
-                                  }),
-                            ),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: courseDetails['outcomes'].length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      BulletedText(
+                                          courseDetails['outcomes']
+                                              .elementAt(index),
+                                          horizontal: 15.sp),
+                                      SizedBox(
+                                        height: 20.sp,
+                                      ),
+                                    ],
+                                  );
+                                }),
                           ]),
                         ),
                         SizedBox(
@@ -288,24 +288,22 @@ class _AboutScreen extends State<AboutScreen> {
                             SizedBox(
                               height: 13.sp,
                             ),
-                            SizedBox(
-                              height: 200.sp,
-                              child: ListView.builder(
-                                  itemCount: courseDetails['benefits'].length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        BulletedText(
-                                            courseDetails['benefits']
-                                                .elementAt(index),
-                                            horizontal: 15.sp),
-                                        SizedBox(
-                                          height: 20.sp,
-                                        ),
-                                      ],
-                                    );
-                                  }),
-                            ),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: courseDetails['benefits'].length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      BulletedText(
+                                          courseDetails['benefits']
+                                              .elementAt(index),
+                                          horizontal: 15.sp),
+                                      SizedBox(
+                                        height: 20.sp,
+                                      ),
+                                    ],
+                                  );
+                                }),
                           ]),
                         ),
                         SizedBox(
@@ -322,25 +320,22 @@ class _AboutScreen extends State<AboutScreen> {
                             SizedBox(
                               height: 13.sp,
                             ),
-                            SizedBox(
-                              height: 200.sp,
-                              child: ListView.builder(
-                                  itemCount:
-                                      courseDetails['prequisites'].length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        BulletedText(
-                                            courseDetails['prequisites']
-                                                .elementAt(index),
-                                            horizontal: 15.sp),
-                                        SizedBox(
-                                          height: 20.sp,
-                                        ),
-                                      ],
-                                    );
-                                  }),
-                            ),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: courseDetails['prequisites'].length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      BulletedText(
+                                          courseDetails['prequisites']
+                                              .elementAt(index),
+                                          horizontal: 15.sp),
+                                      SizedBox(
+                                        height: 20.sp,
+                                      ),
+                                    ],
+                                  );
+                                }),
                           ]),
                         ),
                         SizedBox(
@@ -348,74 +343,175 @@ class _AboutScreen extends State<AboutScreen> {
                         ),
                         ExpansionContainer(
                           "Target audience",
-                          Column(children: [
-                            Divider(
-                              height: 1.sp,
-                              thickness: 1.sp,
-                              color: lightGrey,
-                            ),
-                            SizedBox(
-                              height: 13.sp,
-                            ),
-                            SizedBox(
-                              height: 200.sp,
-                              child: ListView.builder(
-                                  itemCount: courseDetails['mustFor'].length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        BulletedText(
-                                            courseDetails['mustFor']
-                                                .elementAt(index),
-                                            horizontal: 15.sp),
-                                        SizedBox(
-                                          height: 20.sp,
-                                        ),
-                                      ],
-                                    );
-                                  }),
-                            ),
-                          ]),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Divider(
+                                  height: 1.sp,
+                                  thickness: 1.sp,
+                                  color: lightGrey,
+                                ),
+                                SizedBox(
+                                  height: 13.sp,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.sp),
+                                  child: Text(
+                                    'Must For:',
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        fontSize: 12.sp, color: textGrey2),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.sp,
+                                ),
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: courseDetails['mustFor'].length,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          BulletedText(
+                                              '${courseDetails['mustFor'].elementAt(index)}',
+                                              horizontal: 15.sp),
+                                          SizedBox(
+                                            height: 20.sp,
+                                          ),
+                                        ],
+                                      );
+                                    }),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.sp),
+                                  child: Text(
+                                    'Good For:',
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        fontSize: 12.sp, color: textGrey2),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.sp,
+                                ),
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: courseDetails['goodFor'].length,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          BulletedText(
+                                              '${courseDetails['goodFor'].elementAt(index)}',
+                                              horizontal: 15.sp),
+                                          SizedBox(
+                                            height: 20.sp,
+                                          ),
+                                        ],
+                                      );
+                                    }),
+                              ]),
                         ),
                         SizedBox(
                           height: 8.sp,
                         ),
                         ExpansionContainer(
-                          "Course inclusion",
-                          Column(children: [
-                            Divider(
-                              height: 1.sp,
-                              thickness: 1.sp,
-                              color: lightGrey,
-                            ),
-                            SizedBox(
-                              height: 13.sp,
-                            ),
-                            BulletedText(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-                                horizontal: 15.sp),
-                            SizedBox(
-                              height: 20.sp,
-                            ),
-                            BulletedText(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-                                horizontal: 15.sp),
-                            SizedBox(
-                              height: 20.sp,
-                            ),
-                            BulletedText(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-                                horizontal: 15.sp),
-                            SizedBox(
-                              height: 20.sp,
-                            ),
-                            BulletedText(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-                                horizontal: 15.sp),
-                            SizedBox(
-                              height: 20.sp,
-                            ),
-                          ]),
+                          "Course Inclusion",
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Divider(
+                                  height: 1.sp,
+                                  thickness: 1.sp,
+                                  color: lightGrey,
+                                ),
+                                SizedBox(
+                                  height: 13.sp,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.sp),
+                                  child: Text(
+                                    'Languages:',
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        fontSize: 12.sp, color: textGrey2),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.sp,
+                                ),
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: courseDetails['language'].length,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          BulletedText(
+                                              '${courseDetails['language'].elementAt(index)}',
+                                              horizontal: 15.sp),
+                                          SizedBox(
+                                            height: 5.sp,
+                                          ),
+                                        ],
+                                      );
+                                    }),
+                                SizedBox(
+                                  height: 10.sp,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.sp),
+                                  child: Text(
+                                    'Structured View',
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        fontSize: 12.sp, color: textGrey2),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.sp,
+                                ),
+                                BulletedText(
+                                    '${courseData['getCourseModules'].length} Modules, ${courseData['getTopics'].length} Topics',
+                                    horizontal: 15.sp),
+                                SizedBox(
+                                  height: 10.sp,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.sp),
+                                  child: Text(
+                                    'Assessment',
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        fontSize: 12.sp, color: textGrey2),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.sp,
+                                ),
+                                BulletedText(
+                                    '${assesmentTopic.length} assessments',
+                                    horizontal: 15.sp),
+                                SizedBox(
+                                  height: 10.sp,
+                                ),
+                              ]),
                         ),
                         SizedBox(
                           height: 16.sp,
