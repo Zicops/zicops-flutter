@@ -182,12 +182,12 @@ assignCourseBottomSheet(BuildContext context, double maxHeight, double width) {
                     Expanded(
                         child: DateLabelView(
                             _controller.selectedRange?.startDate ??
-                                DateTime.now(),
+                                DateTime.now(), // TODO make this reactive
                             "Today")),
                     Expanded(
                         child: DateLabelView(
                             _controller.selectedRange?.endDate ??
-                                DateTime.now(),
+                                DateTime.now(), // TODO make this reactive
                             "End date"))
                   ]),
                 ),
