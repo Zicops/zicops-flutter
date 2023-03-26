@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:zicops/views/screens/account_setup/models/category.dart';
@@ -9,16 +8,16 @@ import 'package:zicops/views/screens/home/home.dart';
 
 import '../../../utils/colors.dart';
 
-class PreferencesTabScreen extends StatefulWidget {
-  const PreferencesTabScreen({Key? key}) : super(key: key);
-
+class PrimarySubCategoryScreen extends StatefulWidget {
+  List<Category> subCategories;
+  PrimarySubCategoryScreen(this.subCategories, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return _PreferencesTabScreen();
+    return _PrimarySubCategoryScreen();
   }
 }
 
-class _PreferencesTabScreen extends State<PreferencesTabScreen> {
+class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final TextEditingController _searchController = TextEditingController();
@@ -34,27 +33,23 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     Category(5, "Soft Skills", null),
     Category(6, "Language", null)
   ];
-  List<Category> subCategories = [
-    Category(50, "UX Design", 1),
-    Category(51, "Graphics Design", 1),
-    Category(52, "Mobile Design", 1),
-    Category(53, "App Design", 1),
-    Category(54, "Technology Design", 2),
-    Category(55, "Technology UX", 2),
-    Category(56, " Architecture Design", 3),
-    Category(57, "English", 6),
-    Category(58, "German", 6),
-    Category(59, "French", 6),
-  ];
+  // List<Category> subCategories = [
+  //   Category(50, "UX Design", 1),
+  //   Category(51, "Graphics Design", 1),
+  //   Category(52, "Mobile Design", 1),
+  //   Category(53, "App Design", 1),
+  //   Category(54, "Technology Design", 2),
+  //   Category(55, "Technology UX", 2),
+  //   Category(56, " Architecture Design", 3),
+  //   Category(57, "English", 6),
+  //   Category(58, "German", 6),
+  //   Category(59, "French", 6),
+  // ];
 
   List<int> filter = [];
+  List<Category> filteredSubCategories = [];
   List<Category> filteredCategories = [];
-  int selectedCategories = -1;
-  List<Category> selectedSubCategories = [];
-
-  updateSelectCategory(int id) {
-    selectedCategories = id;
-  }
+  int selectedSubCategory = -1;
 
   updateFilterCategory(int id) {
     if (filter.contains(id)) {
@@ -64,25 +59,13 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     }
   }
 
-  updateSelectSubCategory(Category cat) {
-    if (selectedSubCategories.contains(cat)) {
-      selectedSubCategories.remove(cat);
-    } else {
-      selectedSubCategories.add(cat);
-    }
-  }
-
   checkIfSelectedFilter(int id) {
     return filter.contains(id);
   }
 
-  checkIfSelectedSubCat(Category cat) {
-    return selectedSubCategories.contains(cat);
-  }
-
   setFilteredCategories() {
-    filteredCategories =
-        categories.where((cat) => filter.contains(cat.id)).toList();
+    filteredSubCategories =
+        widget.subCategories.where((cat) => filter.contains(cat.id)).toList();
   }
 
   final List<FocusNode> _focusNodes = [FocusNode()];
@@ -107,7 +90,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // showModal(500);
     });
-    filteredCategories = categories;
+    filteredSubCategories = widget.subCategories;
   }
 
   @override
@@ -118,11 +101,41 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
       return Scaffold(
           key: _scaffoldKey,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(48.sp),
+            child: AppBar(
+              backgroundColor: secondaryColor,
+              elevation: 0,
+              leading: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    if (Navigator.canPop(context)) Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        right: 4.sp, top: 16.sp, bottom: 16.sp, left: 20.sp),
+                    child: Image.asset(
+                      "assets/images/back_arrow.png",
+                      height: 16.sp,
+                      width: 16.sp,
+                    ),
+                  )),
+              leadingWidth: 40.sp,
+              title: SizedBox(
+                height: 24.sp,
+                child: Text("Select primary sub-category",
+                    style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
+                        color: textPrimary)),
+              ),
+            ),
+          ),
           body: SlidingUpPanel(
               minHeight: isKeyboardVisible ? 0 : 165.sp,
               maxHeight: isKeyboardVisible
                   ? 0
-                  : selectedCategories != -1
+                  : selectedSubCategory != -1
                       ? height * 0.65
                       : 165.sp,
               color: Colors.transparent,
@@ -139,190 +152,48 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                 });
               },
               panel: Container(
-                  padding: EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 40.sp),
-                  decoration:   BoxDecoration(
+                  padding:
+                      EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 40.sp),
+                  decoration: BoxDecoration(
                       color: secondaryColorDark,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(16),
                           topRight: Radius.circular(16)),
-                    border: Border.all(color: lightGrey)
-                     ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 4.sp,
-                        width: 36,
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(top: 8.sp, bottom: 16.sp),
-                        decoration: BoxDecoration(
-                            color: secondaryColor,
-                            borderRadius: BorderRadius.circular(4.sp)),
-                      ),
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _panelController.isPanelOpen
-                                  ? _panelController.close()
-                                  : _panelController.open();
-                            });
-                          },
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Selected Sub-Categories",
-                                      style: TextStyle(
-                                          color: textPrimary,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      "Select ${5 - selectedSubCategories.length > 0 ? 5 - selectedSubCategories.length : ""} more sub categories(${selectedSubCategories.length})",
-                                      style: TextStyle(
-                                          color: const Color(0xFF919191), fontSize: 14.sp),
-                                    )
-                                  ],
-                                ),
-                                openSubCatModal
-                                    ? Container(
-                                        height: 24.sp,
-                                        width: 24.sp,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 6.sp, vertical: 8.sp),
-                                        child: Image.asset(
-                                          "assets/images/up_arrow.png",
-                                        ))
-                                    : Container(
-                                        height: 24.sp,
-                                        width: 24.sp,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 6.sp, vertical: 8.sp),
-                                        child: Image.asset(
-                                          "assets/images/down_arrow.png",
-                                        )),
-                              ])),
-                      openSubCatModal && selectedCategories != -1
-                          ? Flexible(
-                              child: ListView(
-                              children: [
-                                SizedBox(
-                                  height: 16.sp,
-                                ),
-                                ...selectedSubCategories.map((cat) => SizedBox(
-                                  height: 48.sp,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          cat.category,
-                                          style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500,
-                                              color: checkIfSelectedSubCat(cat)
-                                                  ? textPrimary
-                                                  : textGrey),
-                                        ),
-                                        Container(
-                                            width: 24.sp,
-                                            height: 24.sp,
-                                            padding: EdgeInsets.all(3.sp),
-                                            child: Checkbox(
-                                                activeColor: primaryColor,
-                                                side: BorderSide(
-                                                    color: textPrimary, width: 2.sp),
-                                                checkColor: Colors.black,
-                                                value:
-                                                    checkIfSelectedSubCat(cat),
-                                                onChanged: (val) {
-                                                  setState(() {
-                                                    setState(() {
-                                                      updateSelectSubCategory(
-                                                          cat);
-                                                    });
-                                                  });
-                                                }))
-                                      ],
-                                    )))
-                              ],
-                            ))
-                          : const SizedBox.shrink(),
-                      SizedBox(
-                        height: 24.sp,
-                      ),
-                    ],
-                  )),
-              footer: Container(
-                  width: width-40.sp,
-                  color: secondaryColorDark,
-                  padding:
-                       EdgeInsets.only(bottom: 20.sp),
-                  margin: EdgeInsets.symmetric(horizontal: 20.sp),
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [ 
-                      selectedSubCategories.length >= 5
-                          ? Expanded(
-                              child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const HomePage()),
-                                );
-                              },
-                              child: Ink(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 48.sp,
-                                  decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                          colors: [primaryColor, gradientTwo]),
-                                      borderRadius: BorderRadius.circular(4.sp)),
-                                  child: Text(
-                                    'Save'.toUpperCase(),
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14.sp,
-                                        letterSpacing: 2,
-                                        height: 1.72),
-                                  ),
-                                ),
-                              ),
-                            ))
-                          : Expanded(
-                              child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _panelController.open();
-                                    });
-                                  },
-                                  child: Container(
-                                      height: 48.sp,
-                                      alignment: Alignment.center,
-                                      margin: const EdgeInsets.only(right: 12),
-                                      decoration: BoxDecoration(
-                                          color: secondaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(4.sp)),
-                                      child: Text(
-                                        "Select Sub-Category".toUpperCase(),
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 14.sp,
-                                            color: const Color(0xFF919191),
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: 2,
-                                            height: 1.72),
-                                      ))),
+                      border: Border.all(color: lightGrey)),
+                  child: Container(
+                      width: width - 40.sp,
+                      color: secondaryColorDark,
+                      padding: EdgeInsets.only(bottom: 20.sp),
+                      margin: EdgeInsets.symmetric(horizontal: 20.sp),
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                          );
+                        },
+                        child: Ink(
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 48.sp,
+                            decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                    colors: [primaryColor, gradientTwo]),
+                                borderRadius: BorderRadius.circular(4.sp)),
+                            child: Text(
+                              'Save'.toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.sp,
+                                  letterSpacing: 2,
+                                  height: 1.72),
                             ),
-                    ],
-                  )),
+                          ),
+                        ),
+                      ))),
               body: CustomScrollView(slivers: [
                 SliverFillRemaining(
                   hasScrollBody: false,
@@ -332,7 +203,10 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                         Container(
                           color: secondaryColorDark,
                           padding: EdgeInsets.only(
-                              left: 20.sp, right:20.sp,top:8.sp, bottom: 16.sp),
+                              left: 20.sp,
+                              right: 20.sp,
+                              top: 8.sp,
+                              bottom: 16.sp),
                           child: SizedBox(
                               height: 48.sp,
                               child: TextField(
@@ -341,13 +215,18 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                 decoration: InputDecoration(
                                     contentPadding: EdgeInsets.zero,
                                     enabledBorder: OutlineInputBorder(
-                                        borderSide:
-                                             BorderSide(color: _focusNodes[0].hasFocus || _searchController.text.isNotEmpty?secondaryColorDarkOutline: lightGrey),
-                                        borderRadius: BorderRadius.circular(4.sp)),
+                                        borderSide: BorderSide(
+                                            color:
+                                                _focusNodes[0].hasFocus || _searchController.text.isNotEmpty
+                                                    ? secondaryColorDarkOutline
+                                                    : lightGrey),
+                                        borderRadius:
+                                            BorderRadius.circular(4.sp)),
                                     focusedBorder: OutlineInputBorder(
                                         borderSide:
                                             const BorderSide(color: lightGrey),
-                                        borderRadius: BorderRadius.circular(4.sp)),
+                                        borderRadius:
+                                            BorderRadius.circular(4.sp)),
                                     filled: true,
                                     fillColor: _focusNodes[0].hasFocus
                                         ? secondaryColorDark
@@ -445,42 +324,36 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                         Flexible(
                                                             child: ListView(
                                                           children: [
-                                                            ...categories.map((cat) =>
-                                                                SizedBox(
-                                                                  height: 48.sp,
-
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        Text(
-                                                                          cat.category
-                                                                              .toUpperCase(),
-                                                                          style: TextStyle(
-                                                                              fontSize: 12.sp,
-                                                                              fontWeight: FontWeight.w600,
-                                                                              height: 1.33,
-                                                                              letterSpacing: 1,
-                                                                              color: checkIfSelectedFilter(cat.id) ? textPrimary : textGrey2),
-                                                                        ),
-                                                                        Container(
-                                                                            width:
-                                                                                24.sp,
-                                                                            height: 24.sp,
-                                                                            padding: EdgeInsets.all(3.sp),
-                                                                            child: Checkbox(
-                                                                                activeColor: primaryColor,
-                                                                                side: BorderSide(color: textPrimary, width: 2.sp),
-                                                                                checkColor: Colors.black,
-                                                                                value: checkIfSelectedFilter(cat.id),
-                                                                                onChanged: (val) {
-                                                                                  setModalState(() {
-                                                                                    updateFilterCategory(cat.id);
-                                                                                  });
-                                                                                }))
-                                                                      ],
-                                                                    )))
+                                                            ...categories.map(
+                                                                (cat) =>
+                                                                    SizedBox(
+                                                                        height: 48
+                                                                            .sp,
+                                                                        child:
+                                                                            Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Text(
+                                                                              cat.category.toUpperCase(),
+                                                                              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600, height: 1.33, letterSpacing: 1, color: checkIfSelectedFilter(cat.id) ? textPrimary : textGrey2),
+                                                                            ),
+                                                                            Container(
+                                                                                width: 24.sp,
+                                                                                height: 24.sp,
+                                                                                padding: EdgeInsets.all(3.sp),
+                                                                                child: Checkbox(
+                                                                                    activeColor: primaryColor,
+                                                                                    side: BorderSide(color: textPrimary, width: 2.sp),
+                                                                                    checkColor: Colors.black,
+                                                                                    value: checkIfSelectedFilter(cat.id),
+                                                                                    onChanged: (val) {
+                                                                                      setModalState(() {
+                                                                                        updateFilterCategory(cat.id);
+                                                                                      });
+                                                                                    }))
+                                                                          ],
+                                                                        )))
                                                           ],
                                                         )),
                                                         SizedBox(
@@ -596,7 +469,9 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                       ? textPrimary
                                                       : textGrey,
                                                 )),
-                                            if (filter.isNotEmpty && filteredCategories.length != categories.length)
+                                            if (filter.isNotEmpty &&
+                                                filteredCategories.length !=
+                                                    categories.length)
                                               Positioned(
                                                 right: 10.sp,
                                                 top: 15.sp,
@@ -621,12 +496,13 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                         color: textGrey,
                                         height: 1.5)),
                                 cursorColor: textPrimary,
-                                style: GoogleFonts.poppins(fontSize: 16.sp,
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16.sp,
                                     color: textGrey,
                                     height: 1.5),
                                 onChanged: (val) {
                                   setState(() {
-                                    filteredCategories = categories
+                                    filteredSubCategories = widget.subCategories
                                         .where((cat) => cat.category
                                             .toLowerCase()
                                             .contains(val.toLowerCase()))
@@ -636,13 +512,13 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                               )),
                         ),
                         Padding(
-                          padding:  EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                               horizontal: 20.sp, vertical: 12.sp),
                           child: Text(
-                            "Categories".toUpperCase(),
+                            "selected sub-categories".toUpperCase(),
                             style: TextStyle(
                                 fontSize: 12.sp,
-                                color: textGrey,
+                                color: textGrey2,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1,
                                 height: 1.34),
@@ -654,11 +530,11 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                             spacing: 0,
                             runSpacing: 12,
                             children: [
-                              ...filteredCategories.map(
+                              ...filteredSubCategories.map(
                                 (cat) => GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        updateSelectCategory(cat.id);
+                                        selectedSubCategory = cat.id;
                                       });
                                     },
                                     child: Container(
@@ -668,7 +544,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                         margin:
                                             const EdgeInsets.only(right: 12),
                                         decoration: BoxDecoration(
-                                            color: selectedCategories == cat.id
+                                            color: selectedSubCategory == cat.id
                                                 ? primaryColor
                                                 : secondaryColor,
                                             borderRadius:
@@ -679,7 +555,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                           style: GoogleFonts.poppins(
                                               fontSize: 14.sp,
                                               color:
-                                                  selectedCategories == cat.id
+                                              selectedSubCategory == cat.id
                                                       ? secondaryColorDark
                                                       : textPrimary,
                                               fontWeight: FontWeight.w600,
@@ -690,80 +566,6 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                             ],
                           ),
                         ),
-                        selectedCategories != -1
-                            ? Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20.sp, vertical: 12.sp),
-                                child: Text(
-                                  "Sub-Categories".toUpperCase(),
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: textGrey,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 1,
-                                      height: 1.34),
-                                ),
-                              )
-                            : const Text(""),
-                        selectedCategories != -1
-                            ? Padding(
-                                padding: EdgeInsets.only(
-                                    left: 20.sp, right: 20.sp, bottom: 385.sp),
-                                child: Wrap(
-                                  spacing: 0,
-                                  runSpacing: 12,
-                                  children: [
-                                    ...subCategories
-                                        .where((element) =>
-                                            element.parentCategory ==
-                                            selectedCategories)
-                                        .map(
-                                          (cat) => GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  updateSelectSubCategory(cat);
-                                                });
-                                              },
-                                              child: Container(
-                                                  height: 40.sp,
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 12,
-                                                      vertical: 12.sp),
-                                                  margin: const EdgeInsets.only(
-                                                      right: 12),
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        color:
-                                                            selectedSubCategories
-                                                                    .contains(
-                                                                        cat)
-                                                                ? primaryColor
-                                                                : textGrey,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              2)),
-                                                  child: Text(
-                                                    cat.category.toUpperCase(),
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 14.sp,
-                                                        color:
-                                                            selectedSubCategories
-                                                                    .contains(
-                                                                        cat)
-                                                                ? textPrimary
-                                                                : textGrey,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        height: 1.14,
-                                                        letterSpacing: 2),
-                                                  ))),
-                                        ),
-                                  ],
-                                ),
-                              )
-                            : const SizedBox.shrink(),
                       ]),
                 )
               ])));

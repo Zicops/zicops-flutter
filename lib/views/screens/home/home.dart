@@ -134,7 +134,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "My Course",
+              "My Courses",
               style: TextStyle(
                   color: textPrimary,
                   fontSize: 18.sp,

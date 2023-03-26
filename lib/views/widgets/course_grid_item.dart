@@ -10,10 +10,11 @@ class CourseGridItem extends StatefulWidget {
   String difficulty;
   String courseLength;
   String preview;
+  bool showPlusIcon;
 
   CourseGridItem(this.courseName, this.org, this.difficulty, this.courseLength,
       this.preview,
-      {Key? key})
+      {Key? key, this.showPlusIcon = true})
       : super(key: key);
 
   @override
@@ -62,30 +63,18 @@ class _CourseGridItem extends State<CourseGridItem> {
                                     width: 156.sp,
                                     height: 88.sp,
                                   ),
-                                  Container(
-                                    color: Colors.black.withOpacity(0.43),
-                                    height: 87.75.sp,
-                                  ),
-                                  Positioned(
-                                      top: 46.sp,
-                                      child: Image.asset(
-                                        "assets/images/play_button.png",
-                                        width: 20.sp,
-                                        height: 20.sp,
-                                        opacity:
-                                            const AlwaysStoppedAnimation(0.6),
-                                      ))
                                 ],
                               ))),
                       Container(
                         height: 68.sp,
                         padding: EdgeInsets.symmetric(
-                            horizontal: 15.sp, vertical: 11.sp),
+                            horizontal: 10.sp, vertical: 10.sp),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               widget.courseName,
+                              maxLines: 2,
                               style: TextStyle(
                                   color: textPrimary,
                                   fontSize: 16.sp,
@@ -93,21 +82,12 @@ class _CourseGridItem extends State<CourseGridItem> {
                                   height: 1.5),
                               overflow: TextOverflow.ellipsis,
                             ),
-                            Text(
-                              widget.org,
-                              style: TextStyle(
-                                  color: textGrey2,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.42),
-                              overflow: TextOverflow.ellipsis,
-                            )
                           ],
                         ),
                       )
                     ],
                   ),
-                  Positioned(
+                  if(false) Positioned(
                       top: 8.sp,
                       right: 8.sp,
                       child: Container(
@@ -125,7 +105,7 @@ class _CourseGridItem extends State<CourseGridItem> {
                               height: 1.33),
                         ),
                       )),
-                  Positioned(
+                 if(widget.showPlusIcon) Positioned(
                       top: 73.5.sp,
                       right: 13.75.sp,
                       child: Image.asset(

@@ -327,6 +327,7 @@ class _HomeScreen extends State<HomeScreen> {
                             courseItem["difficulty"],
                             courseItem["courseLength"],
                             courseItem["preview"],
+                            showPlusIcon: false,
                           ),
                           SizedBox(
                             width: 8.sp,
