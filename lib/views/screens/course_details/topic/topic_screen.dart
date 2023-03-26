@@ -560,7 +560,7 @@ class _TopicScreen extends State<TopicScreen> {
                                             element['moduleId'] ==
                                             moduleData[_selectedValue])
                                         .isNotEmpty
-                                    ? ListView(children: [
+                                    ? ListView(shrinkWrap: true, children: [
                                         ...topicData
                                             .where((element) =>
                                                 element['moduleId'] ==
@@ -591,7 +591,7 @@ class _TopicScreen extends State<TopicScreen> {
                                                     formatDuration(
                                                         e['duration']),
                                                     widget.preview,
-                                                  //  "assets/images/course_preview_2.png",
+                                                    //  "assets/images/course_preview_2.png",
 
                                                     //  "assets/images/course_preview_2.png",
                                                     e == selectedChapter,
