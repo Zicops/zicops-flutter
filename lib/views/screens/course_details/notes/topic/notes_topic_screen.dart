@@ -10,8 +10,13 @@ import 'notes_list_screen.dart';
 
 class NotesTopicScreen extends StatefulWidget {
   String title;
+  List notes;
+  List bookmarks;
+  String preview;
 
-  NotesTopicScreen(this.title, {Key? key}) : super(key: key);
+  NotesTopicScreen(this.title, this.notes, this.bookmarks, this.preview,
+      {Key? key})
+      : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _NotesTopicScreen();
@@ -24,11 +29,11 @@ class _NotesTopicScreen extends State<NotesTopicScreen> {
   getScreen() {
     switch (_selectedTab) {
       case 0:
-        return BookmarkNotesScreen();
+        return BookmarkNotesScreen(widget.bookmarks, widget.preview);
       case 1:
-        return NotesListScreen(isGridView);
+        return NotesListScreen(isGridView, widget.notes);
       default:
-        return BookmarkNotesScreen();
+        return BookmarkNotesScreen(widget.bookmarks, widget.preview);
     }
   }
 

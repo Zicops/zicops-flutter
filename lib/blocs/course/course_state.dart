@@ -65,9 +65,14 @@ class NotesAndBookmarkLoading extends CourseState {
 }
 
 class NotesAndBookmarkLoaded extends CourseState {
+  final List<dynamic> topicData;
   final notesAndBookmarkData;
+  final courseModules;
 
-  NotesAndBookmarkLoaded({required this.notesAndBookmarkData});
+  NotesAndBookmarkLoaded(
+      {required this.topicData,
+      required this.courseModules,
+      required this.notesAndBookmarkData});
 
   @override
   List<Object?> get props => [notesAndBookmarkData];
@@ -77,6 +82,34 @@ class NotesAndBookmarkError extends CourseState {
   final String error;
 
   NotesAndBookmarkError({required this.error});
+
+  @override
+  List<Object?> get props => [error];
+}
+
+class ResourcesLoading extends CourseState {
+  @override
+  List<Object?> get props => [];
+}
+
+class ResourcesLoaded extends CourseState {
+  final List<dynamic> topicData;
+  final resourcesData;
+  final courseModules;
+
+  ResourcesLoaded(
+      {required this.topicData,
+      required this.courseModules,
+      required this.resourcesData});
+
+  @override
+  List<Object?> get props => [resourcesData];
+}
+
+class ResourcesError extends CourseState {
+  final String error;
+
+  ResourcesError({required this.error});
 
   @override
   List<Object?> get props => [error];

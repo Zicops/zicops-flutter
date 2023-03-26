@@ -33,8 +33,8 @@ class _CourseListItem extends State<CourseListItem> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CourseDetailsScreen(
-                    widget.courseId, widget.courseName, widget.difficulty)));
+                builder: (context) => CourseDetailsScreen(widget.courseId,
+                    widget.courseName, widget.difficulty, widget.preview)));
       },
       child: Container(
           width: 320.sp,

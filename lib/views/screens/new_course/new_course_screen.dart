@@ -4,6 +4,8 @@ import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/new_course/widgets/new_course_list_item.dart';
 import 'package:zicops/views/widgets/course_grid_item.dart';
 
+import '../../../utils/time_format.dart';
+
 class NewCourseScreen extends StatefulWidget {
   final List courseList;
   final String title;
@@ -128,7 +130,7 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                               courseItem.name ?? '',
                               courseItem.owner ?? '',
                               courseItem.expertiseLevel ?? '',
-                              "",
+                              formatDuration(courseItem.duration) ?? "",
                               courseItem.tileImage ?? '',
                               courseItem.id ?? '',
                             ))
@@ -141,11 +143,9 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                                 courseItem.name ?? '',
                                 courseItem.owner ?? '',
                                 courseItem.expertiseLevel ?? '',
-                                // (courseItem.duration / 60).round().toString() +
-                                //         " min" ??
-                                //     '',
-                                "",
+                                formatDuration(courseItem.duration) ?? "",
                                 courseItem.tileImage ?? '',
+                                courseItem.id ?? '',
                               ),
                               SizedBox(
                                 height: 8.sp,

@@ -20,9 +20,11 @@ import '../../../widgets/video_player.dart';
 class TopicScreen extends StatefulWidget {
   final String courseId;
   final String difficulty;
+  final String preview;
   const TopicScreen(
     this.courseId,
-    this.difficulty, {
+    this.difficulty,
+    this.preview, {
     Key? key,
   }) : super(key: key);
 
@@ -361,15 +363,12 @@ class _TopicScreen extends State<TopicScreen> {
             Map<String, String> moduleData = {};
             state.courseModules.forEach((element) {
               dropdownItems.add('Module ${element['sequence']}');
-
               moduleData['Module ${element['sequence']}'] = element['id'];
             });
             dropdownItems.sort();
             if (_selectedValue == "") {
               _selectedValue = dropdownItems[0];
             }
-            String selectedSequence = _selectedValue.split(' ')[1];
-            print('module data: $moduleData');
 
             return SlidingUpPanel(
                 controller: _panelController,
@@ -561,7 +560,7 @@ class _TopicScreen extends State<TopicScreen> {
                                             element['moduleId'] ==
                                             moduleData[_selectedValue])
                                         .isNotEmpty
-                                    ? ListView(children: [
+                                    ? ListView(shrinkWrap: true, children: [
                                         ...topicData
                                             .where((element) =>
                                                 element['moduleId'] ==
@@ -591,7 +590,10 @@ class _TopicScreen extends State<TopicScreen> {
                                                     e['name'],
                                                     formatDuration(
                                                         e['duration']),
-                                                    "assets/images/course_preview_2.png",
+                                                    widget.preview,
+                                                    //  "assets/images/course_preview_2.png",
+
+                                                    //  "assets/images/course_preview_2.png",
                                                     e == selectedChapter,
                                                     _controller?.value.position,
                                                     _controller

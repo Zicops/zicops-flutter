@@ -34,8 +34,8 @@ class _CourseGridItem extends State<CourseGridItem> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CourseDetailsScreen(
-                    widget.courseId, widget.courseName, widget.difficulty)));
+                builder: (context) => CourseDetailsScreen(widget.courseId,
+                    widget.courseName, widget.difficulty, widget.preview)));
       },
       child: Center(
           child: Container(

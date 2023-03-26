@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zicops/views/screens/course_details/notes/new_note/new_note_screen.dart';
 
-import '../../../../../utils/dummies.dart';
 import '../../../search/widgets/bookmark_list_item.dart';
 
 class BookmarkNotesScreen extends StatefulWidget {
+  List bookmarks;
+  String preview;
+
+  BookmarkNotesScreen(this.bookmarks, this.preview, {Key? key})
+      : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _BookmarkNotesScreen();
@@ -15,35 +20,45 @@ class BookmarkNotesScreen extends StatefulWidget {
 class _BookmarkNotesScreen extends State<BookmarkNotesScreen> {
   @override
   Widget build(BuildContext context) {
+    print("BookmarkNotesScreen: ${widget.bookmarks}");
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.sp),
-      child: ListView(
-        children: [
-          SizedBox(
-            height: 20.sp,
-          ),
-          ...courseItems.sublist(0, 2).map((courseItem) => GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NewNoteScreen(
-                                "",
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry...",
-                                showBookmark: true,
-                                bookmarkPreview: courseItem["preview"],
-                                bookmarkTime: "00:04:57",
-                              )));
-                },
-                child: BookmarkListItem(
-                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry...",
-                  "04:57",
-                  courseItem["preview"],
-                  showDivider: true,
+      child: widget.bookmarks.isNotEmpty
+          ? ListView(
+              children: [
+                SizedBox(
+                  height: 20.sp,
                 ),
-              ))
-        ],
-      ),
+                ...widget.bookmarks.map((courseItem) => GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NewNoteScreen(
+                                      "",
+                                      courseItem["name"],
+                                      showBookmark: true,
+                                      bookmarkPreview: widget.preview,
+                                      bookmarkTime: courseItem["time_stamp"],
+                                    )));
+                      },
+                      child: BookmarkListItem(
+                        courseItem["name"],
+                        courseItem["time_stamp"],
+                        widget.preview,
+                        showDivider: true,
+                      ),
+                    ))
+              ],
+            )
+          : Center(
+              child: Text(
+                "No bookmarks present",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
     );
   }
 }

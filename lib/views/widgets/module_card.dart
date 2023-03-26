@@ -13,10 +13,16 @@ class ModuleCard extends StatefulWidget {
   Duration? position;
   Duration? duration;
 
-  ModuleCard(this.courseName, this.courseLength, this.preview, this.isSelected,
-      this.position, this.duration,
-      {Key? key, this.isExam = false, })
-      : super(key: key);
+  ModuleCard(
+    this.courseName,
+    this.courseLength,
+    this.preview,
+    this.isSelected,
+    this.position,
+    this.duration, {
+    Key? key,
+    this.isExam = false,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -54,12 +60,13 @@ class _ModuleCard extends State<ModuleCard> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      if(!widget.isExam)Image.asset(
-                        widget.preview,
-                        fit: BoxFit.fill,
-                        width: 58.sp,
-                        height: 58.sp,
-                      ),
+                      if (!widget.isExam)
+                        Image.network(
+                          widget.preview,
+                          fit: BoxFit.fill,
+                          width: 58.sp,
+                          height: 58.sp,
+                        ),
                       Container(
                         color: widget.isExam
                             ? secondaryColorDark

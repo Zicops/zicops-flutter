@@ -15,7 +15,9 @@ class CourseDetailsScreen extends StatefulWidget {
   String courseId;
   String courseName;
   String difficulty;
-  CourseDetailsScreen(this.courseId, this.courseName, this.difficulty,
+  String preview;
+  CourseDetailsScreen(
+      this.courseId, this.courseName, this.difficulty, this.preview,
       {Key? key})
       : super(key: key);
 
@@ -144,13 +146,20 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
   getScreen() {
     switch (_selectedTab) {
       case 0:
-        return TopicScreen(widget.courseId, widget.difficulty);
+        return TopicScreen(
+          widget.courseId,
+          widget.difficulty,
+          widget.preview,
+        );
       case 1:
         return NotesScreen(
           courseId: widget.courseId,
+          preview: widget.preview,
         );
       case 2:
-        return const ResourcesScreen();
+        return ResourcesScreen(
+          widget.courseId,
+        );
       case 3:
         return AboutScreen(
           courseId: widget.courseId,

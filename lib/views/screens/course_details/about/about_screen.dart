@@ -99,164 +99,166 @@ class _AboutScreen extends State<AboutScreen> {
           if (state is CourseLoaded) {
             print('course data${state.courseData}');
             var courseDetails = state.courseData?['getCourse'][0];
-            print('course details $courseDetails');
-            print('course details ${courseDetails['name']}');
+            var courseData = state.courseData;
+            var assesmentTopic = courseData['getTopics']
+                .where((element) => element['type'] == 'Assessment')
+                .toList();
 
             return SingleChildScrollView(
               child: Column(
                 children: [
                   courseInfo(courseDetails['name'], courseDetails['image'],
                       courseDetails['owner'], courseDetails['type']),
-                  Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.sp, right: 20.sp, top: 20.sp),
-                    child: Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          height: 48.sp,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.sp),
-                              // gradient: const LinearGradient(colors: [primaryColor, gradientTwo])
-                              image: const DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/button_bg.png"),
-                                  fit: BoxFit.fill)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                  GestureDetector(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.sp, right: 20.sp, top: 20.sp),
+                      child: Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            height: 48.sp,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4.sp),
+                                // gradient: const LinearGradient(colors: [primaryColor, gradientTwo])
+                                image: const DecorationImage(
+                                    image: AssetImage(
+                                        "assets/images/button_bg.png"),
+                                    fit: BoxFit.fill)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "+".toUpperCase(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20.sp,
+                                      letterSpacing: 2,
+                                      color: secondaryColorLight,
+                                      height: 1.5),
+                                ),
+                                SizedBox(
+                                  width: 6.sp,
+                                ),
+                                Text(
+                                  "Course Preview".toUpperCase(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14.sp,
+                                      letterSpacing: 2,
+                                      color: secondaryColorLight,
+                                      height: 1.5),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 17.sp,
+                          ),
+                          courseBadge("assets/images/signal.png",
+                              courseDetails['expertise_level']),
+                          SizedBox(
+                            height: 8.sp,
+                          ),
+                          courseBadge("assets/images/gradient_clock.png",
+                              '${(courseDetails['duration'] / 60).round().toString()} min'),
+                          SizedBox(
+                            height: 8.sp,
+                          ),
+                          courseBadge("assets/images/gradient_flag.png",
+                              "24th December 2022"),
+                          SizedBox(
+                            height: 8.sp,
+                          ),
+                          courseBadge("assets/images/gradient_calendar.png",
+                              "30 days remaining"),
+                          SizedBox(
+                            height: 8.sp,
+                          ),
+                          Text(
+                            courseDetails['summary'],
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                color: textPrimary,
+                                height: 1.43),
+                          ),
+                          SizedBox(
+                            height: 15.sp,
+                          ),
+                          Divider(
+                            height: 1.sp,
+                            thickness: 1.sp,
+                            color: lightGrey,
+                          ),
+                          SizedBox(
+                            height: 12.sp,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                "+".toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20.sp,
-                                    letterSpacing: 2,
-                                    color: secondaryColorLight,
-                                    height: 1.5),
+                              CircleAvatar(
+                                foregroundImage: const AssetImage(
+                                    "assets/images/avatar_default.png"),
+                                radius: 18.sp,
                               ),
                               SizedBox(
-                                width: 6.sp,
+                                width: 15.sp,
                               ),
-                              Text(
-                                "Course Preview".toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14.sp,
-                                    letterSpacing: 2,
-                                    color: secondaryColorLight,
-                                    height: 1.5),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 20.sp,
+                                    child: Text(
+                                      "Owned by: ${courseDetails['owner']}",
+                                      style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1.43,
+                                          color: textPrimary),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 16.sp,
+                                    child: Text(
+                                      "Instructor: ${courseDetails['instructor']} ",
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          height: 1.33,
+                                          color: textPrimary),
+                                    ),
+                                  ),
+                                ],
                               )
                             ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 17.sp,
-                        ),
-                        courseBadge("assets/images/signal.png",
-                            courseDetails['expertise_level']),
-                        SizedBox(
-                          height: 8.sp,
-                        ),
-                        courseBadge("assets/images/gradient_clock.png",
-                            '${(courseDetails['duration'] / 60).round().toString()} min'),
-                        SizedBox(
-                          height: 8.sp,
-                        ),
-                        courseBadge("assets/images/gradient_flag.png",
-                            "24th December 2022"),
-                        SizedBox(
-                          height: 8.sp,
-                        ),
-                        courseBadge("assets/images/gradient_calendar.png",
-                            "30 days remaining"),
-                        SizedBox(
-                          height: 8.sp,
-                        ),
-                        Text(
-                          courseDetails['summary'],
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              color: textPrimary,
-                              height: 1.43),
-                        ),
-                        SizedBox(
-                          height: 15.sp,
-                        ),
-                        Divider(
-                          height: 1.sp,
-                          thickness: 1.sp,
-                          color: lightGrey,
-                        ),
-                        SizedBox(
-                          height: 12.sp,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              foregroundImage: const AssetImage(
-                                  "assets/images/avatar_default.png"),
-                              radius: 18.sp,
-                            ),
-                            SizedBox(
-                              width: 15.sp,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 20.sp,
-                                  child: Text(
-                                    "Owned by: ${courseDetails['owner']}",
-                                    style: TextStyle(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w500,
-                                        height: 1.43,
-                                        color: textPrimary),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 16.sp,
-                                  child: Text(
-                                    "Instructor: ${courseDetails['instructor']} ",
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        height: 1.33,
-                                        color: textPrimary),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 12.sp,
-                        ),
-                        Divider(
-                          height: 1.sp,
-                          thickness: 1.sp,
-                          color: lightGrey,
-                        ),
-                        SizedBox(
-                          height: 12.sp,
-                        ),
-                        ExpansionContainer(
-                          "Learning Objectives",
-                          Column(children: [
-                            Divider(
-                              height: 1.sp,
-                              thickness: 1.sp,
-                              color: lightGrey,
-                            ),
-                            SizedBox(
-                              height: 13.sp,
-                            ),
-                            SizedBox(
-                              height: 200.sp,
-                              child: ListView.builder(
+                          SizedBox(
+                            height: 12.sp,
+                          ),
+                          Divider(
+                            height: 1.sp,
+                            thickness: 1.sp,
+                            color: lightGrey,
+                          ),
+                          SizedBox(
+                            height: 12.sp,
+                          ),
+                          ExpansionContainer(
+                            "Learning Objectives",
+                            Column(children: [
+                              Divider(
+                                height: 1.sp,
+                                thickness: 1.sp,
+                                color: lightGrey,
+                              ),
+                              SizedBox(
+                                height: 13.sp,
+                              ),
+                              ListView.builder(
+                                  shrinkWrap: true,
                                   itemCount: courseDetails['outcomes'].length,
                                   itemBuilder: (context, index) {
                                     return Column(
@@ -271,26 +273,24 @@ class _AboutScreen extends State<AboutScreen> {
                                       ],
                                     );
                                   }),
-                            ),
-                          ]),
-                        ),
-                        SizedBox(
-                          height: 8.sp,
-                        ),
-                        ExpansionContainer(
-                          "Benefits",
-                          Column(children: [
-                            Divider(
-                              height: 1.sp,
-                              thickness: 1.sp,
-                              color: lightGrey,
-                            ),
-                            SizedBox(
-                              height: 13.sp,
-                            ),
-                            SizedBox(
-                              height: 200.sp,
-                              child: ListView.builder(
+                            ]),
+                          ),
+                          SizedBox(
+                            height: 8.sp,
+                          ),
+                          ExpansionContainer(
+                            "Benefits",
+                            Column(children: [
+                              Divider(
+                                height: 1.sp,
+                                thickness: 1.sp,
+                                color: lightGrey,
+                              ),
+                              SizedBox(
+                                height: 13.sp,
+                              ),
+                              ListView.builder(
+                                  shrinkWrap: true,
                                   itemCount: courseDetails['benefits'].length,
                                   itemBuilder: (context, index) {
                                     return Column(
@@ -305,26 +305,24 @@ class _AboutScreen extends State<AboutScreen> {
                                       ],
                                     );
                                   }),
-                            ),
-                          ]),
-                        ),
-                        SizedBox(
-                          height: 8.sp,
-                        ),
-                        ExpansionContainer(
-                          "Pre-requisites",
-                          Column(children: [
-                            Divider(
-                              height: 1.sp,
-                              thickness: 1.sp,
-                              color: lightGrey,
-                            ),
-                            SizedBox(
-                              height: 13.sp,
-                            ),
-                            SizedBox(
-                              height: 200.sp,
-                              child: ListView.builder(
+                            ]),
+                          ),
+                          SizedBox(
+                            height: 8.sp,
+                          ),
+                          ExpansionContainer(
+                            "Pre-requisites",
+                            Column(children: [
+                              Divider(
+                                height: 1.sp,
+                                thickness: 1.sp,
+                                color: lightGrey,
+                              ),
+                              SizedBox(
+                                height: 13.sp,
+                              ),
+                              ListView.builder(
+                                  shrinkWrap: true,
                                   itemCount:
                                       courseDetails['prequisites'].length,
                                   itemBuilder: (context, index) {
@@ -340,95 +338,199 @@ class _AboutScreen extends State<AboutScreen> {
                                       ],
                                     );
                                   }),
-                            ),
-                          ]),
-                        ),
-                        SizedBox(
-                          height: 8.sp,
-                        ),
-                        ExpansionContainer(
-                          "Target audience",
-                          Column(children: [
-                            Divider(
-                              height: 1.sp,
-                              thickness: 1.sp,
-                              color: lightGrey,
-                            ),
-                            SizedBox(
-                              height: 13.sp,
-                            ),
-                            SizedBox(
-                              height: 200.sp,
-                              child: ListView.builder(
-                                  itemCount: courseDetails['mustFor'].length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        BulletedText(
-                                            courseDetails['mustFor']
-                                                .elementAt(index),
-                                            horizontal: 15.sp),
-                                        SizedBox(
-                                          height: 20.sp,
-                                        ),
-                                      ],
-                                    );
-                                  }),
-                            ),
-                          ]),
-                        ),
-                        SizedBox(
-                          height: 8.sp,
-                        ),
-                        ExpansionContainer(
-                          "Course inclusion",
-                          Column(children: [
-                            Divider(
-                              height: 1.sp,
-                              thickness: 1.sp,
-                              color: lightGrey,
-                            ),
-                            SizedBox(
-                              height: 13.sp,
-                            ),
-                            BulletedText(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-                                horizontal: 15.sp),
-                            SizedBox(
-                              height: 20.sp,
-                            ),
-                            BulletedText(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-                                horizontal: 15.sp),
-                            SizedBox(
-                              height: 20.sp,
-                            ),
-                            BulletedText(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-                                horizontal: 15.sp),
-                            SizedBox(
-                              height: 20.sp,
-                            ),
-                            BulletedText(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-                                horizontal: 15.sp),
-                            SizedBox(
-                              height: 20.sp,
-                            ),
-                          ]),
-                        ),
-                        SizedBox(
-                          height: 16.sp,
-                        ),
-                        Divider(
-                          height: 1.sp,
-                          thickness: 1.sp,
-                          color: lightGrey,
-                        ),
-                        SizedBox(
-                          height: 16.sp,
-                        ),
-                      ],
+                            ]),
+                          ),
+                          SizedBox(
+                            height: 8.sp,
+                          ),
+                          ExpansionContainer(
+                            "Target audience",
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Divider(
+                                    height: 1.sp,
+                                    thickness: 1.sp,
+                                    color: lightGrey,
+                                  ),
+                                  SizedBox(
+                                    height: 13.sp,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15.sp),
+                                    child: Text(
+                                      'Must For:',
+                                      softWrap: true,
+                                      style: TextStyle(
+                                          fontSize: 12.sp, color: textGrey2),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.sp,
+                                  ),
+                                  ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          courseDetails['mustFor'].length,
+                                      itemBuilder: (context, index) {
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            BulletedText(
+                                                '${courseDetails['mustFor'].elementAt(index)}',
+                                                horizontal: 15.sp),
+                                            SizedBox(
+                                              height: 20.sp,
+                                            ),
+                                          ],
+                                        );
+                                      }),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15.sp),
+                                    child: Text(
+                                      'Good For:',
+                                      softWrap: true,
+                                      style: TextStyle(
+                                          fontSize: 12.sp, color: textGrey2),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.sp,
+                                  ),
+                                  ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          courseDetails['goodFor'].length,
+                                      itemBuilder: (context, index) {
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            BulletedText(
+                                                '${courseDetails['goodFor'].elementAt(index)}',
+                                                horizontal: 15.sp),
+                                            SizedBox(
+                                              height: 20.sp,
+                                            ),
+                                          ],
+                                        );
+                                      }),
+                                ]),
+                          ),
+                          SizedBox(
+                            height: 8.sp,
+                          ),
+                          ExpansionContainer(
+                            "Course Inclusion",
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Divider(
+                                    height: 1.sp,
+                                    thickness: 1.sp,
+                                    color: lightGrey,
+                                  ),
+                                  SizedBox(
+                                    height: 13.sp,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15.sp),
+                                    child: Text(
+                                      'Languages:',
+                                      softWrap: true,
+                                      style: TextStyle(
+                                          fontSize: 12.sp, color: textGrey2),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.sp,
+                                  ),
+                                  ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          courseDetails['language'].length,
+                                      itemBuilder: (context, index) {
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            BulletedText(
+                                                '${courseDetails['language'].elementAt(index)}',
+                                                horizontal: 15.sp),
+                                            SizedBox(
+                                              height: 5.sp,
+                                            ),
+                                          ],
+                                        );
+                                      }),
+                                  SizedBox(
+                                    height: 10.sp,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15.sp),
+                                    child: Text(
+                                      'Structured View',
+                                      softWrap: true,
+                                      style: TextStyle(
+                                          fontSize: 12.sp, color: textGrey2),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.sp,
+                                  ),
+                                  BulletedText(
+                                      '${courseData['getCourseModules'].length} Modules, ${courseData['getTopics'].length} Topics',
+                                      horizontal: 15.sp),
+                                  SizedBox(
+                                    height: 10.sp,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15.sp),
+                                    child: Text(
+                                      'Assessment',
+                                      softWrap: true,
+                                      style: TextStyle(
+                                          fontSize: 12.sp, color: textGrey2),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.sp,
+                                  ),
+                                  BulletedText(
+                                      '${assesmentTopic.length} assessments',
+                                      horizontal: 15.sp),
+                                  SizedBox(
+                                    height: 10.sp,
+                                  ),
+                                ]),
+                          ),
+                          SizedBox(
+                            height: 16.sp,
+                          ),
+                          Divider(
+                            height: 1.sp,
+                            thickness: 1.sp,
+                            color: lightGrey,
+                          ),
+                          SizedBox(
+                            height: 16.sp,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Column(

@@ -168,11 +168,8 @@ class _MyCourseScreen extends State<MyCourseScreen> {
                                     courseItem.owner,
                                     courseItem.expertiseLevel,
                                     formatDuration(courseItem.duration),
-                                    // (courseItem.duration / 60)
-                                    //         .round()
-                                    //         .toString() +
-                                    //     " min",
                                     courseItem.tileImage,
+                                    courseItem.id,
                                     showProgressBar:
                                         _selectedTab == 0 || _selectedTab == 3
                                             ? true

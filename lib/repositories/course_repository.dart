@@ -27,6 +27,15 @@ class CourseRepository {
     return courseData;
   }
 
+  Future getCourseResources(courseId) async {
+    final result = await courseQClient.client()?.execute(GetCourseDataQuery(
+        variables: GetCourseDataArguments(course_id: courseId)));
+    final courseData = result?.data?.toJson();
+    print(courseData);
+    List courseResouces = courseData?['getResourcesByCourseId'];
+    return courseResouces;
+  }
+
   Future getCourseModule(courseId) async {
     final result = await courseQClient.client()?.execute(GetCourseDataQuery(
         variables: GetCourseDataArguments(course_id: courseId)));
@@ -92,6 +101,8 @@ class CourseRepository {
 
     // print(finalCourseData);
     topicData.addAll(data);
+
+    topicData.sort((a, b) => a['sequence'].compareTo(b['sequence']));
     print(topicData);
     // for topic data
     return topicData;
@@ -109,13 +120,13 @@ class CourseRepository {
     final res = await userClient.client()?.execute(GetUserNotesBookmarksQuery(
         variables: GetUserNotesBookmarksArguments(
             user_id: userId!,
-            user_lsp_id: '4fa13f53-5df3-4fdb-b34e-77af7bd20824',
+            user_lsp_id: '96a30957-3bd8-41cc-87ad-9c863d423c3e',
             publish_time: publishTime,
             pageCursor: '',
-            pageSize: 25,
+            pageSize: 100,
             course_id: courseId)));
 
-    print(res?.data?.toJson());
+    //  print(res?.data?.toJson());
     // this is basically map containing getUserNotes and getUserBookmarks keys from which you will get users notes and book marks.
     return res?.data?.toJson();
   }

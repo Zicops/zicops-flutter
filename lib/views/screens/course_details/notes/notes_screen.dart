@@ -11,7 +11,9 @@ import '../../../widgets/modules_dropdown.dart';
 
 class NotesScreen extends StatefulWidget {
   final String courseId;
-  const NotesScreen({Key? key, required this.courseId}) : super(key: key);
+  final String preview;
+  const NotesScreen({Key? key, required this.courseId, required this.preview})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -113,8 +115,6 @@ class _NotesScreen extends State<NotesScreen> {
     );
   }
 
-  List dummy = [1, 2, 3, 4, 5, 6];
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -127,49 +127,106 @@ class _NotesScreen extends State<NotesScreen> {
             return Center(child: CircularProgressIndicator());
           }
           if (state is NotesAndBookmarkLoaded) {
-            if (state.notesAndBookmarkData["getUserNotes"] == null &&
-                state.notesAndBookmarkData["getUserBookmarks"] == null) {
-              for (var i = 0;
-                  i < state.notesAndBookmarkData["getUserNotes"].length;
-                  i++) {
-                print(
-                    state.notesAndBookmarkData["getUserNotes"][i]["topic_id"]);
+            List dummy = [];
+            // dummy = state.notesAndBookmarkData["getUserNotes"] ?? dummy;
+            Map<String, String> moduleData = {};
+            List dropdownItems = [];
+            state.courseModules.forEach((element) {
+              dropdownItems.add('Module ${element['sequence']}');
+              moduleData['Module ${element['sequence']}'] = element['id'];
+            });
+            dropdownItems.sort();
+            if (_selectedValue == "") {
+              _selectedValue = dropdownItems[0];
+            }
+            List notes = [];
+            List bookmarks = [];
+            if (state.notesAndBookmarkData["getUserNotes"] != null) {
+              notes = state.notesAndBookmarkData["getUserNotes"]['notes'] ?? [];
+            }
+            if (state.notesAndBookmarkData["getUserBookmarks"] != null) {
+              bookmarks = state.notesAndBookmarkData["getUserBookmarks"]
+                      ['bookmarks'] ??
+                  [];
+            }
+            List notesInModule = [];
+            List bookmarksInModule = [];
+            if (notes.isNotEmpty) {
+              for (var element in notes) {
+                if (element['module_id'] == moduleData[_selectedValue]) {
+                  notesInModule.add(element);
+                }
               }
-              return Center(
-                  child: Text(
-                "No Notes and Bookmarks",
-                style: TextStyle(color: Colors.white),
-              ));
-            } else {
-              return Container(
-                padding: EdgeInsets.only(top: 11.sp, right: 20.sp, left: 20.sp),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ModulesDropDown(
-                      onChanged: _onDropdownChanged,
-                    ),
-                    SizedBox(
-                      height: 9.sp,
-                    ),
-                    Container(
-                      height: 24.sp,
-                      alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.only(bottom: 15.sp),
-                      child: Text("Topics".toUpperCase(),
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600,
-                              color: textGrey2,
-                              letterSpacing: 1)),
-                    ),
-                    Expanded(
-                        child: MasonryGridView.count(
+            }
+            if (bookmarks.isNotEmpty) {
+              for (var element in bookmarks) {
+                if (element['module_id'] == moduleData[_selectedValue]) {
+                  bookmarksInModule.add(element);
+                }
+              }
+            }
+            print('notesInModule: $notesInModule');
+            print('bookmarksInModule: $bookmarksInModule');
+
+            //Find number of topics in module
+            List topics = state.topicData
+                .where((element) =>
+                    element['moduleId'] == moduleData[_selectedValue])
+                .toList();
+            for (var i = 0; i < topics.length; i++) {
+              dummy.add(i + 1);
+            }
+            return Container(
+              padding: EdgeInsets.only(top: 11.sp, right: 20.sp, left: 20.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ModulesDropDown(
+                    onChanged: _onDropdownChanged,
+                    dropdownList: dropdownItems,
+                  ),
+                  SizedBox(
+                    height: 9.sp,
+                  ),
+                  Container(
+                    height: 24.sp,
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(bottom: 15.sp),
+                    child: Text("Topics".toUpperCase(),
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                            color: textGrey2,
+                            letterSpacing: 1)),
+                  ),
+                  Expanded(
+                    child: state.topicData
+                            .where((element) =>
+                                element['moduleId'] ==
+                                moduleData[_selectedValue])
+                            .isNotEmpty
+                        ? MasonryGridView.count(
                             crossAxisCount: 2,
                             mainAxisSpacing: 15.sp,
                             crossAxisSpacing: 20.sp,
-                            itemCount: dummy.length,
+                            itemCount: topics.length,
                             itemBuilder: (context, index) {
+                              List notesInTopic = [];
+                              List bookmarksInTopic = [];
+                              for (var element in notesInModule) {
+                                if (element['topic_id'] ==
+                                    topics[index]['topicId']) {
+                                  notesInTopic.add(element);
+                                }
+                              }
+                              for (var element in bookmarksInModule) {
+                                if (element['topic_id'] ==
+                                    topics[index]['topicId']) {
+                                  bookmarksInTopic.add(element);
+                                }
+                              }
+                              print('notesInTopic: $notesInTopic');
+                              print('bookmarksInTopic: $bookmarksInTopic');
                               return GestureDetector(
                                   onTap: () {
                                     Navigator.push(
@@ -177,16 +234,30 @@ class _NotesScreen extends State<NotesScreen> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 NotesTopicScreen(
-                                                    "Topic ${dummy[index]}")));
+                                                  "Topic ${dummy[index]}",
+                                                  notesInTopic,
+                                                  bookmarksInTopic,
+                                                  widget.preview,
+                                                )));
                                   },
-                                  child: folder("Topic ${dummy[index]}",
-                                      "12 Files", "03 Bookmarks"));
-                            }))
-                  ],
-                ),
-              );
-            }
+                                  child: folder(
+                                      "Topic ${dummy[index]}",
+                                      "${notesInTopic.length} Files",
+                                      "${bookmarksInTopic.length} Bookmarks"));
+                            },
+                          )
+                        : Center(
+                            child: Text(
+                              "No Topics in this Module",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                  ),
+                ],
+              ),
+            );
           }
+
           if (state is NotesAndBookmarkError) {
             return Center(child: Text(state.error));
           }
