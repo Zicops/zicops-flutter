@@ -217,6 +217,431 @@ Map<String, dynamic> _$UpdateUserPreference$MutationRootToJson(
       'updateUserPreference': instance.updateUserPreference?.toJson(),
     };
 
+AddUserBookmark$MutationRoot$UserBookmark
+    _$AddUserBookmark$MutationRoot$UserBookmarkFromJson(
+            Map<String, dynamic> json) =>
+        AddUserBookmark$MutationRoot$UserBookmark()
+          ..userBmId = json['user_bm_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..userCourseId = json['user_course_id'] as String
+          ..courseId = json['course_id'] as String
+          ..moduleId = json['module_id'] as String
+          ..topicId = json['topic_id'] as String
+          ..name = json['name'] as String
+          ..timeStamp = json['time_stamp'] as String
+          ..isActive = json['is_active'] as bool
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic> _$AddUserBookmark$MutationRoot$UserBookmarkToJson(
+        AddUserBookmark$MutationRoot$UserBookmark instance) =>
+    <String, dynamic>{
+      'user_bm_id': instance.userBmId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'user_course_id': instance.userCourseId,
+      'course_id': instance.courseId,
+      'module_id': instance.moduleId,
+      'topic_id': instance.topicId,
+      'name': instance.name,
+      'time_stamp': instance.timeStamp,
+      'is_active': instance.isActive,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+AddUserBookmark$MutationRoot _$AddUserBookmark$MutationRootFromJson(
+        Map<String, dynamic> json) =>
+    AddUserBookmark$MutationRoot()
+      ..addUserBookmark = (json['addUserBookmark'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : AddUserBookmark$MutationRoot$UserBookmark.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$AddUserBookmark$MutationRootToJson(
+        AddUserBookmark$MutationRoot instance) =>
+    <String, dynamic>{
+      'addUserBookmark':
+          instance.addUserBookmark?.map((e) => e?.toJson()).toList(),
+    };
+
+UpdateUserBookmark$MutationRoot$UserBookmark
+    _$UpdateUserBookmark$MutationRoot$UserBookmarkFromJson(
+            Map<String, dynamic> json) =>
+        UpdateUserBookmark$MutationRoot$UserBookmark()
+          ..userBmId = json['user_bm_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..userCourseId = json['user_course_id'] as String
+          ..courseId = json['course_id'] as String
+          ..moduleId = json['module_id'] as String
+          ..topicId = json['topic_id'] as String
+          ..name = json['name'] as String
+          ..timeStamp = json['time_stamp'] as String
+          ..isActive = json['is_active'] as bool
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic> _$UpdateUserBookmark$MutationRoot$UserBookmarkToJson(
+        UpdateUserBookmark$MutationRoot$UserBookmark instance) =>
+    <String, dynamic>{
+      'user_bm_id': instance.userBmId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'user_course_id': instance.userCourseId,
+      'course_id': instance.courseId,
+      'module_id': instance.moduleId,
+      'topic_id': instance.topicId,
+      'name': instance.name,
+      'time_stamp': instance.timeStamp,
+      'is_active': instance.isActive,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+UpdateUserBookmark$MutationRoot _$UpdateUserBookmark$MutationRootFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserBookmark$MutationRoot()
+      ..addUserBookmark = (json['addUserBookmark'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : UpdateUserBookmark$MutationRoot$UserBookmark.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$UpdateUserBookmark$MutationRootToJson(
+        UpdateUserBookmark$MutationRoot instance) =>
+    <String, dynamic>{
+      'addUserBookmark':
+          instance.addUserBookmark?.map((e) => e?.toJson()).toList(),
+    };
+
+AddUserNotes$MutationRoot$UserNotes
+    _$AddUserNotes$MutationRoot$UserNotesFromJson(Map<String, dynamic> json) =>
+        AddUserNotes$MutationRoot$UserNotes()
+          ..userNotesId = json['user_notes_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..courseId = json['course_id'] as String
+          ..moduleId = json['module_id'] as String
+          ..topicId = json['topic_id'] as String
+          ..sequence = json['sequence'] as int
+          ..status = json['status'] as String
+          ..details = json['details'] as String
+          ..isActive = json['is_active'] as bool
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic> _$AddUserNotes$MutationRoot$UserNotesToJson(
+        AddUserNotes$MutationRoot$UserNotes instance) =>
+    <String, dynamic>{
+      'user_notes_id': instance.userNotesId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'course_id': instance.courseId,
+      'module_id': instance.moduleId,
+      'topic_id': instance.topicId,
+      'sequence': instance.sequence,
+      'status': instance.status,
+      'details': instance.details,
+      'is_active': instance.isActive,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+AddUserNotes$MutationRoot _$AddUserNotes$MutationRootFromJson(
+        Map<String, dynamic> json) =>
+    AddUserNotes$MutationRoot()
+      ..addUserNotes = (json['addUserNotes'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : AddUserNotes$MutationRoot$UserNotes.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$AddUserNotes$MutationRootToJson(
+        AddUserNotes$MutationRoot instance) =>
+    <String, dynamic>{
+      'addUserNotes': instance.addUserNotes?.map((e) => e?.toJson()).toList(),
+    };
+
+UpdateUserNotes$MutationRoot$UserNotes
+    _$UpdateUserNotes$MutationRoot$UserNotesFromJson(
+            Map<String, dynamic> json) =>
+        UpdateUserNotes$MutationRoot$UserNotes()
+          ..userNotesId = json['user_notes_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..courseId = json['course_id'] as String
+          ..moduleId = json['module_id'] as String
+          ..topicId = json['topic_id'] as String
+          ..sequence = json['sequence'] as int
+          ..status = json['status'] as String
+          ..details = json['details'] as String
+          ..isActive = json['is_active'] as bool
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic> _$UpdateUserNotes$MutationRoot$UserNotesToJson(
+        UpdateUserNotes$MutationRoot$UserNotes instance) =>
+    <String, dynamic>{
+      'user_notes_id': instance.userNotesId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'course_id': instance.courseId,
+      'module_id': instance.moduleId,
+      'topic_id': instance.topicId,
+      'sequence': instance.sequence,
+      'status': instance.status,
+      'details': instance.details,
+      'is_active': instance.isActive,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+UpdateUserNotes$MutationRoot _$UpdateUserNotes$MutationRootFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserNotes$MutationRoot()
+      ..updateUserNotes = json['updateUserNotes'] == null
+          ? null
+          : UpdateUserNotes$MutationRoot$UserNotes.fromJson(
+              json['updateUserNotes'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$UpdateUserNotes$MutationRootToJson(
+        UpdateUserNotes$MutationRoot instance) =>
+    <String, dynamic>{
+      'updateUserNotes': instance.updateUserNotes?.toJson(),
+    };
+
+AddUserCourse$MutationRoot$UserCourse
+    _$AddUserCourse$MutationRoot$UserCourseFromJson(
+            Map<String, dynamic> json) =>
+        AddUserCourse$MutationRoot$UserCourse()
+          ..userCourseId = json['user_course_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..lspId = json['lsp_id'] as String?
+          ..courseId = json['course_id'] as String
+          ..courseType = json['course_type'] as String
+          ..addedBy = json['added_by'] as String
+          ..isMandatory = json['is_mandatory'] as bool
+          ..endDate = json['end_date'] as String?
+          ..courseStatus = json['course_status'] as String
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic> _$AddUserCourse$MutationRoot$UserCourseToJson(
+        AddUserCourse$MutationRoot$UserCourse instance) =>
+    <String, dynamic>{
+      'user_course_id': instance.userCourseId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'lsp_id': instance.lspId,
+      'course_id': instance.courseId,
+      'course_type': instance.courseType,
+      'added_by': instance.addedBy,
+      'is_mandatory': instance.isMandatory,
+      'end_date': instance.endDate,
+      'course_status': instance.courseStatus,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+AddUserCourse$MutationRoot _$AddUserCourse$MutationRootFromJson(
+        Map<String, dynamic> json) =>
+    AddUserCourse$MutationRoot()
+      ..addUserCourse = (json['addUserCourse'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : AddUserCourse$MutationRoot$UserCourse.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$AddUserCourse$MutationRootToJson(
+        AddUserCourse$MutationRoot instance) =>
+    <String, dynamic>{
+      'addUserCourse': instance.addUserCourse?.map((e) => e?.toJson()).toList(),
+    };
+
+UpdateUserCourse$MutationRoot$UserCourse
+    _$UpdateUserCourse$MutationRoot$UserCourseFromJson(
+            Map<String, dynamic> json) =>
+        UpdateUserCourse$MutationRoot$UserCourse()
+          ..userCourseId = json['user_course_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userLspId = json['user_lsp_id'] as String
+          ..lspId = json['lsp_id'] as String?
+          ..courseId = json['course_id'] as String
+          ..courseType = json['course_type'] as String
+          ..addedBy = json['added_by'] as String
+          ..isMandatory = json['is_mandatory'] as bool
+          ..endDate = json['end_date'] as String?
+          ..courseStatus = json['course_status'] as String
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic> _$UpdateUserCourse$MutationRoot$UserCourseToJson(
+        UpdateUserCourse$MutationRoot$UserCourse instance) =>
+    <String, dynamic>{
+      'user_course_id': instance.userCourseId,
+      'user_id': instance.userId,
+      'user_lsp_id': instance.userLspId,
+      'lsp_id': instance.lspId,
+      'course_id': instance.courseId,
+      'course_type': instance.courseType,
+      'added_by': instance.addedBy,
+      'is_mandatory': instance.isMandatory,
+      'end_date': instance.endDate,
+      'course_status': instance.courseStatus,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+UpdateUserCourse$MutationRoot _$UpdateUserCourse$MutationRootFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserCourse$MutationRoot()
+      ..updateUserCourse = json['updateUserCourse'] == null
+          ? null
+          : UpdateUserCourse$MutationRoot$UserCourse.fromJson(
+              json['updateUserCourse'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$UpdateUserCourse$MutationRootToJson(
+        UpdateUserCourse$MutationRoot instance) =>
+    <String, dynamic>{
+      'updateUserCourse': instance.updateUserCourse?.toJson(),
+    };
+
+AddUserCourseProgress$MutationRoot$UserCourseProgress
+    _$AddUserCourseProgress$MutationRoot$UserCourseProgressFromJson(
+            Map<String, dynamic> json) =>
+        AddUserCourseProgress$MutationRoot$UserCourseProgress()
+          ..userCpId = json['user_cp_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userCourseId = json['user_course_id'] as String
+          ..topicId = json['topic_id'] as String
+          ..topicType = json['topic_type'] as String
+          ..status = json['status'] as String
+          ..videoProgress = json['video_progress'] as String
+          ..timeStamp = json['time_stamp'] as String
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String, dynamic>
+    _$AddUserCourseProgress$MutationRoot$UserCourseProgressToJson(
+            AddUserCourseProgress$MutationRoot$UserCourseProgress instance) =>
+        <String, dynamic>{
+          'user_cp_id': instance.userCpId,
+          'user_id': instance.userId,
+          'user_course_id': instance.userCourseId,
+          'topic_id': instance.topicId,
+          'topic_type': instance.topicType,
+          'status': instance.status,
+          'video_progress': instance.videoProgress,
+          'time_stamp': instance.timeStamp,
+          'created_by': instance.createdBy,
+          'updated_by': instance.updatedBy,
+          'created_at': instance.createdAt,
+          'updated_at': instance.updatedAt,
+        };
+
+AddUserCourseProgress$MutationRoot _$AddUserCourseProgress$MutationRootFromJson(
+        Map<String, dynamic> json) =>
+    AddUserCourseProgress$MutationRoot()
+      ..addUserCourseProgress = (json['addUserCourseProgress']
+              as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : AddUserCourseProgress$MutationRoot$UserCourseProgress.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$AddUserCourseProgress$MutationRootToJson(
+        AddUserCourseProgress$MutationRoot instance) =>
+    <String, dynamic>{
+      'addUserCourseProgress':
+          instance.addUserCourseProgress?.map((e) => e?.toJson()).toList(),
+    };
+
+UpdateUserCourseProgress$MutationRoot$UserCourseProgress
+    _$UpdateUserCourseProgress$MutationRoot$UserCourseProgressFromJson(
+            Map<String, dynamic> json) =>
+        UpdateUserCourseProgress$MutationRoot$UserCourseProgress()
+          ..userCpId = json['user_cp_id'] as String?
+          ..userId = json['user_id'] as String
+          ..userCourseId = json['user_course_id'] as String
+          ..topicId = json['topic_id'] as String
+          ..topicType = json['topic_type'] as String
+          ..status = json['status'] as String
+          ..videoProgress = json['video_progress'] as String
+          ..timeStamp = json['time_stamp'] as String
+          ..createdBy = json['created_by'] as String?
+          ..updatedBy = json['updated_by'] as String?
+          ..createdAt = json['created_at'] as String
+          ..updatedAt = json['updated_at'] as String;
+
+Map<String,
+    dynamic> _$UpdateUserCourseProgress$MutationRoot$UserCourseProgressToJson(
+        UpdateUserCourseProgress$MutationRoot$UserCourseProgress instance) =>
+    <String, dynamic>{
+      'user_cp_id': instance.userCpId,
+      'user_id': instance.userId,
+      'user_course_id': instance.userCourseId,
+      'topic_id': instance.topicId,
+      'topic_type': instance.topicType,
+      'status': instance.status,
+      'video_progress': instance.videoProgress,
+      'time_stamp': instance.timeStamp,
+      'created_by': instance.createdBy,
+      'updated_by': instance.updatedBy,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+UpdateUserCourseProgress$MutationRoot
+    _$UpdateUserCourseProgress$MutationRootFromJson(
+            Map<String, dynamic> json) =>
+        UpdateUserCourseProgress$MutationRoot()
+          ..updateUserCourseProgress = json['updateUserCourseProgress'] == null
+              ? null
+              : UpdateUserCourseProgress$MutationRoot$UserCourseProgress
+                  .fromJson(
+                      json['updateUserCourseProgress'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$UpdateUserCourseProgress$MutationRootToJson(
+        UpdateUserCourseProgress$MutationRoot instance) =>
+    <String, dynamic>{
+      'updateUserCourseProgress': instance.updateUserCourseProgress?.toJson(),
+    };
+
 GetUserLsps$QueryRoot$UserLspMap _$GetUserLsps$QueryRoot$UserLspMapFromJson(
         Map<String, dynamic> json) =>
     GetUserLsps$QueryRoot$UserLspMap()
@@ -2096,6 +2521,230 @@ Map<String, dynamic> _$UpdateUserPreferenceArgumentsToJson(
       'sub_category': instance.sub_category,
       'is_base': instance.is_base,
       'is_active': instance.is_active,
+    };
+
+AddUserBookmarkArguments _$AddUserBookmarkArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    AddUserBookmarkArguments(
+      user_id: json['user_id'] as String,
+      user_lsp_id: json['user_lsp_id'] as String,
+      user_course_id: json['user_course_id'] as String,
+      course_id: json['course_id'] as String,
+      module_id: json['module_id'] as String,
+      topic_id: json['topic_id'] as String,
+      name: json['name'] as String,
+      time_stamp: json['time_stamp'] as String,
+      is_active: json['is_active'] as bool,
+    );
+
+Map<String, dynamic> _$AddUserBookmarkArgumentsToJson(
+        AddUserBookmarkArguments instance) =>
+    <String, dynamic>{
+      'user_id': instance.user_id,
+      'user_lsp_id': instance.user_lsp_id,
+      'user_course_id': instance.user_course_id,
+      'course_id': instance.course_id,
+      'module_id': instance.module_id,
+      'topic_id': instance.topic_id,
+      'name': instance.name,
+      'time_stamp': instance.time_stamp,
+      'is_active': instance.is_active,
+    };
+
+UpdateUserBookmarkArguments _$UpdateUserBookmarkArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserBookmarkArguments(
+      user_bm_id: json['user_bm_id'] as String,
+      user_id: json['user_id'] as String,
+      user_lsp_id: json['user_lsp_id'] as String,
+      user_course_id: json['user_course_id'] as String,
+      course_id: json['course_id'] as String,
+      module_id: json['module_id'] as String,
+      topic_id: json['topic_id'] as String,
+      name: json['name'] as String,
+      time_stamp: json['time_stamp'] as String,
+      is_active: json['is_active'] as bool,
+    );
+
+Map<String, dynamic> _$UpdateUserBookmarkArgumentsToJson(
+        UpdateUserBookmarkArguments instance) =>
+    <String, dynamic>{
+      'user_bm_id': instance.user_bm_id,
+      'user_id': instance.user_id,
+      'user_lsp_id': instance.user_lsp_id,
+      'user_course_id': instance.user_course_id,
+      'course_id': instance.course_id,
+      'module_id': instance.module_id,
+      'topic_id': instance.topic_id,
+      'name': instance.name,
+      'time_stamp': instance.time_stamp,
+      'is_active': instance.is_active,
+    };
+
+AddUserNotesArguments _$AddUserNotesArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    AddUserNotesArguments(
+      user_id: json['user_id'] as String,
+      user_lsp_id: json['user_lsp_id'] as String,
+      course_id: json['course_id'] as String,
+      module_id: json['module_id'] as String,
+      topic_id: json['topic_id'] as String,
+      sequence: json['sequence'] as int,
+      details: json['details'] as String,
+      status: json['status'] as String,
+      is_active: json['is_active'] as bool,
+    );
+
+Map<String, dynamic> _$AddUserNotesArgumentsToJson(
+        AddUserNotesArguments instance) =>
+    <String, dynamic>{
+      'user_id': instance.user_id,
+      'user_lsp_id': instance.user_lsp_id,
+      'course_id': instance.course_id,
+      'module_id': instance.module_id,
+      'topic_id': instance.topic_id,
+      'sequence': instance.sequence,
+      'details': instance.details,
+      'status': instance.status,
+      'is_active': instance.is_active,
+    };
+
+UpdateUserNotesArguments _$UpdateUserNotesArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserNotesArguments(
+      user_notes_id: json['user_notes_id'] as String?,
+      user_id: json['user_id'] as String,
+      user_lsp_id: json['user_lsp_id'] as String,
+      course_id: json['course_id'] as String,
+      module_id: json['module_id'] as String,
+      topic_id: json['topic_id'] as String,
+      sequence: json['sequence'] as int,
+      status: json['status'] as String,
+      details: json['details'] as String,
+      is_active: json['is_active'] as bool,
+    );
+
+Map<String, dynamic> _$UpdateUserNotesArgumentsToJson(
+        UpdateUserNotesArguments instance) =>
+    <String, dynamic>{
+      'user_notes_id': instance.user_notes_id,
+      'user_id': instance.user_id,
+      'user_lsp_id': instance.user_lsp_id,
+      'course_id': instance.course_id,
+      'module_id': instance.module_id,
+      'topic_id': instance.topic_id,
+      'sequence': instance.sequence,
+      'status': instance.status,
+      'details': instance.details,
+      'is_active': instance.is_active,
+    };
+
+AddUserCourseArguments _$AddUserCourseArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    AddUserCourseArguments(
+      userId: json['userId'] as String,
+      userLspId: json['userLspId'] as String,
+      lspId: json['lspId'] as String?,
+      courseId: json['courseId'] as String,
+      addedBy: json['addedBy'] as String,
+      courseType: json['courseType'] as String,
+      isMandatory: json['isMandatory'] as bool,
+      courseStatus: json['courseStatus'] as String,
+      endDate: json['endDate'] as String?,
+    );
+
+Map<String, dynamic> _$AddUserCourseArgumentsToJson(
+        AddUserCourseArguments instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'userLspId': instance.userLspId,
+      'lspId': instance.lspId,
+      'courseId': instance.courseId,
+      'addedBy': instance.addedBy,
+      'courseType': instance.courseType,
+      'isMandatory': instance.isMandatory,
+      'courseStatus': instance.courseStatus,
+      'endDate': instance.endDate,
+    };
+
+UpdateUserCourseArguments _$UpdateUserCourseArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserCourseArguments(
+      userCourseId: json['userCourseId'] as String,
+      userId: json['userId'] as String,
+      userLspId: json['userLspId'] as String,
+      lspId: json['lspId'] as String?,
+      courseId: json['courseId'] as String,
+      addedBy: json['addedBy'] as String,
+      courseType: json['courseType'] as String,
+      isMandatory: json['isMandatory'] as bool,
+      courseStatus: json['courseStatus'] as String,
+      endDate: json['endDate'] as String?,
+    );
+
+Map<String, dynamic> _$UpdateUserCourseArgumentsToJson(
+        UpdateUserCourseArguments instance) =>
+    <String, dynamic>{
+      'userCourseId': instance.userCourseId,
+      'userId': instance.userId,
+      'userLspId': instance.userLspId,
+      'lspId': instance.lspId,
+      'courseId': instance.courseId,
+      'addedBy': instance.addedBy,
+      'courseType': instance.courseType,
+      'isMandatory': instance.isMandatory,
+      'courseStatus': instance.courseStatus,
+      'endDate': instance.endDate,
+    };
+
+AddUserCourseProgressArguments _$AddUserCourseProgressArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    AddUserCourseProgressArguments(
+      userId: json['userId'] as String,
+      userCourseId: json['userCourseId'] as String,
+      topicId: json['topicId'] as String,
+      topicType: json['topicType'] as String,
+      status: json['status'] as String,
+      videoProgress: json['videoProgress'] as String,
+      timestamp: json['timestamp'] as String,
+    );
+
+Map<String, dynamic> _$AddUserCourseProgressArgumentsToJson(
+        AddUserCourseProgressArguments instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'userCourseId': instance.userCourseId,
+      'topicId': instance.topicId,
+      'topicType': instance.topicType,
+      'status': instance.status,
+      'videoProgress': instance.videoProgress,
+      'timestamp': instance.timestamp,
+    };
+
+UpdateUserCourseProgressArguments _$UpdateUserCourseProgressArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserCourseProgressArguments(
+      userCpId: json['userCpId'] as String,
+      userId: json['userId'] as String,
+      userCourseId: json['userCourseId'] as String,
+      topicId: json['topicId'] as String,
+      topicType: json['topicType'] as String,
+      status: json['status'] as String,
+      videoProgress: json['videoProgress'] as String,
+      timestamp: json['timestamp'] as String,
+    );
+
+Map<String, dynamic> _$UpdateUserCourseProgressArgumentsToJson(
+        UpdateUserCourseProgressArguments instance) =>
+    <String, dynamic>{
+      'userCpId': instance.userCpId,
+      'userId': instance.userId,
+      'userCourseId': instance.userCourseId,
+      'topicId': instance.topicId,
+      'topicType': instance.topicType,
+      'status': instance.status,
+      'videoProgress': instance.videoProgress,
+      'timestamp': instance.timestamp,
     };
 
 GetUserLspsArguments _$GetUserLspsArgumentsFromJson(

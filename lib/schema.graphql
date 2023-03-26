@@ -2,7 +2,7 @@ schema {
   query: QueryRoot
   mutation: MutationRoot
 }
-
+ 
 type MutationRoot {
   login: User
   updateUser(input: UserInput!): User
@@ -11,6 +11,15 @@ type MutationRoot {
   updateUserOrganizationMap(input: UserOrganizationMapInput!): UserOrganizationMap
   addUserPreference(input: [UserPreferenceInput]!): [UserPreference]
   updateUserPreference(input: UserPreferenceInput!): UserPreference
+
+  addUserCourse(input: [UserCourseInput]!): [UserCourse]
+  updateUserCourse(input: UserCourseInput!): UserCourse
+  addUserCourseProgress(input: [UserCourseProgressInput]!): [UserCourseProgress]
+  updateUserCourseProgress(input: UserCourseProgressInput!): UserCourseProgress
+  addUserNotes(input: [UserNotesInput]!): [UserNotes]
+  updateUserNotes(input: UserNotesInput!): UserNotes
+  addUserBookmark(input: [UserBookmarkInput]!): [UserBookmark]
+  updateUserBookmark(input: UserBookmarkInput!): UserBookmark
 }
 
 # ISO 8601 combined date and time without timezone.

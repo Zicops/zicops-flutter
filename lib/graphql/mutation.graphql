@@ -150,3 +150,341 @@ mutation updateUserPreference(
         is_active
     }
 }
+
+
+# the following mutations are used for user course progress
+
+ mutation addUserBookmark(
+    $user_id: String!
+    $user_lsp_id: String!
+    $user_course_id: String!
+    $course_id: String!
+    $module_id: String!
+    $topic_id: String!
+    $name: String!
+    $time_stamp: String!
+    $is_active: Boolean!
+  ) {
+    addUserBookmark(
+      input: [
+        {
+          user_id: $user_id
+          user_lsp_id: $user_lsp_id
+          user_course_id: $user_course_id
+          course_id: $course_id
+          module_id: $module_id
+          topic_id: $topic_id
+          name: $name
+          time_stamp: $time_stamp
+          is_active: $is_active
+        }
+      ]
+    ) {
+      user_bm_id
+      user_id
+      user_lsp_id
+      user_course_id
+      course_id
+      module_id
+      topic_id
+      name
+      time_stamp
+      is_active
+      created_by
+      updated_by
+      created_at
+      updated_at
+    }
+  }
+
+mutation UpdateUserBookmark(
+    $user_bm_id: String!
+    $user_id: String!
+    $user_lsp_id: String!
+    $user_course_id: String!
+    $course_id: String!
+    $module_id: String!
+    $topic_id: String!
+    $name: String!
+    $time_stamp: String!
+    $is_active: Boolean!
+  ) {
+    addUserBookmark(
+      input: [
+        {
+          user_bm_id: $user_bm_id
+          user_id: $user_id
+          user_lsp_id: $user_lsp_id
+          user_course_id: $user_course_id
+          course_id: $course_id
+          module_id: $module_id
+          topic_id: $topic_id
+          name: $name
+          time_stamp: $time_stamp
+          is_active: $is_active
+        }
+      ]
+    ) {
+      user_bm_id
+      user_id
+      user_lsp_id
+      user_course_id
+      course_id
+      module_id
+      topic_id
+      name
+      time_stamp
+      is_active
+      created_by
+      updated_by
+      created_at
+      updated_at
+    }
+  }
+
+mutation AddUserNotes(
+    $user_id: String!
+    $user_lsp_id: String!
+    $course_id: String!
+    $module_id: String!
+    $topic_id: String!
+    $sequence: Int!
+    $details: String!
+    $status: String!
+    $is_active: Boolean!
+  ) {
+    addUserNotes(
+      input: [
+        {
+          user_id: $user_id
+          user_lsp_id: $user_lsp_id
+          course_id: $course_id
+          module_id: $module_id
+          topic_id: $topic_id
+          sequence: $sequence
+          status: $status
+          details: $details
+          is_active: $is_active
+        }
+      ]
+    ) {
+      user_notes_id
+      user_id
+      user_lsp_id
+      course_id
+      module_id
+      topic_id
+      sequence
+      status
+      details
+      is_active
+      created_by
+      updated_by
+      created_at
+      updated_at
+    }
+  }
+
+mutation updateUserNotes(
+    $user_notes_id: ID
+    $user_id: String!
+    $user_lsp_id: String!
+    $course_id: String!
+    $module_id: String!
+    $topic_id: String!
+    $sequence: Int!
+    $status: String!
+    $details: String!
+    $is_active: Boolean!
+  ) {
+    updateUserNotes(
+      input: {
+        user_notes_id: $user_notes_id
+        user_id: $user_id
+        user_lsp_id: $user_lsp_id
+        course_id: $course_id
+        module_id: $module_id
+        topic_id: $topic_id
+        sequence: $sequence
+        status: $status
+        details: $details
+        is_active: $is_active
+      }
+    ) {
+      user_notes_id
+      user_id
+      user_lsp_id
+      course_id
+      module_id
+      topic_id
+      sequence
+      status
+      details
+      is_active
+      created_by
+      updated_by
+      created_at
+      updated_at
+    }
+  }
+
+mutation addUserCourse(
+    $userId: String!
+    $userLspId: String!
+    $lspId: String
+    $courseId: String!
+    $addedBy: String!
+    $courseType: String!
+    $isMandatory: Boolean!
+    $courseStatus: String!
+    $endDate: String
+  ) {
+    addUserCourse(
+      input: [
+        {
+          user_id: $userId
+          user_lsp_id: $userLspId
+          lsp_id: $lspId
+          course_id: $courseId
+          course_type: $courseType
+          added_by: $addedBy
+          is_mandatory: $isMandatory
+          course_status: $courseStatus
+          end_date: $endDate
+        }
+      ]
+    ) {
+      user_course_id
+      user_id
+      user_lsp_id
+      lsp_id
+      course_id
+      course_type
+      added_by
+      is_mandatory
+      end_date
+      course_status
+      created_by
+      updated_by
+      created_at
+      updated_at
+    }
+  }
+
+mutation updateUserCourse(
+    $userCourseId: ID!
+    $userId: String!
+    $userLspId: String!
+    $lspId: String
+    $courseId: String!
+    $addedBy: String!
+    $courseType: String!
+    $isMandatory: Boolean!
+    $courseStatus: String!
+    $endDate: String
+  ) {
+    updateUserCourse(
+      input: {
+        user_course_id: $userCourseId
+        user_id: $userId
+        user_lsp_id: $userLspId
+        lsp_id: $lspId
+        course_id: $courseId
+        course_type: $courseType
+        added_by: $addedBy
+        is_mandatory: $isMandatory
+        course_status: $courseStatus
+        end_date: $endDate
+      }
+    ) {
+      user_course_id
+      user_id
+      user_lsp_id
+      lsp_id
+      course_id
+      course_type
+      added_by
+      is_mandatory
+      end_date
+      course_status
+      created_by
+      updated_by
+      created_at
+      updated_at
+    }
+  }
+
+mutation addUserCourseProgress(
+    $userId: String!
+    $userCourseId: String!
+    $topicId: String!
+    $topicType: String!
+    $status: String!
+    $videoProgress: String!
+    $timestamp: String!
+  ) {
+    addUserCourseProgress(
+      input: [
+        {
+          user_id: $userId
+          user_course_id: $userCourseId
+          topic_id: $topicId
+          topic_type: $topicType
+          status: $status
+          video_progress: $videoProgress
+          time_stamp: $timestamp
+        }
+      ]
+    ) {
+      user_cp_id
+      user_id
+      user_course_id
+      topic_id
+      topic_type
+      status
+      video_progress
+      time_stamp
+      created_by
+      updated_by
+      created_at
+      updated_at
+    }
+  }
+
+mutation updateUserCourseProgress(
+    $userCpId: ID!
+    $userId: String!
+    $userCourseId: String!
+    $topicId: String!
+    $topicType: String!
+    $status: String!
+    $videoProgress: String!
+    $timestamp: String!
+  ) {
+    updateUserCourseProgress(
+      input: {
+        user_cp_id: $userCpId
+        user_id: $userId
+        user_course_id: $userCourseId
+        topic_id: $topicId
+        topic_type: $topicType
+        status: $status
+        video_progress: $videoProgress
+        time_stamp: $timestamp
+      }
+    ) {
+      user_cp_id
+      user_id
+      user_course_id
+      topic_id
+      topic_type
+      status
+      video_progress
+      time_stamp
+      created_by
+      updated_by
+      created_at
+      updated_at
+    }
+  }
+
