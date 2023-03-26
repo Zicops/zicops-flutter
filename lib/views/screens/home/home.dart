@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:zicops/views/screens/assign_course/assign_course.dart';
 import 'package:zicops/views/screens/home/home_screen.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 import 'package:zicops/views/screens/my_course/my_course_screen.dart';
@@ -40,7 +41,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
       case 1:
         return const QuizScreen();
       case 2:
-        return const HomeScreen();
+        return const AssignCourseScreen();
 
       case 3:
         return const MyCourseScreen();
@@ -308,7 +309,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
           title: getTitle(),
           leading: GestureDetector(
               behavior: HitTestBehavior.translucent,
-
               onTap: () {
                 _scaffoldKey.currentState?.openDrawer();
               },
@@ -350,7 +350,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                         height: 14.sp,
                       ),
                       GestureDetector(
-                        behavior: HitTestBehavior.translucent,
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             setState(() {
                               showNavDrawerOrg = !showNavDrawerOrg;
