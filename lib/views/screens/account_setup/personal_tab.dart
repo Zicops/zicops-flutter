@@ -164,7 +164,6 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
       child: Scaffold(
         body: BlocConsumer<AccountSetupBloc, AccountSetupState>(
           listener: (context, state) {
-            // TODO: implement listener
             if (state is PersonalTabLoaded) {
               setState(() {
                 firstName = state.user.firstName.toString();
@@ -173,7 +172,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                 phone = state.user.phone.toString();
                 imageUrl = state.user.photoUrl.toString();
               });
-
+              id = state.user.id.toString();
               _firstNameController.text = firstName;
               _lastNameController.text = lastName;
               _emailController.text = email;

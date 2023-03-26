@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/blocs/account_setup/account_setup_bloc.dart';
 import 'package:zicops/controllers/mutation_controller.dart';
 import 'package:zicops/models/user/org_model.dart';
@@ -119,8 +120,10 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
   //   });
   // }
 
-  Future<void> setDataToOrgModel() async {
-    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  void setDataToOrgModel() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    userId = sharedPreferences.getString('userId') ?? '';
+    // print(userId);
 
     orgName = _organisationController.text;
     orgUnit = _orgUnitController.text;
@@ -142,7 +145,9 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
   }
 
   void handleOrgTab() {
-    setDataToOrgModel();
+    //   setDataToOrgModel();
+    print('hi$userId');
+    print('hi$orgId');
 
     if (userOrgId != null) {
       updateUserOrganizationMap(
@@ -266,8 +271,27 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
                         const Spacer(),
                         GestureDetector(
                           onTap: () {
+                            // handleOrgTab();
+                            print('hi$orgId');
+                            if (userOrgId != null) {
+                              updateUserOrganizationMap(
+                                userId,
+                                orgId!,
+                                userOrgId!,
+                                userLspId!,
+                                _roleController.text,
+                                _employeeIdController.text,
+                              );
+                            } else {
+                              addUserOrganization(
+                                userId,
+                                orgId!,
+                                userLspId!,
+                                _roleController.text,
+                                _employeeIdController.text,
+                              );
+                            }
                             widget.changeTab();
-                            handleOrgTab();
                           },
                           child: gradientButton("Next"),
                         ),

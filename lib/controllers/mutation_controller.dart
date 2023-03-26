@@ -47,7 +47,8 @@ addUserOrganization(String userId, String orgId, String userLspId,
         is_active: true,
         employee_id: employeeId,
       )));
-  // print(res?.data?.toJson());
+  print('userid $userId');
+  print(res?.data?.toJson());
   return;
 }
 

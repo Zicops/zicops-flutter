@@ -253,7 +253,7 @@ class _LoginScreen extends State<LoginScreen> {
               } else {
                 print('pushing home page');
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const HomePage()));
+                    MaterialPageRoute(builder: (context) => const AccountSetupScreen()));
               }
               // Navigator.pushReplacement(context,
               //     MaterialPageRoute(builder: (context) => const HomePage()));
