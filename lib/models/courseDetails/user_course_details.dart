@@ -135,3 +135,68 @@ class UserBookmarks {
     return data;
   }
 }
+
+class UserCourseMap {
+  String? userCourseId;
+  String? userId;
+  String? userLspId;
+  String? courseId;
+  String? courseType;
+  String? addedBy;
+  bool? isMandatory;
+  String? endDate;
+  String? courseStatus;
+  String? createdBy;
+  String? updatedBy;
+  String? createdAt;
+  String? updatedAt;
+
+  UserCourseMap(
+      {this.userCourseId,
+      this.userId,
+      this.userLspId,
+      this.courseId,
+      this.courseType,
+      this.addedBy,
+      this.isMandatory,
+      this.endDate,
+      this.courseStatus,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt});
+
+  UserCourseMap.fromJson(Map<String, dynamic> json) {
+    userCourseId = json['user_course_id'];
+    userId = json['user_id'];
+    userLspId = json['user_lsp_id'];
+    courseId = json['course_id'];
+    courseType = json['course_type'];
+    addedBy = json['added_by'];
+    isMandatory = json['is_mandatory'];
+    endDate = json['end_date'];
+    courseStatus = json['course_status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['user_course_id'] = this.userCourseId;
+    data['user_id'] = this.userId;
+    data['user_lsp_id'] = this.userLspId;
+    data['course_id'] = this.courseId;
+    data['course_type'] = this.courseType;
+    data['added_by'] = this.addedBy;
+    data['is_mandatory'] = this.isMandatory;
+    data['end_date'] = this.endDate;
+    data['course_status'] = this.courseStatus;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}

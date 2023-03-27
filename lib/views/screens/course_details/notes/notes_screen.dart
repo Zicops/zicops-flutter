@@ -12,8 +12,13 @@ import '../../../widgets/modules_dropdown.dart';
 class NotesScreen extends StatefulWidget {
   final String courseId;
   final String preview;
-  const NotesScreen({Key? key, required this.courseId, required this.preview})
-      : super(key: key);
+  final bool isCourseAssigned;
+  const NotesScreen({
+    Key? key,
+    required this.courseId,
+    required this.preview,
+    required this.isCourseAssigned,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

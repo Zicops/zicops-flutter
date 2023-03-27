@@ -16,7 +16,15 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         var courseData = await courseRepository.courseDetails(event.courseId);
         var courseModules =
             await courseRepository.getCourseModule(event.courseId);
-        emit(CourseLoaded(courseData: courseData));
+        var isCourseAssigned =
+            await courseRepository.isCourseAssigned(event.courseId);
+        var userCourseMap =
+            await courseRepository.getUserCourseMapByCourseId(event.courseId);
+        emit(CourseLoaded(
+          courseData: courseData,
+          isCourseAssigned: isCourseAssigned,
+          userCourseMap: userCourseMap,
+        ));
       } catch (e) {
         emit(CourseError(error: e.toString()));
       }
