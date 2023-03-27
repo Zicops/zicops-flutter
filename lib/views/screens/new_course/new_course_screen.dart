@@ -145,6 +145,7 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                                 courseItem.expertiseLevel ?? '',
                                 formatDuration(courseItem.duration) ?? "",
                                 courseItem.tileImage ?? '',
+                                courseItem.id ?? '',
                               ),
                               SizedBox(
                                 height: 8.sp,

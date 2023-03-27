@@ -78,6 +78,7 @@ class _MoreLikeThis extends State<MoreLikeThis> {
                         courseItem["difficulty"],
                         courseItem["courseLength"],
                         courseItem["preview"],
+                        courseItem["courseId"],
                         showAddButton: true,
                       ),
                       SizedBox(

@@ -101,6 +101,8 @@ class CourseRepository {
 
     // print(finalCourseData);
     topicData.addAll(data);
+
+    topicData.sort((a, b) => a['sequence'].compareTo(b['sequence']));
     print(topicData);
     // for topic data
     return topicData;

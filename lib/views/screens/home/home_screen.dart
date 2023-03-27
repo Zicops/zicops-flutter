@@ -1226,6 +1226,7 @@ class _HomeScreen extends State<HomeScreen> {
                             courseItem["difficulty"],
                             courseItem["courseLength"],
                             courseItem["preview"],
+                            courseItem["courseId"],
                             showAddButton: true,
                           ),
                           SizedBox(
@@ -1269,6 +1270,7 @@ class _HomeScreen extends State<HomeScreen> {
                           courseItem["difficulty"],
                           courseItem["courseLength"],
                           courseItem["preview"],
+                          courseItem["courseId"],
                           showAddButton: true,
                         ),
                         SizedBox(
