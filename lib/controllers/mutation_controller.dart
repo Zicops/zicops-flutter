@@ -65,7 +65,7 @@ updateUserOrganizationMap(String userId, String orgId, String userOrgId,
             is_active: true,
             employee_id: employeeId,
           )));
-  // print(res?.data?.toJson());
+  print(res?.data?.toJson());
   return;
 }
 

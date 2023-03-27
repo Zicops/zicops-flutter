@@ -216,6 +216,10 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
                 _organisationController.text = state.org.orgName;
                 _orgUnitController.text = state.org.lspName;
                 _lspRoleController.text = state.org.lspRole;
+                orgId = state.org.orgId;
+                userOrgId = state.org.userOrgId;
+                userLspId = state.org.userLspId;
+                userId = state.org.userId;
               }
             },
             builder: (context, state) {
@@ -272,8 +276,7 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
                         GestureDetector(
                           onTap: () {
                             // handleOrgTab();
-                            print('hi$orgId');
-                            if (userOrgId != null) {
+                            if (userOrgId != '') {
                               updateUserOrganizationMap(
                                 userId,
                                 orgId!,
