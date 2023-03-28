@@ -21,7 +21,7 @@ class _NotesListScreen extends State<NotesListScreen> {
   List<List<String>> notesItemList = [
     [
       "Complete Java Programming - Beginner to Advance",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      "Lorem."
     ],
     [
       "Complete Java Programming - Beginner to Advance",
@@ -62,6 +62,7 @@ class _NotesListScreen extends State<NotesListScreen> {
           : ListView(
               children: [
                 ...notesItemList.mapIndexed((index, item) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         NoteItem("Note ${index + 1}", item[1]),
                         SizedBox(

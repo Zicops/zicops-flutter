@@ -5,7 +5,8 @@ import '../../utils/colors.dart';
 class SpacerLine extends StatelessWidget {
   final double width;
   final double height;
-  const SpacerLine(this.width, this.height, {super.key});
+  final EdgeInsets margin;
+  const SpacerLine(this.width, this.height, this.margin, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +14,7 @@ class SpacerLine extends StatelessWidget {
       width: width,
       height: height,
       color: lightGrey,
+      margin: margin,
     );
   }
 }

@@ -5,10 +5,10 @@ import 'package:zicops/views/screens/new_course/widgets/new_course_list_item.dar
 import 'package:zicops/views/widgets/course_grid_item.dart';
 
 import '../../../utils/dummies.dart';
-import '../../widgets/course_list_item_with_progress.dart';
 
 class NewCourseScreen extends StatefulWidget {
-  const NewCourseScreen({Key? key}) : super(key: key);
+  String title;
+  NewCourseScreen(this.title, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -50,7 +50,7 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Latest courses",
+                    widget.title,
                     style: TextStyle(
                         color: textPrimary,
                         fontSize: 18.sp,

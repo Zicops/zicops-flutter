@@ -11,6 +11,7 @@ import 'package:zicops/views/widgets/GradientButton.dart';
 import '../../../utils/validation.dart';
 import '../../widgets/CustomPassword.dart';
 import '../../widgets/PrefixInputField.dart';
+import '../account_setup/lsp_selection.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _LoginScreen extends State<LoginScreen> {
   bool _keyboardVisible = false;
   bool isLoading = false;
   bool isEmailValidated = false;
+  bool isFirstLogin = true;
 
   Future firebaseLogin() async {
     setState(() {
@@ -48,7 +50,7 @@ class _LoginScreen extends State<LoginScreen> {
         isLoading = false;
       });
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const AccountSetupScreen()));
+          MaterialPageRoute(builder: (context) => isFirstLogin? const AccountSetupScreen(): const LspSelectionScreen()));
       return credential;
     } on FirebaseAuthException catch (e) {
       setState(() {

@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 import 'package:zicops/views/widgets/spacer_line.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../utils/colors.dart';
 
@@ -121,162 +120,206 @@ assignCourseBottomSheet(BuildContext context, double maxHeight, double width) {
         side: BorderSide(color: lightGrey),
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(16), topLeft: Radius.circular(16))),
-    isScrollControlled: true,
     constraints: BoxConstraints(minHeight: 0, maxHeight: maxHeight),
+    isScrollControlled: true,
     builder: (BuildContext context) {
       bool showCalander = false;
+      bool isChecked = false;
 
       return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
-        return Stack(alignment: Alignment.center, children: [
-          SingleChildScrollView(
+        return SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  height: 4.sp,
-                  width: 36.sp,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: 8.sp, bottom: 11.sp),
-                  decoration: BoxDecoration(
-                      color: secondaryColorDark,
-                      borderRadius: BorderRadius.circular(4)),
-                ),
-                Container(
-                  width: width,
-                  margin: EdgeInsets.only(bottom: 15.sp),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.sp,
-                  ),
-                  child: Text(
-                    "Assign Course",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: textPrimary,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                        height: 1.33),
-                  ),
-                ),
-                SpacerLine(width, 1.sp),
-                Container(
-                  width: width,
-                  padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                  margin: EdgeInsets.only(top: 11.sp),
-                  child: Text(
-                    "Expected completion date:",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: textPrimary,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                        height: 1.33),
-                  ),
-                ),
-                Container(
-                  width: width,
-                  padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                  margin: EdgeInsets.only(top: 16.sp, bottom: 16.sp),
-                  child: Row(children: [
-                    Expanded(
-                        child: DateLabelView(
-                            _controller.selectedRange?.startDate ??
-                                DateTime.now(), // TODO make this reactive
-                            "Today")),
-                    Expanded(
-                        child: DateLabelView(
-                            _controller.selectedRange?.endDate ??
-                                DateTime.now(), // TODO make this reactive
-                            "End date"))
-                  ]),
-                ),
-                SpacerLine(width, 1.sp),
-                Container(
-                  margin: EdgeInsets.only(top: 16.sp, bottom: 16.sp),
-                  width: width,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.sp,
-                  ),
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          df.format(selectedDate),
-                          style: TextStyle(
-                              color: textPrimary,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500,
-                              height: 1.33),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setModalState(() {
-                              showCalander = !showCalander;
-                            });
-                          },
-                          child: Image.asset(
-                            showCalander
-                                ? "assets/images/collapse.png"
-                                : "assets/images/edit_pen.png",
-                          ),
-                        )
-                      ]),
-                ),
-                showCalander
-                    ? SfDateRangePicker(
-                        selectionMode: DateRangePickerSelectionMode.range,
-                        selectionShape: DateRangePickerSelectionShape.rectangle,
-                        startRangeSelectionColor: textPrimary,
-                        endRangeSelectionColor: textPrimary,
-                        selectionTextStyle: const TextStyle(
-                          color: secondaryColorLight,
-                        ),
-                        rangeSelectionColor: Color(0XFF34363F),
-                        cellBuilder: cellBuilder,
-                        controller: _controller,
-                        selectionRadius: 0,
-                      )
-                    : Container(),
-                SpacerLine(width, 1.sp),
-                Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: 4.sp,
+              width: 36.sp,
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 8.sp, bottom: 11.sp),
+              decoration: BoxDecoration(
+                  color: secondaryColorDark,
+                  borderRadius: BorderRadius.circular(4)),
+            ),
+            Container(
+              width: width,
+              height: 24.sp,
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(bottom: 15.sp),
+              padding: EdgeInsets.symmetric(
+                horizontal: 20.sp,
+              ),
+              child: Text(
+                "Assign Course",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    color: textPrimary,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                    height: 1.33),
+              ),
+            ),
+            SpacerLine(width, 1.sp, const EdgeInsets.symmetric(horizontal: 0)),
+            Container(
+              width: width,
+              height: 24.sp,
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.symmetric(horizontal: 20.sp),
+              margin: EdgeInsets.only(top: 11.sp),
+              child: Text(
+                "Expected completion date:",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    color: textPrimary,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                    height: 1.33),
+              ),
+            ),
+            Container(
+              width: width,
+              height: 44.sp,
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 20.sp),
+              margin: EdgeInsets.only(top: 16.sp, bottom: 16.sp),
+              child: Row(children: [
+                Expanded(
+                    child: DateLabelView(
+                        _controller.selectedRange?.startDate ??
+                            DateTime.now(), // TODO make this reactive
+                        "Today")),
+                Expanded(
+                    child: DateLabelView(
+                        _controller.selectedRange?.endDate ??
+                            DateTime.now(), // TODO make this reactive
+                        "End date"))
+              ]),
+            ),
+            SpacerLine(width, 1.sp, EdgeInsets.symmetric(horizontal: 20.sp)),
+            Container(
+              width: width,
+              height: 24.sp,
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(
+                horizontal: 20.sp,
+              ),
+              margin: EdgeInsets.only(top: 16.sp, bottom: 16.sp),
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Checkbox(
-                        activeColor: primaryColor,
-                        side: BorderSide(color: textPrimary, width: 2.sp),
-                        checkColor: Colors.black,
-                        value: true,
-                        onChanged: (val) {}),
                     Text(
-                      "Course Mandatory",
+                      df.format(selectedDate),
                       style: TextStyle(
                           color: textPrimary,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500,
                           height: 1.33),
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        setModalState(() {
+                          showCalander = !showCalander;
+                        });
+                      },
+                      child: Image.asset(
+                        showCalander
+                            ? "assets/images/collapse.png"
+                            : "assets/images/edit_pen.png",
+                        width: 18.sp,
+                        height: 18.sp,
+                      ),
+                    )
+                  ]),
+            ),
+            showCalander
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 16.sp,
+                          child: Text("select date".toUpperCase(),
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1,
+                                  color: textGrey2)),
+                        ),
+                        SfDateRangePicker(
+                          selectionMode: DateRangePickerSelectionMode.range,
+                          selectionShape:
+                              DateRangePickerSelectionShape.rectangle,
+                          startRangeSelectionColor: textPrimary,
+                          endRangeSelectionColor: textPrimary,
+                          selectionTextStyle: const TextStyle(
+                            color: secondaryColorLight,
+                          ),
+                          rangeSelectionColor: Color(0XFF34363F),
+                          cellBuilder: cellBuilder,
+                          controller: _controller,
+                          selectionRadius: 0,
+                        )
+                      ],
+                    ))
+                : const SizedBox.shrink(),
+            SpacerLine(width, 1.sp, EdgeInsets.symmetric(horizontal: 20.sp)),
+            SizedBox(
+              height: 16.sp,
+            ),
+            SizedBox(
+                height: 48.sp,
+                child: Row(
+                  children: [
+                    Checkbox(
+                        activeColor: primaryColor,
+                        side: BorderSide(color: textPrimary, width: 2.sp),
+                        checkColor: Colors.black,
+                        value: isChecked,
+                        onChanged: (val) {
+                          setModalState(() {
+                            isChecked = !isChecked;
+                          });
+                        }),
+                    Text(
+                      "Course Mandatory",
+                      style: TextStyle(
+                          color: isChecked? textPrimary : textGrey2,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          height: 1.33),
+                    ),
                   ],
-                ),
-                Container(
-                  width: width,
-                  padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                  child: Text(
-                    "By checking the box this course will be assigned to you as a mandatory course.",
-                    style: TextStyle(
-                        color: textPrimary,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        height: 1.33),
-                  ),
-                ),
-                Container(
-                  width: width,
-                  padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                  margin: EdgeInsets.symmetric(vertical: 16.sp),
-                  child: Column(children: [
-                    gradientButton("Save"),
-                    Container(
+                )),
+            Container(
+              width: width,
+              height: 40.sp,
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 20.sp),
+              child: Text(
+                "By checking the box this course will be assigned to you as a mandatory course.",
+                style: TextStyle(
+                    color: textGrey2,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    height: 1.33),
+              ),
+            ),
+            Container(
+              width: width,
+              height: 112.sp,
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 20.sp),
+              margin: EdgeInsets.symmetric(vertical: 16.sp),
+              child: Column(children: [
+                GestureDetector(child: gradientButton("Save")),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
                       height: 48.sp,
                       margin: EdgeInsets.only(top: 16.sp),
                       alignment: Alignment.center,
@@ -289,13 +332,11 @@ assignCourseBottomSheet(BuildContext context, double maxHeight, double width) {
                               fontWeight: FontWeight.w600,
                               color: textPrimary,
                               letterSpacing: 2)),
-                    ),
-                  ]),
-                )
-              ],
-            ),
-          )
-        ]);
+                    )),
+              ]),
+            )
+          ],
+        ));
       });
     },
   );

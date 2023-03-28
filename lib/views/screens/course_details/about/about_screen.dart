@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/widgets/bulleted_text.dart';
+import 'package:zicops/views/widgets/unassign_course_modal.dart';
 
 import '../../../widgets/CourseBadge.dart';
+import '../../../widgets/GradientButton.dart';
+import '../../../widgets/assign_course_modal.dart';
 import '../../../widgets/expansion_container.dart';
 import '../../../widgets/more_like_this.dart';
 
@@ -17,6 +20,7 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreen extends State<AboutScreen> {
+  bool isCourseAssigned = false;
   Widget courseInfo() {
     return SizedBox(
         height: 202.sp,
@@ -82,9 +86,10 @@ class _AboutScreen extends State<AboutScreen> {
         ));
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -93,43 +98,69 @@ class _AboutScreen extends State<AboutScreen> {
             padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 20.sp),
             child: Column(
               children: [
-                Container(
-                  alignment: Alignment.center,
-                  height: 48.sp,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4.sp),
-                      // gradient: const LinearGradient(colors: [primaryColor, gradientTwo])
-                      image: const DecorationImage(
-                          image: AssetImage("assets/images/button_bg.png"),
-                          fit: BoxFit.fill)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "+".toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.sp,
-                            letterSpacing: 2,
-                            color: secondaryColorLight,
-                            height: 1.5),
-                      ),
-                      SizedBox(width: 6.sp,),
-                      Text(
-                        "Course Preview".toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.sp,
-                            letterSpacing: 2,
-                            color: secondaryColorLight,
-                            height: 1.5),
-                      )
-                    ],
-                  ),
+                GestureDetector(
+                  child: gradientButton('Course Preview'),
                 ),
+                SizedBox(
+                  height: 16.sp,
+                ),
+                GestureDetector(
+                    onTap: () => {
+                          isCourseAssigned
+                              ? unAssignCourseBottomSheet(
+                                  context, 360.sp, width)
+                              : assignCourseBottomSheet(
+                                  context, height - 120.sp, width)
+                        },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 48.sp,
+                      decoration: BoxDecoration(
+                          color: secondaryColor,
+                          borderRadius: BorderRadius.circular(4.sp),
+                          // gradient: const LinearGradient(colors: [primaryColor, gradientTwo])
+                          border: Border.all(color: lightGrey)),
+                      child: isCourseAssigned
+                          ? Text(
+                              "unassign course".toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.sp,
+                                  letterSpacing: 2,
+                                  color: textGrey2,
+                                  height: 1.5),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "+".toUpperCase(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20.sp,
+                                      letterSpacing: 2,
+                                      color: primaryColor,
+                                      height: 1.5),
+                                ),
+                                SizedBox(
+                                  width: 6.sp,
+                                ),
+                                Text(
+                                  "Add to learning folder".toUpperCase(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14.sp,
+                                      letterSpacing: 2,
+                                      color: primaryColor,
+                                      height: 1.5),
+                                )
+                              ],
+                            ),
+                    )),
                 SizedBox(
                   height: 17.sp,
                 ),

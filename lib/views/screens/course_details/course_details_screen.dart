@@ -19,17 +19,17 @@ class CourseDetailsScreen extends StatefulWidget {
 }
 
 class _CourseDetailsScreen extends State<CourseDetailsScreen> {
-  int _selectedTab = 3;
+  int _selectedTab = 0;
   getScreen() {
     switch (_selectedTab) {
       case 0:
-        return const TopicScreen();
-      case 1:
-        return const NotesScreen();
-      case 2:
-        return const ResourcesScreen();
-      case 3:
         return const AboutScreen();
+      case 1:
+        return const TopicScreen();
+      case 2:
+        return const NotesScreen();
+      case 3:
+        return const ResourcesScreen();
       default:
         return const AboutScreen();
     }
@@ -87,60 +87,59 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
           ),
         ),
         backgroundColor: secondaryColorDark,
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        body: SafeArea(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
               Container(
                 height: 48.sp,
                 color: secondaryColor,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-
                   children: [
                     GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedTab = 0;
-                            });
-                          },
-                          child: SizedBox(
-                            child: mainTab(82, "Topic", 0, _selectedTab),
-                          )),
-
-                     GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedTab = 1;
-                              });
-                            },
-                            child: SizedBox(
-                              child: mainTab(84, "Notes", 1, _selectedTab),
-                            )),
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 0;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(82, "About", 0, _selectedTab),
+                        )),
                     GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedTab = 2;
-                              });
-                            },
-                            child: SizedBox(
-                              child: mainTab(121, "Resources", 2, _selectedTab),
-                            )),
-                     GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedTab = 3;
-                              });
-                            },
-                            child: SizedBox(
-                              child: mainTab(87, "About", 3, _selectedTab),
-                            )),
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 1;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(84, "Topic", 1, _selectedTab),
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 2;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(121, "Notes", 2, _selectedTab),
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 3;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(87, "Resources", 3, _selectedTab),
+                        )),
                   ],
                 ),
               ),
               Expanded(
                 child: getScreen(),
               )
-            ]));
+            ])));
   }
 }

@@ -1,7 +1,6 @@
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
@@ -41,13 +40,13 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
       case 1:
         return const QuizScreen();
       case 2:
-        return const AssignCourseScreen();
+        return const HomeScreen();
 
       case 3:
         return const MyCourseScreen();
 
       case 4:
-        return const NewCourseScreen();
+        return NewCourseScreen('Latest Courses');
 
       default:
         {
@@ -499,7 +498,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                   16,
                   16,
                 )),
-            drawerItem("assets/images/labs.png", "Labs", 18, 16),
             GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
@@ -509,9 +507,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                           builder: (context) => const QuizScreen()));
                 },
                 child: drawerItem("assets/images/exams.png", "Exams", 18, 22)),
-            drawerItem("assets/images/calendar.png", "Calendar", 18, 20),
-            drawerItem("assets/images/heart.png", "Favourites", 20, 18),
-            const Divider(),
             GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
@@ -522,19 +517,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 },
                 child: drawerItem(
                     "assets/images/preference.png", "Preferences", 18, 18)),
-            GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SettingsScreen()));
-                },
-                child: drawerItem(
-                    "assets/images/settings.png", "Settings", 20, 20)),
-            const Divider(),
-            drawerItem("assets/images/about.png", "About", 20, 20),
-            drawerItem("assets/images/help.png", "Help and Feedback", 20, 20),
             GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {

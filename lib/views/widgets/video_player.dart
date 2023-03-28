@@ -168,11 +168,6 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                               setState(() {
                                 if (_controller.value.isPlaying) {
                                   isVisible = !isVisible;
-                                  _controller.seekTo(Duration(
-                                      milliseconds: (widget.controller.value
-                                                  .position.inMilliseconds -
-                                              10000)
-                                          .toInt()));
                                 } else {
                                   _controller.play();
                                 }
@@ -182,6 +177,11 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                               setState(() {
                                 isVisible = false;
                                 showSkipBack = true;
+                                _controller.seekTo(Duration(
+                                    milliseconds: (widget.controller.value
+                                        .position.inMilliseconds -
+                                        10000)
+                                        .toInt()));
                               });
                               Future.delayed(const Duration(milliseconds: 300),
                                   () {
@@ -231,11 +231,6 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                           setState(() {
                             if (_controller.value.isPlaying) {
                               isVisible = !isVisible;
-                              _controller.seekTo(Duration(
-                                  milliseconds: (widget.controller.value
-                                              .position.inMilliseconds +
-                                          10000)
-                                      .toInt()));
                             } else {
                               _controller.play();
                             }
@@ -245,6 +240,11 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                           setState(() {
                             isVisible = false;
                             showSkipForward = true;
+                            _controller.seekTo(Duration(
+                                milliseconds: (widget.controller.value
+                                    .position.inMilliseconds +
+                                    10000)
+                                    .toInt()));
                           });
                           Future.delayed(const Duration(milliseconds: 300), () {
                             setState(() {

@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/utils/colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
-import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
-import 'package:zicops/views/widgets/GradientButton.dart';
-
-import '../../../utils/validation.dart';
-import '../../widgets/CustomPassword.dart';
-import '../../widgets/PrefixInputField.dart';
 
 class LspSelectionScreen extends StatefulWidget {
   const LspSelectionScreen({Key? key}) : super(key: key);
@@ -36,6 +27,7 @@ class _LspSelectionScreen extends State<LspSelectionScreen> {
                 preview,
                 width: 216.sp,
                 height: 216.sp,
+                fit: BoxFit.fill,
               )),
         ),
         SizedBox(height: 8.sp),
@@ -49,7 +41,9 @@ class _LspSelectionScreen extends State<LspSelectionScreen> {
                 color: textPrimary),
           ),
         ),
-        SizedBox(height: 20.sp,)
+        SizedBox(
+          height: 20.sp,
+        )
       ],
     );
   }
@@ -61,15 +55,15 @@ class _LspSelectionScreen extends State<LspSelectionScreen> {
 
     return Scaffold(
       body: SafeArea(
-          child: Container(
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                image: AssetImage("assets/images/login_bg.png"),
-                fit: BoxFit.fill,
-              )),
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child:
-                  Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        child: Container(
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage("assets/images/login_bg.png"),
+              fit: BoxFit.fill,
+            )),
+            padding: EdgeInsets.symmetric(horizontal: 20.sp),
+            child: Stack(children: [
+              Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                 const SizedBox(
                   height: 20,
                 ),
@@ -124,7 +118,23 @@ class _LspSelectionScreen extends State<LspSelectionScreen> {
                         "Zicops Learning space"))
                   ],
                 ))
-              ]))),
+              ]),
+              Positioned(
+                  top: 20.sp,
+                  right: 0,
+                  child: Container(
+                    width: 24.sp,
+                    height: 24.sp,
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      "assets/images/logout.png",
+                      width: 18.sp,
+                      height: 18.sp,
+                      color: delete,
+                    ),
+                  ))
+            ])),
+      ),
     );
   }
 }

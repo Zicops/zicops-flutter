@@ -71,6 +71,7 @@ class _NewCourseListItem extends State<NewCourseListItem> {
                 width: 8.sp,
               ),
               SizedBox(
+                  width: 148.sp,
                   height: 60.sp,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,45 +86,44 @@ class _NewCourseListItem extends State<NewCourseListItem> {
                             height: 1.43),
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(
-                          width: 148.sp,
-                          child: Row(
-                            children: [
-                              Text(
-                                widget.org,
-                                style: TextStyle(
-                                    color: textGrey2,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.33),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(
-                                width: 8.sp,
-                              ),
-                              Text(
-                                "\u2022",
-                                style: TextStyle(
-                                    color: textGrey2,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.33),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(
-                                width: 8.sp,
-                              ),
-                              Text(
-                                widget.difficulty,
-                                style: TextStyle(
-                                    color: textGrey2,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.33),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
+                      Row(
+                        children: [
+                          Text(
+                            widget.org,
+                            style: TextStyle(
+                                color: textGrey2,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                height: 1.33),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(
+                            width: 8.sp,
+                          ),
+                          Text(
+                            "\u2022",
+                            style: TextStyle(
+                                color: textGrey2,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                height: 1.33),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(
+                            width: 8.sp,
+                          ),
+                          Expanded(
+                              child: Text(
+                            widget.difficulty,
+                            style: TextStyle(
+                                color: textGrey2,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                height: 1.33),
+                            overflow: TextOverflow.ellipsis,
                           )),
+                        ],
+                      ),
                       Text(
                         widget.courseLength,
                         style: TextStyle(

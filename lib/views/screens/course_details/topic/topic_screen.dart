@@ -24,14 +24,25 @@ class TopicScreen extends StatefulWidget {
   }
 }
 
-class _TopicScreen extends State<TopicScreen> {
+class _TopicScreen extends State<TopicScreen>
+    with SingleTickerProviderStateMixin {
   final PanelController _panelController = PanelController();
   VideoPlayerController? _controller;
   int selectedChapter = -1;
   double minPanelHeight = 0;
   double maxPanelHeight = 0;
-
+  bool isChapterOpen = false;
   int selectedVideoOption = -1;
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 400),
+    );
+  }
 
   initVideoController(videoUrl) {
     _controller = VideoPlayerController.network(videoUrl);
@@ -490,24 +501,47 @@ class _TopicScreen extends State<TopicScreen> {
                   SizedBox(
                     height: 13.sp,
                   ),
-                  SizedBox(
-                    height: 16.sp,
-                    child: Text("Chapter 1: Introduction".toUpperCase(),
-                        style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: textGrey2,
-                            height: 1.33,
-                            letterSpacing: 1)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 16.sp,
+                        child: Text("Chapter 1: Introduction".toUpperCase(),
+                            style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w600,
+                                color: textGrey2,
+                                height: 1.33,
+                                letterSpacing: 1)),
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                          onTap: () {
+                            setState(() {
+                              isChapterOpen = !isChapterOpen;
+                              isChapterOpen
+                                  ? animationController.reverse()
+                                  : animationController.forward();
+                            });
+                          },
+                          child: Container(
+                            width: 24.sp,
+                            height: 24.sp,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 3.sp, horizontal: 7.4.sp),
+                            child: Image.asset("assets/images/unfold_more.png"),
+                          )),
+                    ],
                   ),
                   SizedBox(
                     height: 8.sp,
                   ),
                   SizedBox(
-                    height: 320.sp,
-                    child: ListView(
+                    height: 328.sp,
+                    child: Column(
                       children: [
-                        ...[1, 2, 3, 4, 5].map((e) => GestureDetector(
+                        ...[1, 2, 3, 4].map((e) => GestureDetector(
                               onTap: () {
                                 if (e != 3) {
                                   setState(() {
@@ -523,6 +557,50 @@ class _TopicScreen extends State<TopicScreen> {
                                 }
                               },
                               child: e != 3
+                                  ? ModuleCard(
+                                      "$e.Empathize",
+                                      "1hr 50 mins",
+                                      "assets/images/course_preview_2.png",
+                                      e == selectedChapter,
+                                      _controller?.value.position,
+                                      _controller?.value.duration)
+                                  : ModuleCard(
+                                      "Exam 1: IT development: Core java fundamentals",
+                                      "1hr 50 mins",
+                                      "assets/images/course_preview_2.png",
+                                      e == selectedChapter,
+                                      _controller?.value.position,
+                                      _controller?.value.duration,
+                                      isExam: true,
+                                    ),
+                            ))
+                      ],
+                    ),
+                  ),
+                  SizeTransition(
+                    sizeFactor: CurvedAnimation(
+                      curve: Curves.fastOutSlowIn,
+                      parent: animationController,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ...[5, 6, 7, 8].map((e) => GestureDetector(
+                              onTap: () {
+                                if (e != 7) {
+                                  setState(() {
+                                    selectedChapter = e;
+                                    initVideoController(
+                                        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+                                  });
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ExamScreen()));
+                                }
+                              },
+                              child: e != 7
                                   ? ModuleCard(
                                       "$e.Empathize",
                                       "1hr 50 mins",

@@ -9,8 +9,8 @@ import 'package:zicops/views/screens/home/home.dart';
 import '../../../utils/colors.dart';
 
 class PrimarySubCategoryScreen extends StatefulWidget {
-  List<Category> subCategories;
-  PrimarySubCategoryScreen(this.subCategories, {Key? key}) : super(key: key);
+  final List<Category> subCategories;
+  const PrimarySubCategoryScreen(this.subCategories, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _PrimarySubCategoryScreen();
@@ -22,7 +22,6 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
 
   final TextEditingController _searchController = TextEditingController();
   late final PanelController _panelController;
-  bool openSubCatModal = false;
 
   List<Category> categories = [
     Category(0, "Finance & Accounting", null),
@@ -132,41 +131,21 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
             ),
           ),
           body: SlidingUpPanel(
-              minHeight: isKeyboardVisible ? 0 : 165.sp,
-              maxHeight: isKeyboardVisible
-                  ? 0
-                  : selectedSubCategory != -1
-                      ? height * 0.65
-                      : 165.sp,
+              minHeight: 88.sp,
+              maxHeight:88.sp,
               color: Colors.transparent,
               controller: _panelController,
-              backdropEnabled: openSubCatModal,
-              onPanelOpened: () {
-                setState(() {
-                  openSubCatModal = true;
-                });
-              },
-              onPanelClosed: () {
-                setState(() {
-                  openSubCatModal = false;
-                });
-              },
               panel: Container(
                   padding:
-                      EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 40.sp),
+                      EdgeInsets.only(left: 20.sp, right: 20.sp),
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      color: secondaryColorDark,
+                      color: secondaryColor,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(16),
                           topRight: Radius.circular(16)),
                       border: Border.all(color: lightGrey)),
-                  child: Container(
-                      width: width - 40.sp,
-                      color: secondaryColorDark,
-                      padding: EdgeInsets.only(bottom: 20.sp),
-                      margin: EdgeInsets.symmetric(horizontal: 20.sp),
-                      alignment: Alignment.center,
-                      child: InkWell(
+                  child: InkWell(
                         onTap: () {
                           Navigator.push(
                             context,
@@ -179,13 +158,16 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
                             alignment: Alignment.center,
                             height: 48.sp,
                             decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                    colors: [primaryColor, gradientTwo]),
+                              border: Border.all(color:selectedSubCategory!= -1?Colors.transparent:lightGrey),
+                                gradient: selectedSubCategory!= -1? const LinearGradient(
+                                    colors: [primaryColor, gradientTwo]):const LinearGradient(
+                                    colors: [secondaryColor,secondaryColor ]),
                                 borderRadius: BorderRadius.circular(4.sp)),
                             child: Text(
                               'Save'.toUpperCase(),
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
+                                  color: selectedSubCategory!= -1? secondaryColor: textGrey2,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14.sp,
                                   letterSpacing: 2,
@@ -193,7 +175,7 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
                             ),
                           ),
                         ),
-                      ))),
+                      )),
               body: CustomScrollView(slivers: [
                 SliverFillRemaining(
                   hasScrollBody: false,
@@ -201,7 +183,7 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          color: secondaryColorDark,
+                          color: secondaryColor,
                           padding: EdgeInsets.only(
                               left: 20.sp,
                               right: 20.sp,
@@ -544,9 +526,9 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
                                         margin:
                                             const EdgeInsets.only(right: 12),
                                         decoration: BoxDecoration(
-                                            color: selectedSubCategory == cat.id
+                                            border:Border.all(color: selectedSubCategory == cat.id
                                                 ? primaryColor
-                                                : secondaryColor,
+                                                : lightGrey),
                                             borderRadius:
                                                 BorderRadius.circular(2.sp)),
                                         child: Text(
@@ -556,7 +538,7 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
                                               fontSize: 14.sp,
                                               color:
                                               selectedSubCategory == cat.id
-                                                      ? secondaryColorDark
+                                                      ? primaryColor
                                                       : textPrimary,
                                               fontWeight: FontWeight.w600,
                                               height: 1.14,

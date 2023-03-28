@@ -217,17 +217,9 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                   text: "Software Engineer")
                             },
                             {
-                              "label": "Other Role.",
-                              "controller": TextEditingController(
-                                  text: "Other Role Name")
-                            },{
                               "label": "Learning Space Role.",
                               "controller": TextEditingController(
                                   text: "Learning Manager")
-                            },{
-                              "label": "Base Cohort.",
-                              "controller": TextEditingController(
-                                  text: "IT Development")
                             },
                           ]),
                         ],

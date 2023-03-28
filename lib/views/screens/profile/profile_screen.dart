@@ -69,6 +69,33 @@ class _ProfileScreen extends State<ProfileScreen> {
             ),
           ),
         ),
+        floatingActionButton: _selectedTab == 0? GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+
+            },
+            child: Container(
+              height: 56.sp,
+              width: 56.sp,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                      colors: const [primaryColor, gradientTwo],
+                      center: Alignment.topLeft,
+                      radius: 2.5.sp)
+                      ,
+                  borderRadius: BorderRadius.circular(50.sp)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                        "assets/images/save.png",
+                    height: 18.sp,
+                    width: 18.sp,
+                  ),
+                ],
+              ),
+            )): const SizedBox.shrink(),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

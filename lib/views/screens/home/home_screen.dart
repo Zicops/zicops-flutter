@@ -41,7 +41,9 @@ class _HomeScreen extends State<HomeScreen> {
             ),
             GestureDetector(
               behavior: HitTestBehavior.translucent,
-              onTap: action,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> NewCourseScreen(label)));
+              },
               child: Text("See all".toUpperCase(),
                   style: TextStyle(
                       foreground: Paint()
@@ -126,12 +128,12 @@ class _HomeScreen extends State<HomeScreen> {
         ));
   }
 
-  Widget viewAll({int height = 156, int width = 156}) {
+  Widget viewAll(String label, {int height = 156, int width = 156}) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       GestureDetector(
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SearchScreen()));
+                MaterialPageRoute(builder: (context) => NewCourseScreen(label)));
           },
           child: Container(
               padding:
@@ -301,7 +303,7 @@ class _HomeScreen extends State<HomeScreen> {
                   SizedBox(
                     width: 8.sp,
                   ),
-                  viewAll()
+                  viewAll("Ongoing Courses")
                 ])),
             SizedBox(
               height: 14.25.sp,
@@ -334,7 +336,7 @@ class _HomeScreen extends State<HomeScreen> {
                           )
                         ],
                       )),
-                  viewAll()
+                  viewAll("Learning Folder")
                 ],
               ),
             ),
@@ -345,7 +347,7 @@ class _HomeScreen extends State<HomeScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const NewCourseScreen()));
+                      builder: (context) => NewCourseScreen("Latest courses")));
             }),
             SizedBox(
               height: 8.sp,
@@ -373,7 +375,7 @@ class _HomeScreen extends State<HomeScreen> {
                           )
                         ],
                       )),
-                  viewAll()
+                  viewAll("Latest courses")
                 ],
               ),
             ),
@@ -401,13 +403,14 @@ class _HomeScreen extends State<HomeScreen> {
                             courseItem["difficulty"],
                             courseItem["courseLength"],
                             courseItem["preview"],
+                            isAssigned: true,
                           ),
                           SizedBox(
                             width: 8.sp,
                           )
                         ],
                       )),
-                  viewAll()
+                  viewAll("Learning space")
                 ],
               ),
             ),
@@ -484,7 +487,7 @@ class _HomeScreen extends State<HomeScreen> {
                           )
                         ],
                       )),
-                  viewAll()
+                  viewAll("UI/UX design")
                 ],
               ),
             ),
@@ -518,7 +521,7 @@ class _HomeScreen extends State<HomeScreen> {
                           )
                         ],
                       )),
-                  viewAll()
+                  viewAll("Design")
                 ],
               ),
             ),
@@ -580,7 +583,7 @@ class _HomeScreen extends State<HomeScreen> {
                       )
                     ],
                   ),
-                  viewAll(height: 74, width: 74)
+                  viewAll("Category", height: 74, width: 74)
                 ],
               ),
             ),
@@ -616,7 +619,7 @@ class _HomeScreen extends State<HomeScreen> {
                           )
                         ],
                       )),
-                  viewAll(height: 248, width: 320)
+                  viewAll("Trending courses",height: 248, width: 320)
                 ],
               ),
             ),
@@ -654,7 +657,7 @@ class _HomeScreen extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  viewAll(height: 248, width: 320)
+                  viewAll("Recommended courses",height: 248, width: 320)
                 ],
               ),
             ),
