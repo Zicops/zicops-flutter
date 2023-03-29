@@ -7,8 +7,9 @@ import '../screens/course_details/notes/new_note/new_note_screen.dart';
 class NoteItem extends StatefulWidget {
   String title;
   String note;
+  var data;
 
-  NoteItem(this.title, this.note, {Key? key}) : super(key: key);
+  NoteItem(this.title, this.note, this.data, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _NoteItem();
@@ -25,8 +26,8 @@ class _NoteItem extends State<NoteItem> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          NewNoteScreen(widget.title, widget.note)));
+                      builder: (context) => NewNoteScreen(
+                          widget.title, widget.note, widget.data)));
             },
             behavior: HitTestBehavior.translucent,
             child: Material(

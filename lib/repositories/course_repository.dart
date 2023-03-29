@@ -24,7 +24,9 @@ class CourseRepository {
     List courseModules = courseData?['getCourseModules'];
     List courseTopics = courseData?['getTopics'];
     List courseResouces = courseData?['getResourcesByCourseId'];
+    List courseChapters = courseData?['getCourseChapters'];
     var courseDetails = courseData?['getCourse'];
+    print('rwehwrth $courseChapters');
     return courseData;
   }
 

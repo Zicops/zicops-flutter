@@ -37,6 +37,7 @@ class _BookmarkNotesScreen extends State<BookmarkNotesScreen> {
                                 builder: (context) => NewNoteScreen(
                                       "",
                                       courseItem["name"],
+                                      courseItem,
                                       showBookmark: true,
                                       bookmarkPreview: widget.preview,
                                       bookmarkTime: courseItem["time_stamp"],

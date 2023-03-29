@@ -952,10 +952,10 @@ class UpdateUserBookmark$MutationRoot extends JsonSerializable
   factory UpdateUserBookmark$MutationRoot.fromJson(Map<String, dynamic> json) =>
       _$UpdateUserBookmark$MutationRootFromJson(json);
 
-  List<UpdateUserBookmark$MutationRoot$UserBookmark?>? addUserBookmark;
+  UpdateUserBookmark$MutationRoot$UserBookmark? updateUserBookmark;
 
   @override
-  List<Object?> get props => [addUserBookmark];
+  List<Object?> get props => [updateUserBookmark];
   @override
   Map<String, dynamic> toJson() =>
       _$UpdateUserBookmark$MutationRootToJson(this);
@@ -4733,7 +4733,7 @@ class AddUserBookmarkMutation extends GraphQLQuery<AddUserBookmark$MutationRoot,
 @JsonSerializable(explicitToJson: true)
 class UpdateUserBookmarkArguments extends JsonSerializable with EquatableMixin {
   UpdateUserBookmarkArguments({
-    required this.user_bm_id,
+    this.user_bm_id,
     required this.user_id,
     required this.user_lsp_id,
     required this.user_course_id,
@@ -4749,7 +4749,7 @@ class UpdateUserBookmarkArguments extends JsonSerializable with EquatableMixin {
   factory UpdateUserBookmarkArguments.fromJson(Map<String, dynamic> json) =>
       _$UpdateUserBookmarkArgumentsFromJson(json);
 
-  late String user_bm_id;
+  final String? user_bm_id;
 
   late String user_id;
 
@@ -4787,17 +4787,17 @@ class UpdateUserBookmarkArguments extends JsonSerializable with EquatableMixin {
 }
 
 final UPDATE_USER_BOOKMARK_MUTATION_DOCUMENT_OPERATION_NAME =
-    'UpdateUserBookmark';
+    'updateUserBookmark';
 final UPDATE_USER_BOOKMARK_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.mutation,
-    name: NameNode(value: 'UpdateUserBookmark'),
+    name: NameNode(value: 'updateUserBookmark'),
     variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'user_bm_id')),
         type: NamedTypeNode(
-          name: NameNode(value: 'String'),
-          isNonNull: true,
+          name: NameNode(value: 'ID'),
+          isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
         directives: [],
@@ -4887,54 +4887,52 @@ final UPDATE_USER_BOOKMARK_MUTATION_DOCUMENT = DocumentNode(definitions: [
     directives: [],
     selectionSet: SelectionSetNode(selections: [
       FieldNode(
-        name: NameNode(value: 'addUserBookmark'),
+        name: NameNode(value: 'updateUserBookmark'),
         alias: null,
         arguments: [
           ArgumentNode(
             name: NameNode(value: 'input'),
-            value: ListValueNode(values: [
-              ObjectValueNode(fields: [
-                ObjectFieldNode(
-                  name: NameNode(value: 'user_bm_id'),
-                  value: VariableNode(name: NameNode(value: 'user_bm_id')),
-                ),
-                ObjectFieldNode(
-                  name: NameNode(value: 'user_id'),
-                  value: VariableNode(name: NameNode(value: 'user_id')),
-                ),
-                ObjectFieldNode(
-                  name: NameNode(value: 'user_lsp_id'),
-                  value: VariableNode(name: NameNode(value: 'user_lsp_id')),
-                ),
-                ObjectFieldNode(
-                  name: NameNode(value: 'user_course_id'),
-                  value: VariableNode(name: NameNode(value: 'user_course_id')),
-                ),
-                ObjectFieldNode(
-                  name: NameNode(value: 'course_id'),
-                  value: VariableNode(name: NameNode(value: 'course_id')),
-                ),
-                ObjectFieldNode(
-                  name: NameNode(value: 'module_id'),
-                  value: VariableNode(name: NameNode(value: 'module_id')),
-                ),
-                ObjectFieldNode(
-                  name: NameNode(value: 'topic_id'),
-                  value: VariableNode(name: NameNode(value: 'topic_id')),
-                ),
-                ObjectFieldNode(
-                  name: NameNode(value: 'name'),
-                  value: VariableNode(name: NameNode(value: 'name')),
-                ),
-                ObjectFieldNode(
-                  name: NameNode(value: 'time_stamp'),
-                  value: VariableNode(name: NameNode(value: 'time_stamp')),
-                ),
-                ObjectFieldNode(
-                  name: NameNode(value: 'is_active'),
-                  value: VariableNode(name: NameNode(value: 'is_active')),
-                ),
-              ])
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'user_bm_id'),
+                value: VariableNode(name: NameNode(value: 'user_bm_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_id'),
+                value: VariableNode(name: NameNode(value: 'user_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_lsp_id'),
+                value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_course_id'),
+                value: VariableNode(name: NameNode(value: 'user_course_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'course_id'),
+                value: VariableNode(name: NameNode(value: 'course_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'module_id'),
+                value: VariableNode(name: NameNode(value: 'module_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'topic_id'),
+                value: VariableNode(name: NameNode(value: 'topic_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'name'),
+                value: VariableNode(name: NameNode(value: 'name')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'time_stamp'),
+                value: VariableNode(name: NameNode(value: 'time_stamp')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_active'),
+                value: VariableNode(name: NameNode(value: 'is_active')),
+              ),
             ]),
           )
         ],

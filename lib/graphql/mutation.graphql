@@ -196,51 +196,91 @@ mutation updateUserPreference(
       updated_at
     }
   }
-
-mutation UpdateUserBookmark(
-    $user_bm_id: String!
-    $user_id: String!
-    $user_lsp_id: String!
-    $user_course_id: String!
-    $course_id: String!
-    $module_id: String!
-    $topic_id: String!
-    $name: String!
-    $time_stamp: String!
-    $is_active: Boolean!
-  ) {
-    addUserBookmark(
-      input: [
-        {
-          user_bm_id: $user_bm_id
-          user_id: $user_id
-          user_lsp_id: $user_lsp_id
-          user_course_id: $user_course_id
-          course_id: $course_id
-          module_id: $module_id
-          topic_id: $topic_id
-          name: $name
-          time_stamp: $time_stamp
-          is_active: $is_active
+mutation updateUserBookmark(
+        $user_bm_id: ID
+        $user_id: String!
+        $user_lsp_id: String!
+        $user_course_id: String!
+        $course_id: String!
+        $module_id: String!
+        $topic_id: String!
+        $name: String!
+        $time_stamp: String!
+        $is_active: Boolean!){
+    updateUserBookmark(
+        input: {
+            user_bm_id: $user_bm_id
+            user_id: $user_id
+            user_lsp_id: $user_lsp_id
+            user_course_id: $user_course_id
+            course_id: $course_id
+            module_id: $module_id
+            topic_id: $topic_id
+            name: $name
+            time_stamp: $time_stamp
+            is_active: $is_active
         }
-      ]
     ) {
-      user_bm_id
-      user_id
-      user_lsp_id
-      user_course_id
-      course_id
-      module_id
-      topic_id
-      name
-      time_stamp
-      is_active
-      created_by
-      updated_by
-      created_at
-      updated_at
+        user_bm_id
+        user_id
+        user_lsp_id
+        user_course_id
+        course_id
+        module_id
+        topic_id
+        name
+        time_stamp
+        is_active
+        created_by
+        updated_by
+        created_at
+        updated_at
     }
-  }
+}
+#mutation UpdateUserBookmark(
+#    $user_bm_id: ID
+#    $user_id: String!
+#    $user_lsp_id: String!
+#    $user_course_id: String!
+#    $course_id: String!
+#    $module_id: String!
+#    $topic_id: String!
+#    $name: String!
+#    $time_stamp: String!
+#    $is_active: Boolean!
+#  ) {
+#    updateUserBookmark(
+#      input: [
+#        {
+#          user_bm_id: $user_bm_id
+#          user_id: $user_id
+#          user_lsp_id: $user_lsp_id
+#          user_course_id: $user_course_id
+#          course_id: $course_id
+#          module_id: $module_id
+#          topic_id: $topic_id
+#          name: $name
+#          time_stamp: $time_stamp
+#          is_active: $is_active
+#        }
+#      ]
+#    ) {
+#      user_bm_id
+#      user_id
+#      user_lsp_id
+#      user_course_id
+#      course_id
+#      module_id
+#      topic_id
+#      name
+#      time_stamp
+#      is_active
+#      created_by
+#      updated_by
+#      created_at
+#      updated_at
+#    }
+#  }
 
 mutation AddUserNotes(
     $user_id: String!

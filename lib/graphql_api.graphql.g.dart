@@ -313,18 +313,15 @@ Map<String, dynamic> _$UpdateUserBookmark$MutationRoot$UserBookmarkToJson(
 UpdateUserBookmark$MutationRoot _$UpdateUserBookmark$MutationRootFromJson(
         Map<String, dynamic> json) =>
     UpdateUserBookmark$MutationRoot()
-      ..addUserBookmark = (json['addUserBookmark'] as List<dynamic>?)
-          ?.map((e) => e == null
-              ? null
-              : UpdateUserBookmark$MutationRoot$UserBookmark.fromJson(
-                  e as Map<String, dynamic>))
-          .toList();
+      ..updateUserBookmark = json['updateUserBookmark'] == null
+          ? null
+          : UpdateUserBookmark$MutationRoot$UserBookmark.fromJson(
+              json['updateUserBookmark'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$UpdateUserBookmark$MutationRootToJson(
         UpdateUserBookmark$MutationRoot instance) =>
     <String, dynamic>{
-      'addUserBookmark':
-          instance.addUserBookmark?.map((e) => e?.toJson()).toList(),
+      'updateUserBookmark': instance.updateUserBookmark?.toJson(),
     };
 
 AddUserNotes$MutationRoot$UserNotes
@@ -2554,7 +2551,7 @@ Map<String, dynamic> _$AddUserBookmarkArgumentsToJson(
 UpdateUserBookmarkArguments _$UpdateUserBookmarkArgumentsFromJson(
         Map<String, dynamic> json) =>
     UpdateUserBookmarkArguments(
-      user_bm_id: json['user_bm_id'] as String,
+      user_bm_id: json['user_bm_id'] as String?,
       user_id: json['user_id'] as String,
       user_lsp_id: json['user_lsp_id'] as String,
       user_course_id: json['user_course_id'] as String,

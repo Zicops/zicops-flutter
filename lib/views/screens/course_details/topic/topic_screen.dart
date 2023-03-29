@@ -437,8 +437,6 @@ class _TopicScreen extends State<TopicScreen> {
               moduleId = topicData[selectedChapter - 1]['moduleId'];
               sequence = topicData[selectedChapter - 1]['sequence'];
             }
-
-            print("Seleccted chqpter: $selectedChapter");
             return SlidingUpPanel(
                 controller: _panelController,
                 minHeight: minPanelHeight,
