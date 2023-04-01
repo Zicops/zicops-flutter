@@ -206,7 +206,6 @@ class _NewNoteScreen extends State<NewNoteScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
                         updateUserNotes(
                           widget.courseItem['user_notes_id'],
                           widget.courseItem['course_id'],
@@ -216,6 +215,7 @@ class _NewNoteScreen extends State<NewNoteScreen> {
                           noteController.text,
                           'disable',
                         );
+                        Navigator.pop(context);
                       },
                       child: Container(
                         height: 48.sp,

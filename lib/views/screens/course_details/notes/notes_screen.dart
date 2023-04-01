@@ -230,6 +230,9 @@ class _NotesScreen extends State<NotesScreen> {
                                   bookmarksInTopic.add(element);
                                 }
                               }
+                              notesInTopic = notesInTopic.where((element) {
+                                return element['status'] != "disable";
+                              }).toList();
                               print('notesInTopic: $notesInTopic');
                               print('bookmarksInTopic: $bookmarksInTopic');
                               return GestureDetector(
