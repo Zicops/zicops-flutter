@@ -12,7 +12,12 @@ import '../../../widgets/more_like_this.dart';
 
 class AboutScreen extends StatefulWidget {
   final String courseId;
-  const AboutScreen({Key? key, required this.courseId}) : super(key: key);
+  var isCourseAssigned;
+  AboutScreen({
+    Key? key,
+    required this.courseId,
+    required this.isCourseAssigned,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -617,7 +622,13 @@ class _AboutScreen extends State<AboutScreen> {
           }
           if (state is CourseError) {
             return Center(
-              child: Text(state.error),
+              child: Text(
+                state.error,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.sp,
+                ),
+              ),
             );
           }
           return Container();

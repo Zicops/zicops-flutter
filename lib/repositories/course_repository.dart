@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../graphql_api.graphql.dart';
 import '../main.dart';
+import '../models/courseDetails/user_course_details.dart';
 
 class CourseRepository {
   Map<String, dynamic> combineData(Map data1, Map data2) {
@@ -23,7 +24,9 @@ class CourseRepository {
     List courseModules = courseData?['getCourseModules'];
     List courseTopics = courseData?['getTopics'];
     List courseResouces = courseData?['getResourcesByCourseId'];
+    List courseChapters = courseData?['getCourseChapters'];
     var courseDetails = courseData?['getCourse'];
+    print('rwehwrth $courseChapters');
     return courseData;
   }
 
@@ -129,5 +132,67 @@ class CourseRepository {
     //  print(res?.data?.toJson());
     // this is basically map containing getUserNotes and getUserBookmarks keys from which you will get users notes and book marks.
     return res?.data?.toJson();
+  }
+
+  Future getUserCourseMaps() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? userId = sharedPreferences.getString('userId');
+    String? lspId = sharedPreferences.getString('lspId');
+    final userCourseMap = await userClient.client()?.execute(
+        GetUserCourseMapsQuery(
+            variables: GetUserCourseMapsArguments(
+                user_id: userId ?? '',
+                publish_time: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+                pageCursor: '',
+                pageSize: 50,
+                filters: CourseMapFilters(lspId: [lspId]))));
+
+    List<UserCourseMap> assignedCourses = [];
+    var courses = userCourseMap?.data?.getUserCourseMaps?.userCourses;
+    if (courses != null) {
+      courses.forEach((course) {
+        if (course?.courseStatus.toLowerCase() != 'disable') {
+          assignedCourses.add(UserCourseMap(
+            userCourseId: course?.userCourseId,
+            userId: course?.userId,
+            courseId: course?.courseId,
+            courseStatus: course?.courseStatus,
+            courseType: course?.courseType,
+            isMandatory: course?.isMandatory,
+            userLspId: course?.userLspId,
+            addedBy: course?.addedBy,
+            createdAt: course?.createdAt,
+            createdBy: course?.createdBy,
+            endDate: course?.endDate,
+            updatedAt: course?.updatedAt,
+            updatedBy: course?.updatedBy,
+          ));
+        }
+      });
+    }
+    return assignedCourses;
+  }
+
+  Future isCourseAssigned(String courseId) async {
+    var assignedCourses = await getUserCourseMaps();
+    var isCourseAssigned = false;
+    for (int i in assignedCourses!.asMap().keys) {
+      if (assignedCourses[i]?.courseId == courseId) {
+        isCourseAssigned = true;
+      }
+    }
+    return isCourseAssigned;
+  }
+
+  Future getUserCourseMapByCourseId(String courseId) async {
+    var assignedCourses = await getUserCourseMaps();
+    UserCourseMap courseMap = UserCourseMap();
+    for (int i in assignedCourses!.asMap().keys) {
+      if (assignedCourses[i]?.courseId == courseId) {
+        courseMap = assignedCourses[i];
+      }
+    }
+
+    return courseMap;
   }
 }

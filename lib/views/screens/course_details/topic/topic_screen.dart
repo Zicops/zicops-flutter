@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,8 @@ import 'package:video_player/video_player.dart';
 import 'package:zicops/blocs/course/course_bloc.dart';
 import 'package:zicops/repositories/course_repository.dart';
 
+import '../../../../controllers/mutation_controller.dart';
+import '../../../../models/courseDetails/user_course_details.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/time_format.dart';
 import '../../../widgets/VideoCourseBadge.dart';
@@ -21,10 +24,14 @@ class TopicScreen extends StatefulWidget {
   final String courseId;
   final String difficulty;
   final String preview;
+  final bool isCourseAssigned;
+  final UserCourseMap userCourseMap;
   const TopicScreen(
     this.courseId,
     this.difficulty,
-    this.preview, {
+    this.preview,
+    this.isCourseAssigned,
+    this.userCourseMap, {
     Key? key,
   }) : super(key: key);
 
@@ -57,7 +64,12 @@ class _TopicScreen extends State<TopicScreen> {
     _controller = VideoPlayerController.network(videoUrl);
   }
 
-  getBottomSheetChild() {
+  void _writeNotes(UserNotes notes) {
+    print(notes);
+  }
+
+  getBottomSheetChild(
+      String courseId, String moduleId, String topicId, int sequence) {
     switch (selectedVideoOption) {
       case 0:
         return Settings();
@@ -65,11 +77,14 @@ class _TopicScreen extends State<TopicScreen> {
         return TakeNote(
             true,
             "assets/images/course_preview.png",
-            _controller != null
-                ? _controller!.value.position.toString()
-                : "00");
+            _controller != null ? _controller!.value.position.toString() : "00",
+            courseId,
+            moduleId,
+            topicId,
+            sequence);
       case 2:
-        return TakeNote(false, "assets/images/course_preview.png", "00");
+        return TakeNote(false, "assets/images/course_preview.png", "00",
+            courseId, moduleId, topicId, sequence);
       default:
         return Discussion();
     }
@@ -224,7 +239,16 @@ class _TopicScreen extends State<TopicScreen> {
     );
   }
 
-  Widget TakeNote(bool isBookmark, String preview, String bookmarkTime) {
+  Widget TakeNote(
+    bool isBookmark,
+    String preview,
+    String bookmarkTime,
+    String courseId,
+    String moduleId,
+    String topicId,
+    int sequence,
+  ) {
+    TextEditingController _controller = TextEditingController();
     return Column(children: [
       Container(
           height: 24.sp,
@@ -244,6 +268,38 @@ class _TopicScreen extends State<TopicScreen> {
               const Spacer(),
               SizedBox(
                 width: 24.sp,
+              ),
+              InkWell(
+                  onTap: () {
+                    isBookmark
+                        ? addUserBookmarks(
+                            courseId,
+                            moduleId,
+                            topicId,
+                            _controller.text,
+                            bookmarkTime,
+                            widget.userCourseMap.userCourseId!,
+                          )
+                        : addUserNotes(
+                            courseId,
+                            moduleId,
+                            topicId,
+                            sequence,
+                            _controller.text,
+                          );
+
+                    setState(() {
+                      minPanelHeight = 0;
+                    });
+                    _panelController.close();
+                  },
+                  child: Container(
+                      width: 24.sp,
+                      height: 48.sp,
+                      alignment: Alignment.center,
+                      child: Icon(Icons.save, size: 24.sp))),
+              SizedBox(
+                width: 20.sp,
               ),
               InkWell(
                   onTap: () {
@@ -320,6 +376,7 @@ class _TopicScreen extends State<TopicScreen> {
           padding: EdgeInsets.only(
               left: 20.sp, right: 20.sp, top: 14.sp, bottom: 14.sp),
           child: TextField(
+            controller: _controller,
             onSubmitted: (val) {},
             maxLines: null,
             autofocus: true,
@@ -369,7 +426,17 @@ class _TopicScreen extends State<TopicScreen> {
             if (_selectedValue == "") {
               _selectedValue = dropdownItems[0];
             }
-
+            String courseId = '';
+            String topicId = '';
+            String moduleId = '';
+            int sequence = 0;
+            if (selectedChapter != -1) {
+              print("topic data from here: ${topicData[selectedChapter - 1]}");
+              courseId = topicData[selectedChapter - 1]['courseId'];
+              topicId = topicData[selectedChapter - 1]['topicId'];
+              moduleId = topicData[selectedChapter - 1]['moduleId'];
+              sequence = topicData[selectedChapter - 1]['sequence'];
+            }
             return SlidingUpPanel(
                 controller: _panelController,
                 minHeight: minPanelHeight,
@@ -397,14 +464,19 @@ class _TopicScreen extends State<TopicScreen> {
                               color: secondaryColorDark,
                               borderRadius: BorderRadius.circular(4.sp)),
                         ),
-                        Expanded(child: getBottomSheetChild()),
+                        Expanded(
+                            child: getBottomSheetChild(
+                          courseId,
+                          moduleId,
+                          topicId,
+                          sequence,
+                        )),
                       ],
                     )),
                 body: SingleChildScrollView(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // SizedBox(height: 11.sp),
                         if (selectedChapter != -1)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -555,55 +627,82 @@ class _TopicScreen extends State<TopicScreen> {
                               ),
                               SizedBox(
                                 height: 320.sp,
-                                child: topicData
-                                        .where((element) =>
-                                            element['moduleId'] ==
-                                            moduleData[_selectedValue])
-                                        .isNotEmpty
-                                    ? ListView(shrinkWrap: true, children: [
-                                        ...topicData
+                                child:
+                                    topicData
                                             .where((element) =>
                                                 element['moduleId'] ==
                                                 moduleData[_selectedValue])
-                                            .map((e) => GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    selectedChapter = topicData
-                                                            .where((element) =>
-                                                                element[
-                                                                    'moduleId'] ==
-                                                                moduleData[
-                                                                    _selectedValue])
-                                                            .toList()
-                                                            .indexOf(e) +
-                                                        1;
-                                                    selectedChapterName =
-                                                        e['name'];
-                                                    selectedChapterDuration =
-                                                        formatDuration(
-                                                            e['duration']);
-                                                    initVideoController(
-                                                        e['contentUrl']);
-                                                  });
-                                                },
-                                                child: ModuleCard(
-                                                    e['name'],
-                                                    formatDuration(
-                                                        e['duration']),
-                                                    widget.preview,
-                                                    //  "assets/images/course_preview_2.png",
+                                            .isNotEmpty
+                                        ? ListView(
+                                            shrinkWrap: true,
+                                            children: [
+                                              ...topicData
+                                                  .where((element) =>
+                                                      element['moduleId'] ==
+                                                      moduleData[
+                                                          _selectedValue])
+                                                  .map((e) => GestureDetector(
+                                                      onTap: () {
+                                                        widget.isCourseAssigned
+                                                            ? setState(() {
+                                                                selectedChapter = topicData
+                                                                        .where((element) =>
+                                                                            element['moduleId'] ==
+                                                                            moduleData[
+                                                                                _selectedValue])
+                                                                        .toList()
+                                                                        .indexOf(
+                                                                            e) +
+                                                                    1;
+                                                                selectedChapterName =
+                                                                    e['name'];
+                                                                selectedChapterDuration =
+                                                                    formatDuration(
+                                                                        e['duration']);
+                                                                initVideoController(
+                                                                    e['contentUrl']);
+                                                              })
+                                                            : showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) =>
+                                                                        AlertDialog(
+                                                                          title: Text(
+                                                                              "Course not assigned",
+                                                                              style: TextStyle(color: Colors.white)),
+                                                                          content:
+                                                                              Text("Please assign course to access the course contents"),
+                                                                          actions: [
+                                                                            TextButton(
+                                                                                onPressed: () {
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                                child: Text("Ok"))
+                                                                          ],
+                                                                        ));
+                                                      },
+                                                      child: ModuleCard(
+                                                          e['name'],
+                                                          formatDuration(
+                                                              e['duration']),
+                                                          widget.preview,
+                                                          //  "assets/images/course_preview_2.png",
 
-                                                    //  "assets/images/course_preview_2.png",
-                                                    e == selectedChapter,
-                                                    _controller?.value.position,
-                                                    _controller
-                                                        ?.value.duration)))
-                                      ])
-                                    : Center(
-                                        child: Text(
-                                        "No Topics in this Module",
-                                        style: TextStyle(color: Colors.white),
-                                      )),
+                                                          //  "assets/images/course_preview_2.png",
+                                                          e == selectedChapter,
+                                                          _controller
+                                                              ?.value.position,
+                                                          _controller?.value
+                                                              .duration)))
+                                            ],
+                                          )
+                                        : Center(
+                                            child: Text(
+                                            "No Topics in this Module",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          )),
                               ),
                               SizedBox(
                                 height: 12.sp,

@@ -57,16 +57,18 @@ class _NotesListScreen extends State<NotesListScreen> {
                   itemCount: widget.notes.length,
                   itemBuilder: (context, index) {
                     // return NoteItem("Note ${index + 1}", notesItemList[index][1]);
-                    return NoteItem(
-                        "Note ${index + 1}", widget.notes[index]['details']);
+                    return NoteItem("Note ${index + 1}",
+                        widget.notes[index]['details'], widget.notes[index]);
                   })
               : ListView(
                   children: [
                     ...widget.notes.mapIndexed((index, item) => Column(
                           children: [
                             //  NoteItem("Note ${index + 1}", item[1]),
-                            NoteItem("Note ${index + 1}",
-                                widget.notes[index]['details']),
+                            NoteItem(
+                                "Note ${index + 1}",
+                                widget.notes[index]['details'],
+                                widget.notes[index]),
                             SizedBox(
                               height: 8.sp,
                             )

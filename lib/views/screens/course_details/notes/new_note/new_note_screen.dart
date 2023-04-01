@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../../../../controllers/mutation_controller.dart';
 import '../../../../../utils/colors.dart';
 
 class NewNoteScreen extends StatefulWidget {
@@ -11,8 +12,9 @@ class NewNoteScreen extends StatefulWidget {
   bool showBookmark;
   String bookmarkPreview;
   String bookmarkTime;
+  var courseItem;
 
-  NewNoteScreen(this.title, this.note,
+  NewNoteScreen(this.title, this.note, this.courseItem,
       {this.showBookmark = false,
       this.bookmarkPreview = "",
       this.bookmarkTime = "",
@@ -44,6 +46,7 @@ class _NewNoteScreen extends State<NewNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("NewNoteScreen: ${widget.courseItem}");
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(48.sp),
@@ -72,19 +75,69 @@ class _NewNoteScreen extends State<NewNoteScreen> {
                 GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
-                      _panelController.open();
+                      print("ontapped");
+                      print(widget.showBookmark);
+                      widget.showBookmark
+                          ?
+                          // Only option is update bookmark
+
+                          updateUserBookmarks(
+                              widget.courseItem['user_bm_id'],
+                              widget.courseItem['course_id'],
+                              widget.courseItem['module_id'],
+                              widget.courseItem['topic_id'],
+                              noteController.text,
+                              widget.courseItem['time_stamp'],
+                              widget.courseItem['user_course_id'])
+                          :
+                          // Add new note and update both possible.
+                          widget.title.isNotEmpty
+                              ? updateUserNotes(
+                                  widget.courseItem['user_notes_id'],
+                                  widget.courseItem['course_id'],
+                                  widget.courseItem['module_id'],
+                                  widget.courseItem['topic_id'],
+                                  widget.courseItem['sequence'],
+                                  noteController.text,
+                                  'active',
+                                )
+                              : print("Note saved");
                     },
                     child: Container(
-                        width: 24.sp,
-                        height: 24.sp,
-                        margin: EdgeInsets.only(right: 16.sp),
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          "assets/images/delete.png",
-                          width: 16.sp,
-                          height: 18.sp,
-                          color: textPrimary,
-                        ))),
+                      width: 24.sp,
+                      height: 24.sp,
+                      margin: EdgeInsets.only(right: 16.sp),
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.save,
+                        size: 24.sp,
+                        color: textPrimary,
+                      ),
+                      // Image.asset(
+                      //   "assets/images/delete.png",
+                      //   width: 16.sp,
+                      //   height: 18.sp,
+                      //   color: textPrimary,
+                      // ),
+                    )),
+                widget.showBookmark || widget.title.isEmpty
+                    ? Container()
+                    : GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          _panelController.open();
+                        },
+                        child: Container(
+                            width: 24.sp,
+                            height: 24.sp,
+                            margin: EdgeInsets.only(right: 16.sp),
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              "assets/images/delete.png",
+                              width: 16.sp,
+                              height: 18.sp,
+                              color: textPrimary,
+                            ))),
               ]),
         ),
       ),
@@ -153,6 +206,15 @@ class _NewNoteScreen extends State<NewNoteScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
+                        updateUserNotes(
+                          widget.courseItem['user_notes_id'],
+                          widget.courseItem['course_id'],
+                          widget.courseItem['module_id'],
+                          widget.courseItem['topic_id'],
+                          widget.courseItem['sequence'],
+                          noteController.text,
+                          'disable',
+                        );
                         Navigator.pop(context);
                       },
                       child: Container(

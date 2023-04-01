@@ -11,7 +11,9 @@ import '../../../widgets/modules_dropdown.dart';
 
 class ResourcesScreen extends StatefulWidget {
   String courseId;
-  ResourcesScreen(this.courseId, {Key? key}) : super(key: key);
+  var isCourseAssigned;
+  ResourcesScreen(this.courseId, this.isCourseAssigned, {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

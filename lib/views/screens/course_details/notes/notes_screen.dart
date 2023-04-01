@@ -12,8 +12,13 @@ import '../../../widgets/modules_dropdown.dart';
 class NotesScreen extends StatefulWidget {
   final String courseId;
   final String preview;
-  const NotesScreen({Key? key, required this.courseId, required this.preview})
-      : super(key: key);
+  final bool isCourseAssigned;
+  const NotesScreen({
+    Key? key,
+    required this.courseId,
+    required this.preview,
+    required this.isCourseAssigned,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -225,6 +230,9 @@ class _NotesScreen extends State<NotesScreen> {
                                   bookmarksInTopic.add(element);
                                 }
                               }
+                              notesInTopic = notesInTopic.where((element) {
+                                return element['status'] != "disable";
+                              }).toList();
                               print('notesInTopic: $notesInTopic');
                               print('bookmarksInTopic: $bookmarksInTopic');
                               return GestureDetector(

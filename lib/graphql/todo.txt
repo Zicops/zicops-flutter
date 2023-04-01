@@ -1,0 +1,5 @@
+things added(mutation):
+1. (addUserCourse, updateUserCourse)userCourseMap i.e mapping of user from a course. this will tell us if the course is assigned to the user or not.
+2. (addUserCourseProgress, updateUserCourseProgress)userCourseProgress i.e progress of each topic in a course, note that for a single topic there will we only on userCourseProgress.
+3. (addUserNotes, updateUserNotes)userNotes 
+4. (addUserBookmarks, updateUserBookmarks)

@@ -785,6 +785,697 @@ class UpdateUserPreference$MutationRoot extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class AddUserBookmark$MutationRoot$UserBookmark extends JsonSerializable
+    with EquatableMixin {
+  AddUserBookmark$MutationRoot$UserBookmark();
+
+  factory AddUserBookmark$MutationRoot$UserBookmark.fromJson(
+          Map<String, dynamic> json) =>
+      _$AddUserBookmark$MutationRoot$UserBookmarkFromJson(json);
+
+  @JsonKey(name: 'user_bm_id')
+  String? userBmId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+
+  @JsonKey(name: 'user_course_id')
+  late String userCourseId;
+
+  @JsonKey(name: 'course_id')
+  late String courseId;
+
+  @JsonKey(name: 'module_id')
+  late String moduleId;
+
+  @JsonKey(name: 'topic_id')
+  late String topicId;
+
+  late String name;
+
+  @JsonKey(name: 'time_stamp')
+  late String timeStamp;
+
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+
+  @override
+  List<Object?> get props => [
+        userBmId,
+        userId,
+        userLspId,
+        userCourseId,
+        courseId,
+        moduleId,
+        topicId,
+        name,
+        timeStamp,
+        isActive,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$AddUserBookmark$MutationRoot$UserBookmarkToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserBookmark$MutationRoot extends JsonSerializable
+    with EquatableMixin {
+  AddUserBookmark$MutationRoot();
+
+  factory AddUserBookmark$MutationRoot.fromJson(Map<String, dynamic> json) =>
+      _$AddUserBookmark$MutationRootFromJson(json);
+
+  List<AddUserBookmark$MutationRoot$UserBookmark?>? addUserBookmark;
+
+  @override
+  List<Object?> get props => [addUserBookmark];
+  @override
+  Map<String, dynamic> toJson() => _$AddUserBookmark$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserBookmark$MutationRoot$UserBookmark extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserBookmark$MutationRoot$UserBookmark();
+
+  factory UpdateUserBookmark$MutationRoot$UserBookmark.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserBookmark$MutationRoot$UserBookmarkFromJson(json);
+
+  @JsonKey(name: 'user_bm_id')
+  String? userBmId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+
+  @JsonKey(name: 'user_course_id')
+  late String userCourseId;
+
+  @JsonKey(name: 'course_id')
+  late String courseId;
+
+  @JsonKey(name: 'module_id')
+  late String moduleId;
+
+  @JsonKey(name: 'topic_id')
+  late String topicId;
+
+  late String name;
+
+  @JsonKey(name: 'time_stamp')
+  late String timeStamp;
+
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+
+  @override
+  List<Object?> get props => [
+        userBmId,
+        userId,
+        userLspId,
+        userCourseId,
+        courseId,
+        moduleId,
+        topicId,
+        name,
+        timeStamp,
+        isActive,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserBookmark$MutationRoot$UserBookmarkToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserBookmark$MutationRoot extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserBookmark$MutationRoot();
+
+  factory UpdateUserBookmark$MutationRoot.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserBookmark$MutationRootFromJson(json);
+
+  UpdateUserBookmark$MutationRoot$UserBookmark? updateUserBookmark;
+
+  @override
+  List<Object?> get props => [updateUserBookmark];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserBookmark$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserNotes$MutationRoot$UserNotes extends JsonSerializable
+    with EquatableMixin {
+  AddUserNotes$MutationRoot$UserNotes();
+
+  factory AddUserNotes$MutationRoot$UserNotes.fromJson(
+          Map<String, dynamic> json) =>
+      _$AddUserNotes$MutationRoot$UserNotesFromJson(json);
+
+  @JsonKey(name: 'user_notes_id')
+  String? userNotesId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+
+  @JsonKey(name: 'course_id')
+  late String courseId;
+
+  @JsonKey(name: 'module_id')
+  late String moduleId;
+
+  @JsonKey(name: 'topic_id')
+  late String topicId;
+
+  late int sequence;
+
+  late String status;
+
+  late String details;
+
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+
+  @override
+  List<Object?> get props => [
+        userNotesId,
+        userId,
+        userLspId,
+        courseId,
+        moduleId,
+        topicId,
+        sequence,
+        status,
+        details,
+        isActive,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$AddUserNotes$MutationRoot$UserNotesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserNotes$MutationRoot extends JsonSerializable with EquatableMixin {
+  AddUserNotes$MutationRoot();
+
+  factory AddUserNotes$MutationRoot.fromJson(Map<String, dynamic> json) =>
+      _$AddUserNotes$MutationRootFromJson(json);
+
+  List<AddUserNotes$MutationRoot$UserNotes?>? addUserNotes;
+
+  @override
+  List<Object?> get props => [addUserNotes];
+  @override
+  Map<String, dynamic> toJson() => _$AddUserNotes$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserNotes$MutationRoot$UserNotes extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserNotes$MutationRoot$UserNotes();
+
+  factory UpdateUserNotes$MutationRoot$UserNotes.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserNotes$MutationRoot$UserNotesFromJson(json);
+
+  @JsonKey(name: 'user_notes_id')
+  String? userNotesId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+
+  @JsonKey(name: 'course_id')
+  late String courseId;
+
+  @JsonKey(name: 'module_id')
+  late String moduleId;
+
+  @JsonKey(name: 'topic_id')
+  late String topicId;
+
+  late int sequence;
+
+  late String status;
+
+  late String details;
+
+  @JsonKey(name: 'is_active')
+  late bool isActive;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+
+  @override
+  List<Object?> get props => [
+        userNotesId,
+        userId,
+        userLspId,
+        courseId,
+        moduleId,
+        topicId,
+        sequence,
+        status,
+        details,
+        isActive,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserNotes$MutationRoot$UserNotesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserNotes$MutationRoot extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserNotes$MutationRoot();
+
+  factory UpdateUserNotes$MutationRoot.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserNotes$MutationRootFromJson(json);
+
+  UpdateUserNotes$MutationRoot$UserNotes? updateUserNotes;
+
+  @override
+  List<Object?> get props => [updateUserNotes];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateUserNotes$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserCourse$MutationRoot$UserCourse extends JsonSerializable
+    with EquatableMixin {
+  AddUserCourse$MutationRoot$UserCourse();
+
+  factory AddUserCourse$MutationRoot$UserCourse.fromJson(
+          Map<String, dynamic> json) =>
+      _$AddUserCourse$MutationRoot$UserCourseFromJson(json);
+
+  @JsonKey(name: 'user_course_id')
+  String? userCourseId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+
+  @JsonKey(name: 'lsp_id')
+  String? lspId;
+
+  @JsonKey(name: 'course_id')
+  late String courseId;
+
+  @JsonKey(name: 'course_type')
+  late String courseType;
+
+  @JsonKey(name: 'added_by')
+  late String addedBy;
+
+  @JsonKey(name: 'is_mandatory')
+  late bool isMandatory;
+
+  @JsonKey(name: 'end_date')
+  String? endDate;
+
+  @JsonKey(name: 'course_status')
+  late String courseStatus;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+
+  @override
+  List<Object?> get props => [
+        userCourseId,
+        userId,
+        userLspId,
+        lspId,
+        courseId,
+        courseType,
+        addedBy,
+        isMandatory,
+        endDate,
+        courseStatus,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$AddUserCourse$MutationRoot$UserCourseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserCourse$MutationRoot extends JsonSerializable with EquatableMixin {
+  AddUserCourse$MutationRoot();
+
+  factory AddUserCourse$MutationRoot.fromJson(Map<String, dynamic> json) =>
+      _$AddUserCourse$MutationRootFromJson(json);
+
+  List<AddUserCourse$MutationRoot$UserCourse?>? addUserCourse;
+
+  @override
+  List<Object?> get props => [addUserCourse];
+  @override
+  Map<String, dynamic> toJson() => _$AddUserCourse$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserCourse$MutationRoot$UserCourse extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserCourse$MutationRoot$UserCourse();
+
+  factory UpdateUserCourse$MutationRoot$UserCourse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserCourse$MutationRoot$UserCourseFromJson(json);
+
+  @JsonKey(name: 'user_course_id')
+  String? userCourseId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_lsp_id')
+  late String userLspId;
+
+  @JsonKey(name: 'lsp_id')
+  String? lspId;
+
+  @JsonKey(name: 'course_id')
+  late String courseId;
+
+  @JsonKey(name: 'course_type')
+  late String courseType;
+
+  @JsonKey(name: 'added_by')
+  late String addedBy;
+
+  @JsonKey(name: 'is_mandatory')
+  late bool isMandatory;
+
+  @JsonKey(name: 'end_date')
+  String? endDate;
+
+  @JsonKey(name: 'course_status')
+  late String courseStatus;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+
+  @override
+  List<Object?> get props => [
+        userCourseId,
+        userId,
+        userLspId,
+        lspId,
+        courseId,
+        courseType,
+        addedBy,
+        isMandatory,
+        endDate,
+        courseStatus,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserCourse$MutationRoot$UserCourseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserCourse$MutationRoot extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserCourse$MutationRoot();
+
+  factory UpdateUserCourse$MutationRoot.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserCourse$MutationRootFromJson(json);
+
+  UpdateUserCourse$MutationRoot$UserCourse? updateUserCourse;
+
+  @override
+  List<Object?> get props => [updateUserCourse];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateUserCourse$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserCourseProgress$MutationRoot$UserCourseProgress
+    extends JsonSerializable with EquatableMixin {
+  AddUserCourseProgress$MutationRoot$UserCourseProgress();
+
+  factory AddUserCourseProgress$MutationRoot$UserCourseProgress.fromJson(
+          Map<String, dynamic> json) =>
+      _$AddUserCourseProgress$MutationRoot$UserCourseProgressFromJson(json);
+
+  @JsonKey(name: 'user_cp_id')
+  String? userCpId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_course_id')
+  late String userCourseId;
+
+  @JsonKey(name: 'topic_id')
+  late String topicId;
+
+  @JsonKey(name: 'topic_type')
+  late String topicType;
+
+  late String status;
+
+  @JsonKey(name: 'video_progress')
+  late String videoProgress;
+
+  @JsonKey(name: 'time_stamp')
+  late String timeStamp;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+
+  @override
+  List<Object?> get props => [
+        userCpId,
+        userId,
+        userCourseId,
+        topicId,
+        topicType,
+        status,
+        videoProgress,
+        timeStamp,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$AddUserCourseProgress$MutationRoot$UserCourseProgressToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserCourseProgress$MutationRoot extends JsonSerializable
+    with EquatableMixin {
+  AddUserCourseProgress$MutationRoot();
+
+  factory AddUserCourseProgress$MutationRoot.fromJson(
+          Map<String, dynamic> json) =>
+      _$AddUserCourseProgress$MutationRootFromJson(json);
+
+  List<AddUserCourseProgress$MutationRoot$UserCourseProgress?>?
+      addUserCourseProgress;
+
+  @override
+  List<Object?> get props => [addUserCourseProgress];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$AddUserCourseProgress$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserCourseProgress$MutationRoot$UserCourseProgress
+    extends JsonSerializable with EquatableMixin {
+  UpdateUserCourseProgress$MutationRoot$UserCourseProgress();
+
+  factory UpdateUserCourseProgress$MutationRoot$UserCourseProgress.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserCourseProgress$MutationRoot$UserCourseProgressFromJson(json);
+
+  @JsonKey(name: 'user_cp_id')
+  String? userCpId;
+
+  @JsonKey(name: 'user_id')
+  late String userId;
+
+  @JsonKey(name: 'user_course_id')
+  late String userCourseId;
+
+  @JsonKey(name: 'topic_id')
+  late String topicId;
+
+  @JsonKey(name: 'topic_type')
+  late String topicType;
+
+  late String status;
+
+  @JsonKey(name: 'video_progress')
+  late String videoProgress;
+
+  @JsonKey(name: 'time_stamp')
+  late String timeStamp;
+
+  @JsonKey(name: 'created_by')
+  String? createdBy;
+
+  @JsonKey(name: 'updated_by')
+  String? updatedBy;
+
+  @JsonKey(name: 'created_at')
+  late String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  late String updatedAt;
+
+  @override
+  List<Object?> get props => [
+        userCpId,
+        userId,
+        userCourseId,
+        topicId,
+        topicType,
+        status,
+        videoProgress,
+        timeStamp,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserCourseProgress$MutationRoot$UserCourseProgressToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserCourseProgress$MutationRoot extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserCourseProgress$MutationRoot();
+
+  factory UpdateUserCourseProgress$MutationRoot.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserCourseProgress$MutationRootFromJson(json);
+
+  UpdateUserCourseProgress$MutationRoot$UserCourseProgress?
+      updateUserCourseProgress;
+
+  @override
+  List<Object?> get props => [updateUserCourseProgress];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserCourseProgress$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetUserLsps$QueryRoot$UserLspMap extends JsonSerializable
     with EquatableMixin, UserLspFragmentMixin {
   GetUserLsps$QueryRoot$UserLspMap();
@@ -3720,6 +4411,2512 @@ class UpdateUserPreferenceMutation extends GraphQLQuery<
   @override
   UpdateUserPreference$MutationRoot parse(Map<String, dynamic> json) =>
       UpdateUserPreference$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserBookmarkArguments extends JsonSerializable with EquatableMixin {
+  AddUserBookmarkArguments({
+    required this.user_id,
+    required this.user_lsp_id,
+    required this.user_course_id,
+    required this.course_id,
+    required this.module_id,
+    required this.topic_id,
+    required this.name,
+    required this.time_stamp,
+    required this.is_active,
+  });
+
+  @override
+  factory AddUserBookmarkArguments.fromJson(Map<String, dynamic> json) =>
+      _$AddUserBookmarkArgumentsFromJson(json);
+
+  late String user_id;
+
+  late String user_lsp_id;
+
+  late String user_course_id;
+
+  late String course_id;
+
+  late String module_id;
+
+  late String topic_id;
+
+  late String name;
+
+  late String time_stamp;
+
+  late bool is_active;
+
+  @override
+  List<Object?> get props => [
+        user_id,
+        user_lsp_id,
+        user_course_id,
+        course_id,
+        module_id,
+        topic_id,
+        name,
+        time_stamp,
+        is_active
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$AddUserBookmarkArgumentsToJson(this);
+}
+
+final ADD_USER_BOOKMARK_MUTATION_DOCUMENT_OPERATION_NAME = 'addUserBookmark';
+final ADD_USER_BOOKMARK_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'addUserBookmark'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_course_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'course_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'module_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'topic_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'name')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'time_stamp')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'is_active')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'addUserBookmark'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ListValueNode(values: [
+              ObjectValueNode(fields: [
+                ObjectFieldNode(
+                  name: NameNode(value: 'user_id'),
+                  value: VariableNode(name: NameNode(value: 'user_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'user_lsp_id'),
+                  value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'user_course_id'),
+                  value: VariableNode(name: NameNode(value: 'user_course_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'course_id'),
+                  value: VariableNode(name: NameNode(value: 'course_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'module_id'),
+                  value: VariableNode(name: NameNode(value: 'module_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'topic_id'),
+                  value: VariableNode(name: NameNode(value: 'topic_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'name'),
+                  value: VariableNode(name: NameNode(value: 'name')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'time_stamp'),
+                  value: VariableNode(name: NameNode(value: 'time_stamp')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'is_active'),
+                  value: VariableNode(name: NameNode(value: 'is_active')),
+                ),
+              ])
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_bm_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'module_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'topic_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'time_stamp'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class AddUserBookmarkMutation extends GraphQLQuery<AddUserBookmark$MutationRoot,
+    AddUserBookmarkArguments> {
+  AddUserBookmarkMutation({required this.variables});
+
+  @override
+  final DocumentNode document = ADD_USER_BOOKMARK_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      ADD_USER_BOOKMARK_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final AddUserBookmarkArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  AddUserBookmark$MutationRoot parse(Map<String, dynamic> json) =>
+      AddUserBookmark$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserBookmarkArguments extends JsonSerializable with EquatableMixin {
+  UpdateUserBookmarkArguments({
+    this.user_bm_id,
+    required this.user_id,
+    required this.user_lsp_id,
+    required this.user_course_id,
+    required this.course_id,
+    required this.module_id,
+    required this.topic_id,
+    required this.name,
+    required this.time_stamp,
+    required this.is_active,
+  });
+
+  @override
+  factory UpdateUserBookmarkArguments.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserBookmarkArgumentsFromJson(json);
+
+  final String? user_bm_id;
+
+  late String user_id;
+
+  late String user_lsp_id;
+
+  late String user_course_id;
+
+  late String course_id;
+
+  late String module_id;
+
+  late String topic_id;
+
+  late String name;
+
+  late String time_stamp;
+
+  late bool is_active;
+
+  @override
+  List<Object?> get props => [
+        user_bm_id,
+        user_id,
+        user_lsp_id,
+        user_course_id,
+        course_id,
+        module_id,
+        topic_id,
+        name,
+        time_stamp,
+        is_active
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateUserBookmarkArgumentsToJson(this);
+}
+
+final UPDATE_USER_BOOKMARK_MUTATION_DOCUMENT_OPERATION_NAME =
+    'updateUserBookmark';
+final UPDATE_USER_BOOKMARK_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'updateUserBookmark'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_bm_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_course_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'course_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'module_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'topic_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'name')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'time_stamp')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'is_active')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateUserBookmark'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'user_bm_id'),
+                value: VariableNode(name: NameNode(value: 'user_bm_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_id'),
+                value: VariableNode(name: NameNode(value: 'user_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_lsp_id'),
+                value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_course_id'),
+                value: VariableNode(name: NameNode(value: 'user_course_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'course_id'),
+                value: VariableNode(name: NameNode(value: 'course_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'module_id'),
+                value: VariableNode(name: NameNode(value: 'module_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'topic_id'),
+                value: VariableNode(name: NameNode(value: 'topic_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'name'),
+                value: VariableNode(name: NameNode(value: 'name')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'time_stamp'),
+                value: VariableNode(name: NameNode(value: 'time_stamp')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_active'),
+                value: VariableNode(name: NameNode(value: 'is_active')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_bm_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'module_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'topic_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'time_stamp'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class UpdateUserBookmarkMutation extends GraphQLQuery<
+    UpdateUserBookmark$MutationRoot, UpdateUserBookmarkArguments> {
+  UpdateUserBookmarkMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UPDATE_USER_BOOKMARK_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      UPDATE_USER_BOOKMARK_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final UpdateUserBookmarkArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UpdateUserBookmark$MutationRoot parse(Map<String, dynamic> json) =>
+      UpdateUserBookmark$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserNotesArguments extends JsonSerializable with EquatableMixin {
+  AddUserNotesArguments({
+    required this.user_id,
+    required this.user_lsp_id,
+    required this.course_id,
+    required this.module_id,
+    required this.topic_id,
+    required this.sequence,
+    required this.details,
+    required this.status,
+    required this.is_active,
+  });
+
+  @override
+  factory AddUserNotesArguments.fromJson(Map<String, dynamic> json) =>
+      _$AddUserNotesArgumentsFromJson(json);
+
+  late String user_id;
+
+  late String user_lsp_id;
+
+  late String course_id;
+
+  late String module_id;
+
+  late String topic_id;
+
+  late int sequence;
+
+  late String details;
+
+  late String status;
+
+  late bool is_active;
+
+  @override
+  List<Object?> get props => [
+        user_id,
+        user_lsp_id,
+        course_id,
+        module_id,
+        topic_id,
+        sequence,
+        details,
+        status,
+        is_active
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$AddUserNotesArgumentsToJson(this);
+}
+
+final ADD_USER_NOTES_MUTATION_DOCUMENT_OPERATION_NAME = 'AddUserNotes';
+final ADD_USER_NOTES_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'AddUserNotes'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'course_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'module_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'topic_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'sequence')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'details')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'status')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'is_active')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'addUserNotes'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ListValueNode(values: [
+              ObjectValueNode(fields: [
+                ObjectFieldNode(
+                  name: NameNode(value: 'user_id'),
+                  value: VariableNode(name: NameNode(value: 'user_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'user_lsp_id'),
+                  value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'course_id'),
+                  value: VariableNode(name: NameNode(value: 'course_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'module_id'),
+                  value: VariableNode(name: NameNode(value: 'module_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'topic_id'),
+                  value: VariableNode(name: NameNode(value: 'topic_id')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'sequence'),
+                  value: VariableNode(name: NameNode(value: 'sequence')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'status'),
+                  value: VariableNode(name: NameNode(value: 'status')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'details'),
+                  value: VariableNode(name: NameNode(value: 'details')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'is_active'),
+                  value: VariableNode(name: NameNode(value: 'is_active')),
+                ),
+              ])
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_notes_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'module_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'topic_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'sequence'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'details'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class AddUserNotesMutation
+    extends GraphQLQuery<AddUserNotes$MutationRoot, AddUserNotesArguments> {
+  AddUserNotesMutation({required this.variables});
+
+  @override
+  final DocumentNode document = ADD_USER_NOTES_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = ADD_USER_NOTES_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final AddUserNotesArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  AddUserNotes$MutationRoot parse(Map<String, dynamic> json) =>
+      AddUserNotes$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserNotesArguments extends JsonSerializable with EquatableMixin {
+  UpdateUserNotesArguments({
+    this.user_notes_id,
+    required this.user_id,
+    required this.user_lsp_id,
+    required this.course_id,
+    required this.module_id,
+    required this.topic_id,
+    required this.sequence,
+    required this.status,
+    required this.details,
+    required this.is_active,
+  });
+
+  @override
+  factory UpdateUserNotesArguments.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserNotesArgumentsFromJson(json);
+
+  final String? user_notes_id;
+
+  late String user_id;
+
+  late String user_lsp_id;
+
+  late String course_id;
+
+  late String module_id;
+
+  late String topic_id;
+
+  late int sequence;
+
+  late String status;
+
+  late String details;
+
+  late bool is_active;
+
+  @override
+  List<Object?> get props => [
+        user_notes_id,
+        user_id,
+        user_lsp_id,
+        course_id,
+        module_id,
+        topic_id,
+        sequence,
+        status,
+        details,
+        is_active
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateUserNotesArgumentsToJson(this);
+}
+
+final UPDATE_USER_NOTES_MUTATION_DOCUMENT_OPERATION_NAME = 'updateUserNotes';
+final UPDATE_USER_NOTES_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'updateUserNotes'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_notes_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user_lsp_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'course_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'module_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'topic_id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'sequence')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'status')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'details')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'is_active')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateUserNotes'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'user_notes_id'),
+                value: VariableNode(name: NameNode(value: 'user_notes_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_id'),
+                value: VariableNode(name: NameNode(value: 'user_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_lsp_id'),
+                value: VariableNode(name: NameNode(value: 'user_lsp_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'course_id'),
+                value: VariableNode(name: NameNode(value: 'course_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'module_id'),
+                value: VariableNode(name: NameNode(value: 'module_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'topic_id'),
+                value: VariableNode(name: NameNode(value: 'topic_id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'sequence'),
+                value: VariableNode(name: NameNode(value: 'sequence')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'status'),
+                value: VariableNode(name: NameNode(value: 'status')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'details'),
+                value: VariableNode(name: NameNode(value: 'details')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_active'),
+                value: VariableNode(name: NameNode(value: 'is_active')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_notes_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'module_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'topic_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'sequence'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'details'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_active'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class UpdateUserNotesMutation extends GraphQLQuery<UpdateUserNotes$MutationRoot,
+    UpdateUserNotesArguments> {
+  UpdateUserNotesMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UPDATE_USER_NOTES_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      UPDATE_USER_NOTES_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final UpdateUserNotesArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UpdateUserNotes$MutationRoot parse(Map<String, dynamic> json) =>
+      UpdateUserNotes$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserCourseArguments extends JsonSerializable with EquatableMixin {
+  AddUserCourseArguments({
+    required this.userId,
+    required this.userLspId,
+    this.lspId,
+    required this.courseId,
+    required this.addedBy,
+    required this.courseType,
+    required this.isMandatory,
+    required this.courseStatus,
+    this.endDate,
+  });
+
+  @override
+  factory AddUserCourseArguments.fromJson(Map<String, dynamic> json) =>
+      _$AddUserCourseArgumentsFromJson(json);
+
+  late String userId;
+
+  late String userLspId;
+
+  final String? lspId;
+
+  late String courseId;
+
+  late String addedBy;
+
+  late String courseType;
+
+  late bool isMandatory;
+
+  late String courseStatus;
+
+  final String? endDate;
+
+  @override
+  List<Object?> get props => [
+        userId,
+        userLspId,
+        lspId,
+        courseId,
+        addedBy,
+        courseType,
+        isMandatory,
+        courseStatus,
+        endDate
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$AddUserCourseArgumentsToJson(this);
+}
+
+final ADD_USER_COURSE_MUTATION_DOCUMENT_OPERATION_NAME = 'addUserCourse';
+final ADD_USER_COURSE_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'addUserCourse'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userLspId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'lspId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'courseId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'addedBy')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'courseType')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'isMandatory')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'courseStatus')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'endDate')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'addUserCourse'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ListValueNode(values: [
+              ObjectValueNode(fields: [
+                ObjectFieldNode(
+                  name: NameNode(value: 'user_id'),
+                  value: VariableNode(name: NameNode(value: 'userId')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'user_lsp_id'),
+                  value: VariableNode(name: NameNode(value: 'userLspId')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'lsp_id'),
+                  value: VariableNode(name: NameNode(value: 'lspId')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'course_id'),
+                  value: VariableNode(name: NameNode(value: 'courseId')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'course_type'),
+                  value: VariableNode(name: NameNode(value: 'courseType')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'added_by'),
+                  value: VariableNode(name: NameNode(value: 'addedBy')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'is_mandatory'),
+                  value: VariableNode(name: NameNode(value: 'isMandatory')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'course_status'),
+                  value: VariableNode(name: NameNode(value: 'courseStatus')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'end_date'),
+                  value: VariableNode(name: NameNode(value: 'endDate')),
+                ),
+              ])
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'course_type'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'added_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_mandatory'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'end_date'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'course_status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class AddUserCourseMutation
+    extends GraphQLQuery<AddUserCourse$MutationRoot, AddUserCourseArguments> {
+  AddUserCourseMutation({required this.variables});
+
+  @override
+  final DocumentNode document = ADD_USER_COURSE_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = ADD_USER_COURSE_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final AddUserCourseArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  AddUserCourse$MutationRoot parse(Map<String, dynamic> json) =>
+      AddUserCourse$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserCourseArguments extends JsonSerializable with EquatableMixin {
+  UpdateUserCourseArguments({
+    required this.userCourseId,
+    required this.userId,
+    required this.userLspId,
+    this.lspId,
+    required this.courseId,
+    required this.addedBy,
+    required this.courseType,
+    required this.isMandatory,
+    required this.courseStatus,
+    this.endDate,
+  });
+
+  @override
+  factory UpdateUserCourseArguments.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserCourseArgumentsFromJson(json);
+
+  late String userCourseId;
+
+  late String userId;
+
+  late String userLspId;
+
+  final String? lspId;
+
+  late String courseId;
+
+  late String addedBy;
+
+  late String courseType;
+
+  late bool isMandatory;
+
+  late String courseStatus;
+
+  final String? endDate;
+
+  @override
+  List<Object?> get props => [
+        userCourseId,
+        userId,
+        userLspId,
+        lspId,
+        courseId,
+        addedBy,
+        courseType,
+        isMandatory,
+        courseStatus,
+        endDate
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateUserCourseArgumentsToJson(this);
+}
+
+final UPDATE_USER_COURSE_MUTATION_DOCUMENT_OPERATION_NAME = 'updateUserCourse';
+final UPDATE_USER_COURSE_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'updateUserCourse'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userCourseId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userLspId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'lspId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'courseId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'addedBy')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'courseType')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'isMandatory')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Boolean'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'courseStatus')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'endDate')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateUserCourse'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'user_course_id'),
+                value: VariableNode(name: NameNode(value: 'userCourseId')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_id'),
+                value: VariableNode(name: NameNode(value: 'userId')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_lsp_id'),
+                value: VariableNode(name: NameNode(value: 'userLspId')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'lsp_id'),
+                value: VariableNode(name: NameNode(value: 'lspId')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'course_id'),
+                value: VariableNode(name: NameNode(value: 'courseId')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'course_type'),
+                value: VariableNode(name: NameNode(value: 'courseType')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'added_by'),
+                value: VariableNode(name: NameNode(value: 'addedBy')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'is_mandatory'),
+                value: VariableNode(name: NameNode(value: 'isMandatory')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'course_status'),
+                value: VariableNode(name: NameNode(value: 'courseStatus')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'end_date'),
+                value: VariableNode(name: NameNode(value: 'endDate')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'lsp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'course_type'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'added_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'is_mandatory'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'end_date'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'course_status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class UpdateUserCourseMutation extends GraphQLQuery<
+    UpdateUserCourse$MutationRoot, UpdateUserCourseArguments> {
+  UpdateUserCourseMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UPDATE_USER_COURSE_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      UPDATE_USER_COURSE_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final UpdateUserCourseArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UpdateUserCourse$MutationRoot parse(Map<String, dynamic> json) =>
+      UpdateUserCourse$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddUserCourseProgressArguments extends JsonSerializable
+    with EquatableMixin {
+  AddUserCourseProgressArguments({
+    required this.userId,
+    required this.userCourseId,
+    required this.topicId,
+    required this.topicType,
+    required this.status,
+    required this.videoProgress,
+    required this.timestamp,
+  });
+
+  @override
+  factory AddUserCourseProgressArguments.fromJson(Map<String, dynamic> json) =>
+      _$AddUserCourseProgressArgumentsFromJson(json);
+
+  late String userId;
+
+  late String userCourseId;
+
+  late String topicId;
+
+  late String topicType;
+
+  late String status;
+
+  late String videoProgress;
+
+  late String timestamp;
+
+  @override
+  List<Object?> get props => [
+        userId,
+        userCourseId,
+        topicId,
+        topicType,
+        status,
+        videoProgress,
+        timestamp
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$AddUserCourseProgressArgumentsToJson(this);
+}
+
+final ADD_USER_COURSE_PROGRESS_MUTATION_DOCUMENT_OPERATION_NAME =
+    'addUserCourseProgress';
+final ADD_USER_COURSE_PROGRESS_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'addUserCourseProgress'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userCourseId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'topicId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'topicType')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'status')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'videoProgress')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'timestamp')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'addUserCourseProgress'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ListValueNode(values: [
+              ObjectValueNode(fields: [
+                ObjectFieldNode(
+                  name: NameNode(value: 'user_id'),
+                  value: VariableNode(name: NameNode(value: 'userId')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'user_course_id'),
+                  value: VariableNode(name: NameNode(value: 'userCourseId')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'topic_id'),
+                  value: VariableNode(name: NameNode(value: 'topicId')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'topic_type'),
+                  value: VariableNode(name: NameNode(value: 'topicType')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'status'),
+                  value: VariableNode(name: NameNode(value: 'status')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'video_progress'),
+                  value: VariableNode(name: NameNode(value: 'videoProgress')),
+                ),
+                ObjectFieldNode(
+                  name: NameNode(value: 'time_stamp'),
+                  value: VariableNode(name: NameNode(value: 'timestamp')),
+                ),
+              ])
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_cp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'topic_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'topic_type'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'video_progress'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'time_stamp'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class AddUserCourseProgressMutation extends GraphQLQuery<
+    AddUserCourseProgress$MutationRoot, AddUserCourseProgressArguments> {
+  AddUserCourseProgressMutation({required this.variables});
+
+  @override
+  final DocumentNode document = ADD_USER_COURSE_PROGRESS_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      ADD_USER_COURSE_PROGRESS_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final AddUserCourseProgressArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  AddUserCourseProgress$MutationRoot parse(Map<String, dynamic> json) =>
+      AddUserCourseProgress$MutationRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserCourseProgressArguments extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserCourseProgressArguments({
+    required this.userCpId,
+    required this.userId,
+    required this.userCourseId,
+    required this.topicId,
+    required this.topicType,
+    required this.status,
+    required this.videoProgress,
+    required this.timestamp,
+  });
+
+  @override
+  factory UpdateUserCourseProgressArguments.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserCourseProgressArgumentsFromJson(json);
+
+  late String userCpId;
+
+  late String userId;
+
+  late String userCourseId;
+
+  late String topicId;
+
+  late String topicType;
+
+  late String status;
+
+  late String videoProgress;
+
+  late String timestamp;
+
+  @override
+  List<Object?> get props => [
+        userCpId,
+        userId,
+        userCourseId,
+        topicId,
+        topicType,
+        status,
+        videoProgress,
+        timestamp
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserCourseProgressArgumentsToJson(this);
+}
+
+final UPDATE_USER_COURSE_PROGRESS_MUTATION_DOCUMENT_OPERATION_NAME =
+    'updateUserCourseProgress';
+final UPDATE_USER_COURSE_PROGRESS_MUTATION_DOCUMENT =
+    DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'updateUserCourseProgress'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userCpId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'userCourseId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'topicId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'topicType')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'status')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'videoProgress')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'timestamp')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateUserCourseProgress'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'user_cp_id'),
+                value: VariableNode(name: NameNode(value: 'userCpId')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_id'),
+                value: VariableNode(name: NameNode(value: 'userId')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'user_course_id'),
+                value: VariableNode(name: NameNode(value: 'userCourseId')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'topic_id'),
+                value: VariableNode(name: NameNode(value: 'topicId')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'topic_type'),
+                value: VariableNode(name: NameNode(value: 'topicType')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'status'),
+                value: VariableNode(name: NameNode(value: 'status')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'video_progress'),
+                value: VariableNode(name: NameNode(value: 'videoProgress')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'time_stamp'),
+                value: VariableNode(name: NameNode(value: 'timestamp')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'user_cp_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'user_course_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'topic_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'topic_type'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'video_progress'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'time_stamp'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_by'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'created_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'updated_at'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class UpdateUserCourseProgressMutation extends GraphQLQuery<
+    UpdateUserCourseProgress$MutationRoot, UpdateUserCourseProgressArguments> {
+  UpdateUserCourseProgressMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UPDATE_USER_COURSE_PROGRESS_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      UPDATE_USER_COURSE_PROGRESS_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final UpdateUserCourseProgressArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UpdateUserCourseProgress$MutationRoot parse(Map<String, dynamic> json) =>
+      UpdateUserCourseProgress$MutationRoot.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

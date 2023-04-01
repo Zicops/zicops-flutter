@@ -127,7 +127,7 @@ class _NotesTopicScreen extends State<NotesTopicScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NewNoteScreen("", "")));
+                          builder: (context) => NewNoteScreen("", "", "")));
                 },
                 child: Container(
                   height: 56.sp,

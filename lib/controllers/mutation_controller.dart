@@ -1,4 +1,5 @@
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../graphql_api.graphql.dart';
 import '../main.dart';
@@ -94,5 +95,94 @@ updateUserPreference() async {
         is_active: true,
       )));
   print(res?.data?.toJson());
+  return;
+}
+
+addUserNotes(String courseId, String moduleId, String topicId, int sequence,
+    String details) async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String? userId = sharedPreferences.getString('userId');
+  String? lspId = sharedPreferences.getString('lspId');
+  String? userLspId = sharedPreferences.getString('userLspId');
+
+  final res = userClient.client()?.execute(AddUserNotesMutation(
+          variables: AddUserNotesArguments(
+        user_id: userId!,
+        user_lsp_id: userLspId!,
+        course_id: courseId,
+        module_id: moduleId,
+        topic_id: topicId,
+        sequence: sequence,
+        status: 'active',
+        details: details,
+        is_active: true,
+      )));
+  return;
+}
+
+addUserBookmarks(String courseId, String moduleId, String topicId, String name,
+    String timeStamp, String userCourseId) async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String? userId = sharedPreferences.getString('userId');
+  String? lspId = sharedPreferences.getString('lspId');
+  String? userLspId = sharedPreferences.getString('userLspId');
+
+  final res = userClient.client()?.execute(AddUserBookmarkMutation(
+          variables: AddUserBookmarkArguments(
+        user_id: userId!,
+        user_lsp_id: userLspId!,
+        course_id: courseId,
+        module_id: moduleId,
+        topic_id: topicId,
+        is_active: true,
+        user_course_id: userCourseId,
+        name: name,
+        time_stamp: timeStamp,
+      )));
+  return;
+}
+
+updateUserBookmarks(String userBmId, String courseId, String moduleId,
+    String topicId, String name, String timeStamp, String userCourseId) async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String? userId = sharedPreferences.getString('userId');
+  String? lspId = sharedPreferences.getString('lspId');
+  String? userLspId = sharedPreferences.getString('userLspId');
+  final res = await userClient.client()?.execute(UpdateUserBookmarkMutation(
+          variables: UpdateUserBookmarkArguments(
+        user_bm_id: userBmId,
+        user_id: userId!,
+        user_lsp_id: userLspId!,
+        course_id: courseId,
+        module_id: moduleId,
+        topic_id: topicId,
+        name: name,
+        user_course_id: userCourseId,
+        time_stamp: timeStamp,
+        is_active: true,
+      )));
+  print(res);
+  return;
+}
+
+updateUserNotes(String userNotesId, String courseId, String moduleId,
+    String topicId, int sequence, String details, String status) async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String? userId = sharedPreferences.getString('userId');
+  String? lspId = sharedPreferences.getString('lspId');
+  String? userLspId = sharedPreferences.getString('userLspId');
+  final res = userClient.client()?.execute(UpdateUserNotesMutation(
+          variables: UpdateUserNotesArguments(
+        user_notes_id: userNotesId,
+        user_id: userId!,
+        user_lsp_id: userLspId!,
+        course_id: courseId,
+        module_id: moduleId,
+        topic_id: topicId,
+        sequence: 0,
+        status: status,
+        details: details,
+        is_active: true,
+      )));
   return;
 }

@@ -16,8 +16,14 @@ class CourseLoading extends CourseState {
 
 class CourseLoaded extends CourseState {
   final courseData;
+  final isCourseAssigned;
+  final userCourseMap;
 
-  CourseLoaded({required this.courseData});
+  CourseLoaded({
+    required this.courseData,
+    required this.isCourseAssigned,
+    required this.userCourseMap,
+  });
 
   @override
   List<Object?> get props => [courseData];
