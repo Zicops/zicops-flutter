@@ -32,10 +32,10 @@ class PersonalTabScreen extends StatefulWidget {
 }
 
 class _PersonalTabScreen extends State<PersonalTabScreen> {
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
 
   bool isEmailValidated = false;
 
@@ -162,7 +162,23 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
       create: (context) => AccountSetupBloc(AccountSetupRepository())
         ..add(PersonalTabRequested()),
       child: Scaffold(
-        body: BlocBuilder<AccountSetupBloc, AccountSetupState>(
+        body: BlocConsumer<AccountSetupBloc, AccountSetupState>(
+          listener: (context, state) {
+            if (state is PersonalTabLoaded) {
+              setState(() {
+                firstName = state.user.firstName.toString();
+                lastName = state.user.lastName.toString();
+                email = state.user.email.toString();
+                phone = state.user.phone.toString();
+                imageUrl = state.user.photoUrl.toString();
+              });
+              id = state.user.id.toString();
+              _firstNameController.text = firstName;
+              _lastNameController.text = lastName;
+              _emailController.text = email;
+              _phoneController.text = phone;
+            }
+          },
           builder: (context, state) {
             print(state);
             if (state is PersonalTabLoading) {
@@ -170,16 +186,18 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
             }
             if (state is PersonalTabLoaded) {
               print(state);
-              firstName = state.user.firstName.toString();
-              lastName = state.user.lastName.toString();
-              email = state.user.email.toString();
-              phone = state.user.phone.toString();
-              imageUrl = state.user.photoUrl.toString();
+              // firstName = state.user.firstName.toString();
+              // lastName = state.user.lastName.toString();
+              // email = state.user.email.toString();
+              // phone = state.user.phone.toString();
+              // imageUrl = state.user.photoUrl.toString();
 
-              _firstNameController.text = firstName;
-              _lastNameController.text = lastName;
-              _emailController.text = email;
-              _phoneController.text = phone;
+              // setState(() {
+              //   _firstNameController.text = firstName;
+              //   _lastNameController.text = lastName;
+              //   _emailController.text = email;
+              //   _phoneController.text = phone;
+              // });
 
               return SafeArea(
                 child: KeyboardVisibilityBuilder(
@@ -324,6 +342,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                                   const SizedBox(height: 12),
                                   GestureDetector(
                                     onTap: () async {
+                                      print(profileImage);
                                       if (profileImage != null) {
                                         var byteData =
                                             profileImage.readAsBytesSync();

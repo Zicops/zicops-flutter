@@ -24,6 +24,9 @@ class AccountSetupRepository {
                 userId: userId!, user_lsp_id: userLspId!)));
     String orgId =
         getUserOrgDetailsResult?.data?.getUserOrgDetails?.organizationId ?? '';
+    String userOrgId =
+        getUserOrgDetailsResult?.data?.getUserOrgDetails?.userOrganizationId ??
+            '';
     //Query to get orgName
     final getOrganisationDetailsResult = await userClient.client()?.execute(
         GetOrganizationsQuery(
@@ -41,7 +44,10 @@ class AccountSetupRepository {
                 user_lsp_ids: [userLspId!], user_id: userId!)));
 
     OrgModel orgDetails = OrgModel(
+      userId: userId ?? '',
+      userLspId: userLspId ?? '',
       orgId: orgId,
+      userOrgId: userOrgId ?? '',
       orgName:
           getOrganisationDetailsResult?.data?.getOrganizations?[0]?.name ?? '',
       lspName:

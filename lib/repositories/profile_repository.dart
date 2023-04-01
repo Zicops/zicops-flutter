@@ -42,7 +42,12 @@ class ProfileRepository {
                 user_lsp_ids: [userLspId!], user_id: userId!)));
 
     OrgModel orgDetails = OrgModel(
+      userId: userId ?? '',
+      userLspId: userLspId ?? '',
       orgId: orgId,
+      userOrgId: getUserOrgDetailsResult
+              ?.data?.getUserOrgDetails?.userOrganizationId ??
+          '',
       orgName:
           getOrganisationDetailsResult?.data?.getOrganizations?[0]?.name ?? '',
       lspName:
