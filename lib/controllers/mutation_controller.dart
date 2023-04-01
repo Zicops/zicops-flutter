@@ -5,13 +5,15 @@ import '../graphql_api.graphql.dart';
 import '../main.dart';
 
 updateUser(
-    String id,
-    String firstNameController,
-    String lastNameController,
-    String emailController,
-    String phoneController,
-    MultipartFile? image) async {
-  //print(_firstNameController.text);
+  String id,
+  String firstNameController,
+  String lastNameController,
+  String emailController,
+  String phoneController,
+  MultipartFile? image,
+) async {
+  print(image);
+  print(firstNameController);
   final res = await userClient.client()?.execute(
         UpdateUserMutation(
           variables: UpdateUserArguments(
@@ -29,6 +31,7 @@ updateUser(
           ),
         ),
       );
+  print(res?.data?.toJson());
 
   // print(res?.data?.toJson());
   return;
@@ -45,7 +48,8 @@ addUserOrganization(String userId, String orgId, String userLspId,
         is_active: true,
         employee_id: employeeId,
       )));
-  // print(res?.data?.toJson());
+  print('userid $userId');
+  print(res?.data?.toJson());
   return;
 }
 
@@ -62,7 +66,7 @@ updateUserOrganizationMap(String userId, String orgId, String userOrgId,
             is_active: true,
             employee_id: employeeId,
           )));
-  // print(res?.data?.toJson());
+  print(res?.data?.toJson());
   return;
 }
 
