@@ -7,7 +7,6 @@ import 'package:zicops/blocs/auth/auth_bloc.dart';
 import 'package:zicops/gql_client.dart';
 import 'package:zicops/repositories/auth_repository.dart';
 import 'package:zicops/repositories/home_repository.dart';
-import 'package:zicops/state/mobx_store.dart';
 import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 
@@ -15,8 +14,6 @@ import 'firebase_options.dart';
 
 final GQL userClient = GQL('https://demo.zicops.com/um/api/v1/query');
 final GQL courseQClient = GQL('https://demo.zicops.com/cq/api/v1/query');
-
-final zStoreInstance = ZStore();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,15 +51,6 @@ class MyApp extends StatelessWidget {
                 title: 'Zicops Demo',
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
-                  // This is the theme of your application.
-                  //
-                  // Try running your application with "flutter run". You'll see the
-                  // application has a blue toolbar. Then, without quitting the app, try
-                  // changing the primarySwatch below to Colors.green and then invoke
-                  // "hot reload" (press "r" in the console where you ran "flutter run",
-                  // or simply save your changes to "hot reload" in a Flutter IDE).
-                  // Notice that the counter didn't reset back to zero; the application
-                  // is not restarted.
                   brightness: Brightness.dark,
                   scaffoldBackgroundColor: Colors.transparent,
                   textTheme:

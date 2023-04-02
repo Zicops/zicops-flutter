@@ -64,10 +64,6 @@ class _TopicScreen extends State<TopicScreen> {
     _controller = VideoPlayerController.network(videoUrl);
   }
 
-  void _writeNotes(UserNotes notes) {
-    print(notes);
-  }
-
   getBottomSheetChild(
       String courseId, String moduleId, String topicId, int sequence) {
     switch (selectedVideoOption) {

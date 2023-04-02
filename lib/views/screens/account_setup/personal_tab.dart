@@ -22,8 +22,8 @@ import '../../../utils/validation.dart';
 import '../../widgets/PrefixInputField.dart';
 
 class PersonalTabScreen extends StatefulWidget {
-  Function() changeTab;
-  PersonalTabScreen(this.changeTab, {Key? key}) : super(key: key);
+  final Function() changeTab;
+  const PersonalTabScreen(this.changeTab, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -66,7 +66,6 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
-      //setState(() => profileImage = image);
       setState(() => profileImage = imageTemp);
       print(image);
       print(imageTemp);
@@ -94,33 +93,6 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
     super.initState();
     // getDetails();
   }
-  //
-  // Future getDetails() async {
-  //   setState(() {
-  //     isloading = false;
-  //   });
-  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //   Map<String, dynamic> jsonDetails =
-  //       jsonDecode(sharedPreferences.getString('user')!);
-  //   var user = UserDetailsModel.fromJson(jsonDetails);
-  //   if (jsonDetails.isNotEmpty) {
-  //     id = user.id.toString();
-  //     firstName = user.firstName.toString();
-  //     lastName = user.lastName.toString();
-  //     email = user.email.toString();
-  //     phone = user.phone.toString();
-  //     imageUrl = user.photoUrl.toString();
-  //   }
-  //
-  //   _firstNameController.text = firstName;
-  //   _lastNameController.text = lastName;
-  //   _emailController.text = email;
-  //   _phoneController.text = phone;
-  //
-  //   if (imageUrl != null && imageUrl!.isNotEmpty) {
-  //     profileImage = await urlToFile(imageUrl!);
-  //   }
-  // }
 
   Future<File> urlToFile(String imageUrl) async {
     var rng = Random();
@@ -185,20 +157,6 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
               return Center(child: CircularProgressIndicator());
             }
             if (state is PersonalTabLoaded) {
-              print(state);
-              // firstName = state.user.firstName.toString();
-              // lastName = state.user.lastName.toString();
-              // email = state.user.email.toString();
-              // phone = state.user.phone.toString();
-              // imageUrl = state.user.photoUrl.toString();
-
-              // setState(() {
-              //   _firstNameController.text = firstName;
-              //   _lastNameController.text = lastName;
-              //   _emailController.text = email;
-              //   _phoneController.text = phone;
-              // });
-
               return SafeArea(
                 child: KeyboardVisibilityBuilder(
                     builder: (context, isKeyboardVisible) {

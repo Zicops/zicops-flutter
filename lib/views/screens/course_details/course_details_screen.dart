@@ -14,12 +14,12 @@ import 'about/about_screen.dart';
 import 'notes/notes_screen.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
-  String courseId;
-  String courseName;
-  String difficulty;
-  String preview;
+ final String courseId;
+  final  String courseName;
+ final String difficulty;
+  final String preview;
 
-  CourseDetailsScreen(
+  const CourseDetailsScreen(
       this.courseId, this.courseName, this.difficulty, this.preview,
       {Key? key})
       : super(key: key);
