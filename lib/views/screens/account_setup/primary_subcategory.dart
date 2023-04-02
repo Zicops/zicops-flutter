@@ -10,7 +10,8 @@ import '../../../utils/colors.dart';
 
 class PrimarySubCategoryScreen extends StatefulWidget {
   final List<Category> subCategories;
-  const PrimarySubCategoryScreen(this.subCategories, {Key? key}) : super(key: key);
+  const PrimarySubCategoryScreen(this.subCategories, {Key? key})
+      : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _PrimarySubCategoryScreen();
@@ -132,12 +133,11 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
           ),
           body: SlidingUpPanel(
               minHeight: 88.sp,
-              maxHeight:88.sp,
+              maxHeight: 88.sp,
               color: Colors.transparent,
               controller: _panelController,
               panel: Container(
-                  padding:
-                      EdgeInsets.only(left: 20.sp, right: 20.sp),
+                  padding: EdgeInsets.only(left: 20.sp, right: 20.sp),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: secondaryColor,
@@ -146,36 +146,43 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
                           topRight: Radius.circular(16)),
                       border: Border.all(color: lightGrey)),
                   child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
-                          );
-                        },
-                        child: Ink(
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 48.sp,
-                            decoration: BoxDecoration(
-                              border: Border.all(color:selectedSubCategory!= -1?Colors.transparent:lightGrey),
-                                gradient: selectedSubCategory!= -1? const LinearGradient(
-                                    colors: [primaryColor, gradientTwo]):const LinearGradient(
-                                    colors: [secondaryColor,secondaryColor ]),
-                                borderRadius: BorderRadius.circular(4.sp)),
-                            child: Text(
-                              'Save'.toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                  color: selectedSubCategory!= -1? secondaryColor: textGrey2,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14.sp,
-                                  letterSpacing: 2,
-                                  height: 1.72),
-                            ),
-                          ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()),
+                      );
+                    },
+                    child: Ink(
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 48.sp,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: selectedSubCategory != -1
+                                    ? Colors.transparent
+                                    : lightGrey),
+                            gradient: selectedSubCategory != -1
+                                ? const LinearGradient(
+                                    colors: [primaryColor, gradientTwo])
+                                : const LinearGradient(
+                                    colors: [secondaryColor, secondaryColor]),
+                            borderRadius: BorderRadius.circular(4.sp)),
+                        child: Text(
+                          'Save'.toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                              color: selectedSubCategory != -1
+                                  ? secondaryColor
+                                  : textGrey2,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.sp,
+                              letterSpacing: 2,
+                              height: 1.72),
                         ),
-                      )),
+                      ),
+                    ),
+                  )),
               body: CustomScrollView(slivers: [
                 SliverFillRemaining(
                   hasScrollBody: false,
@@ -317,7 +324,7 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
                                                                               MainAxisAlignment.spaceBetween,
                                                                           children: [
                                                                             Text(
-                                                                              cat.category.toUpperCase(),
+                                                                              cat.category!.toUpperCase(),
                                                                               style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600, height: 1.33, letterSpacing: 1, color: checkIfSelectedFilter(cat.id) ? textPrimary : textGrey2),
                                                                             ),
                                                                             Container(
@@ -485,7 +492,7 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
                                 onChanged: (val) {
                                   setState(() {
                                     filteredSubCategories = widget.subCategories
-                                        .where((cat) => cat.category
+                                        .where((cat) => cat.category!
                                             .toLowerCase()
                                             .contains(val.toLowerCase()))
                                         .toList();
@@ -526,18 +533,20 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
                                         margin:
                                             const EdgeInsets.only(right: 12),
                                         decoration: BoxDecoration(
-                                            border:Border.all(color: selectedSubCategory == cat.id
-                                                ? primaryColor
-                                                : lightGrey),
+                                            border: Border.all(
+                                                color: selectedSubCategory ==
+                                                        cat.id
+                                                    ? primaryColor
+                                                    : lightGrey),
                                             borderRadius:
                                                 BorderRadius.circular(2.sp)),
                                         child: Text(
-                                          cat.category.toUpperCase(),
+                                          cat.category!.toUpperCase(),
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.poppins(
                                               fontSize: 14.sp,
                                               color:
-                                              selectedSubCategory == cat.id
+                                                  selectedSubCategory == cat.id
                                                       ? primaryColor
                                                       : textPrimary,
                                               fontWeight: FontWeight.w600,

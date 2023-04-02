@@ -14,7 +14,6 @@ import '../../../repositories/auth_repository.dart';
 import '../../../utils/validation.dart';
 import '../../widgets/CustomPassword.dart';
 import '../../widgets/PrefixInputField.dart';
-import '../account_setup/lsp_selection.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

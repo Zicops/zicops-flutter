@@ -2,19 +2,15 @@
 // import 'package:curved_labeled_navigation_bar/curved_navigation_bar_itemar.dart';
 // import 'dart:html';
 
-// import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:zicops/blocs/profile/profile_bloc.dart';
 import 'package:zicops/repositories/profile_repository.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import 'package:zicops/views/screens/assign_course/assign_course.dart';
 import 'package:zicops/views/screens/home/home_screen.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 import 'package:zicops/views/screens/my_course/my_course_screen.dart';
-import 'package:zicops/views/screens/new_course/new_course_screen.dart';
 import 'package:zicops/views/screens/notifications/notification_screen.dart';
 import 'package:zicops/views/screens/preferences/preferences_screen.dart';
 import 'package:zicops/views/screens/profile/profile_screen.dart';

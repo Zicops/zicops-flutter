@@ -17,10 +17,7 @@ class NotesListScreen extends StatefulWidget {
 
 class _NotesListScreen extends State<NotesListScreen> {
   List<List<String>> notesItemList = [
-    [
-      "Complete Java Programming - Beginner to Advance",
-      "Lorem."
-    ],
+    ["Complete Java Programming - Beginner to Advance", "Lorem."],
     [
       "Complete Java Programming - Beginner to Advance",
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry."

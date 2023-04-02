@@ -1,5 +1,5 @@
 class Category {
-  String? id;
+  int id;
   String? category;
   String? parentCategory;
 

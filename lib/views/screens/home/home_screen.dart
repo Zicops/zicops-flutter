@@ -366,7 +366,6 @@ class _HomeScreen extends State<HomeScreen> {
                                               ))),
                                 ),
                               ]);
-
                         }
                         return const Text("No data");
                       },
