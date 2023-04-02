@@ -1,6 +1,6 @@
 List courseItems = [
   {
-    "courseName": "Marketing & Business ",
+    "courseName": "Marketing & Business",
     "org": "Wipro",
     "difficulty": "Intermediate",
     "courseLength": "4hours",

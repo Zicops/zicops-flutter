@@ -14,6 +14,7 @@ import '../../../repositories/auth_repository.dart';
 import '../../../utils/validation.dart';
 import '../../widgets/CustomPassword.dart';
 import '../../widgets/PrefixInputField.dart';
+import '../account_setup/lsp_selection.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -37,8 +38,8 @@ class HttpClientWithToken extends http.BaseClient {
 }
 
 class _LoginScreen extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   bool _passwordVisible = false;
   bool showErrorP = false;
@@ -46,6 +47,7 @@ class _LoginScreen extends State<LoginScreen> {
   bool _keyboardVisible = false;
   bool isLoading = false;
   bool isEmailValidated = false;
+  bool isFirstLogin = true;
 
   void _changeVisibility() {
     setState(() {

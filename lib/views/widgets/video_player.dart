@@ -136,7 +136,8 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                       bottom: 30.sp,
                       left: (widget.controller.value.position.inMilliseconds /
                               widget.controller.value.duration.inMilliseconds) *
-                          width * 0.8,
+                          width *
+                          0.8,
                       child: Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 12.sp, vertical: 8.sp),
@@ -167,11 +168,6 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                               setState(() {
                                 if (_controller.value.isPlaying) {
                                   isVisible = !isVisible;
-                                  _controller.seekTo(Duration(
-                                      milliseconds: (widget.controller.value
-                                                  .position.inMilliseconds -
-                                              10000)
-                                          .toInt()));
                                 } else {
                                   _controller.play();
                                 }
@@ -181,6 +177,11 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                               setState(() {
                                 isVisible = false;
                                 showSkipBack = true;
+                                _controller.seekTo(Duration(
+                                    milliseconds: (widget.controller.value
+                                        .position.inMilliseconds -
+                                        10000)
+                                        .toInt()));
                               });
                               Future.delayed(const Duration(milliseconds: 300),
                                   () {
@@ -230,11 +231,6 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                           setState(() {
                             if (_controller.value.isPlaying) {
                               isVisible = !isVisible;
-                              _controller.seekTo(Duration(
-                                  milliseconds: (widget.controller.value
-                                              .position.inMilliseconds +
-                                          10000)
-                                      .toInt()));
                             } else {
                               _controller.play();
                             }
@@ -244,6 +240,11 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                           setState(() {
                             isVisible = false;
                             showSkipForward = true;
+                            _controller.seekTo(Duration(
+                                milliseconds: (widget.controller.value
+                                    .position.inMilliseconds +
+                                    10000)
+                                    .toInt()));
                           });
                           Future.delayed(const Duration(milliseconds: 300), () {
                             setState(() {
@@ -396,15 +397,28 @@ class _ControlsOverlay extends State<ControlsOverlay> {
           Positioned(
               bottom: 7.sp,
               right: 51.sp,
-              child: Text(
-                "Next Topic >".toUpperCase(),
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: textPrimary,
-                    letterSpacing: 2),
+              child: Row(
+                children: [
+                  Text(
+                    "Next Topic".toUpperCase(),
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: textPrimary,
+                        letterSpacing: 2),
+                  ),
+                  Transform.rotate(
+                    angle: -1.3,
+                    child: Center(
+                        child: Image.asset(
+                      "assets/images/down_arrow.png",
+                      width: 7.5.sp,
+                      height: 12.sp,
+                    )),
+                  )
+                ],
               )),
-        if (widget.controller.value.position.inSeconds < 10)
+        if (widget.controller.value.position.inSeconds < -2)
           Positioned(
               bottom: 7.sp,
               right: 51.sp,

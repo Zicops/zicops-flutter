@@ -386,7 +386,7 @@ class _HomeScreen extends State<HomeScreen> {
                   BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
                       if (state is LearningFolderCourseLoaded) {
-                        return sectionHeader("Learning Folder courses", () {
+                        return sectionHeader("Learning Folder", () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -396,7 +396,7 @@ class _HomeScreen extends State<HomeScreen> {
                                       )));
                         });
                       }
-                      return sectionHeader("Learning Folder courses", () {});
+                      return sectionHeader("Learning Folder", () {});
                     },
                   ),
                   SizedBox(
@@ -430,6 +430,7 @@ class _HomeScreen extends State<HomeScreen> {
                                                 courseItem.duration ?? 0),
                                             courseItem.tileImage ?? '',
                                             courseItem.id ?? '',
+                                            showPlusIcon: false,
                                           ),
                                           SizedBox(
                                             width: 8.sp,
@@ -457,7 +458,6 @@ class _HomeScreen extends State<HomeScreen> {
                 ],
               ),
             ),
-
             SizedBox(
               height: 14.25.sp,
             ),
@@ -513,6 +513,7 @@ class _HomeScreen extends State<HomeScreen> {
                                             courseItem.duration ?? 0),
                                         courseItem.tileImage ?? '',
                                         courseItem.id ?? '',
+                                        showPlusIcon: true,
                                       ),
                                       SizedBox(
                                         width: 8.sp,
@@ -539,7 +540,6 @@ class _HomeScreen extends State<HomeScreen> {
                 ],
               ),
             ),
-
             SizedBox(
               height: 14.25.sp,
             ),
@@ -595,6 +595,7 @@ class _HomeScreen extends State<HomeScreen> {
                                             courseItem.duration ?? 0),
                                         courseItem.tileImage ?? '',
                                         courseItem.id ?? '',
+                                        showPlusIcon: false,
                                       ),
                                       SizedBox(
                                         width: 8.sp,
@@ -1026,7 +1027,6 @@ class _HomeScreen extends State<HomeScreen> {
                 },
               ),
             ),
-
             sectionHeader("Category", () {}),
             SizedBox(
               height: 8.sp,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../utils/colors.dart';
-import '../../course_details/course_details_screen.dart';
 
 class NewCourseListItem extends StatefulWidget {
   String courseName;

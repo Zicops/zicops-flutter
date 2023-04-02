@@ -5,6 +5,7 @@ import 'package:zicops/views/screens/new_course/widgets/new_course_list_item.dar
 import 'package:zicops/views/widgets/course_grid_item.dart';
 
 import '../../../utils/time_format.dart';
+import '../../../utils/dummies.dart';
 
 class NewCourseScreen extends StatefulWidget {
   final List courseList;
@@ -12,6 +13,8 @@ class NewCourseScreen extends StatefulWidget {
   const NewCourseScreen(
       {Key? key, required this.courseList, required this.title})
       : super(key: key);
+  String title;
+  NewCourseScreen(this.title, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

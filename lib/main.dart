@@ -8,6 +8,7 @@ import 'package:zicops/gql_client.dart';
 import 'package:zicops/repositories/auth_repository.dart';
 import 'package:zicops/repositories/home_repository.dart';
 import 'package:zicops/utils/colors.dart';
+import 'package:zicops/views/screens/home/home.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 
 import 'firebase_options.dart';

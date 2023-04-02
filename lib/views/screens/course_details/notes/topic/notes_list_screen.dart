@@ -19,7 +19,7 @@ class _NotesListScreen extends State<NotesListScreen> {
   List<List<String>> notesItemList = [
     [
       "Complete Java Programming - Beginner to Advance",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      "Lorem."
     ],
     [
       "Complete Java Programming - Beginner to Advance",
@@ -44,7 +44,6 @@ class _NotesListScreen extends State<NotesListScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    print(widget.notes);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.sp),
       margin: EdgeInsets.only(top: 20.sp),

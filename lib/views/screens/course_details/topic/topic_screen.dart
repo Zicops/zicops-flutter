@@ -41,7 +41,8 @@ class TopicScreen extends StatefulWidget {
   }
 }
 
-class _TopicScreen extends State<TopicScreen> {
+class _TopicScreen extends State<TopicScreen>
+    with SingleTickerProviderStateMixin {
   final PanelController _panelController = PanelController();
   VideoPlayerController? _controller;
   int selectedChapter = -1;
@@ -50,8 +51,18 @@ class _TopicScreen extends State<TopicScreen> {
   String selectedChapterDuration = "";
   double minPanelHeight = 0;
   double maxPanelHeight = 0;
-
+  bool isChapterOpen = false;
   int selectedVideoOption = -1;
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 400),
+    );
+  }
 
   String _selectedValue = "";
   void _onDropdownChanged(String newValue) {

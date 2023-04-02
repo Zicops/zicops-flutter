@@ -31,7 +31,7 @@ class CourseDetailsScreen extends StatefulWidget {
 }
 
 class _CourseDetailsScreen extends State<CourseDetailsScreen> {
-  int _selectedTab = 3;
+  int _selectedTab = 0;
   List<dynamic> topicData = [];
   var isCourseAssigned = false;
   UserCourseMap userCourseMap = UserCourseMap();
@@ -39,29 +39,21 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
     print("isCourseAssigned: $isCourseAssigned");
     switch (_selectedTab) {
       case 0:
-        return TopicScreen(
-          widget.courseId,
+        return  AboutScreen( courseId: widget.courseId,
+          isCourseAssigned: isCourseAssigned,);
+      case 1:
+        return  TopicScreen(widget.courseId,
           widget.difficulty,
           widget.preview,
           isCourseAssigned,
-          userCourseMap,
-        );
-      case 1:
-        return NotesScreen(
-          courseId: widget.courseId,
-          preview: widget.preview,
-          isCourseAssigned: isCourseAssigned,
-        );
+          userCourseMap,);
       case 2:
-        return ResourcesScreen(
-          widget.courseId,
-          isCourseAssigned,
-        );
+        return  NotesScreen(  courseId: widget.courseId,
+          preview: widget.preview,
+          isCourseAssigned: isCourseAssigned,);
       case 3:
-        return AboutScreen(
-          courseId: widget.courseId,
-          isCourseAssigned: isCourseAssigned,
-        );
+        return  ResourcesScreen(  widget.courseId,
+          isCourseAssigned,);
       default:
         return AboutScreen(
           courseId: widget.courseId,
@@ -210,5 +202,109 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
         },
       ),
     );
+    return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(48.sp),
+          child: AppBar(
+            backgroundColor: secondaryColor,
+            elevation: 0,
+            leading: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (Navigator.canPop(context)) Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      right: 4.sp, top: 16.sp, bottom: 16.sp, left: 20.sp),
+                  child: Image.asset(
+                    "assets/images/back_arrow.png",
+                    height: 16.sp,
+                    width: 16.sp,
+                  ),
+                )),
+            leadingWidth: 40.sp,
+            title: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchScreen()));
+                      },
+                      child: Container(
+                          width: 24.sp,
+                          height: 24.sp,
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            "assets/images/search.png",
+                            width: 18.sp,
+                            height: 18.sp,
+                            color: textPrimary,
+                          ))),
+                  SizedBox(
+                    width: 16.sp,
+                  )
+                ]),
+          ),
+        ),
+        backgroundColor: secondaryColorDark,
+        body: SafeArea(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+              Container(
+                height: 48.sp,
+                color: secondaryColor,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 0;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(82, "About", 0, _selectedTab),
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 1;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(84, "Topic", 1, _selectedTab),
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 2;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(121, "Notes", 2, _selectedTab),
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 3;
+                          });
+                        },
+                        child: SizedBox(
+                          child: mainTab(87, "Resources", 3, _selectedTab),
+                        )),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: getScreen(),
+              )
+            ])));
   }
 }

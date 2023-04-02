@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:zicops/controllers/mutation_controller.dart';
 import 'package:zicops/views/screens/account_setup/models/category.dart';
-import 'package:zicops/views/screens/home/home.dart';
+import 'package:zicops/views/screens/account_setup/primary_subcategory.dart';
 
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
@@ -14,7 +14,8 @@ import '../../../models/user/user_account_profile_pref.dart';
 import '../../../utils/colors.dart';
 
 class PreferencesTabScreen extends StatefulWidget {
-  const PreferencesTabScreen({Key? key}) : super(key: key);
+  final bool isEdit;
+  const PreferencesTabScreen({Key? key, this.isEdit = false}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -218,6 +219,37 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
       return Scaffold(
           key: _scaffoldKey,
+          appBar: widget.isEdit? PreferredSize(
+            preferredSize: Size.fromHeight(48.sp),
+            child: AppBar(
+              backgroundColor: secondaryColorDark,
+              elevation: 0,
+              leading: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    if (Navigator.canPop(context)) Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        right: 4.sp, top: 16.sp, bottom: 16.sp, left: 20.sp),
+                    child: Image.asset(
+                      "assets/images/back_arrow.png",
+                      height: 16.sp,
+                      width: 16.sp,
+                    ),
+                  )),
+              leadingWidth: 40.sp,
+              title: SizedBox(
+                height: 24.sp,
+                child: Text("Edit profile preferences",
+                    style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
+                        color: textPrimary)),
+              ),
+            ),
+          ): const PreferredSize(
+              preferredSize: Size.fromHeight(0),child: SizedBox.shrink(),),
           body: SlidingUpPanel(
               minHeight: isKeyboardVisible ? 0 : 165.sp,
               maxHeight: isKeyboardVisible
@@ -366,7 +398,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                   alignment: Alignment.center,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: [ 
                       selectedSubCategories.length >= 5
                           ? Expanded(
                               child: InkWell(
@@ -383,7 +415,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HomePage()),
+                                      builder: (context) =>  PrimarySubCategoryScreen(selectedSubCategories)),
                                 );
                               },
                               child: Ink(
@@ -396,7 +428,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                       borderRadius:
                                           BorderRadius.circular(4.sp)),
                                   child: Text(
-                                    'Save'.toUpperCase(),
+                                    widget.isEdit?'Save':'Next'.toUpperCase(),
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,

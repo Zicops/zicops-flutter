@@ -30,6 +30,7 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
   bool showSkipBack = false;
   bool showSkipForward = false;
   bool showSeeAllOverlay = false;
+  bool hideControlIcons = false;
 
   Widget TakeNote(bool isBookmark, String preview, String bookmarkTime,
       double width, double height) {
@@ -187,18 +188,24 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
     toggleDiscussion(bool state) {
       setState(() {
         showDiscussion = state;
+        hideControlIcons = state;
       });
     }
 
     toggleDescription(bool state) {
       setState(() {
         showDescription = state;
+        hideControlIcons = state;
+        if (!state) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
       });
     }
 
     toggleSettings(bool state) {
       setState(() {
         showSettings = state;
+        hideControlIcons = state;
       });
     }
 
@@ -213,6 +220,9 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
       setState(() {
         showBookmarkNotes = state;
         isBookmark = bookmark;
+        if (!state) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
       });
     }
 
@@ -260,6 +270,7 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
                             toggleSettings,
                             toggleSeeAllOverlay,
                             toggleBookmarkNotes,
+                            hideControlIcons,
                             controller: _controller,
                           )),
                     ),
@@ -426,9 +437,15 @@ class _VideoPlayer extends State<LandscapeVideoPlayer> {
 }
 
 class ControlsOverlay extends StatefulWidget {
-  ControlsOverlay(this.toggleDiscussion, this.toggleDescription,
-      this.toggleSettings, this.toggleSeeAllOverlay, this.toggleBookmarkNotes,
-      {Key? key, required this.controller})
+  ControlsOverlay(
+      this.toggleDiscussion,
+      this.toggleDescription,
+      this.toggleSettings,
+      this.toggleSeeAllOverlay,
+      this.toggleBookmarkNotes,
+      this.hideControlIcons,
+      {Key? key,
+      required this.controller})
       : super(key: key);
 
   final VideoPlayerController controller;
@@ -437,6 +454,7 @@ class ControlsOverlay extends StatefulWidget {
   Function toggleSettings;
   Function toggleSeeAllOverlay;
   Function toggleBookmarkNotes;
+  bool hideControlIcons;
   @override
   State<StatefulWidget> createState() {
     return _ControlsOverlay();
@@ -452,411 +470,416 @@ class _ControlsOverlay extends State<ControlsOverlay> {
         width: width,
         alignment: Alignment.center,
         color: overlay,
-        child: Stack(
-          fit: StackFit.expand,
-          alignment: AlignmentDirectional.center,
-          children: [
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 50),
-              reverseDuration: const Duration(milliseconds: 200),
-              child: widget.controller.value.isBuffering
-                  ? Container(
-                      width: 40.sp,
-                      height: 40.sp,
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(
-                        color: primaryColor,
-                      ))
-                  : widget.controller.value.isPlaying
-                      ? InkWell(
-                          onTap: () {
-                            widget.controller.pause();
-                          },
-                          child: Container(
-                              width: 40.sp,
-                              height: 40.sp,
-                              alignment: Alignment.center,
-                              child: Image.asset(
-                                "assets/images/pause.png",
-                                width: 33.sp,
-                                height: 33.sp,
-                              )),
-                        )
-                      : InkWell(
-                          onTap: () {
-                            widget.controller.play();
-                          },
-                          child: Container(
-                              width: 40.sp,
-                              height: 40.sp,
-                              alignment: Alignment.center,
-                              child: Image.asset(
-                                "assets/images/video_play.png",
-                                width: 33.sp,
-                                height: 33.sp,
-                              )),
-                        ),
-            ),
-            Positioned(
-                top: 18.sp,
-                left: 0,
-                child: Container(
-                  width: width,
-                  height: 44.sp,
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 24.sp,
-                        height: 24.sp,
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 4.sp, horizontal: 6.sp),
-                        child: Image.asset(
-                          "assets/images/down_arrow.png",
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16.sp,
-                      ),
-                      Column(
+        child: Visibility(
+            visible: !widget.hideControlIcons,
+            child: Stack(
+              fit: StackFit.expand,
+              alignment: AlignmentDirectional.center,
+              children: [
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 50),
+                  reverseDuration: const Duration(milliseconds: 200),
+                  child: widget.controller.value.isBuffering
+                      ? Container(
+                          width: 40.sp,
+                          height: 40.sp,
+                          alignment: Alignment.center,
+                          child: const CircularProgressIndicator(
+                            color: primaryColor,
+                          ))
+                      : widget.controller.value.isPlaying
+                          ? InkWell(
+                              onTap: () {
+                                widget.controller.pause();
+                              },
+                              child: Container(
+                                  width: 40.sp,
+                                  height: 40.sp,
+                                  alignment: Alignment.center,
+                                  child: Image.asset(
+                                    "assets/images/pause.png",
+                                    width: 33.sp,
+                                    height: 33.sp,
+                                  )),
+                            )
+                          : InkWell(
+                              onTap: () {
+                                widget.controller.play();
+                              },
+                              child: Container(
+                                  width: 40.sp,
+                                  height: 40.sp,
+                                  alignment: Alignment.center,
+                                  child: Image.asset(
+                                    "assets/images/video_play.png",
+                                    width: 33.sp,
+                                    height: 33.sp,
+                                  )),
+                            ),
+                ),
+                Positioned(
+                    top: 18.sp,
+                    left: 0,
+                    child: Container(
+                      width: width,
+                      height: 44.sp,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: 28.sp,
+                            width: 24.sp,
+                            height: 24.sp,
                             alignment: Alignment.center,
-                            child: Text(
-                              "Java Basics",
-                              style: TextStyle(
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: textPrimary),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 4.sp, horizontal: 6.sp),
+                            child: Image.asset(
+                              "assets/images/down_arrow.png",
                             ),
                           ),
+                          SizedBox(
+                            width: 16.sp,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 28.sp,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Java Basics",
+                                  style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: textPrimary),
+                                ),
+                              ),
+                              const Spacer(),
+                              Container(
+                                height: 16.sp,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Zicops special',
+                                  style: TextStyle(
+                                      fontSize: 12.sp, color: textGrey2),
+                                ),
+                              )
+                            ],
+                          ),
                           const Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              widget.toggleDescription(true);
+                            },
+                            child: Container(
+                                width: 24.sp,
+                                height: 24.sp,
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                  "assets/images/resources.png",
+                                  width: 20.sp,
+                                  height: 16.sp,
+                                )),
+                          ),
+                          SizedBox(
+                            width: 24.sp,
+                          ),
+                          GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () {
+                              widget.toggleDiscussion(true);
+                            },
+                            child: Container(
+                                width: 24.sp,
+                                height: 24.sp,
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                  "assets/images/chat.png",
+                                  width: 20.sp,
+                                  height: 20.sp,
+                                )),
+                          ),
+                          SizedBox(
+                            width: 24.sp,
+                          ),
                           Container(
-                            height: 16.sp,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Zicops special',
-                              style:
-                                  TextStyle(fontSize: 12.sp, color: textGrey2),
-                            ),
-                          )
+                              width: 24.sp,
+                              height: 24.sp,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                "assets/images/quiz.png",
+                                width: 20.sp,
+                                height: 20.sp,
+                              )),
+                          SizedBox(
+                            width: 24.sp,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                widget.toggleBookmarkNotes(true, false);
+                              },
+                              child: Container(
+                                  width: 24.sp,
+                                  height: 24.sp,
+                                  alignment: Alignment.center,
+                                  child: Image.asset(
+                                    "assets/images/notes.png",
+                                    width: 18.sp,
+                                    height: 18.sp,
+                                  ))),
+                          SizedBox(
+                            width: 24.sp,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                widget.toggleBookmarkNotes(true, true);
+                              },
+                              child: Container(
+                                  width: 24.sp,
+                                  height: 24.sp,
+                                  alignment: Alignment.center,
+                                  child: Image.asset(
+                                    "assets/images/bookmark.png",
+                                    width: 14.sp,
+                                    height: 18.sp,
+                                  ))),
+                          SizedBox(
+                            width: 24.sp,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                widget.toggleSettings(true);
+                              },
+                              child: Container(
+                                width: 24.sp,
+                                height: 24.sp,
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                  "assets/images/settings.png",
+                                  width: 20.sp,
+                                  height: 20.sp,
+                                ),
+                              )),
+                          SizedBox(
+                            width: 18.sp,
+                          ),
                         ],
                       ),
-                      const Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          widget.toggleDescription(true);
-                        },
-                        child: Container(
-                            width: 24.sp,
-                            height: 24.sp,
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              "assets/images/resources.png",
-                              width: 20.sp,
-                              height: 16.sp,
-                            )),
-                      ),
-                      SizedBox(
-                        width: 24.sp,
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          widget.toggleDiscussion(true);
-                        },
-                        child: Container(
-                            width: 24.sp,
-                            height: 24.sp,
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              "assets/images/chat.png",
-                              width: 20.sp,
-                              height: 20.sp,
-                            )),
-                      ),
-                      SizedBox(
-                        width: 24.sp,
-                      ),
-                      Container(
+                    )),
+                Positioned(
+                  bottom: 107.sp,
+                  left: 0,
+                  child: Container(
+                      height: 16.sp,
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 18.sp),
+                      child: Text(
+                        "${widget.controller.value.position.toString().split('.').first.padLeft(8, "0")} / ${widget.controller.value.duration.toString().split('.').first.padLeft(8, "0")}",
+                        style: TextStyle(fontSize: 12.sp, color: textPrimary),
+                      )),
+                ),
+                Positioned(
+                    bottom: 107.sp,
+                    right: 0,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
                           width: 24.sp,
                           height: 24.sp,
                           alignment: Alignment.center,
+                          margin: EdgeInsets.symmetric(horizontal: 18.sp),
                           child: Image.asset(
-                            "assets/images/quiz.png",
-                            width: 20.sp,
-                            height: 20.sp,
+                            "assets/images/fullscreen_exit.png",
+                            width: 14.sp,
+                            height: 14.sp,
                           )),
-                      SizedBox(
-                        width: 24.sp,
-                      ),
-                      GestureDetector(
-                          onTap: () {
-                            widget.toggleBookmarkNotes(true, false);
-                          },
-                          child: Container(
-                              width: 24.sp,
-                              height: 24.sp,
-                              alignment: Alignment.center,
-                              child: Image.asset(
-                                "assets/images/notes.png",
-                                width: 18.sp,
-                                height: 18.sp,
-                              ))),
-                      SizedBox(
-                        width: 24.sp,
-                      ),
-                      GestureDetector(
-                          onTap: () {
-                            widget.toggleBookmarkNotes(true, true);
-                          },
-                          child: Container(
-                              width: 24.sp,
-                              height: 24.sp,
-                              alignment: Alignment.center,
-                              child: Image.asset(
-                                "assets/images/bookmark.png",
-                                width: 14.sp,
-                                height: 18.sp,
-                              ))),
-                      SizedBox(
-                        width: 24.sp,
-                      ),
-                      GestureDetector(
-                          onTap: () {
-                            widget.toggleSettings(true);
-                          },
-                          child: Container(
-                            width: 24.sp,
-                            height: 24.sp,
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              "assets/images/settings.png",
-                              width: 20.sp,
-                              height: 20.sp,
-                            ),
-                          )),
-                      SizedBox(
-                        width: 18.sp,
-                      ),
-                    ],
-                  ),
-                )),
-            Positioned(
-              bottom: 107.sp,
-              left: 0,
-              child: Container(
-                  height: 16.sp,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(horizontal: 18.sp),
-                  child: Text(
-                    "${widget.controller.value.position.toString().split('.').first.padLeft(8, "0")} / ${widget.controller.value.duration.toString().split('.').first.padLeft(8, "0")}",
-                    style: TextStyle(fontSize: 12.sp, color: textPrimary),
-                  )),
-            ),
-            Positioned(
-                bottom: 107.sp,
-                right: 0,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                      width: 24.sp,
-                      height: 24.sp,
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.symmetric(horizontal: 18.sp),
-                      child: Image.asset(
-                        "assets/images/fullscreen_exit.png",
-                        width: 14.sp,
-                        height: 14.sp,
-                      )),
-                )),
-            if (widget.controller.value.position.inSeconds < 10)
-              Positioned(
-                  bottom: 108.sp,
-                  right: 62.sp,
-                  child: Text(
-                    "Skip Intro".toUpperCase(),
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: primaryColor,
-                        letterSpacing: 2),
-                  )),
-            // Positioned(
-            //     bottom: 84.sp,
-            //     child: Container(
-            //         width: width,
-            //         height: 4.sp,
-            //         alignment: Alignment.center,
-            //         child: const LinearProgressIndicator(backgroundColor: secondaryColor, valueColor: AlwaysStoppedAnimation(textGrey2), value: 0.8,))),
-            Positioned(
-                bottom: 84.sp,
-                child: Container(
-                    width: width,
-                    height: 4.sp,
-                    alignment: Alignment.center,
-                    child: Slider(
-                      activeColor: primaryColor,
-                      inactiveColor: secondaryColor,
-                      thumbColor: primaryColor,
-                      onChangeStart: (change) {
-                        setState(() {
-                          showSliderTooltip = true;
-                        });
-                      },
-                      onChangeEnd: (change) {
-                        setState(() {
-                          showSliderTooltip = false;
-                        });
-                      },
-                      value: widget.controller.value.duration.inSeconds != 0
-                          ? widget.controller.value.position.inMilliseconds /
-                              widget.controller.value.duration.inMilliseconds
-                          : 0,
-                      onChanged: (double value) {
-                        widget.controller.seekTo(Duration(
-                            milliseconds: (widget.controller.value.duration
-                                        .inMilliseconds *
-                                    value)
-                                .toInt()));
-                      },
-                    ))),
-
-            Positioned(
-                bottom: 20.sp,
-                left: 0,
-                child: Container(
-                    width: width,
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                    child: Row(
-                      children: [
-                        Container(
-                            width: 24.sp,
-                            height: 24.sp,
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              "assets/images/rewind.png",
-                              width: 16.sp,
-                              height: 14.sp,
-                            )),
-                        SizedBox(
-                          width: 24.sp,
-                        ),
-                        Container(
-                            width: 24.sp,
-                            height: 24.sp,
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              "assets/images/forward.png",
-                              width: 16.sp,
-                              height: 14.sp,
-                            )),
-                        const Spacer(),
-                        if (widget.controller.value.duration.inSeconds -
-                                widget.controller.value.position.inSeconds <
-                            10)
-                          Text("Next Topic >".toUpperCase(),
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: textPrimary,
-                                  letterSpacing: 2)),
-                        SizedBox(
-                          width: 16.sp,
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              widget.toggleSeeAllOverlay(true);
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Container(
-                                  height: 20.sp,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "More content",
-                                    style: TextStyle(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: textPrimary,
-                                        height: 1.43),
-                                  ),
-                                ),
-                                Container(
-                                  height: 16.sp,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Tap to see all',
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: textGrey2,
-                                        height: 1.14),
-                                  ),
-                                )
-                              ],
-                            )),
-                        SizedBox(
-                          width: 16.sp,
-                        ),
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(2.sp),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Image.asset(
-                                  "assets/images/course_preview.png",
-                                  fit: BoxFit.fill,
-                                  width: 48.sp,
-                                  height: 48.sp,
-                                ),
-                                Container(
-                                  color: Colors.black.withOpacity(0.43),
-                                  height: 48.sp,
-                                ),
-                                Image.asset(
-                                  "assets/images/play_button.png",
-                                  width: 20.sp,
-                                  height: 20.sp,
-                                  opacity: const AlwaysStoppedAnimation(0.6),
-                                )
-                              ],
-                            )),
-                      ],
-                    ))),
-            if (showSliderTooltip)
-              Positioned(
-                  bottom: 120.sp,
-                  left: (widget.controller.value.position.inMilliseconds /
-                          widget.controller.value.duration.inMilliseconds) *
-                      width *
-                      0.9,
-                  child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 12.sp, vertical: 8.sp),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: const Color(0xFF101012),
-                          borderRadius: BorderRadius.circular(2.sp)),
+                    )),
+                if (widget.controller.value.position.inSeconds < 10)
+                  Positioned(
+                      bottom: 108.sp,
+                      right: 62.sp,
                       child: Text(
-                          widget.controller.value.position
-                              .toString()
-                              .split('.')
-                              .first
-                              .padLeft(8, "0"),
-                          style:
-                              TextStyle(fontSize: 12.sp, color: textPrimary))))
-          ],
-        ));
+                        "Skip Intro".toUpperCase(),
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: primaryColor,
+                            letterSpacing: 2),
+                      )),
+                // Positioned(
+                //     bottom: 84.sp,
+                //     child: Container(
+                //         width: width,
+                //         height: 4.sp,
+                //         alignment: Alignment.center,
+                //         child: const LinearProgressIndicator(backgroundColor: secondaryColor, valueColor: AlwaysStoppedAnimation(textGrey2), value: 0.8,))),
+                Positioned(
+                    bottom: 84.sp,
+                    child: Container(
+                        width: width,
+                        height: 4.sp,
+                        alignment: Alignment.center,
+                        child: Slider(
+                          activeColor: primaryColor,
+                          inactiveColor: secondaryColor,
+                          thumbColor: primaryColor,
+                          onChangeStart: (change) {
+                            setState(() {
+                              showSliderTooltip = true;
+                            });
+                          },
+                          onChangeEnd: (change) {
+                            setState(() {
+                              showSliderTooltip = false;
+                            });
+                          },
+                          value: widget.controller.value.duration.inSeconds != 0
+                              ? widget.controller.value.position
+                                      .inMilliseconds /
+                                  widget
+                                      .controller.value.duration.inMilliseconds
+                              : 0,
+                          onChanged: (double value) {
+                            widget.controller.seekTo(Duration(
+                                milliseconds: (widget.controller.value.duration
+                                            .inMilliseconds *
+                                        value)
+                                    .toInt()));
+                          },
+                        ))),
+
+                Positioned(
+                    bottom: 20.sp,
+                    left: 0,
+                    child: Container(
+                        width: width,
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                        child: Row(
+                          children: [
+                            Container(
+                                width: 24.sp,
+                                height: 24.sp,
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                  "assets/images/rewind.png",
+                                  width: 16.sp,
+                                  height: 14.sp,
+                                )),
+                            SizedBox(
+                              width: 24.sp,
+                            ),
+                            Container(
+                                width: 24.sp,
+                                height: 24.sp,
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                  "assets/images/forward.png",
+                                  width: 16.sp,
+                                  height: 14.sp,
+                                )),
+                            const Spacer(),
+                            if (widget.controller.value.duration.inSeconds -
+                                    widget.controller.value.position.inSeconds <
+                                10)
+                              Text("Next Topic >".toUpperCase(),
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: textPrimary,
+                                      letterSpacing: 2)),
+                            SizedBox(
+                              width: 16.sp,
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  widget.toggleSeeAllOverlay(true);
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      height: 20.sp,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "More content",
+                                        style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: textPrimary,
+                                            height: 1.43),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 16.sp,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Tap to see all',
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color: textGrey2,
+                                            height: 1.14),
+                                      ),
+                                    )
+                                  ],
+                                )),
+                            SizedBox(
+                              width: 16.sp,
+                            ),
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(2.sp),
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/course_preview.png",
+                                      fit: BoxFit.fill,
+                                      width: 48.sp,
+                                      height: 48.sp,
+                                    ),
+                                    Container(
+                                      color: Colors.black.withOpacity(0.43),
+                                      height: 48.sp,
+                                    ),
+                                    Image.asset(
+                                      "assets/images/play_button.png",
+                                      width: 20.sp,
+                                      height: 20.sp,
+                                      opacity:
+                                          const AlwaysStoppedAnimation(0.6),
+                                    )
+                                  ],
+                                )),
+                          ],
+                        ))),
+                if (showSliderTooltip)
+                  Positioned(
+                      bottom: 120.sp,
+                      left: (widget.controller.value.position.inMilliseconds /
+                              widget.controller.value.duration.inMilliseconds) *
+                          width *
+                          0.9,
+                      child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.sp, vertical: 8.sp),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: const Color(0xFF101012),
+                              borderRadius: BorderRadius.circular(2.sp)),
+                          child: Text(
+                              widget.controller.value.position
+                                  .toString()
+                                  .split('.')
+                                  .first
+                                  .padLeft(8, "0"),
+                              style: TextStyle(
+                                  fontSize: 12.sp, color: textPrimary))))
+              ],
+            )));
   }
 }
 
