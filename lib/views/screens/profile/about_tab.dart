@@ -377,19 +377,9 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                             text: state.org.orgRole)
                                       },
                                       {
-                                        "label": "Employee ID.",
-                                        "controller": TextEditingController(
-                                            text: state.org.empId)
-                                      },
-                                      {
                                         "label": "Learning Space Role.",
                                         "controller": TextEditingController(
                                             text: state.org.lspRole)
-                                      },
-                                      {
-                                        "label": "Base Cohort.",
-                                        "controller": TextEditingController(
-                                            text: "IT Development")
                                       },
                                     ]),
                                   ],

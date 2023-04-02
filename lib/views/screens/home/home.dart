@@ -5,7 +5,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:zicops/blocs/profile/profile_bloc.dart';
 import 'package:zicops/repositories/profile_repository.dart';
 import 'package:zicops/views/screens/home/home_screen.dart';
@@ -16,7 +15,6 @@ import 'package:zicops/views/screens/preferences/preferences_screen.dart';
 import 'package:zicops/views/screens/profile/profile_screen.dart';
 import 'package:zicops/views/screens/quiz/quiz_screen.dart';
 import 'package:zicops/views/screens/search/search_screen.dart';
-import 'package:zicops/views/screens/settings/settings_screen.dart';
 
 import '../../../utils/colors.dart';
 
@@ -516,7 +514,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                         16,
                         16,
                       )),
-                  drawerItem("assets/images/labs.png", "Labs", 18, 16),
                   GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
@@ -527,9 +524,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                       },
                       child: drawerItem(
                           "assets/images/exams.png", "Exams", 18, 22)),
-                  drawerItem("assets/images/calendar.png", "Calendar", 18, 20),
-                  drawerItem("assets/images/heart.png", "Favourites", 20, 18),
-                  const Divider(),
                   GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
@@ -541,20 +535,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                       },
                       child: drawerItem("assets/images/preference.png",
                           "Preferences", 18, 18)),
-                  GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        Navigator.push(
-                            this.context,
-                            MaterialPageRoute(
-                                builder: (context) => const SettingsScreen()));
-                      },
-                      child: drawerItem(
-                          "assets/images/settings.png", "Settings", 20, 20)),
-                  const Divider(),
-                  drawerItem("assets/images/about.png", "About", 20, 20),
-                  drawerItem(
-                      "assets/images/help.png", "Help and Feedback", 20, 20),
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
@@ -570,6 +550,237 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 ],
               ),
             ),
+            // Drawer(
+            //   backgroundColor: secondaryColor,
+            //   child: ListView(
+            //     children: [
+            //       Stack(
+            //         children: [
+            //           Image.asset(
+            //             "assets/images/personal_bg.png",
+            //             fit: BoxFit.fill,
+            //             height: 155.sp,
+            //             width: double.infinity,
+            //           ),
+            //           Container(
+            //             padding: EdgeInsets.all(16.sp),
+            //             child: Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: [
+            //                 CircleAvatar(
+            //                   foregroundImage: NetworkImage(url),
+            //                   radius: 32.sp,
+            //                 ),
+            //                 SizedBox(
+            //                   height: 14.sp,
+            //                 ),
+            //                 GestureDetector(
+            //                     behavior: HitTestBehavior.translucent,
+            //                     onTap: () {
+            //                       setState(() {
+            //                         showNavDrawerOrg = !showNavDrawerOrg;
+            //                         showNavDrawerOrg
+            //                             ? controller.forward()
+            //                             : controller.reverse();
+            //                       });
+            //                     },
+            //                     child: Text(
+            //                       name,
+            //                       style: TextStyle(
+            //                           color: textPrimary,
+            //                           fontSize: 16.sp,
+            //                           fontWeight: FontWeight.w500,
+            //                           height: 1.5),
+            //                     )),
+            //                 GestureDetector(
+            //                   behavior: HitTestBehavior.translucent,
+            //                   onTap: () {
+            //                     setState(() {
+            //                       showNavDrawerOrg = !showNavDrawerOrg;
+            //                       showNavDrawerOrg
+            //                           ? controller.forward()
+            //                           : controller.reverse();
+            //                     });
+            //                   },
+            //                   child: SizedBox(
+            //                     width: double.infinity,
+            //                     height: 20.sp,
+            //                     child: Row(
+            //                         mainAxisAlignment:
+            //                             MainAxisAlignment.spaceBetween,
+            //                         children: [
+            //                           Text(orgName,
+            //                               style: TextStyle(
+            //                                   color: textGrey2,
+            //                                   fontSize: 14.sp,
+            //                                   height: 1.43)),
+            //                           Container(
+            //                               width: 24.sp,
+            //                               height: 24.sp,
+            //                               alignment: Alignment.center,
+            //                               child: Transform.rotate(
+            //                                   angle: showNavDrawerOrg ? 22 : 0,
+            //                                   child: Image.asset(
+            //                                     "assets/images/down_arrow_filled.png",
+            //                                     width: 10.sp,
+            //                                     height: 5.sp,
+            //                                     color: showNavDrawerOrg
+            //                                         ? primaryColor
+            //                                         : textPrimary,
+            //                                   ))),
+            //                         ]),
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           )
+            //         ],
+            //       ),
+            //       SizeTransition(
+            //         sizeFactor: CurvedAnimation(
+            //           curve: Curves.fastOutSlowIn,
+            //           parent: controller,
+            //         ),
+            //         child: Container(
+            //             color: secondaryColorLight,
+            //             padding: EdgeInsets.symmetric(
+            //                 horizontal: 16.sp, vertical: 16.sp),
+            //             child: Column(
+            //               mainAxisSize: MainAxisSize.min,
+            //               children: [
+            //                 ...[1, 2].map(
+            //                   (e) => Container(
+            //                       height: 48.sp,
+            //                       alignment: Alignment.center,
+            //                       child: Row(
+            //                         mainAxisAlignment:
+            //                             MainAxisAlignment.spaceBetween,
+            //                         children: [
+            //                           Text("Adobe",
+            //                               style: TextStyle(
+            //                                   color: textGrey2,
+            //                                   fontSize: 14.sp,
+            //                                   height: 1.43)),
+            //                           Container(
+            //                               width: 24.sp,
+            //                               height: 24.sp,
+            //                               alignment: Alignment.center,
+            //                               child: Transform.rotate(
+            //                                   angle: -1.5,
+            //                                   child: Image.asset(
+            //                                     "assets/images/down_arrow.png",
+            //                                     width: 12.sp,
+            //                                     height: 8.sp,
+            //                                     color: textGrey2,
+            //                                   ))),
+            //                         ],
+            //                       )),
+            //                 ),
+            //                 SizedBox(
+            //                   height: 8.sp,
+            //                 ),
+            //                 Container(
+            //                   height: 36.sp,
+            //                   padding: EdgeInsets.symmetric(
+            //                       vertical: 10.sp, horizontal: 20.sp),
+            //                   alignment: Alignment.center,
+            //                   decoration: BoxDecoration(
+            //                       borderRadius: BorderRadius.circular(4.sp),
+            //                       border: Border.all(
+            //                           color: secondaryColorDarkOutline,
+            //                           width: 1.sp)),
+            //                   child: Text(
+            //                     "Add Organization".toUpperCase(),
+            //                     overflow: TextOverflow.ellipsis,
+            //                     style: TextStyle(
+            //                       fontSize: 14.sp,
+            //                       fontWeight: FontWeight.w600,
+            //                       letterSpacing: 2,
+            //                       height: 1.14,
+            //                       foreground: Paint()
+            //                         ..shader = RadialGradient(
+            //                           colors: [
+            //                             primaryColor.withOpacity(0.88),
+            //                             gradientTwo
+            //                           ],
+            //                           center: Alignment.topLeft,
+            //                           radius: 55.sp,
+            //                         ).createShader(const Rect.fromLTWH(
+            //                             1.0, 1.0, 200.0, 24.0)),
+            //                     ),
+            //                   ),
+            //                 )
+            //               ],
+            //             )),
+            //       ),
+            //       GestureDetector(
+            //           behavior: HitTestBehavior.translucent,
+            //           onTap: () {
+            //             Navigator.push(
+            //                 this.context,
+            //                 MaterialPageRoute(
+            //                     builder: (context) => const ProfileScreen()));
+            //           },
+            //           child: drawerItem(
+            //             "assets/images/person.png",
+            //             "Profile",
+            //             16,
+            //             16,
+            //           )),
+            //       drawerItem("assets/images/labs.png", "Labs", 18, 16),
+            //       GestureDetector(
+            //           behavior: HitTestBehavior.translucent,
+            //           onTap: () {
+            //             Navigator.push(
+            //                 this.context,
+            //                 MaterialPageRoute(
+            //                     builder: (context) => const QuizScreen()));
+            //           },
+            //           child: drawerItem(
+            //               "assets/images/exams.png", "Exams", 18, 22)),
+            //       drawerItem("assets/images/calendar.png", "Calendar", 18, 20),
+            //       drawerItem("assets/images/heart.png", "Favourites", 20, 18),
+            //       const Divider(),
+            //       GestureDetector(
+            //           behavior: HitTestBehavior.translucent,
+            //           onTap: () {
+            //             Navigator.push(
+            //                 this.context,
+            //                 MaterialPageRoute(
+            //                     builder: (context) =>
+            //                         const PreferencesScreen()));
+            //           },
+            //           child: drawerItem("assets/images/preference.png",
+            //               "Preferences", 18, 18)),
+            //       GestureDetector(
+            //           behavior: HitTestBehavior.translucent,
+            //           onTap: () {
+            //             Navigator.push(
+            //                 this.context,
+            //                 MaterialPageRoute(
+            //                     builder: (context) => const SettingsScreen()));
+            //           },
+            //           child: drawerItem(
+            //               "assets/images/settings.png", "Settings", 20, 20)),
+            //       const Divider(),
+            //       drawerItem("assets/images/about.png", "About", 20, 20),
+            //       drawerItem(
+            //           "assets/images/help.png", "Help and Feedback", 20, 20),
+            //       GestureDetector(
+            //         behavior: HitTestBehavior.translucent,
+            //         onTap: () {
+            //           Navigator.pushAndRemoveUntil(
+            //               this.context,
+            //               MaterialPageRoute(
+            //                   builder: (context) => const LoginScreen()),
+            //               (r) => false);
+            //         },
+            //         child: drawerItem(
+            //             "assets/images/logout.png", "Logout", 18, 18),
+            //       )
+            //     ],
+            //   ),
+            // ),
           ),
         ),
         floatingActionButton: GestureDetector(
