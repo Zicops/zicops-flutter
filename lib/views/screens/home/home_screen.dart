@@ -391,7 +391,7 @@ class _HomeScreen extends State<HomeScreen> {
                               MaterialPageRoute(
                                   builder: (context) => NewCourseScreen(
                                         courseList: state.learningFolderCourses,
-                                        title: 'Learning Folder courses',
+                                        title: 'Learning Folder',
                                       )));
                         });
                       }
@@ -429,7 +429,8 @@ class _HomeScreen extends State<HomeScreen> {
                                                 courseItem.duration ?? 0),
                                             courseItem.tileImage ?? '',
                                             courseItem.id ?? '',
-                                            showPlusIcon: false,
+                                            //showPlusIcon: false,
+                                            isAssigned: true,
                                           ),
                                           SizedBox(
                                             width: 8.sp,

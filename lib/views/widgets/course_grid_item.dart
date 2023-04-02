@@ -37,14 +37,19 @@ class _CourseGridItem extends State<CourseGridItem> {
   bool isGridView = false;
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
-        print(widget.courseId);
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => CourseDetailsScreen(widget.courseId,
                     widget.courseName, widget.difficulty, widget.preview)));
+      },
+      onLongPress: () {
+        courseInfoBottomSheet(context, 596.sp, width, widget.courseName,
+            isCourseAssigned: true, isCourseStarted: true, coursePercent: 40);
       },
       child: Center(
           child: Container(
@@ -88,35 +93,18 @@ class _CourseGridItem extends State<CourseGridItem> {
                                             width: 156.sp,
                                             height: 88.sp,
                                           ),
-                                    // FadeInImage(
-                                    //   image: NetworkImage(widget.preview),
-                                    //   placeholder: AssetImage(
-                                    //       'assets/images/course_preview_2.png'),
-                                    // ),
-                                    Container(
-                                      color: Colors.black.withOpacity(0.43),
-                                      height: 87.75.sp,
-                                    ),
-                                    Positioned(
-                                        top: 46.sp,
-                                        child: Image.asset(
-                                          "assets/images/play_button.png",
-                                          width: 20.sp,
-                                          height: 20.sp,
-                                          opacity:
-                                              const AlwaysStoppedAnimation(0.6),
-                                        ))
                                   ],
                                 ))),
                         Container(
                           height: 68.sp,
                           padding: EdgeInsets.symmetric(
-                              horizontal: 15.sp, vertical: 11.sp),
+                              horizontal: 10.sp, vertical: 10.sp),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 widget.courseName,
+                                maxLines: 2,
                                 style: TextStyle(
                                     color: textPrimary,
                                     fontSize: 16.sp,
@@ -124,63 +112,62 @@ class _CourseGridItem extends State<CourseGridItem> {
                                     height: 1.5),
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              Text(
-                                widget.org,
-                                style: TextStyle(
-                                    color: textGrey2,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.42),
-                                overflow: TextOverflow.ellipsis,
-                              )
                             ],
                           ),
                         )
                       ],
                     ),
-                    Positioned(
-                        top: 8.sp,
-                        right: 8.sp,
-                        child: Container(
-                          height: 24.sp,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 6.sp, vertical: 4.sp),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2.sp),
-                              color: const Color(0xE6101012)),
-                          child: Text(
-                            widget.difficulty,
-                            style: TextStyle(
-                                fontSize: 12.sp,
-                                color: textPrimary,
-                                height: 1.33),
-                          ),
-                        )),
-                    Positioned(
-                        top: 73.5.sp,
-                        right: 13.75.sp,
-                        child: Image.asset(
-                          "assets/images/add_button_big.png",
-                          width: 28.sp,
-                          height: 28.sp,
-                          fit: BoxFit.fill,
-                        ))
+                    if (false)
+                      Positioned(
+                          top: 8.sp,
+                          right: 8.sp,
+                          child: Container(
+                            height: 24.sp,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 6.sp, vertical: 4.sp),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(2.sp),
+                                color: const Color(0xE6101012)),
+                            child: Text(
+                              widget.difficulty,
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: textPrimary,
+                                  height: 1.33),
+                            ),
+                          )),
+                    if (widget.showPlusIcon)
+                      Positioned(
+                          top: 73.5.sp,
+                          right: 13.75.sp,
+                          child: GestureDetector(
+                              onTap: () {
+                                widget.isAssigned
+                                    ? unAssignCourseBottomSheet(
+                                        context, 365.sp, width)
+                                    : assignCourseBottomSheet(
+                                        context, height - 20.sp, width);
+                              },
+                              child: Image.asset(
+                                widget.isAssigned
+                                    ? "assets/images/checkmark_with_bg.png"
+                                    : "assets/images/add_button_big.png",
+                                width: 28.sp,
+                                height: 28.sp,
+                                fit: BoxFit.fill,
+                              )))
                   ],
                 ),
               ))),
     );
-    // final width = MediaQuery.of(context).size.width;
-    // final height = MediaQuery.of(context).size.height;
     // return GestureDetector(
     //   onTap: () {
+    //     print(widget.courseId);
     //     Navigator.push(
     //         context,
     //         MaterialPageRoute(
-    //             builder: (context) => const CourseDetailsScreen()));
-    //   },
-    //   onLongPress: () {
-    //     courseInfoBottomSheet(context, 596.sp, width, widget.courseName,
-    //         isCourseAssigned: true, isCourseStarted: true, coursePercent: 40);
+    //             builder: (context) => CourseDetailsScreen(widget.courseId,
+    //                 widget.courseName, widget.difficulty, widget.preview)));
     //   },
     //   child: Center(
     //       child: Container(
@@ -211,24 +198,48 @@ class _CourseGridItem extends State<CourseGridItem> {
     //                             child: Stack(
     //                               alignment: Alignment.center,
     //                               children: [
-    //                                 Image.asset(
-    //                                   widget.preview,
-    //                                   fit: BoxFit.fill,
-    //                                   width: 156.sp,
-    //                                   height: 88.sp,
+    //                                 widget.preview.contains("https://")
+    //                                     ? Image.network(
+    //                                         widget.preview,
+    //                                         fit: BoxFit.fill,
+    //                                         width: 156.sp,
+    //                                         height: 88.sp,
+    //                                       )
+    //                                     : Image.asset(
+    //                                         'assets/images/course_preview_2.png',
+    //                                         fit: BoxFit.fill,
+    //                                         width: 156.sp,
+    //                                         height: 88.sp,
+    //                                       ),
+    //                                 // FadeInImage(
+    //                                 //   image: NetworkImage(widget.preview),
+    //                                 //   placeholder: AssetImage(
+    //                                  //       'assets/images/course_preview_2.png'),
+    //                                 // ),
+    //                                 Container(
+    //                                   color: Colors.black.withOpacity(0.43),
+    //                                   height: 87.75.sp,
     //                                 ),
+    //                                 Positioned(
+    //                                     top: 46.sp,
+    //                                     child: Image.asset(
+    //                                       "assets/images/play_button.png",
+    //                                       width: 20.sp,
+    //                                       height: 20.sp,
+    //                                       opacity:
+    //                                           const AlwaysStoppedAnimation(0.6),
+    //                                     ))
     //                               ],
     //                             ))),
     //                     Container(
     //                       height: 68.sp,
     //                       padding: EdgeInsets.symmetric(
-    //                           horizontal: 10.sp, vertical: 10.sp),
+    //                           horizontal: 15.sp, vertical: 11.sp),
     //                       child: Column(
     //                         crossAxisAlignment: CrossAxisAlignment.start,
     //                         children: [
     //                           Text(
     //                             widget.courseName,
-    //                             maxLines: 2,
     //                             style: TextStyle(
     //                                 color: textPrimary,
     //                                 fontSize: 16.sp,
@@ -236,50 +247,47 @@ class _CourseGridItem extends State<CourseGridItem> {
     //                                 height: 1.5),
     //                             overflow: TextOverflow.ellipsis,
     //                           ),
+    //                           Text(
+    //                             widget.org,
+    //                             style: TextStyle(
+    //                                 color: textGrey2,
+    //                                 fontSize: 14.sp,
+    //                                 fontWeight: FontWeight.w400,
+    //                                 height: 1.42),
+    //                             overflow: TextOverflow.ellipsis,
+    //                           )
     //                         ],
     //                       ),
     //                     )
     //                   ],
     //                 ),
-    //                 if (false)
-    //                   Positioned(
-    //                       top: 8.sp,
-    //                       right: 8.sp,
-    //                       child: Container(
-    //                         height: 24.sp,
-    //                         padding: EdgeInsets.symmetric(
-    //                             horizontal: 6.sp, vertical: 4.sp),
-    //                         decoration: BoxDecoration(
-    //                             borderRadius: BorderRadius.circular(2.sp),
-    //                             color: const Color(0xE6101012)),
-    //                         child: Text(
-    //                           widget.difficulty,
-    //                           style: TextStyle(
-    //                               fontSize: 12.sp,
-    //                               color: textPrimary,
-    //                               height: 1.33),
-    //                         ),
-    //                       )),
-    //                 if (widget.showPlusIcon)
-    //                   Positioned(
-    //                       top: 73.5.sp,
-    //                       right: 13.75.sp,
-    //                       child: GestureDetector(
-    //                           onTap: () {
-    //                             widget.isAssigned
-    //                                 ? unAssignCourseBottomSheet(
-    //                                     context, 365.sp, width)
-    //                                 : assignCourseBottomSheet(
-    //                                     context, height - 20.sp, width);
-    //                           },
-    //                           child: Image.asset(
-    //                             widget.isAssigned
-    //                                 ? "assets/images/checkmark_with_bg.png"
-    //                                 : "assets/images/add_button_big.png",
-    //                             width: 28.sp,
-    //                             height: 28.sp,
-    //                             fit: BoxFit.fill,
-    //                           )))
+    //                 Positioned(
+    //                     top: 8.sp,
+    //                     right: 8.sp,
+    //                     child: Container(
+    //                       height: 24.sp,
+    //                       padding: EdgeInsets.symmetric(
+    //                           horizontal: 6.sp, vertical: 4.sp),
+    //                       decoration: BoxDecoration(
+    //                           borderRadius: BorderRadius.circular(2.sp),
+    //                           color: const Color(0xE6101012)),
+    //                       child: Text(
+    //                         widget.difficulty,
+    //                         style: TextStyle(
+    //                             fontSize: 12.sp,
+    //                             color: textPrimary,
+    //                             height: 1.33),
+    //                       ),
+    //                     )),
+    //                 Positioned(
+    //                     top: 73.5.sp,
+    //                     right: 13.75.sp,
+    //                     child: Image.asset(
+    //                       "assets/images/add_button_big.png",
+    //                       width: 28.sp,
+    //                       height: 28.sp,
+    //                       fit: BoxFit.fill,
+    //                     ))
     //               ],
     //             ),
     //           ))),
