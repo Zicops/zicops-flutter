@@ -129,12 +129,14 @@ class _AboutScreen extends State<AboutScreen> {
                       ),
                       child: Column(
                         children: [
+                          // TODO: Course preview video player to be added
                           GestureDetector(
                             child: gradientButton('Course Preview'),
                           ),
                           SizedBox(
                             height: 16.sp,
                           ),
+                          // TODO: Mutation for assign/un-assign course should be added here
                           GestureDetector(
                               onTap: () => {
                                     widget.isCourseAssigned
