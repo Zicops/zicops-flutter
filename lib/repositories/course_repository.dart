@@ -26,7 +26,7 @@ class CourseRepository {
     List courseResouces = courseData?['getResourcesByCourseId'];
     List courseChapters = courseData?['getCourseChapters'];
     var courseDetails = courseData?['getCourse'];
-    print('rwehwrth $courseChapters');
+    print('rwehwrth ${courseChapters.length}.');
     return courseData;
   }
 
@@ -46,6 +46,15 @@ class CourseRepository {
 
     List courseModules = courseData?['getCourseModules'];
     return courseModules;
+  }
+
+  Future getCourseChapters(courseId) async {
+    final result = await courseQClient.client()?.execute(GetCourseDataQuery(
+        variables: GetCourseDataArguments(course_id: courseId)));
+    final courseData = result?.data?.toJson();
+
+    List courseChapters = courseData?['getCourseChapters'];
+    return courseChapters;
   }
 
   Future topicData(courseId) async {
