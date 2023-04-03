@@ -186,3 +186,18 @@ updateUserNotes(String userNotesId, String courseId, String moduleId,
       )));
   return;
 }
+
+addUpdateUserCourseMap(String courseId, String userCourseId, String status,
+    String userLspId, String userId) async {
+  final res = await userClient.client()?.execute(UserCourseMapMutation(
+          variables: AddUpdateUserCourseMapArguments(
+        user_id: userId,
+        user_lsp_id: userLspId,
+        course_id: courseId,
+        user_course_id: userCourseId,
+        status: status,
+        is_active: true,
+      )));
+  print(res?.data?.toJson());
+  return;
+}
