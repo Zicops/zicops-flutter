@@ -4,9 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:zicops/utils/colors.dart';
-import 'package:zicops/views/screens/account_setup/account_setup_screen.dart';
+import 'package:zicops/views/screens/account_setup/lsp_selection.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
-import 'package:zicops/views/screens/home/home.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 
 import '../../../blocs/auth/auth_bloc.dart';
@@ -103,17 +102,21 @@ class _LoginScreen extends State<LoginScreen> {
           listener: (context, state) {
             if (state is Authenticated) {
               print(state);
-              if (state.userModel.isVerified == false) {
-                print('pushing account setup page');
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AccountSetupScreen()));
-              } else {
-                print('pushing home page');
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const HomePage()));
-              }
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LspSelectionScreen()));
+              // if (state.userModel.isVerified == false) {
+              //   print('pushing account setup page');
+              //   Navigator.pushReplacement(
+              //       context,
+              //       MaterialPageRoute(
+              //           builder: (context) => const AccountSetupScreen()));
+              // } else {
+              //   print('pushing home page');
+              //   Navigator.pushReplacement(context,
+              //       MaterialPageRoute(builder: (context) => const HomePage()));
+              // }
               // Navigator.pushReplacement(context,
               //     MaterialPageRoute(builder: (context) => const HomePage()));
             }

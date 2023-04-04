@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:zicops/models/user/user_lsp_map.dart';
 
 import '../../models/org_model.dart';
 import '../../models/user_model.dart';
@@ -12,6 +13,15 @@ part 'account_setup_state.dart';
 class AccountSetupBloc extends Bloc<AccountSetupEvent, AccountSetupState> {
   final AccountSetupRepository accountSetupRepository;
   AccountSetupBloc(this.accountSetupRepository) : super(AccountSetupInitial()) {
+    on<LspSelectionRequested>((event, emit) async {
+      emit(LspSelectionLoading());
+      try {
+        final userLspMap = await accountSetupRepository.getUserLsp();
+        emit(LspSelectionLoaded(userLspMap));
+      } catch (e) {
+        emit(LspSelectionError(message: e.toString()));
+      }
+    });
     on<PersonalTabRequested>((event, emit) async {
       emit(PersonalTabLoading());
       try {
