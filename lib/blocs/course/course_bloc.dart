@@ -36,7 +36,12 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         topicData = await courseRepository.topicData(event.courseId);
         var courseModules =
             await courseRepository.getCourseModule(event.courseId);
-        emit(TopicLoaded(courseModules: courseModules, topicData: topicData));
+        var courseChapters =
+            await courseRepository.getCourseChapters(event.courseId);
+        emit(TopicLoaded(
+            courseModules: courseModules,
+            topicData: topicData,
+            courseChapters: courseChapters));
       } catch (e) {
         emit(TopicError(error: e.toString()));
       }

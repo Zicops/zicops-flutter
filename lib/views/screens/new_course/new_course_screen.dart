@@ -9,6 +9,7 @@ import '../../../utils/time_format.dart';
 class NewCourseScreen extends StatefulWidget {
   final List courseList;
   final String title;
+
   const NewCourseScreen(
       {Key? key, required this.courseList, required this.title})
       : super(key: key);

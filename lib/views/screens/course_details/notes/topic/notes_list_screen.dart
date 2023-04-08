@@ -17,10 +17,7 @@ class NotesListScreen extends StatefulWidget {
 
 class _NotesListScreen extends State<NotesListScreen> {
   List<List<String>> notesItemList = [
-    [
-      "Complete Java Programming - Beginner to Advance",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-    ],
+    ["Complete Java Programming - Beginner to Advance", "Lorem."],
     [
       "Complete Java Programming - Beginner to Advance",
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry."
@@ -44,7 +41,6 @@ class _NotesListScreen extends State<NotesListScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    print(widget.notes);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.sp),
       margin: EdgeInsets.only(top: 20.sp),

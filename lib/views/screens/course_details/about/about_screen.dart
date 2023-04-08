@@ -7,8 +7,11 @@ import 'package:zicops/utils/colors.dart';
 import 'package:zicops/views/widgets/bulleted_text.dart';
 
 import '../../../widgets/CourseBadge.dart';
+import '../../../widgets/GradientButton.dart';
+import '../../../widgets/assign_course_modal.dart';
 import '../../../widgets/expansion_container.dart';
 import '../../../widgets/more_like_this.dart';
+import '../../../widgets/unassign_course_modal.dart';
 
 class AboutScreen extends StatefulWidget {
   final String courseId;
@@ -94,72 +97,106 @@ class _AboutScreen extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CourseBloc(courseRepository: CourseRepository())
-        ..add(CourseDataRequested(courseId: widget.courseId)),
-      child: BlocBuilder<CourseBloc, CourseState>(
-        builder: (context, state) {
-          if (state is CourseLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is CourseLoaded) {
-            print('course data${state.courseData}');
-            var courseDetails = state.courseData?['getCourse'][0];
-            var courseData = state.courseData;
-            var assesmentTopic = courseData['getTopics']
-                .where((element) => element['type'] == 'Assessment')
-                .toList();
-
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  courseInfo(courseDetails['name'], courseDetails['image'],
-                      courseDetails['owner'], courseDetails['type']),
-                  GestureDetector(
-                    child: Padding(
+        create: (context) => CourseBloc(courseRepository: CourseRepository())
+          ..add(CourseDataRequested(courseId: widget.courseId)),
+        child: BlocBuilder<CourseBloc, CourseState>(
+          builder: (context, state) {
+            if (state is CourseLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is CourseLoaded) {
+              print('course data${state.courseData}');
+              var courseDetails = state.courseData?['getCourse'][0];
+              var courseData = state.courseData;
+              var assesmentTopic = courseData['getTopics']
+                  .where((element) => element['type'] == 'Assessment')
+                  .toList();
+              final height = MediaQuery.of(context).size.height;
+              final width = MediaQuery.of(context).size.width;
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    courseInfo(courseDetails['name'], courseDetails['image'],
+                        courseDetails['owner'], courseDetails['type']),
+                    SizedBox(
+                      height: 20.sp,
+                    ),
+                    Padding(
                       padding: EdgeInsets.only(
-                          left: 20.sp, right: 20.sp, top: 20.sp),
+                        left: 20.sp,
+                        right: 20.sp,
+                        top: 20.sp,
+                      ),
                       child: Column(
                         children: [
-                          Container(
-                            alignment: Alignment.center,
-                            height: 48.sp,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.sp),
-                                // gradient: const LinearGradient(colors: [primaryColor, gradientTwo])
-                                image: const DecorationImage(
-                                    image: AssetImage(
-                                        "assets/images/button_bg.png"),
-                                    fit: BoxFit.fill)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "+".toUpperCase(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20.sp,
-                                      letterSpacing: 2,
-                                      color: secondaryColorLight,
-                                      height: 1.5),
-                                ),
-                                SizedBox(
-                                  width: 6.sp,
-                                ),
-                                Text(
-                                  "Course Preview".toUpperCase(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14.sp,
-                                      letterSpacing: 2,
-                                      color: secondaryColorLight,
-                                      height: 1.5),
-                                )
-                              ],
-                            ),
+                          // TODO: Course preview video player to be added
+                          GestureDetector(
+                            child: gradientButton('Course Preview'),
                           ),
+                          SizedBox(
+                            height: 16.sp,
+                          ),
+                          // TODO: Mutation for assign/un-assign course should be added here
+                          GestureDetector(
+                              onTap: () => {
+                                    widget.isCourseAssigned
+                                        ? unAssignCourseBottomSheet(
+                                            context, 360.sp, width)
+                                        : assignCourseBottomSheet(
+                                            context, height - 120.sp, width)
+                                  },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 48.sp,
+                                decoration: BoxDecoration(
+                                    color: secondaryColor,
+                                    borderRadius: BorderRadius.circular(4.sp),
+                                    // gradient: const LinearGradient(colors: [primaryColor, gradientTwo])
+                                    border: Border.all(color: lightGrey)),
+                                child: widget.isCourseAssigned
+                                    ? Text(
+                                        "unassign course".toUpperCase(),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14.sp,
+                                            letterSpacing: 2,
+                                            color: textGrey2,
+                                            height: 1.5),
+                                      )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "+".toUpperCase(),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 20.sp,
+                                                letterSpacing: 2,
+                                                color: primaryColor,
+                                                height: 1.5),
+                                          ),
+                                          SizedBox(
+                                            width: 6.sp,
+                                          ),
+                                          Text(
+                                            "Add to learning folder"
+                                                .toUpperCase(),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 14.sp,
+                                                letterSpacing: 2,
+                                                color: primaryColor,
+                                                height: 1.5),
+                                          )
+                                        ],
+                                      ),
+                              )),
                           SizedBox(
                             height: 17.sp,
                           ),
@@ -537,103 +574,102 @@ class _AboutScreen extends State<AboutScreen> {
                         ],
                       ),
                     ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 24.sp,
-                        margin: EdgeInsets.only(left: 20.sp),
-                        child: Text(
-                          "Related Skills",
-                          style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500,
-                              color: textPrimary),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 24.sp,
+                          margin: EdgeInsets.only(left: 20.sp),
+                          child: Text(
+                            "Related Skills",
+                            style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500,
+                                color: textPrimary),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 8.sp,
-                      ),
-                      Container(
-                        height: 28.sp,
-                        alignment: Alignment.center,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            SizedBox(
-                              width: 20.sp,
-                            ),
-                            ...courseDetails['related_skills'].map((e) =>
-                                Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 0.5.sp, horizontal: 0.5.sp),
-                                    margin: EdgeInsets.only(right: 8.sp),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(4.sp),
-                                        gradient: LinearGradient(
-                                            colors: [
-                                              secondaryColorDarkOutline,
-                                              secondaryColorDarkOutline
-                                                  .withOpacity(0.15),
-                                            ],
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter)),
-                                    child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 4.sp, horizontal: 12.sp),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.sp),
-                                            color: secondaryColor),
-                                        child: SizedBox(
-                                            height: 20.sp,
-                                            child: Text(
-                                              e,
-                                              style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: textPrimary,
-                                                  height: 1.43),
-                                            )))))
-                          ],
+                        SizedBox(
+                          height: 8.sp,
                         ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 16.sp,
-                  ),
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                      child: Divider(
-                        height: 1.sp,
-                        thickness: 1.sp,
-                        color: lightGrey,
-                      )),
-                  SizedBox(
-                    height: 14.sp,
-                  ),
-                  MoreLikeThis()
-                ],
-              ),
-            );
-          }
-          if (state is CourseError) {
-            return Center(
-              child: Text(
-                state.error,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.sp,
+                        Container(
+                          height: 28.sp,
+                          alignment: Alignment.center,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              SizedBox(
+                                width: 20.sp,
+                              ),
+                              ...courseDetails['related_skills'].map((e) =>
+                                  Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 0.5.sp, horizontal: 0.5.sp),
+                                      margin: EdgeInsets.only(right: 8.sp),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4.sp),
+                                          gradient: LinearGradient(
+                                              colors: [
+                                                secondaryColorDarkOutline,
+                                                secondaryColorDarkOutline
+                                                    .withOpacity(0.15),
+                                              ],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter)),
+                                      child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 4.sp,
+                                              horizontal: 12.sp),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4.sp),
+                                              color: secondaryColor),
+                                          child: SizedBox(
+                                              height: 20.sp,
+                                              child: Text(
+                                                e,
+                                                style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: textPrimary,
+                                                    height: 1.43),
+                                              )))))
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16.sp,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                        child: Divider(
+                          height: 1.sp,
+                          thickness: 1.sp,
+                          color: lightGrey,
+                        )),
+                    SizedBox(
+                      height: 14.sp,
+                    ),
+                    MoreLikeThis(),
+                  ],
                 ),
-              ),
-            );
-          }
-          return Container();
-        },
-      ),
-    );
+              );
+            }
+            if (state is CourseError) {
+              return Center(
+                child: Text(
+                  state.error,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.sp,
+                  ),
+                ),
+              );
+            }
+            return Container();
+          },
+        ));
   }
 }

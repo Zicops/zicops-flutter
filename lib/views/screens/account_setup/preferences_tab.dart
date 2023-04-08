@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:zicops/controllers/mutation_controller.dart';
 import 'package:zicops/views/screens/account_setup/models/category.dart';
-import 'package:zicops/views/screens/home/home.dart';
+import 'package:zicops/views/screens/account_setup/primary_subcategory.dart';
 
 import '../../../graphql_api.graphql.dart';
 import '../../../main.dart';
@@ -14,7 +14,8 @@ import '../../../models/user/user_account_profile_pref.dart';
 import '../../../utils/colors.dart';
 
 class PreferencesTabScreen extends StatefulWidget {
-  const PreferencesTabScreen({Key? key}) : super(key: key);
+  final bool isEdit;
+  const PreferencesTabScreen({Key? key, this.isEdit = false}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -109,7 +110,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     for (int i = 0; i < catMainList.length; i++) {
       categories.add(
         Category(
-          catMainList[i].id!,
+          int.parse(catMainList[i].id!),
           catMainList[i].name!,
           i.toString(),
         ),
@@ -143,7 +144,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     for (int i = 0; i < subCatMainList.length; i++) {
       subCategories.add(
         Category(
-          i.toString(),
+          i,
           subCatMainList[i].name!,
           subCatMainList[i].catId,
         ),
@@ -218,6 +219,44 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
     return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
       return Scaffold(
           key: _scaffoldKey,
+          appBar: widget.isEdit
+              ? PreferredSize(
+                  preferredSize: Size.fromHeight(48.sp),
+                  child: AppBar(
+                    backgroundColor: secondaryColorDark,
+                    elevation: 0,
+                    leading: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          if (Navigator.canPop(context)) Navigator.pop(context);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              right: 4.sp,
+                              top: 16.sp,
+                              bottom: 16.sp,
+                              left: 20.sp),
+                          child: Image.asset(
+                            "assets/images/back_arrow.png",
+                            height: 16.sp,
+                            width: 16.sp,
+                          ),
+                        )),
+                    leadingWidth: 40.sp,
+                    title: SizedBox(
+                      height: 24.sp,
+                      child: Text("Edit profile preferences",
+                          style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w500,
+                              color: textPrimary)),
+                    ),
+                  ),
+                )
+              : const PreferredSize(
+                  preferredSize: Size.fromHeight(0),
+                  child: SizedBox.shrink(),
+                ),
           body: SlidingUpPanel(
               minHeight: isKeyboardVisible ? 0 : 165.sp,
               maxHeight: isKeyboardVisible
@@ -383,7 +422,9 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HomePage()),
+                                      builder: (context) =>
+                                          PrimarySubCategoryScreen(
+                                              selectedSubCategories)),
                                 );
                               },
                               child: Ink(
@@ -396,7 +437,9 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                       borderRadius:
                                           BorderRadius.circular(4.sp)),
                                   child: Text(
-                                    'Save'.toUpperCase(),
+                                    widget.isEdit
+                                        ? 'Save'
+                                        : 'Next'.toUpperCase(),
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
@@ -576,7 +619,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                                           children: [
                                                                             Text(
                                                                               cat.category.toString().toUpperCase(),
-                                                                              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600, height: 1.33, letterSpacing: 1, color: checkIfSelectedFilter(cat.id) ? textPrimary : textGrey2),
+                                                                              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600, height: 1.33, letterSpacing: 1, color: checkIfSelectedFilter(cat.id.toString()) ? textPrimary : textGrey2),
                                                                             ),
                                                                             Container(
                                                                                 width: 24.sp,
@@ -586,10 +629,10 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                                                     activeColor: primaryColor,
                                                                                     side: BorderSide(color: textPrimary, width: 2.sp),
                                                                                     checkColor: Colors.black,
-                                                                                    value: checkIfSelectedFilter(cat.id),
+                                                                                    value: checkIfSelectedFilter(cat.id.toString()),
                                                                                     onChanged: (val) {
                                                                                       setModalState(() {
-                                                                                        updateFilterCategory(cat.id);
+                                                                                        updateFilterCategory(cat.id.toString());
                                                                                       });
                                                                                     }))
                                                                           ],
@@ -775,7 +818,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                 (cat) => GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        updateSelectCategory(cat.id);
+                                        updateSelectCategory(cat.id.toString());
                                       });
                                     },
                                     child: Container(

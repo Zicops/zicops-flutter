@@ -19,6 +19,7 @@ class NoteItem extends StatefulWidget {
 class _NoteItem extends State<NoteItem> {
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         GestureDetector(
@@ -40,6 +41,7 @@ class _NoteItem extends State<NoteItem> {
                   ),
                 ),
                 child: Container(
+                    width: width,
                     padding: EdgeInsets.only(top: 4.sp),
                     decoration: const BoxDecoration(
                         gradient: LinearGradient(

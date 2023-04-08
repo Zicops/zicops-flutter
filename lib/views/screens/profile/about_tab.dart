@@ -58,7 +58,6 @@ class _AboutTabScreen extends State<AboutTabScreen> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
-      print(imageTemp);
       setState(() => bgImage = imageTemp);
     } catch (e) {
       print('Failed to pick image: $e');
@@ -181,99 +180,40 @@ class _AboutTabScreen extends State<AboutTabScreen> {
         SliverFillRemaining(
             hasScrollBody: false,
             child: DecoratedBox(
-              decoration: const BoxDecoration(color: secondaryColorDark),
-              child: BlocProvider(
-                create: (context) => ProfileBloc(ProfileRepository())
-                  ..add(AboutDetailsRequested()),
-                child: BlocBuilder<ProfileBloc, ProfileState>(
-                  builder: (context, state) {
-                    if (state is AboutDetailsLoading) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    if (state is AboutDetailsLoaded) {
-                      return Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 85.sp),
-                                child: bgImage != null
-                                    ? Image.file(
-                                        bgImage!,
-                                        fit: BoxFit.cover,
-                                        width: double.infinity,
-                                        height: 120.sp,
-                                      )
-                                    : Image.asset(
-                                        "assets/images/personal_bg.png",
-                                        fit: BoxFit.cover,
-                                        width: double.infinity,
-                                        height: 120.sp,
-                                      ),
-                              ),
-                              // TODO: Check for image and its manipulation
-                              Positioned(
-                                top: 64.sp,
-                                left: 20.sp,
-                                child: GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () {
-                                    setState(() {
-                                      pickProfileImage();
-                                    });
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 60.sp,
-                                    backgroundColor: secondaryColorDark,
-                                    child: CircleAvatar(
-                                      child: AspectRatio(
-                                        aspectRatio: 1 / 1,
-                                        child: ClipOval(
-                                          child: FadeInImage(
-                                            placeholder: const AssetImage(
-                                                "assets/images/avatar_default.png"),
-                                            image: profileImage != null
-                                                ? FileImage(profileImage!)
-                                                    as ImageProvider
-                                                : NetworkImage(
-                                                    state.user.photoUrl!),
-                                            fit: BoxFit.cover,
-                                          ),
+                decoration: const BoxDecoration(color: secondaryColorDark),
+                child: BlocProvider(
+                  create: (context) => ProfileBloc(ProfileRepository())
+                    ..add(AboutDetailsRequested()),
+                  child: BlocBuilder<ProfileBloc, ProfileState>(
+                    builder: (context, state) {
+                      if (state is AboutDetailsLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (state is AboutDetailsLoaded) {
+                        return Column(
+                          children: [
+                            Stack(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 85.sp),
+                                  child: bgImage != null
+                                      ? Image.file(
+                                          bgImage!,
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                          height: 120.sp,
+                                        )
+                                      : Image.asset(
+                                          "assets/images/personal_bg.png",
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                          height: 120.sp,
                                         ),
-                                      ),
-                                      radius: 56.sp,
-                                    ),
-                                  ),
                                 ),
-                              ),
-
-                              // child: CircleAvatar(
-                              //
-                              //   foregroundImage: profileImage != null
-                              //       ? FileImage(profileImage!)
-                              //           as ImageProvider
-                              //       : const AssetImage(
-                              //           "assets/images/avatar_default.png"),
-                              //   radius: 56.sp,
-                              // )))),
-                              Positioned(
-                                  top: 82.sp,
-                                  right: 20.sp,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        pickBgImage();
-                                      });
-                                    },
-                                    child: Image.asset(
-                                      "assets/images/camera.png",
-                                      width: 20.sp,
-                                      height: 20.sp,
-                                    ),
-                                  )),
-                              Positioned(
-                                  top: 147.sp,
-                                  left: 108.sp,
+                                // TODO: Check for image and its manipulation
+                                Positioned(
+                                  top: 64.sp,
+                                  left: 20.sp,
                                   child: GestureDetector(
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () {
@@ -281,131 +221,341 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                         pickProfileImage();
                                       });
                                     },
-                                    child: Container(
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                            color: textGrey.withOpacity(0.2),
-                                            borderRadius:
-                                                BorderRadius.circular(50)),
-                                        child: Image.asset(
-                                          "assets/images/camera.png",
-                                          width: 20.sp,
-                                          height: 20.sp,
-                                        )),
-                                  )),
-                            ],
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 20.sp,
-                                  right: 20.sp,
-                                  bottom: 20.sp,
-                                  top: 6.sp),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: double.infinity,
-                                    height: 53.sp,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: 28.sp,
-                                          child: Text(
-                                            state.user.firstName! +
-                                                " " +
-                                                state.user.lastName!,
-                                            style: TextStyle(
-                                                color: textPrimary,
-                                                fontSize: 20.sp,
-                                                fontWeight: FontWeight.w500),
+                                    child: CircleAvatar(
+                                      radius: 60.sp,
+                                      backgroundColor: secondaryColorDark,
+                                      child: CircleAvatar(
+                                        child: AspectRatio(
+                                          aspectRatio: 1 / 1,
+                                          child: ClipOval(
+                                            child: FadeInImage(
+                                              placeholder: const AssetImage(
+                                                  "assets/images/avatar_default.png"),
+                                              image: profileImage != null
+                                                  ? FileImage(profileImage!)
+                                                      as ImageProvider
+                                                  : NetworkImage(
+                                                      state.user.photoUrl!),
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ),
-                                        SizedBox(
-                                          height: 24.sp,
-                                          child: Text(
-                                            state.org.orgName,
-                                            style: TextStyle(
-                                                color: textGrey2,
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                      ],
+                                        radius: 56.sp,
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 8.sp,
-                                  ),
-                                  AboutInfo("Personal", [
-                                    {
-                                      "label": "Name.",
-                                      "controller": TextEditingController(
-                                          text: state.user.firstName! +
-                                              " " +
-                                              state.user.lastName!)
-                                    },
-                                    {
-                                      "label": "Phone No.",
-                                      "controller": TextEditingController(
-                                          text: state.user.phone)
-                                    },
-                                    {
-                                      "label": "Email ID.",
-                                      "controller": TextEditingController(
-                                          text: state.user.email)
-                                    },
-                                  ]),
-                                  SizedBox(
-                                    height: 16.sp,
-                                  ),
-                                  AboutInfo("Organization", [
-                                    {
-                                      "label": "Organization.",
-                                      "controller": TextEditingController(
-                                          text: state.org.orgName)
-                                    },
-                                    {
-                                      "label": "Organization Unit.",
-                                      "controller": TextEditingController(
-                                          text: state.org.lspName)
-                                    },
-                                    {
-                                      "label": "Role in Organization.",
-                                      "controller": TextEditingController(
-                                          text: state.org.orgRole)
-                                    },
-                                    {
-                                      "label": "Employee ID.",
-                                      "controller": TextEditingController(
-                                          text: state.org.empId)
-                                    },
-                                    {
-                                      "label": "Learning Space Role.",
-                                      "controller": TextEditingController(
-                                          text: state.org.lspRole)
-                                    },
-                                    {
-                                      "label": "Base Cohort.",
-                                      "controller": TextEditingController(
-                                          text: "IT Development")
-                                    },
-                                  ]),
-                                ],
-                              )),
-                        ],
-                      );
-                    }
-                    if (state is AboutDetailsError) {
-                      return Center(child: Text(state.message));
-                    }
-                    return Container();
-                  },
-                ),
-              ),
-            ))
+                                ),
+
+                                // child: CircleAvatar(
+                                //
+                                //   foregroundImage: profileImage != null
+                                //       ? FileImage(profileImage!)
+                                //           as ImageProvider
+                                //       : const AssetImage(
+                                //           "assets/images/avatar_default.png"),
+                                //   radius: 56.sp,
+                                // )))),
+                                Positioned(
+                                    top: 82.sp,
+                                    right: 20.sp,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          pickBgImage();
+                                        });
+                                      },
+                                      child: Image.asset(
+                                        "assets/images/camera.png",
+                                        width: 20.sp,
+                                        height: 20.sp,
+                                      ),
+                                    )),
+                                Positioned(
+                                    top: 147.sp,
+                                    left: 108.sp,
+                                    child: GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () {
+                                        setState(() {
+                                          pickProfileImage();
+                                        });
+                                      },
+                                      child: Container(
+                                          padding: const EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                              color: textGrey.withOpacity(0.2),
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          child: Image.asset(
+                                            "assets/images/camera.png",
+                                            width: 20.sp,
+                                            height: 20.sp,
+                                          )),
+                                    )),
+                              ],
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 20.sp,
+                                    right: 20.sp,
+                                    bottom: 20.sp,
+                                    top: 6.sp),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: double.infinity,
+                                      height: 53.sp,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: 28.sp,
+                                            child: Text(
+                                              state.user.firstName! +
+                                                  " " +
+                                                  state.user.lastName!,
+                                              style: TextStyle(
+                                                  color: textPrimary,
+                                                  fontSize: 20.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 24.sp,
+                                            child: Text(
+                                              state.org.orgName,
+                                              style: TextStyle(
+                                                  color: textGrey2,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 8.sp,
+                                    ),
+                                    AboutInfo("Personal", [
+                                      {
+                                        "label": "Name.",
+                                        "controller": TextEditingController(
+                                            text: state.user.firstName! +
+                                                " " +
+                                                state.user.lastName!)
+                                      },
+                                      {
+                                        "label": "Phone No.",
+                                        "controller": TextEditingController(
+                                            text: state.user.phone)
+                                      },
+                                      {
+                                        "label": "Email ID.",
+                                        "controller": TextEditingController(
+                                            text: state.user.email)
+                                      },
+                                    ]),
+                                    SizedBox(
+                                      height: 16.sp,
+                                    ),
+                                    AboutInfo("Organization", [
+                                      {
+                                        "label": "Organization.",
+                                        "controller": TextEditingController(
+                                            text: state.org.orgName)
+                                      },
+                                      {
+                                        "label": "Organization Unit.",
+                                        "controller": TextEditingController(
+                                            text: state.org.lspName)
+                                      },
+                                      {
+                                        "label": "Role in Organization.",
+                                        "controller": TextEditingController(
+                                            text: state.org.orgRole)
+                                      },
+                                      {
+                                        "label": "Learning Space Role.",
+                                        "controller": TextEditingController(
+                                            text: state.org.lspRole)
+                                      },
+                                    ]),
+                                  ],
+                                )),
+                          ],
+                        );
+                      }
+                      if (state is AboutDetailsError) {
+                        return Center(child: Text(state.message));
+                      }
+                      return Container();
+                    },
+                  ),
+                  // child: Column(
+                  //   children: [
+                  //     Stack(
+                  //       children: [
+                  //         Padding(
+                  //             padding: EdgeInsets.only(bottom: 85.sp),
+                  //             child: bgImage != null
+                  //                 ? Image.file(
+                  //                     bgImage!,
+                  //                     fit: BoxFit.cover,
+                  //                     width: double.infinity,
+                  //                     height: 120.sp,
+                  //                   )
+                  //                 : Image.asset(
+                  //                     "assets/images/personal_bg.png",
+                  //                     fit: BoxFit.cover,
+                  //                     width: double.infinity,
+                  //                     height: 120.sp,
+                  //                   )),
+                  //         Positioned(
+                  //             top: 64.sp,
+                  //             left: 20.sp,
+                  //             child: GestureDetector(
+                  //                 behavior: HitTestBehavior.translucent,
+                  //                 onTap: () {
+                  //                   setState(() {
+                  //                     pickProfileImage();
+                  //                   });
+                  //                 },
+                  //                 child: CircleAvatar(
+                  //                     radius: 60.sp,
+                  //                     backgroundColor: secondaryColorDark,
+                  //                     child: CircleAvatar(
+                  //                       foregroundImage: profileImage != null
+                  //                           ? FileImage(profileImage!)
+                  //                               as ImageProvider
+                  //                           : const AssetImage(
+                  //                               "assets/images/avatar_default.png"),
+                  //                       radius: 56.sp,
+                  //                     )))),
+                  //         Positioned(
+                  //             top: 82.sp,
+                  //             right: 20.sp,
+                  //             child: GestureDetector(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   pickBgImage();
+                  //                 });
+                  //               },
+                  //               child: Image.asset(
+                  //                 "assets/images/camera.png",
+                  //                 width: 20.sp,
+                  //                 height: 20.sp,
+                  //               ),
+                  //             )),
+                  //         Positioned(
+                  //             top: 147.sp,
+                  //             left: 108.sp,
+                  //             child: GestureDetector(
+                  //               behavior: HitTestBehavior.translucent,
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   pickProfileImage();
+                  //                 });
+                  //               },
+                  //               child: Container(
+                  //                   padding: const EdgeInsets.all(5),
+                  //                   decoration: BoxDecoration(
+                  //                       color: textGrey.withOpacity(0.2),
+                  //                       borderRadius: BorderRadius.circular(50)),
+                  //                   child: Image.asset(
+                  //                     "assets/images/camera.png",
+                  //                     width: 20.sp,
+                  //                     height: 20.sp,
+                  //                   )),
+                  //             )),
+                  //       ],
+                  //     ),
+                  //     Padding(
+                  //         padding: EdgeInsets.only(
+                  //             left: 20.sp, right: 20.sp, bottom: 20.sp, top: 6.sp),
+                  //         child: Column(
+                  //           crossAxisAlignment: CrossAxisAlignment.start,
+                  //           children: [
+                  //             SizedBox(
+                  //               width: double.infinity,
+                  //               height: 53.sp,
+                  //               child: Column(
+                  //                 crossAxisAlignment: CrossAxisAlignment.start,
+                  //                 children: [
+                  //                   SizedBox(
+                  //                     height: 28.sp,
+                  //                     child: Text(
+                  //                       "Aakash Chakraborty",
+                  //                       style: TextStyle(
+                  //                           color: textPrimary,
+                  //                           fontSize: 20.sp,
+                  //                           fontWeight: FontWeight.w500),
+                  //                     ),
+                  //                   ),
+                  //                   SizedBox(
+                  //                     height: 24.sp,
+                  //                     child: Text(
+                  //                       "Accenture",
+                  //                       style: TextStyle(
+                  //                           color: textGrey2,
+                  //                           fontSize: 16.sp,
+                  //                           fontWeight: FontWeight.w500),
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //             SizedBox(
+                  //               height: 8.sp,
+                  //             ),
+                  //             AboutInfo("Personal", [
+                  //               {
+                  //                 "label": "Name.",
+                  //                 "controller": TextEditingController(
+                  //                     text: "Akaash Chakraborty")
+                  //               },
+                  //               {
+                  //                 "label": "Phone No.",
+                  //                 "controller": TextEditingController(
+                  //                     text: "+91  9876543219")
+                  //               },
+                  //               {
+                  //                 "label": "Email ID.",
+                  //                 "controller": TextEditingController(
+                  //                     text: "aakashchakraborty@zicops.com")
+                  //               },
+                  //             ]),
+                  //             SizedBox(
+                  //               height: 16.sp,
+                  //             ),
+                  //             AboutInfo("Organization", [
+                  //               {
+                  //                 "label": "Organization.",
+                  //                 "controller": TextEditingController(
+                  //                     text: "Accenture")
+                  //               },
+                  //               {
+                  //                 "label": "Organization Unit.",
+                  //                 "controller": TextEditingController(
+                  //                     text: "Hinjewadi, Pune, Maharashtra, India")
+                  //               },
+                  //               {
+                  //                 "label": "Role in Organization.",
+                  //                 "controller": TextEditingController(
+                  //                     text: "Software Engineer")
+                  //               },
+                  //               {
+                  //                 "label": "Learning Space Role.",
+                  //                 "controller": TextEditingController(
+                  //                     text: "Learning Manager")
+                  //               },
+                  //             ]),
+                  //           ],
+                  //         ))
+                  //   ],
+                  // ),
+                )))
       ]);
     });
   }

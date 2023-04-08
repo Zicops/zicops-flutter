@@ -41,7 +41,8 @@ class TopicScreen extends StatefulWidget {
   }
 }
 
-class _TopicScreen extends State<TopicScreen> {
+class _TopicScreen extends State<TopicScreen>
+    with SingleTickerProviderStateMixin {
   final PanelController _panelController = PanelController();
   VideoPlayerController? _controller;
   int selectedChapter = -1;
@@ -50,8 +51,18 @@ class _TopicScreen extends State<TopicScreen> {
   String selectedChapterDuration = "";
   double minPanelHeight = 0;
   double maxPanelHeight = 0;
-
+  bool isChapterOpen = false;
   int selectedVideoOption = -1;
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 400),
+    );
+  }
 
   String _selectedValue = "";
   void _onDropdownChanged(String newValue) {
@@ -62,10 +73,6 @@ class _TopicScreen extends State<TopicScreen> {
 
   initVideoController(videoUrl) {
     _controller = VideoPlayerController.network(videoUrl);
-  }
-
-  void _writeNotes(UserNotes notes) {
-    print(notes);
   }
 
   getBottomSheetChild(
@@ -239,15 +246,8 @@ class _TopicScreen extends State<TopicScreen> {
     );
   }
 
-  Widget TakeNote(
-    bool isBookmark,
-    String preview,
-    String bookmarkTime,
-    String courseId,
-    String moduleId,
-    String topicId,
-    int sequence,
-  ) {
+  Widget TakeNote(bool isBookmark, String preview, String bookmarkTime,
+      String courseId, String moduleId, String topicId, int sequence) {
     TextEditingController _controller = TextEditingController();
     return Column(children: [
       Container(
@@ -415,7 +415,10 @@ class _TopicScreen extends State<TopicScreen> {
             );
           }
           if (state is TopicLoaded) {
+            print("course chapters : ${state.courseChapters}");
             var topicData = state.topicData;
+            var chapterData = state.courseChapters;
+            var noOfChapters = chapterData.length;
             List dropdownItems = [];
             Map<String, String> moduleData = {};
             state.courseModules.forEach((element) {
@@ -611,98 +614,270 @@ class _TopicScreen extends State<TopicScreen> {
                               SizedBox(
                                 height: 13.sp,
                               ),
-                              SizedBox(
-                                height: 16.sp,
-                                child: Text(
-                                    "Chapter 1: Introduction".toUpperCase(),
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: textGrey2,
-                                        height: 1.33,
-                                        letterSpacing: 1)),
-                              ),
-                              SizedBox(
-                                height: 8.sp,
-                              ),
-                              SizedBox(
-                                height: 320.sp,
-                                child:
-                                    topicData
-                                            .where((element) =>
-                                                element['moduleId'] ==
-                                                moduleData[_selectedValue])
-                                            .isNotEmpty
-                                        ? ListView(
-                                            shrinkWrap: true,
-                                            children: [
-                                              ...topicData
-                                                  .where((element) =>
-                                                      element['moduleId'] ==
-                                                      moduleData[
-                                                          _selectedValue])
-                                                  .map((e) => GestureDetector(
-                                                      onTap: () {
-                                                        widget.isCourseAssigned
-                                                            ? setState(() {
-                                                                selectedChapter = topicData
-                                                                        .where((element) =>
-                                                                            element['moduleId'] ==
-                                                                            moduleData[
-                                                                                _selectedValue])
-                                                                        .toList()
-                                                                        .indexOf(
-                                                                            e) +
-                                                                    1;
-                                                                selectedChapterName =
-                                                                    e['name'];
-                                                                selectedChapterDuration =
-                                                                    formatDuration(
-                                                                        e['duration']);
-                                                                initVideoController(
-                                                                    e['contentUrl']);
-                                                              })
-                                                            : showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) =>
-                                                                        AlertDialog(
-                                                                          title: Text(
-                                                                              "Course not assigned",
-                                                                              style: TextStyle(color: Colors.white)),
-                                                                          content:
-                                                                              Text("Please assign course to access the course contents"),
-                                                                          actions: [
-                                                                            TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                child: Text("Ok"))
-                                                                          ],
-                                                                        ));
-                                                      },
-                                                      child: ModuleCard(
-                                                          e['name'],
-                                                          formatDuration(
-                                                              e['duration']),
-                                                          widget.preview,
-                                                          //  "assets/images/course_preview_2.png",
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: noOfChapters == 0
+                                    ? [
+                                        SizedBox(
+                                          height: 16.sp,
+                                          child: Text(
+                                              "Chapter 1: Introduction"
+                                                  .toUpperCase(),
+                                              style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: textGrey2,
+                                                  height: 1.33,
+                                                  letterSpacing: 1)),
+                                        ),
+                                        SizedBox(
+                                          height: 8.sp,
+                                        ),
+                                        SizedBox(
+                                          height: 320.sp,
+                                          child:
+                                              topicData
+                                                      .where((element) =>
+                                                          element['moduleId'] ==
+                                                          moduleData[
+                                                              _selectedValue])
+                                                      .isNotEmpty
+                                                  ? ListView(
+                                                      shrinkWrap: true,
+                                                      children: [
+                                                        ...topicData
+                                                            .where((element) =>
+                                                                element[
+                                                                    'moduleId'] ==
+                                                                moduleData[
+                                                                    _selectedValue])
+                                                            .map((e) => GestureDetector(
+                                                                onTap: () {
+                                                                  widget
+                                                                          .isCourseAssigned
+                                                                      ? setState(
+                                                                          () {
+                                                                          selectedChapter =
+                                                                              topicData.where((element) => element['moduleId'] == moduleData[_selectedValue]).toList().indexOf(e) + 1;
+                                                                          selectedChapterName =
+                                                                              e['name'];
+                                                                          selectedChapterDuration =
+                                                                              formatDuration(e['duration']);
+                                                                          initVideoController(
+                                                                              e['contentUrl']);
+                                                                        })
+                                                                      : showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          builder: (context) =>
+                                                                              AlertDialog(
+                                                                                title: Text("Course not assigned", style: TextStyle(color: Colors.white)),
+                                                                                content: Text("Please assign course to access the course contents"),
+                                                                                actions: [
+                                                                                  TextButton(
+                                                                                      onPressed: () {
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                      child: Text("Ok"))
+                                                                                ],
+                                                                              ));
+                                                                },
+                                                                child: ModuleCard(
+                                                                    e['name'],
+                                                                    formatDuration(e['duration']),
+                                                                    widget.preview,
+                                                                    //  "assets/images/course_preview_2.png",
 
-                                                          //  "assets/images/course_preview_2.png",
-                                                          e == selectedChapter,
-                                                          _controller
-                                                              ?.value.position,
-                                                          _controller?.value
-                                                              .duration)))
-                                            ],
-                                          )
-                                        : Center(
-                                            child: Text(
-                                            "No Topics in this Module",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          )),
+                                                                    //  "assets/images/course_preview_2.png",
+                                                                    e == selectedChapter,
+                                                                    _controller?.value.position,
+                                                                    _controller?.value.duration)))
+                                                      ],
+                                                    )
+                                                  : Center(
+                                                      child: Text(
+                                                      "No Topics in this Module",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    )),
+                                        ),
+                                      ]
+                                    : [
+                                        ...List.generate(
+                                            noOfChapters,
+                                            (index) => Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 16.sp,
+                                                      child: Text(
+                                                          "Chapter ${index + 1} : ${chapterData[index]['name']}"
+                                                              .toUpperCase(),
+                                                          style: TextStyle(
+                                                              fontSize: 12.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: textGrey2,
+                                                              height: 1.33,
+                                                              letterSpacing:
+                                                                  1)),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 8.sp,
+                                                    ),
+                                                    SizedBox(
+                                                      child: topicData
+                                                              .where((element) =>
+                                                                  element['moduleId'] ==
+                                                                      moduleData[
+                                                                          _selectedValue] &&
+                                                                  element['chapterId'] ==
+                                                                      chapterData[
+                                                                              index]
+                                                                          [
+                                                                          'id'])
+                                                              .isNotEmpty
+                                                          ? ListView(
+                                                              shrinkWrap: true,
+                                                              children: [
+                                                                ...topicData
+                                                                    .where((element) =>
+                                                                        element['moduleId'] ==
+                                                                            moduleData[
+                                                                                _selectedValue] &&
+                                                                        element['chapterId'] ==
+                                                                            chapterData[index]['id'])
+                                                                    .map((e) => GestureDetector(
+                                                                        onTap: () {
+                                                                          widget.isCourseAssigned
+                                                                              ? setState(() {
+                                                                                  selectedChapter = topicData.where((element) => element['moduleId'] == moduleData[_selectedValue]).toList().indexOf(e) + 1;
+                                                                                  selectedChapterName = e['name'];
+                                                                                  selectedChapterDuration = formatDuration(e['duration']);
+                                                                                  initVideoController(e['contentUrl']);
+                                                                                })
+                                                                              : showDialog(
+                                                                                  context: context,
+                                                                                  builder: (context) => AlertDialog(
+                                                                                        title: Text("Course not assigned", style: TextStyle(color: Colors.white)),
+                                                                                        content: Text("Please assign course to access the course contents"),
+                                                                                        actions: [
+                                                                                          TextButton(
+                                                                                              onPressed: () {
+                                                                                                Navigator.pop(context);
+                                                                                              },
+                                                                                              child: Text("Ok"))
+                                                                                        ],
+                                                                                      ));
+                                                                        },
+                                                                        child: ModuleCard(
+                                                                            e['name'],
+                                                                            formatDuration(e['duration']),
+                                                                            widget.preview,
+                                                                            //  "assets/images/course_preview_2.png",
+
+                                                                            //  "assets/images/course_preview_2.png",
+                                                                            e == selectedChapter,
+                                                                            _controller?.value.position,
+                                                                            _controller?.value.duration)))
+                                                              ],
+                                                            )
+                                                          : Center(
+                                                              child: Text(
+                                                              "No Topics in this Module",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            )),
+                                                    ),
+                                                  ],
+                                                )),
+                                        // SizedBox(
+                                        //   height: 16.sp,
+                                        //   child: Text(
+                                        //       "Chapter 1: Introduction"
+                                        //           .toUpperCase(),
+                                        //       style: TextStyle(
+                                        //           fontSize: 12.sp,
+                                        //           fontWeight: FontWeight.w600,
+                                        //           color: textGrey2,
+                                        //           height: 1.33,
+                                        //           letterSpacing: 1)),
+                                        // ),
+                                        // SizedBox(
+                                        //   height: 8.sp,
+                                        // ),
+                                        // SizedBox(
+                                        //   height: 320.sp,
+                                        //   child:
+                                        //       topicData
+                                        //               .where((element) =>
+                                        //                   element['moduleId'] ==
+                                        //                   moduleData[
+                                        //                       _selectedValue])
+                                        //               .isNotEmpty
+                                        //           ? ListView(
+                                        //               shrinkWrap: true,
+                                        //               children: [
+                                        //                 ...topicData
+                                        //                     .where((element) =>
+                                        //                         element[
+                                        //                             'moduleId'] ==
+                                        //                         moduleData[
+                                        //                             _selectedValue])
+                                        //                     .map((e) => GestureDetector(
+                                        //                         onTap: () {
+                                        //                           widget
+                                        //                                   .isCourseAssigned
+                                        //                               ? setState(
+                                        //                                   () {
+                                        //                                   selectedChapter =
+                                        //                                       topicData.where((element) => element['moduleId'] == moduleData[_selectedValue]).toList().indexOf(e) + 1;
+                                        //                                   selectedChapterName =
+                                        //                                       e['name'];
+                                        //                                   selectedChapterDuration =
+                                        //                                       formatDuration(e['duration']);
+                                        //                                   initVideoController(
+                                        //                                       e['contentUrl']);
+                                        //                                 })
+                                        //                               : showDialog(
+                                        //                                   context:
+                                        //                                       context,
+                                        //                                   builder: (context) =>
+                                        //                                       AlertDialog(
+                                        //                                         title: Text("Course not assigned", style: TextStyle(color: Colors.white)),
+                                        //                                         content: Text("Please assign course to access the course contents"),
+                                        //                                         actions: [
+                                        //                                           TextButton(
+                                        //                                               onPressed: () {
+                                        //                                                 Navigator.pop(context);
+                                        //                                               },
+                                        //                                               child: Text("Ok"))
+                                        //                                         ],
+                                        //                                       ));
+                                        //                         },
+                                        //                         child: ModuleCard(
+                                        //                             e['name'],
+                                        //                             formatDuration(e['duration']),
+                                        //                             widget.preview,
+                                        //                             //  "assets/images/course_preview_2.png",
+                                        //
+                                        //                             //  "assets/images/course_preview_2.png",
+                                        //                             e == selectedChapter,
+                                        //                             _controller?.value.position,
+                                        //                             _controller?.value.duration)))
+                                        //               ],
+                                        //             )
+                                        //           : Center(
+                                        //               child: Text(
+                                        //               "No Topics in this Module",
+                                        //               style: TextStyle(
+                                        //                   color: Colors.white),
+                                        //             )),
+                                        // ),
+                                      ],
                               ),
                               SizedBox(
                                 height: 12.sp,

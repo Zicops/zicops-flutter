@@ -48,8 +48,12 @@ class TopicLoading extends CourseState {
 class TopicLoaded extends CourseState {
   final List<dynamic> topicData;
   final courseModules;
+  final courseChapters;
 
-  TopicLoaded({required this.courseModules, required this.topicData});
+  TopicLoaded(
+      {required this.courseModules,
+      required this.topicData,
+      required this.courseChapters});
 
   @override
   List<Object?> get props => [topicData];

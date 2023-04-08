@@ -12,5 +12,3 @@ class SignInRequested extends AuthEvent {
 
   const SignInRequested({required this.email, required this.password});
 }
-
-// Added const AuthEvent() to AuthEvent class don't know if it is needed

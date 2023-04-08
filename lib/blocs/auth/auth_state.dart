@@ -3,8 +3,16 @@ part of 'auth_bloc.dart';
 @immutable
 abstract class AuthState extends Equatable {}
 
+/// For login page
+
 // When User Presses Login Button, the state will be changed to Loading
 class Loading extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+// Initial State of bloc when user is unauthenticated
+class Unauthenticated extends AuthState {
   @override
   List<Object?> get props => [];
 }
@@ -14,12 +22,6 @@ class Authenticated extends AuthState {
   final UserModel userModel;
 
   Authenticated(this.userModel);
-  @override
-  List<Object?> get props => [];
-}
-
-// Initial State of bloc when user is unauthenticated
-class Unauthenticated extends AuthState {
   @override
   List<Object?> get props => [];
 }

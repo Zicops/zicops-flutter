@@ -25,7 +25,7 @@ class _MyCourseScreen extends State<MyCourseScreen> {
   String getTitle() {
     switch (_selectedTab) {
       case 0:
-        return "on going courses";
+        return "ongoing courses";
       case 1:
         return "Assigned  courses";
       case 2:
@@ -35,7 +35,7 @@ class _MyCourseScreen extends State<MyCourseScreen> {
 
       default:
         {
-          return "on going courses";
+          return "ongoing courses";
         }
     }
   }
