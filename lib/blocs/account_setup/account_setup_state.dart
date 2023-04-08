@@ -8,30 +8,6 @@ class AccountSetupInitial extends AccountSetupState {
   List<Object?> get props => [];
 }
 
-// For lsp selection page
-class LspSelectionLoading extends AccountSetupState {
-  @override
-  List<Object?> get props => [];
-}
-
-class LspSelectionLoaded extends AccountSetupState {
-  final List<UserLspMap> userLspMap;
-
-  LspSelectionLoaded(this.userLspMap);
-
-  @override
-  List<Object> get props => [userLspMap];
-}
-
-class LspSelectionError extends AccountSetupState {
-  final String message;
-
-  LspSelectionError({required this.message});
-
-  @override
-  List<Object> get props => [message];
-}
-
 // For Personal Tab of account setup page
 class PersonalTabLoading extends AccountSetupState {
   @override

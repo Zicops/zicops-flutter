@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:zicops/utils/colors.dart';
-import 'package:zicops/views/screens/account_setup/lsp_selection.dart';
 import 'package:zicops/views/screens/forget_pass/forget_pass_screen.dart';
+import 'package:zicops/views/screens/login_screen/lsp_selection.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
 
 import '../../../blocs/auth/auth_bloc.dart';

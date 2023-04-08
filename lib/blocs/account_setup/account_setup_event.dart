@@ -7,10 +7,6 @@ abstract class AccountSetupEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LspSelectionRequested extends AccountSetupEvent {
-  const LspSelectionRequested();
-}
-
 class PersonalTabRequested extends AccountSetupEvent {
   const PersonalTabRequested();
 }

@@ -3,22 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../graphql_api.graphql.dart';
 import '../main.dart';
 import '../models/org_model.dart';
-import '../models/user/user_lsp_map.dart';
 import '../models/user_model.dart';
 
 class AccountSetupRepository {
-  Future getUserLsp() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final userId = sharedPreferences.getString('userId');
-    final lspResult = await userClient.client()?.execute(
-        GetUserLspsQuery(variables: GetUserLspsArguments(userId: userId!)));
-    List<UserLspMap> userLspMap = [];
-    for (var item in lspResult?.data?.getUserLsps ?? []) {
-      userLspMap.add(UserLspMap.fromJson(item.toJson()));
-    }
-    return userLspMap;
-  }
-
   Future getPersonalDetails() async {
     final userResult = await userClient.client()?.execute(LoginMutation());
     return UserModel.fromJson(userResult!.data!.login!.toJson());
