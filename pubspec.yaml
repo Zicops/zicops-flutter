@@ -80,8 +80,9 @@ dependency_overrides:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/zicops_logo.png"
-  adaptive_icon_background: ""#1A1B26"
+  image_path: "assets/images/zicops_launcher_logo.png"
+  adaptive_icon_background: "#000"
+  adaptive_icon_foreground: "assets/images/zicops_launcher_logo.png"
   remove_alpha_ios: true
 flutter:
 
