@@ -416,6 +416,7 @@ class _TopicScreen extends State<TopicScreen>
           }
           if (state is TopicLoaded) {
             print("course chapters : ${state.courseChapters}");
+            print("course progress: ${state.courseProgress}");
             var topicData = state.topicData;
             var chapterData = state.courseChapters;
             var noOfChapters = chapterData.length;

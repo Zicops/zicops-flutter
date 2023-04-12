@@ -29,6 +29,7 @@ class HttpClientWithToken extends http.BaseClient {
   final String token;
   final http.Client _client = http.Client();
 
+  @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
     request.headers['Authorization'] = 'Bearer ' + token;
     return _client.send(request);
@@ -92,7 +93,6 @@ class _LoginScreen extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    // final width = MediaQuery.of(context).size.width;
     _keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
     return Scaffold(
@@ -101,24 +101,10 @@ class _LoginScreen extends State<LoginScreen> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is Authenticated) {
-              print(state);
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const LspSelectionScreen()));
-              // if (state.userModel.isVerified == false) {
-              //   print('pushing account setup page');
-              //   Navigator.pushReplacement(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) => const AccountSetupScreen()));
-              // } else {
-              //   print('pushing home page');
-              //   Navigator.pushReplacement(context,
-              //       MaterialPageRoute(builder: (context) => const HomePage()));
-              // }
-              // Navigator.pushReplacement(context,
-              //     MaterialPageRoute(builder: (context) => const HomePage()));
             }
             if (state is AuthError) {
               print(state.error);
@@ -127,7 +113,7 @@ class _LoginScreen extends State<LoginScreen> {
             }
           },
           builder: (context, state) {
-            if (state is Loading) {
+            if (state is Authenticating) {
               return const Center(child: CircularProgressIndicator());
             }
             if (state is Unauthenticated) {
@@ -231,7 +217,7 @@ class _LoginScreen extends State<LoginScreen> {
                                 "Password",
                                 showErrorP,
                                 errorMsgP,
-                                //  onChange: onPasswordChange(),
+                                // onChange: onPasswordChange(),
                               ),
                               !isFocusedOrNotEmpty()
                                   ? SizedBox(
@@ -267,9 +253,6 @@ class _LoginScreen extends State<LoginScreen> {
                                         onTap: () {
                                           _authenticateWithEmailAndPassword(
                                               context);
-                                          // firebaseLogin();
-                                          // print(zStoreInstance
-                                          //     .userDetailsModel.firstName);
                                         },
                                         child: gradientButton("Login",
                                             isLoading: isLoading),
