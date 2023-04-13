@@ -59,19 +59,12 @@ class _NewCourseListItem extends State<NewCourseListItem> {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        widget.preview.contains("https://")
-                            ? Image.network(
-                                widget.preview,
-                                fit: BoxFit.fill,
-                                width: 104.sp,
-                                height: 58.sp,
-                              )
-                            : Image.asset(
-                                'assets/images/course_preview_2.png',
-                                fit: BoxFit.fill,
-                                width: 104.sp,
-                                height: 58.sp,
-                              ),
+                        Image.network(
+                          widget.preview,
+                          fit: BoxFit.fill,
+                          width: 104.sp,
+                          height: 58.sp,
+                        ),
                         Container(
                           color: Colors.black.withOpacity(0.43),
                           height: 58.sp,
@@ -88,23 +81,22 @@ class _NewCourseListItem extends State<NewCourseListItem> {
                   width: 8.sp,
                 ),
                 SizedBox(
+                    width: 148.sp,
+                    height: 60.sp,
                     child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.courseName,
-                      style: TextStyle(
-                          color: textPrimary,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          height: 1.43),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-                    SizedBox(
-                        width: 148.sp,
-                        child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          widget.courseName,
+                          style: TextStyle(
+                              color: textPrimary,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                              height: 1.43),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Row(
                           children: [
                             Text(
                               widget.org,
@@ -130,7 +122,8 @@ class _NewCourseListItem extends State<NewCourseListItem> {
                             SizedBox(
                               width: 8.sp,
                             ),
-                            Text(
+                            Expanded(
+                                child: Text(
                               widget.difficulty,
                               style: TextStyle(
                                   color: textGrey2,
@@ -138,16 +131,18 @@ class _NewCourseListItem extends State<NewCourseListItem> {
                                   fontWeight: FontWeight.w400,
                                   height: 1.33),
                               overflow: TextOverflow.ellipsis,
-                            ),
+                            )),
                           ],
-                        )),
-                    Text(
-                      widget.courseLength,
-                      style: TextStyle(
-                          color: primaryColor, fontSize: 12.sp, height: 1.33),
-                    )
-                  ],
-                )),
+                        ),
+                        Text(
+                          widget.courseLength,
+                          style: TextStyle(
+                              color: primaryColor,
+                              fontSize: 12.sp,
+                              height: 1.33),
+                        )
+                      ],
+                    )),
                 SizedBox(
                   width: 8.sp,
                 ),
