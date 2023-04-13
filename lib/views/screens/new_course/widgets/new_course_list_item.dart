@@ -88,68 +88,66 @@ class _NewCourseListItem extends State<NewCourseListItem> {
                   width: 8.sp,
                 ),
                 SizedBox(
-                    height: 60.sp,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          widget.courseName,
-                          style: TextStyle(
-                              color: textPrimary,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              height: 1.43),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(
-                            width: 148.sp,
-                            child: Row(
-                              children: [
-                                Text(
-                                  widget.org,
-                                  style: TextStyle(
-                                      color: textGrey2,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.33),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                SizedBox(
-                                  width: 8.sp,
-                                ),
-                                Text(
-                                  "\u2022",
-                                  style: TextStyle(
-                                      color: textGrey2,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.33),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                SizedBox(
-                                  width: 8.sp,
-                                ),
-                                Text(
-                                  widget.difficulty,
-                                  style: TextStyle(
-                                      color: textGrey2,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.33),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            )),
-                        Text(
-                          widget.courseLength,
-                          style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 12.sp,
-                              height: 1.33),
-                        )
-                      ],
-                    )),
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.courseName,
+                      style: TextStyle(
+                          color: textPrimary,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          height: 1.43),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                    SizedBox(
+                        width: 148.sp,
+                        child: Row(
+                          children: [
+                            Text(
+                              widget.org,
+                              style: TextStyle(
+                                  color: textGrey2,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.33),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(
+                              width: 8.sp,
+                            ),
+                            Text(
+                              "\u2022",
+                              style: TextStyle(
+                                  color: textGrey2,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.33),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(
+                              width: 8.sp,
+                            ),
+                            Text(
+                              widget.difficulty,
+                              style: TextStyle(
+                                  color: textGrey2,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.33),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        )),
+                    Text(
+                      widget.courseLength,
+                      style: TextStyle(
+                          color: primaryColor, fontSize: 12.sp, height: 1.33),
+                    )
+                  ],
+                )),
                 SizedBox(
                   width: 8.sp,
                 ),
