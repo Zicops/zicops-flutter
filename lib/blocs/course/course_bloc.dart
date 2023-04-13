@@ -38,10 +38,14 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
             await courseRepository.getCourseModule(event.courseId);
         var courseChapters =
             await courseRepository.getCourseChapters(event.courseId);
+        var userCourseProgress =
+            await courseRepository.getUserCourseProgress(event.courseId);
         emit(TopicLoaded(
-            courseModules: courseModules,
-            topicData: topicData,
-            courseChapters: courseChapters));
+          courseModules: courseModules,
+          topicData: topicData,
+          courseChapters: courseChapters,
+          courseProgress: userCourseProgress,
+        ));
       } catch (e) {
         emit(TopicError(error: e.toString()));
       }

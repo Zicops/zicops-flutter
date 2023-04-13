@@ -169,8 +169,9 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
                                   _selectedTab = 0;
                                 });
                               },
+                              // Topic - 82, notes - 84, resources - 121, about - 87
                               child: SizedBox(
-                                child: mainTab(82, "About", 0, _selectedTab),
+                                child: mainTab(87, "About", 0, _selectedTab),
                               )),
                           GestureDetector(
                               onTap: () {
@@ -179,7 +180,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
                                 });
                               },
                               child: SizedBox(
-                                child: mainTab(84, "Topic", 1, _selectedTab),
+                                child: mainTab(82, "Topic", 1, _selectedTab),
                               )),
                           GestureDetector(
                               onTap: () {
@@ -188,7 +189,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
                                 });
                               },
                               child: SizedBox(
-                                child: mainTab(121, "Notes", 2, _selectedTab),
+                                child: mainTab(84, "Notes", 2, _selectedTab),
                               )),
                           GestureDetector(
                               onTap: () {
@@ -198,7 +199,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
                               },
                               child: SizedBox(
                                 child:
-                                    mainTab(87, "Resources", 3, _selectedTab),
+                                    mainTab(121, "Resources", 3, _selectedTab),
                               )),
                         ],
                       ),

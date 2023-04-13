@@ -201,7 +201,21 @@ class CourseRepository {
         courseMap = assignedCourses[i];
       }
     }
-
     return courseMap;
+  }
+
+  Future getUserCourseProgress(String courseId) async {
+    final UserCourseMap courseMap = await getUserCourseMapByCourseId(courseId);
+    String userCourseId = courseMap.userCourseId!;
+    final prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('userId');
+    final res =
+        await userClient.client()?.execute(GetUserCourseProgressByMapIdQuery(
+                variables: GetUserCourseProgressByMapIdArguments(
+              userId: userId!,
+              userCourseId: [userCourseId],
+            )));
+    print(res);
+    return res;
   }
 }

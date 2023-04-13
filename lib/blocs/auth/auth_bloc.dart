@@ -13,7 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required this.authRepository}) : super(Unauthenticated()) {
     // When User Presses Login Button, we send a SignInRequested event to AuthBloc to handle and emit States - authenticated or unauthenticated
     on<SignInRequested>((event, emit) async {
-      emit(Loading());
+      emit(Authenticating());
       try {
         final user = await authRepository.firebaseLogin(
           email: event.email,
