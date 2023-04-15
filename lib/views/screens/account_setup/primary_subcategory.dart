@@ -25,13 +25,13 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
   late final PanelController _panelController;
 
   List<Category> categories = [
-    Category(0, "Finance & Accounting", null),
-    Category(1, "Design", null),
-    Category(2, "Technology", null),
-    Category(3, "Architecture", null),
-    Category(4, "Project Management", null),
-    Category(5, "Soft Skills", null),
-    Category(6, "Language", null)
+    Category(0, "Finance & Accounting", '0'),
+    Category(1, "Design", '1'),
+    Category(2, "Technology", '2'),
+    Category(3, "Architecture", '3'),
+    Category(4, "Project Management", '4'),
+    Category(5, "Soft Skills", '5'),
+    Category(6, "Language", '6'),
   ];
   // List<Category> subCategories = [
   //   Category(50, "UX Design", 1),

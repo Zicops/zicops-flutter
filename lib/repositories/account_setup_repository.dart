@@ -4,6 +4,7 @@ import '../graphql_api.graphql.dart';
 import '../main.dart';
 import '../models/org_model.dart';
 import '../models/user_model.dart';
+import '../views/screens/account_setup/models/category.dart';
 
 class AccountSetupRepository {
   Future getPersonalDetails() async {
@@ -61,78 +62,45 @@ class AccountSetupRepository {
 
     return orgDetails;
   }
-  //
-  // Future getPrefDetails() async {
-  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //   String? userId = sharedPreferences.getString('userId');
-  //   String? lspId = sharedPreferences.getString('lspId');
-  //   String? userLspId = sharedPreferences.getString('userLspId');
-  //
-  //   //All Cat Details
-  //
-  //   final allCatMainResult = await courseQClient.client()?.execute(
-  //       AllCatMainQuery(
-  //           variables: AllCatMainArguments(
-  //               lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
-  //
-  //   for (int i in allCatMainResult?.data?.allCatMain!.asMap().keys ?? []) {
-  //       catMainList.add(
-  //         AllCatMainModel(
-  //           allCatMainResult?.data?.allCatMain![i]?.id,
-  //           allCatMainResult?.data?.allCatMain![i]?.name,
-  //           allCatMainResult?.data?.allCatMain![i]?.description,
-  //           allCatMainResult?.data?.allCatMain![i]?.imageUrl,
-  //           allCatMainResult?.data?.allCatMain![i]?.code,
-  //           allCatMainResult?.data?.allCatMain![i]?.createdAt,
-  //           allCatMainResult?.data?.allCatMain![i]?.updatedAt,
-  //           allCatMainResult?.data?.allCatMain![i]?.isActive,
-  //         ),
-  //       );
-  //
-  //     i++;
-  //   }
-  //   for (int i = 0; i < catMainList.length; i++) {
-  //     categories.add(
-  //       Category(
-  //         catMainList[i].id!,
-  //         catMainList[i].name!,
-  //         i.toString(),
-  //       ),
-  //     );
-  //   }
-  //   print(categories.length);
-  //
-  //   final subCatMainResult = await courseQClient.client()?.execute(
-  //       AllSubCatMainQuery(
-  //           variables: AllSubCatMainArguments(
-  //               lsp_ids: ['8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1'])));
-  //   for (int i in subCatMainResult?.data?.allSubCatMain!.asMap().keys ?? []) {
-  //     setState(() {
-  //       subCatMainList.add(
-  //         SubCatMainModel(
-  //           subCatMainResult?.data?.allSubCatMain![i]?.catId,
-  //           subCatMainResult?.data?.allSubCatMain![i]?.id,
-  //           subCatMainResult?.data?.allSubCatMain![i]?.name,
-  //           subCatMainResult?.data?.allSubCatMain![i]?.description,
-  //           subCatMainResult?.data?.allSubCatMain![i]?.imageUrl,
-  //           subCatMainResult?.data?.allSubCatMain![i]?.code,
-  //           subCatMainResult?.data?.allSubCatMain![i]?.createdAt,
-  //           subCatMainResult?.data?.allSubCatMain![i]?.updatedAt,
-  //           subCatMainResult?.data?.allSubCatMain![i]?.isActive,
-  //         ),
-  //       );
-  //     });
-  //     i++;
-  //   }
-  //
-  //   for (int i = 0; i < subCatMainList.length; i++) {
-  //     subCategories.add(
-  //       Category(
-  //         i.toString(),
-  //         subCatMainList[i].name!,
-  //         subCatMainList[i].catId,
-  //       ),
-  //     );
-  //   }
-  // }
+
+  Future getAllCatMain() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? userId = sharedPreferences.getString('userId');
+    String? lspId = sharedPreferences.getString('lspId');
+    String? userLspId = sharedPreferences.getString('userLspId');
+
+    // Query to get all categories
+    final allCatMainResult = await courseQClient.client()?.execute(
+        AllCatMainQuery(variables: AllCatMainArguments(lsp_ids: [lspId])));
+    List<Category> allCatMain = [];
+    for (int i in allCatMainResult?.data?.allCatMain!.asMap().keys ?? []) {
+      allCatMain.add(Category(
+        i,
+        allCatMainResult?.data?.allCatMain![i]?.name ?? '',
+        allCatMainResult?.data?.allCatMain![i]?.id ?? '',
+      ));
+    }
+    return allCatMain;
+  }
+
+  Future getAllSubCatMain() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? userId = sharedPreferences.getString('userId');
+    String? lspId = sharedPreferences.getString('lspId');
+    String? userLspId = sharedPreferences.getString('userLspId');
+
+    // Query to get all sub categories
+    final subCatMainResult = await courseQClient.client()?.execute(
+        AllSubCatMainQuery(
+            variables: AllSubCatMainArguments(lsp_ids: [lspId])));
+    List<Category> subCatMain = [];
+    for (int i in subCatMainResult?.data?.allSubCatMain!.asMap().keys ?? []) {
+      subCatMain.add(Category(
+        i,
+        subCatMainResult?.data?.allSubCatMain![i]?.name ?? '',
+        subCatMainResult?.data?.allSubCatMain![i]?.catId ?? '',
+      ));
+    }
+    return subCatMain;
+  }
 }

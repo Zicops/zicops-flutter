@@ -14,3 +14,7 @@ class PersonalTabRequested extends AccountSetupEvent {
 class OrgTabRequested extends AccountSetupEvent {
   const OrgTabRequested();
 }
+
+class PreferencesTabRequested extends AccountSetupEvent {
+  const PreferencesTabRequested();
+}

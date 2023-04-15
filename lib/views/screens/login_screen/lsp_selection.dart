@@ -11,7 +11,6 @@ import 'package:zicops/views/screens/login_screen/login_screen.dart';
 
 import '../../../models/login/lsp_model.dart';
 import '../account_setup/account_setup_screen.dart';
-import '../home/home.dart';
 
 class LspSelectionScreen extends StatefulWidget {
   const LspSelectionScreen({Key? key}) : super(key: key);
@@ -115,15 +114,14 @@ class _LspSelectionScreen extends State<LspSelectionScreen> {
                         PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    const HomePage(),
+                                    AccountSetupScreen(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
                                 position: animation.drive(Tween(
                                         begin: const Offset(1, 0),
                                         end: Offset.zero)
-                                    .chain(CurveTween(
-                                        curve: Curves.easeInToLinear))),
+                                    .chain(CurveTween(curve: Curves.ease))),
                                 child: child,
                               );
                             }));

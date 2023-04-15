@@ -55,3 +55,28 @@ class OrganisationTabError extends AccountSetupState {
   @override
   List<Object> get props => [message];
 }
+
+// For Preferences Tab of account setup page
+class PreferencesTabLoading extends AccountSetupState {
+  @override
+  List<Object?> get props => [];
+}
+
+class PreferencesTabLoaded extends AccountSetupState {
+  final List<Category> categories;
+  final List<Category> subCategories;
+
+  PreferencesTabLoaded(this.categories, this.subCategories);
+
+  @override
+  List<Object> get props => [];
+}
+
+class PreferencesTabError extends AccountSetupState {
+  final String message;
+
+  PreferencesTabError({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
