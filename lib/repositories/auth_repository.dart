@@ -29,9 +29,9 @@ class AuthRepository {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        throw Exception('No user found for that email.');
+        throw Exception('User Not Found');
       } else if (e.code == 'wrong-password') {
-        throw Exception('Wrong password provided for that user.');
+        throw Exception('Incorrect Password');
       } else if (e.code == 'too-many-requests') {
         throw Exception('Too many requests. Try again later.');
       } else {
