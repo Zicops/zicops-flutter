@@ -41,6 +41,7 @@ class AuthRepository {
   }
 
   Future logout() async {
+    print('logout called');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.clear();
     await FirebaseAuth.instance.signOut();

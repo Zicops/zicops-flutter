@@ -104,8 +104,18 @@ class _LoginScreen extends State<LoginScreen> {
             if (state is Authenticated) {
               Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const LspSelectionScreen()));
+                  PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const LspSelectionScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return SlideTransition(
+                          position: animation.drive(
+                              Tween(begin: const Offset(1, 0), end: Offset.zero)
+                                  .chain(CurveTween(curve: Curves.ease))),
+                          child: child,
+                        );
+                      }));
             }
           },
           builder: (context, state) {
