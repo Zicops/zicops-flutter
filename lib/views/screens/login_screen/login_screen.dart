@@ -209,16 +209,19 @@ class _LoginScreen extends State<LoginScreen> {
                                     height:
                                         isFocusedOrNotEmpty() ? 20.sp : 28.sp),
                                 prefixInputField(
-                                    _focusNodes[0],
-                                    _emailController,
-                                    "assets/images/email.png",
-                                    "Email",
-                                    true,
-                                    validated: isEmailValidated, onChange: (e) {
-                                  setState(() {
-                                    isEmailValidated = isValidEmail(e);
-                                  });
-                                }),
+                                  _focusNodes[0],
+                                  _emailController,
+                                  "assets/images/email.png",
+                                  "Email",
+                                  true,
+                                  validated: isEmailValidated,
+                                  onChange: (e) {
+                                    setState(() {
+                                      isEmailValidated = isValidEmail(e);
+                                    });
+                                  },
+                                  inputType: TextInputType.emailAddress,
+                                ),
                                 SizedBox(height: 12.sp),
                                 CustomPassword(
                                   _focusNodes[1],
@@ -246,9 +249,30 @@ class _LoginScreen extends State<LoginScreen> {
                                               onTap: () {
                                                 Navigator.push(
                                                     context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const ForgetPassScreen()));
+                                                    PageRouteBuilder(
+                                                        pageBuilder: (context,
+                                                                animation,
+                                                                secondaryAnimation) =>
+                                                            const ForgetPassScreen(),
+                                                        transitionsBuilder:
+                                                            (context,
+                                                                animation,
+                                                                secondaryAnimation,
+                                                                child) {
+                                                          return SlideTransition(
+                                                            position: animation.drive(Tween(
+                                                                    begin:
+                                                                        const Offset(
+                                                                            1,
+                                                                            0),
+                                                                    end: Offset
+                                                                        .zero)
+                                                                .chain(CurveTween(
+                                                                    curve: Curves
+                                                                        .ease))),
+                                                            child: child,
+                                                          );
+                                                        }));
                                               },
                                               child: Text(
                                                 "Forgot Password?",
@@ -265,7 +289,7 @@ class _LoginScreen extends State<LoginScreen> {
                                             _authenticateWithEmailAndPassword(
                                                 context);
                                           },
-                                          child: gradientButton("Login",
+                                          child: GradientButton("Login",
                                               isLoading: isLoading),
                                         )
                                       ],

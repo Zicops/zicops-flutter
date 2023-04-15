@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +22,8 @@ class ForgetPassScreen extends StatefulWidget {
 
 class _ForgetPassScreen extends State<ForgetPassScreen>
     with TickerProviderStateMixin {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _enterPass = TextEditingController();
   final TextEditingController _reenterPass = TextEditingController();
@@ -31,6 +34,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
   bool mailSent = false;
   bool isEmailValidated = false;
   bool mailSuccessful = false;
+  bool isLoading = false;
 
   final List<FocusNode> _focusNodes = [
     FocusNode(),
@@ -40,8 +44,11 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
   ];
 
   resetPassword(String email) async {
-    email = email.trim().toLowerCase();
     print(email);
+    setState(() {
+      isLoading = true;
+    });
+    email = email.trim().toLowerCase();
     var response = await http.post(
       Uri.parse("https://demo.zicops.com/um/reset-password"),
       headers: <String, String>{
@@ -52,13 +59,32 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
         'email': email,
       }),
     );
-    print(response.body);
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       setState(() {
         mailSent = true;
+        mailSuccessful = true;
       });
+    } else {
+      setState(() {
+        mailSuccessful = false;
+      });
+    }
+  }
+
+  void formReset(
+      GlobalKey<FormState> formKey, TextEditingController controller) {
+    String stringValue = controller.text;
+    TextPosition textPosition = controller.selection.base;
+
+    formKey.currentState?.reset();
+    controller.text = stringValue;
+    controller.selection = TextSelection.fromPosition(textPosition);
+  }
+
+  void _submit() {
+    // validate all the form fields
+    if (_formKey.currentState!.validate()) {
+      resetPassword(_emailController.text);
     }
   }
 
@@ -149,28 +175,46 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                           ),
                                           textAlign: TextAlign.start)),
                                   const SizedBox(height: 20),
-                                  prefixInputField(
-                                      _focusNodes[0],
-                                      _emailController,
-                                      "assets/images/email.png",
-                                      "Email",
-                                      true,
-                                      validated: isEmailValidated,
-                                      onChange: (e) {
-                                    setState(() {
-                                      isEmailValidated = isValidEmail(e);
-                                    });
-                                  }),
-                                  SizedBox(height: 20.sp),
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        resetPassword(_emailController.text);
-                                        mailSent = true;
-                                        mailSuccessful = true;
-                                      });
-                                    },
-                                    child: gradientButton('Send Email'),
+                                  Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      children: [
+                                        prefixInputField(
+                                          _focusNodes[0],
+                                          _emailController,
+                                          "assets/images/email.png",
+                                          "Email",
+                                          true,
+                                          validated: isEmailValidated,
+                                          validator: (e) {
+                                            if (e.isEmpty) {
+                                              return "Please enter your email";
+                                            } else if (!isValidEmail(e)) {
+                                              return "Please enter a valid email";
+                                            }
+                                            return null;
+                                          },
+                                          onChange: (e) {
+                                            setState(() {
+                                              isEmailValidated =
+                                                  isValidEmail(e);
+                                            });
+                                            formReset(
+                                                _formKey, _emailController);
+                                          },
+                                          inputType: TextInputType.emailAddress,
+                                          textInputAction: TextInputAction.done,
+                                        ),
+                                        SizedBox(height: 20.sp),
+                                        GestureDetector(
+                                          onTap: _submit,
+                                          child: GradientButton(
+                                            'Send Email',
+                                            isLoading: isLoading,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   SizedBox(height: 20.sp),
                                   SizedBox(height: _keyboardVisible ? 0 : 35),
@@ -276,19 +320,27 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                                         decoration:
                                                             TextDecoration
                                                                 .underline,
-                                                        height: 1.5))
+                                                        height: 1.5),
+                                                    recognizer:
+                                                        TapGestureRecognizer()
+                                                          ..onTap = () {
+                                                            setState(() {
+                                                              mailSent = false;
+                                                              mailSuccessful =
+                                                                  false;
+                                                            });
+                                                            resetPassword(
+                                                                _emailController
+                                                                    .text);
+                                                          })
                                               ]))),
                                       SizedBox(height: 20.sp),
                                       InkWell(
                                         onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const LoginScreen()));
+                                          Navigator.pop(context);
                                         },
                                         child:
-                                            gradientButton('go back to login'),
+                                            GradientButton('go back to login'),
                                       ),
                                       SizedBox(
                                           height: _keyboardVisible ? 0 : 35),
@@ -401,7 +453,7 @@ class _ForgetPassScreen extends State<ForgetPassScreen>
                                                       const LoginScreen()));
                                         },
                                         child:
-                                            gradientButton('go back to login'),
+                                            GradientButton('go back to login'),
                                       ),
                                       SizedBox(
                                           height: _keyboardVisible ? 0 : 35),

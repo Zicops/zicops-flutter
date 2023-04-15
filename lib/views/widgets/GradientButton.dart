@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../utils/colors.dart';
-
-class gradientButton extends StatelessWidget {
-  String title;
-  bool isLoading;
-  gradientButton(this.title, {this.isLoading = false});
+class GradientButton extends StatelessWidget {
+  final String title;
+  final bool isLoading;
+  const GradientButton(this.title, {super.key, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +16,8 @@ class gradientButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(4.sp),
           // gradient: const LinearGradient(colors: [primaryColor, gradientTwo])
           image: const DecorationImage(
-              image: AssetImage("assets/images/button_bg.png"), fit: BoxFit.fill)
-              ),
+              image: AssetImage("assets/images/button_bg.png"),
+              fit: BoxFit.fill)),
       child: isLoading
           ? const SizedBox(
               height: 24,

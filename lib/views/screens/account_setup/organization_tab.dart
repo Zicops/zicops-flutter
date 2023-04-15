@@ -161,7 +161,7 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
                             }
                             widget.changeTab();
                           },
-                          child: gradientButton("Next"),
+                          child: GradientButton("Next"),
                         ),
                       ],
                     ));

@@ -333,7 +333,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
 
                                       widget.changeTab();
                                     },
-                                    child: gradientButton("Next"),
+                                    child: GradientButton("Next"),
                                   ),
                                 ],
                               ))

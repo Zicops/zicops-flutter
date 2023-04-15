@@ -188,35 +188,45 @@ class _ResultScreen extends State<ResultScreen> {
               child: AlternateColorContainer([
                 const {'title': 'Attempts', 'value': '1/3'},
                 const {'title': 'Exam score', 'value': '10/100'},
-                {'title': 'Result', 'value': hasPassed? 'Pass':'Failed', 'value_color': hasPassed? const Color(0xFF03DAC5):delete}
+                {
+                  'title': 'Result',
+                  'value': hasPassed ? 'Pass' : 'Failed',
+                  'value_color': hasPassed ? const Color(0xFF03DAC5) : delete
+                }
               ]),
             ),
             SizedBox(
               height: 20.sp,
             ),
-            GestureDetector(onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const AttemptHistoryScreen()));
-            },child: Container(
-              height: 48.sp,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.sp),
-                  border: Border.all(color: lightGrey, width: 1.sp)),
-              child: Text(
-                'Attempt history'.toUpperCase(),
-                style: TextStyle(
-                    foreground: Paint()
-                      ..shader = RadialGradient(
-                        colors: const [primaryColor, gradientTwo],
-                        center: Alignment.center,
-                        radius: 105.sp,
-                      ).createShader(const Rect.fromLTWH(0.0, 0.0, 50.0, 24.0),
-                          textDirection: TextDirection.ltr),
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 2),
-              ),
-            )),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AttemptHistoryScreen()));
+                },
+                child: Container(
+                  height: 48.sp,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.sp),
+                      border: Border.all(color: lightGrey, width: 1.sp)),
+                  child: Text(
+                    'Attempt history'.toUpperCase(),
+                    style: TextStyle(
+                        foreground: Paint()
+                          ..shader = RadialGradient(
+                            colors: const [primaryColor, gradientTwo],
+                            center: Alignment.center,
+                            radius: 105.sp,
+                          ).createShader(
+                              const Rect.fromLTWH(0.0, 0.0, 50.0, 24.0),
+                              textDirection: TextDirection.ltr),
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 2),
+                  ),
+                )),
             SizedBox(
               height: 20.sp,
             ),
@@ -244,7 +254,7 @@ class _ResultScreen extends State<ResultScreen> {
             SizedBox(
               height: 20.sp,
             ),
-            gradientButton('Download result'),
+            GradientButton('Download result'),
             SizedBox(
               height: 20.sp,
             ),

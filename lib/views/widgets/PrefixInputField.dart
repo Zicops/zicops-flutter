@@ -14,9 +14,11 @@ Widget prefixInputField(
   bool validated = false,
   Function? onChange,
   TextInputType inputType = TextInputType.text,
+  TextInputAction textInputAction = TextInputAction.next,
+  Function? validator,
 }) {
   return Container(
-      height: 48.sp,
+      // height: 96.sp,
       alignment: Alignment.centerLeft,
       child: TextFormField(
           enabled: enabled,
@@ -29,6 +31,13 @@ Widget prefixInputField(
           },
           maxLines: 1,
           keyboardType: inputType,
+          textInputAction: textInputAction,
+          validator: (val) {
+            if (validator != null) {
+              return validator(val);
+            }
+            return null;
+          },
           decoration: InputDecoration(
               // suffix: isLoading ? CircularProgressIndicator() : null,
               isDense: true,
@@ -36,13 +45,25 @@ Widget prefixInputField(
                   left: 48.sp, top: 12.sp, bottom: 12.sp, right: 12.sp),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: focusNode.hasFocus || controller.text.isNotEmpty
+                      color: focusNode.hasFocus ||
+                              controller.text.isNotEmpty ||
+                              !validated
                           ? secondaryColorDarkOutline
                           : lightGrey),
                   borderRadius: BorderRadius.circular(4.sp)),
               focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(4.sp)),
+              errorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: error,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(4.sp))),
+              focusedErrorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: error,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(4.sp))),
               filled: true,
               fillColor:
                   focusNode.hasFocus ? secondaryColorDark : secondaryColorLight,

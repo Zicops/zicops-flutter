@@ -131,7 +131,7 @@ class _AboutScreen extends State<AboutScreen> {
                         children: [
                           // TODO: Course preview video player to be added
                           GestureDetector(
-                            child: gradientButton('Course Preview'),
+                            child: GradientButton('Course Preview'),
                           ),
                           SizedBox(
                             height: 16.sp,
