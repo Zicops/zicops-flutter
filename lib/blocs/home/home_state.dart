@@ -33,6 +33,30 @@ class LatestCourseError extends HomeState {
   List<Object?> get props => [error];
 }
 
+// Ongoing Course States
+class OngoingCourseLoading extends HomeState {
+  @override
+  List<Object?> get props => [];
+}
+
+class OngoingCourseLoaded extends HomeState {
+  final List<Course> ongoingCourses;
+
+  OngoingCourseLoaded({required this.ongoingCourses});
+
+  @override
+  List<Object?> get props => [ongoingCourses];
+}
+
+class OngoingCourseError extends HomeState {
+  final String error;
+
+  OngoingCourseError({required this.error});
+
+  @override
+  List<Object?> get props => [error];
+}
+
 // Learning Folder Course States
 class LearningFolderCourseLoading extends HomeState {
   @override

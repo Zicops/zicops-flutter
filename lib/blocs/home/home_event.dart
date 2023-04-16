@@ -22,6 +22,12 @@ class LearningSpaceCourseRequested extends HomeEvent {
 }
 
 
+// Ongoing Course Events
+class OngoingCourseRequested extends HomeEvent {
+  const OngoingCourseRequested();
+}
+
+
 // Sub Category Course Events
 class SubCategoryCourseRequested extends HomeEvent {
 

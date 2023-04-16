@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/user/user_course_model.dart';
 import '../../repositories/home_repository.dart';
+import '../../utils/constants.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -12,10 +13,22 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepository homeRepository;
   HomeBloc({required this.homeRepository}) : super(HomeInitial()) {
+    on<OngoingCourseRequested>((event, emit) async {
+      emit(OngoingCourseLoading());
+      try {
+        final ongoingCourses = await homeRepository
+            .loadUserCourseData({'status': CourseMapStatus['started']});
+        emit(OngoingCourseLoaded(
+            ongoingCourses: ongoingCourses));
+      } catch (e) {
+        emit(OngoingCourseError(error: e.toString()));
+      }
+    });
     on<LearningFolderCourseRequested>((event, emit) async {
       emit(LearningFolderCourseLoading());
       try {
-        final learningFolderCourses = await homeRepository.loadUserCourseData({});
+        final learningFolderCourses = await homeRepository
+            .loadUserCourseData({'status': CourseMapStatus['assign']});
         emit(LearningFolderCourseLoaded(
             learningFolderCourses: learningFolderCourses));
       } catch (e) {
