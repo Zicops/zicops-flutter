@@ -1,3 +1,4 @@
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../graphql_api.graphql.dart';
@@ -102,5 +103,33 @@ class AccountSetupRepository {
       ));
     }
     return subCatMain;
+  }
+
+  updatePersonalDetails(
+    String id,
+    String firstName,
+    String lastName,
+    String email,
+    String phone,
+    MultipartFile? image,
+  ) async {
+    final res = await userClient.client()?.execute(
+          UpdateUserMutation(
+            variables: UpdateUserArguments(
+              id: id,
+              first_name: firstName,
+              last_name: lastName,
+              status: "active",
+              role: 'learner',
+              is_verified: true,
+              is_active: true,
+              gender: 'male',
+              email: email,
+              phone: phone,
+              Photo: image,
+            ),
+          ),
+        );
+    return;
   }
 }

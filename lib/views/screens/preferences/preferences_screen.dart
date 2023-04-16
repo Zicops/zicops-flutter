@@ -133,7 +133,8 @@ class _PreferencesScreen extends State<PreferencesScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      PrimarySubCategoryScreen(subCategories)));
+                                      PrimarySubCategoryScreen(
+                                          subCategories, [])));
                         },
                         child: Container(
                           width: 24.sp,

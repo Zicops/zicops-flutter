@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,7 +88,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
         // catMainLoading();
       });
     }
-    getEmail();
+    // getEmail();
     super.initState();
     // getDetails();
   }
@@ -118,13 +117,13 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
     super.dispose();
   }
 
-  getEmail() async {
-    final email = FirebaseAuth.instance.currentUser?.email;
-    setState(() {
-      _emailController.text = email ?? "";
-      isEmailValidated = email != null && email.isNotEmpty ? true : false;
-    });
-  }
+  // getEmail() {
+  //   //final email = FirebaseAuth.instance.currentUser?.email;
+  //   setState(() {
+  //     _emailController.text = email ?? "";
+  //     isEmailValidated = email.isNotEmpty ? true : false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -152,198 +151,6 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
             }
           },
           builder: (context, state) {
-            print(state);
-            if (state is PersonalTabLoading) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (state is PersonalTabLoaded) {
-              return SafeArea(
-                child: KeyboardVisibilityBuilder(
-                    builder: (context, isKeyboardVisible) {
-                  return CustomScrollView(slivers: [
-                    SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Column(
-                        children: [
-                          if (isKeyboardVisible)
-                            const SizedBox.shrink()
-                          else
-                            Stack(
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.only(bottom: 85.sp),
-                                    child: bgImage != null
-                                        ? Image.file(
-                                            bgImage!,
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            height: 120.sp,
-                                          )
-                                        : Image.asset(
-                                            "assets/images/personal_bg.png",
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            height: 120.sp,
-                                          )),
-                                Positioned(
-                                  top: 64.sp,
-                                  left: 20.sp,
-                                  child: GestureDetector(
-                                    behavior: HitTestBehavior.translucent,
-                                    onTap: () {
-                                      setState(() {
-                                        pickProfileImage();
-                                      });
-                                    },
-                                    child: CircleAvatar(
-                                      radius: 60.sp,
-                                      backgroundColor: secondaryColorDark,
-                                      child: CircleAvatar(
-                                        foregroundImage: profileImage != null
-                                            ? FileImage(profileImage!)
-                                                as ImageProvider
-                                            : NetworkImage(
-                                                imageUrl ??
-                                                    "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
-                                              ),
-                                        radius: 56.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                    top: 82.sp,
-                                    right: 20.sp,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          pickBgImage();
-                                        });
-                                      },
-                                      child: Image.asset(
-                                        "assets/images/camera.png",
-                                        width: 20.sp,
-                                        height: 20.sp,
-                                      ),
-                                    )),
-                                Positioned(
-                                    top: 147.sp,
-                                    left: 108.sp,
-                                    child: GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () {
-                                        setState(() {
-                                          pickProfileImage();
-                                        });
-                                      },
-                                      child: Container(
-                                          padding: const EdgeInsets.all(5),
-                                          decoration: BoxDecoration(
-                                              color: textGrey.withOpacity(0.2),
-                                              borderRadius:
-                                                  BorderRadius.circular(50)),
-                                          child: Image.asset(
-                                            "assets/images/camera.png",
-                                            width: 20.sp,
-                                            height: 20.sp,
-                                          )),
-                                    )),
-                              ],
-                            ),
-                          isKeyboardVisible
-                              ? const SizedBox.shrink()
-                              : const Spacer(),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 20,
-                                  right: 20,
-                                  bottom: 20,
-                                  top: isKeyboardVisible ? 20 : 80),
-                              child: Column(
-                                children: [
-                                  prefixInputField(
-                                    _focusNodes[0],
-                                    _firstNameController,
-                                    "assets/images/person.png",
-                                    "Firstname",
-                                    true,
-                                  ),
-                                  const SizedBox(height: 12),
-                                  prefixInputField(
-                                    _focusNodes[1],
-                                    _lastNameController,
-                                    "assets/images/person.png",
-                                    "Lastname",
-                                    true,
-                                  ),
-                                  const SizedBox(height: 12),
-                                  prefixInputField(
-                                      _focusNodes[2],
-                                      _emailController,
-                                      "assets/images/email.png",
-                                      "Email",
-                                      false,
-                                      validated: isEmailValidated,
-                                      onChange: (e) {
-                                    setState(() {
-                                      isEmailValidated = isValidEmail(e);
-                                    });
-                                  }),
-                                  const SizedBox(height: 12),
-                                  prefixInputField(
-                                      _focusNodes[3],
-                                      _phoneController,
-                                      "assets/images/phone.png",
-                                      "+91 | Contact Number",
-                                      true,
-                                      inputType: TextInputType.phone),
-                                  const SizedBox(height: 12),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      print(profileImage);
-                                      if (profileImage != null) {
-                                        var byteData =
-                                            profileImage.readAsBytesSync();
-                                        var multipartFile = MultipartFile
-                                            .fromBytes('photo', byteData,
-                                                filename: profileImage
-                                                    .path
-                                                    .split('/')
-                                                    .last,
-                                                contentType:
-                                                    MediaType('image', 'png'));
-                                        updateUser(
-                                          id,
-                                          _firstNameController.text,
-                                          _lastNameController.text,
-                                          _emailController.text,
-                                          _phoneController.text,
-                                          multipartFile,
-                                        );
-                                      } else {
-                                        updateUser(
-                                          id,
-                                          _firstNameController.text,
-                                          _lastNameController.text,
-                                          _emailController.text,
-                                          _phoneController.text,
-                                          null,
-                                        );
-                                      }
-
-                                      widget.changeTab();
-                                    },
-                                    child: GradientButton("Next"),
-                                  ),
-                                ],
-                              ))
-                        ],
-                      ),
-                    )
-                  ]);
-                }),
-              );
-            }
             if (state is PersonalTabError) {
               return Center(
                 child: Text(
@@ -352,7 +159,201 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                 ),
               );
             }
-            return Container();
+            return SafeArea(
+              child: KeyboardVisibilityBuilder(
+                  builder: (context, isKeyboardVisible) {
+                return CustomScrollView(slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      children: [
+                        if (isKeyboardVisible)
+                          const SizedBox.shrink()
+                        else
+                          Stack(
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(bottom: 85.sp),
+                                  child: bgImage != null
+                                      ? Image.file(
+                                          bgImage!,
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                          height: 100.sp,
+                                        )
+                                      : Image.asset(
+                                          "assets/images/personal_bg.png",
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                          height: 100.sp,
+                                        )),
+                              Positioned(
+                                top: 64.sp,
+                                left: 20.sp,
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    setState(() {
+                                      pickProfileImage();
+                                    });
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 60.sp,
+                                    backgroundColor: secondaryColorDark,
+                                    child: CircleAvatar(
+                                      foregroundImage: profileImage != null
+                                          ? FileImage(profileImage!)
+                                              as ImageProvider
+                                          : NetworkImage(
+                                              imageUrl ??
+                                                  "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
+                                            ),
+                                      radius: 56.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                  top: 82.sp,
+                                  right: 20.sp,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        pickBgImage();
+                                      });
+                                    },
+                                    child: Image.asset(
+                                      "assets/images/camera.png",
+                                      width: 20.sp,
+                                      height: 20.sp,
+                                    ),
+                                  )),
+                              Positioned(
+                                  top: 147.sp,
+                                  left: 108.sp,
+                                  child: GestureDetector(
+                                    behavior: HitTestBehavior.translucent,
+                                    onTap: () {
+                                      setState(() {
+                                        pickProfileImage();
+                                      });
+                                    },
+                                    child: Container(
+                                        padding: const EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                            color: textGrey.withOpacity(0.2),
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Image.asset(
+                                          "assets/images/camera.png",
+                                          width: 20.sp,
+                                          height: 20.sp,
+                                        )),
+                                  )),
+                            ],
+                          ),
+                        isKeyboardVisible
+                            ? const SizedBox.shrink()
+                            : const Spacer(),
+                        BlocBuilder<AccountSetupBloc, AccountSetupState>(
+                          builder: (context, state) {
+                            if (state is PersonalTabLoading) {
+                              return CircularProgressIndicator();
+                            }
+                            return Container();
+                          },
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                                bottom: 20,
+                                top: isKeyboardVisible ? 20 : 45),
+                            child: Column(
+                              children: [
+                                prefixInputField(
+                                  _focusNodes[0],
+                                  _firstNameController,
+                                  "assets/images/person.png",
+                                  "Firstname",
+                                  true,
+                                ),
+                                const SizedBox(height: 12),
+                                prefixInputField(
+                                  _focusNodes[1],
+                                  _lastNameController,
+                                  "assets/images/person.png",
+                                  "Lastname",
+                                  true,
+                                ),
+                                const SizedBox(height: 12),
+                                prefixInputField(
+                                    _focusNodes[2],
+                                    _emailController,
+                                    "assets/images/email.png",
+                                    "Email",
+                                    false,
+                                    validated: isEmailValidated =
+                                        email.isNotEmpty ? true : false,
+                                    onChange: (e) {
+                                  setState(() {
+                                    isEmailValidated = isValidEmail(e);
+                                  });
+                                }),
+                                const SizedBox(height: 12),
+                                prefixInputField(
+                                    _focusNodes[3],
+                                    _phoneController,
+                                    "assets/images/phone.png",
+                                    "+91 | Contact Number",
+                                    true,
+                                    inputType: TextInputType.phone),
+                                const SizedBox(height: 12),
+                                GestureDetector(
+                                  onTap: () async {
+                                    print(profileImage);
+                                    if (profileImage != null) {
+                                      var byteData =
+                                          profileImage.readAsBytesSync();
+                                      var multipartFile =
+                                          MultipartFile.fromBytes(
+                                              'photo', byteData,
+                                              filename: profileImage.path
+                                                  .split('/')
+                                                  .last,
+                                              contentType:
+                                                  MediaType('image', 'png'));
+                                      updateUser(
+                                        id,
+                                        _firstNameController.text,
+                                        _lastNameController.text,
+                                        _emailController.text,
+                                        _phoneController.text,
+                                        multipartFile,
+                                      );
+                                    } else {
+                                      updateUser(
+                                        id,
+                                        _firstNameController.text,
+                                        _lastNameController.text,
+                                        _emailController.text,
+                                        _phoneController.text,
+                                        null,
+                                      );
+                                    }
+
+                                    widget.changeTab();
+                                  },
+                                  child: GradientButton("Next"),
+                                ),
+                              ],
+                            ))
+                      ],
+                    ),
+                  )
+                ]);
+              }),
+            );
           },
         ),
       ),

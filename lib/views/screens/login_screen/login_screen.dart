@@ -147,7 +147,7 @@ class _LoginScreen extends State<LoginScreen> {
                       SliverFillRemaining(
                           hasScrollBody: false,
                           child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const SizedBox(height: 20),
                                 Row(
@@ -245,9 +245,11 @@ class _LoginScreen extends State<LoginScreen> {
                                 ),
                                 !isFocusedOrNotEmpty()
                                     ? SizedBox(
-                                        height: 20.sp,
+                                        height: 8.sp,
                                       )
-                                    : Container(),
+                                    : SizedBox(
+                                        height: 8.sp,
+                                      ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -306,7 +308,7 @@ class _LoginScreen extends State<LoginScreen> {
                                     ))
                                   ],
                                 ),
-                                SizedBox(height: _keyboardVisible ? 0 : 35.sp),
+                                SizedBox(height: _keyboardVisible ? 0 : 15.sp),
                                 !_keyboardVisible
                                     ? Row(
                                         mainAxisAlignment:
@@ -334,9 +336,6 @@ class _LoginScreen extends State<LoginScreen> {
                                         ],
                                       )
                                     : const SizedBox.shrink(),
-                                const SizedBox(
-                                  height: 20,
-                                )
                               ]))
                     ]);
                   }),

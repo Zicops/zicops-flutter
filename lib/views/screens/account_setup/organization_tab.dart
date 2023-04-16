@@ -89,84 +89,93 @@ class _OrganizationTabScreen extends State<OrganizationTabScreen> {
               }
             },
             builder: (context, state) {
-              if (state is OrganisationTabLoading) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (state is OrganisationTabLoaded) {
-                return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20),
-                    child: Column(
-                      children: [
-                        prefixInputField(
-                          _focusNodes[0],
-                          _organisationController,
-                          "assets/images/organization.png",
-                          "Organisation",
-                          true,
-                        ),
-                        const SizedBox(height: 12),
-                        prefixInputField(
-                          _focusNodes[1],
-                          _orgUnitController,
-                          "assets/images/location.png",
-                          "Organization Unit",
-                          true,
-                        ),
-                        const SizedBox(height: 12),
-                        prefixInputField(
-                          _focusNodes[2],
-                          _lspRoleController,
-                          "assets/images/learning_space.png",
-                          "Learning Space Role",
-                          true,
-                        ),
-                        const SizedBox(height: 12),
-                        prefixInputField(
-                          _focusNodes[3],
-                          _roleController,
-                          "assets/images/role.png",
-                          "Role in Organization",
-                          true,
-                        ),
-                        const SizedBox(height: 12),
-                        prefixInputField(
-                          _focusNodes[4],
-                          _employeeIdController,
-                          "assets/images/other_role.png",
-                          "Employee ID",
-                          true,
-                        ),
-                        const SizedBox(height: 12),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            if (userOrgId != '') {
-                              updateUserOrganizationMap(
-                                userId,
-                                orgId!,
-                                userOrgId!,
-                                userLspId!,
-                                _roleController.text,
-                                _employeeIdController.text,
-                              );
-                            } else {
-                              addUserOrganization(
-                                userId,
-                                orgId!,
-                                userLspId!,
-                                _roleController.text,
-                                _employeeIdController.text,
-                              );
-                            }
-                            widget.changeTab();
-                          },
-                          child: GradientButton("Next"),
-                        ),
-                      ],
-                    ));
-              }
-              return Container();
+              // if (state is OrganisationTabLoading) {
+              //   return Center(child: CircularProgressIndicator());
+              // }
+              return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Column(
+                    children: [
+                      BlocBuilder<AccountSetupBloc, AccountSetupState>(
+                        builder: (context, state) {
+                          if (state is OrganisationTabLoading) {
+                            return Column(
+                              children: const [
+                                CircularProgressIndicator(),
+                                SizedBox(height: 20),
+                              ],
+                            );
+                          }
+                          return Container();
+                        },
+                      ),
+                      prefixInputField(
+                        _focusNodes[0],
+                        _organisationController,
+                        "assets/images/organization.png",
+                        "Organisation",
+                        true,
+                      ),
+                      const SizedBox(height: 12),
+                      prefixInputField(
+                        _focusNodes[1],
+                        _orgUnitController,
+                        "assets/images/location.png",
+                        "Organization Unit",
+                        true,
+                      ),
+                      const SizedBox(height: 12),
+                      prefixInputField(
+                        _focusNodes[2],
+                        _lspRoleController,
+                        "assets/images/learning_space.png",
+                        "Learning Space Role",
+                        true,
+                      ),
+                      const SizedBox(height: 12),
+                      prefixInputField(
+                        _focusNodes[3],
+                        _roleController,
+                        "assets/images/role.png",
+                        "Role in Organization",
+                        true,
+                      ),
+                      const SizedBox(height: 12),
+                      prefixInputField(
+                        _focusNodes[4],
+                        _employeeIdController,
+                        "assets/images/other_role.png",
+                        "Employee ID",
+                        true,
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          if (userOrgId != '') {
+                            updateUserOrganizationMap(
+                              userId,
+                              orgId!,
+                              userOrgId!,
+                              userLspId!,
+                              _roleController.text,
+                              _employeeIdController.text,
+                            );
+                          } else {
+                            addUserOrganization(
+                              userId,
+                              orgId!,
+                              userLspId!,
+                              _roleController.text,
+                              _employeeIdController.text,
+                            );
+                          }
+                          widget.changeTab();
+                        },
+                        child: GradientButton("Next"),
+                      ),
+                    ],
+                  ));
             },
           ),
         )

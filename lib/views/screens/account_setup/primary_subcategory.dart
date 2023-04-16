@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:zicops/views/screens/account_setup/models/category.dart';
-import 'package:zicops/views/screens/home/home.dart';
 
+import '../../../controllers/mutation_controller.dart';
 import '../../../utils/colors.dart';
+import '../home/home.dart';
 
 class PrimarySubCategoryScreen extends StatefulWidget {
   final List<Category> subCategories;
-  const PrimarySubCategoryScreen(this.subCategories, {Key? key})
+  final List<Category> categories;
+  const PrimarySubCategoryScreen(this.subCategories, this.categories,
+      {Key? key})
       : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -25,14 +29,15 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
   late final PanelController _panelController;
 
   List<Category> categories = [
-    Category(0, "Finance & Accounting", '0'),
-    Category(1, "Design", '1'),
-    Category(2, "Technology", '2'),
-    Category(3, "Architecture", '3'),
-    Category(4, "Project Management", '4'),
-    Category(5, "Soft Skills", '5'),
-    Category(6, "Language", '6'),
+    // Category(0, "Finance & Accounting", '0'),
+    // Category(1, "Design", '1'),
+    // Category(2, "Technology", '2'),
+    // Category(3, "Architecture", '3'),
+    // Category(4, "Project Management", '4'),
+    // Category(5, "Soft Skills", '5'),
+    // Category(6, "Language", '6'),
   ];
+
   // List<Category> subCategories = [
   //   Category(50, "UX Design", 1),
   //   Category(51, "Graphics Design", 1),
@@ -46,10 +51,21 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
   //   Category(59, "French", 6),
   // ];
 
+  String? userId = '';
+  String? userLspId = '';
+
+  Future getUserIdAndUserLspId() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    userId = sharedPreferences.getString('userId');
+    userLspId = sharedPreferences.getString('userLspId');
+    return [userId, userLspId];
+  }
+
   List<int> filter = [];
   List<Category> filteredSubCategories = [];
   List<Category> filteredCategories = [];
   int selectedSubCategory = -1;
+  String selectedPrimarySubCat = '';
 
   updateFilterCategory(int id) {
     if (filter.contains(id)) {
@@ -91,6 +107,7 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
       // showModal(500);
     });
     filteredSubCategories = widget.subCategories;
+    getUserIdAndUserLspId();
   }
 
   @override
@@ -147,6 +164,16 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
                       border: Border.all(color: lightGrey)),
                   child: InkWell(
                     onTap: () {
+                      for (int i = 0; i < widget.subCategories.length; i++) {
+                        if (widget.subCategories[i].category.toLowerCase() ==
+                            selectedPrimarySubCat.toLowerCase()) {
+                          addUserPreference(userId!, userLspId,
+                              widget.subCategories[i].category, true);
+                        } else {
+                          addUserPreference(userId!, userLspId,
+                              widget.subCategories[i].category, false);
+                        }
+                      }
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -524,6 +551,7 @@ class _PrimarySubCategoryScreen extends State<PrimarySubCategoryScreen> {
                                     onTap: () {
                                       setState(() {
                                         selectedSubCategory = cat.id;
+                                        selectedPrimarySubCat = cat.category;
                                       });
                                     },
                                     child: Container(
