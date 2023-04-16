@@ -73,7 +73,7 @@ class HomeRepository {
       var data = assignedCourses[i];
       var courseData = courseRes?.data?.getCourse;
       var cpData = userCourseProgress?.data?.getUserCourseProgressByMapId
-              ?.where((cp) => cp?.userCourseId == data?.userCourseId)
+              ?.where((cp) => cp?.userCourseId == data.userCourseId)
               .toList() ??
           [];
 
@@ -193,7 +193,7 @@ class HomeRepository {
 
     if (courseIds.isNotEmpty) {
       List<Course> filteredCourseData = courseData
-          .where((course) => courseIds.contains(course.courseId))
+          .where((course) => !courseIds.contains(course.courseId))
           .toList();
       return filteredCourseData;
     }
