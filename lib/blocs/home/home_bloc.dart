@@ -25,12 +25,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<LatestCourseRequested>((event, emit) async {
       emit(LatestCourseLoading());
       try {
-        final prefs = await SharedPreferences.getInstance();
-        String lspId = prefs.getString('lspId') ?? '';
-        final latestCourses = await homeRepository.loadCourses(lspId);
+        final latestCourses = await homeRepository.loadCourses({});
+
         emit(LatestCourseLoaded(latestCourses: latestCourses));
       } catch (e) {
         emit(LatestCourseError(error: e.toString()));
+      }
+    });
+    on<LearningSpaceCourseRequested>((event, emit) async {
+      emit(LearningSpaceCourseLoading());
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        String lspId = prefs.getString('lspId') ?? '';
+        final learningSpaceCourses =
+            await homeRepository.loadCourses({"LspId": lspId});
+
+        emit(LearningSpaceCourseLoaded(
+            learningSpaceCourses: learningSpaceCourses));
+      } catch (e) {
+        emit(LearningSpaceCourseError(error: e.toString()));
       }
     });
     on<SubCategoryCourseRequested>((event, emit) async {
@@ -41,7 +54,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final subCategoryCourses = await homeRepository.getSubCats();
         final userPref = await homeRepository.loadUserPref();
 
-        print('subCategoryCourses: $subCategoryCourses');
+        // print('subCategoryCourses: $subCategoryCourses');
         List<Course> subCatCourses1 = subCategoryCourses['subCat1']!.toList();
         List<Course> subCatCourses2 = subCategoryCourses['subCat2']!.toList();
         List<Course> subCatCourses3 = subCategoryCourses['subCat3']!.toList();

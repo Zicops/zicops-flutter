@@ -545,18 +545,18 @@ class _HomeScreen extends State<HomeScreen> {
             ),
             BlocProvider(
               create: (context) => HomeBloc(homeRepository: HomeRepository())
-                ..add(LatestCourseRequested()),
+                ..add(LearningSpaceCourseRequested()),
               child: Column(
                 children: [
                   BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
-                      if (state is LatestCourseLoaded) {
+                      if (state is LearningSpaceCourseLoaded) {
                         return sectionHeader("Learning space", () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => NewCourseScreen(
-                                        courseList: state.latestCourses,
+                                        courseList: state.learningSpaceCourses,
                                         title: 'Learning space',
                                       )));
                         });
@@ -573,42 +573,44 @@ class _HomeScreen extends State<HomeScreen> {
                     child: BlocBuilder<HomeBloc, HomeState>(
                       builder: (context, state) {
                         //    print("latest course $state");
-                        if (state is LatestCourseLoading) {
+                        if (state is LearningSpaceCourseLoading) {
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
                         }
-                        if (state is LatestCourseLoaded) {
+                        if (state is LearningSpaceCourseLoaded) {
                           return ListView(
                             scrollDirection: Axis.horizontal,
                             children: [
                               SizedBox(
                                 width: 20.sp,
                               ),
-                              ...state.latestCourses.map((courseItem) => Row(
-                                    children: [
-                                      CourseGridItem(
-                                        courseItem.name ?? '',
-                                        courseItem.owner ?? '',
-                                        courseItem.expertiseLevel ?? '',
-                                        formatDuration(
-                                            courseItem.duration ?? 0),
-                                        courseItem.tileImage ?? '',
-                                        courseItem.id ?? '',
-                                        showPlusIcon: false,
-                                      ),
-                                      SizedBox(
-                                        width: 8.sp,
-                                      )
-                                    ],
-                                  )),
+                              ...state.learningSpaceCourses
+                                  .map((courseItem) => Row(
+                                        children: [
+                                          CourseGridItem(
+                                            courseItem.name ?? '',
+                                            courseItem.owner ?? '',
+                                            courseItem.expertiseLevel ?? '',
+                                            formatDuration(
+                                                courseItem.duration ?? 0),
+                                            courseItem.tileImage ?? '',
+                                            courseItem.id ?? '',
+                                            showPlusIcon: false,
+                                          ),
+                                          SizedBox(
+                                            width: 8.sp,
+                                          )
+                                        ],
+                                      )),
                               viewAll(
                                 () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => NewCourseScreen(
-                                              courseList:
-                                                  state.latestCourses.toList(),
+                                              courseList: state
+                                                  .learningSpaceCourses
+                                                  .toList(),
                                               title: 'Learning space',
                                             ))),
                               ),

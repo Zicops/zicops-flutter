@@ -16,6 +16,11 @@ class LearningFolderCourseRequested extends HomeEvent {
   const LearningFolderCourseRequested();
 }
 
+// Learning Space Course Events
+class LearningSpaceCourseRequested extends HomeEvent {
+  const LearningSpaceCourseRequested();
+}
+
 
 // Sub Category Course Events
 class SubCategoryCourseRequested extends HomeEvent {

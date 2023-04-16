@@ -141,15 +141,36 @@ class HomeRepository {
   }
 
   // Query for getting latest courses
-  Future<List<Course>> loadCourses(String lspId, {String? subCat}) async {
+  Future<List<Course>> loadCourses(Map<String, dynamic> obj) async {
     List<Course> courseData = [];
+
+    /*  filterObj = {
+      'LspId': '',
+      'Category': '',
+      'SubCategory': '',
+      'Language': '',
+      'DurationMin': '',
+      'DurationMax': '',
+      'Type': '',
+      'SearchText': '',
+    }*/
+
+    String zicopsLspId = "8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1";
+
+    // Filter options are : LspId String; Category String; SubCategory String; Language String; DurationMin Int; DurationMax Int; DurationMin Int; Type String;
+
+    CoursesFilters courseFilters =
+        CoursesFilters.fromJson({"LspId": zicopsLspId, ...obj});
+
+    print(courseFilters.toJson());
+
     final allLatestCourse = await courseQClient.client()?.execute(
           LatestCoursesQuery(
             variables: LatestCoursesArguments(
               publishTime: DateTime.now().millisecondsSinceEpoch ~/ 1000,
               pageCursor: "",
               pageSize: 1000,
-              filters: CoursesFilters(lspId: lspId, subCategory: subCat),
+              filters: courseFilters,
               Direction: "",
             ),
           ),
@@ -158,24 +179,40 @@ class HomeRepository {
     for (int i
         in allLatestCourse?.data?.latestCourses?.courses?.asMap().keys ?? []) {
       final data = allLatestCourse?.data?.latestCourses?.courses?[i];
-      courseData.add(
-        Course(
-            id: data?.id,
-            name: data?.name,
-            publisher: data?.publisher,
-            description: data?.description,
-            expertiseLevel: data?.expertiseLevel,
-            owner: data?.owner,
-            isDisplay: data?.isDisplay,
-            type: data?.type,
-            tileImage: data?.tileImage,
-            duration: data?.duration,
-            //subCategories: data?.subCategories,
-            image: data?.image),
-      );
+
+      if (data!.isActive! && data.isDisplay!) {
+        courseData.add(Course.fromJson(data.toJson()));
+      }
     }
+
     return courseData;
   }
+
+  // Future<List<Course>> loadCoursesNew(String lspId, {String? subCat}) async {
+  //   List<Course> courseData = [];
+
+  //   final allLatestCourse = await courseQClient.client()?.execute(
+  //         LatestCoursesQuery(
+  //           variables: LatestCoursesArguments(
+  //             publishTime: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+  //             pageCursor: "",
+  //             pageSize: 1000,
+  //             filters: CoursesFilters(lspId: lspId, subCategory: subCat),
+  //             Direction: "",
+  //           ),
+  //         ),
+  //       );
+
+  //   for (int i
+  //       in allLatestCourse?.data?.latestCourses?.courses?.asMap().keys ?? []) {
+  //     final data = allLatestCourse?.data?.latestCourses?.courses?[i];
+  //     if (data!.isActive! && data.isDisplay!) {
+  //       courseData.add(Course.fromJson(data.toJson()));
+  //     }
+  //   }
+
+  //   return courseData;
+  // }
 
   Future loadUserPref() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -193,14 +230,11 @@ class HomeRepository {
     final res = await userClient.client()?.execute(GetUserPreferencesQuery(
         variables: GetUserPreferencesArguments(userId: userId!)));
 
-    print(res?.data?.getUserPreferences?.length);
-
     for (int i in res?.data?.getUserPreferences?.asMap().keys ?? []) {
       final data = res?.data?.getUserPreferences?[i];
       if (data!.userLspId == userLspId &&
           userPreferences.length < 5 &&
           data.isActive) {
-        print(data.subCategory);
         userPreferences.add(data.subCategory);
       }
     }
@@ -221,15 +255,13 @@ class HomeRepository {
     if (userPreferences.isNotEmpty) {
       for (var i in userPreferences.asMap().keys) {
         var index = i + 1;
-        subCats['subCat$index'] =
-            await loadCourses(lspId!, subCat: userPreferences[i]);
+        subCats['subCat$index'] = await loadCourses(
+            { "SubCategory": userPreferences[i]});
 
         if (subCats['subCat$index']!.isNotEmpty) {
           isEmpty = false;
         }
       }
-
-      print('priniting subcats map $subCats');
     }
 
     return subCats;
