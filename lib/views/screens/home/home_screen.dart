@@ -26,6 +26,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
   int currentCarousel = 0;
+  List homepageBannerList = [
+    {'path': 'assets/images/homePageBanner/Frame_1.png'},
+    {'path': 'assets/images/homePageBanner/Frame_2.png'},
+    {'path': 'assets/images/homePageBanner/Frame_3.png'},
+    {'path': 'assets/images/homePageBanner/Frame_4.png'},
+    {'path': 'assets/images/homePageBanner/Frame_5.png'}
+  ];
   CarouselController carouselController = CarouselController();
   Widget sectionHeader(String label, Function() action,
       {bool showSeeAll = true}) {
