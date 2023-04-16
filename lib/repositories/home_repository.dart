@@ -165,6 +165,8 @@ class HomeRepository {
       'SearchText': '',
     }*/
 
+    // quick course DurationMax: 60 * 60, slow course DurationMin: 360 * 60
+
     // Filter options are : LspId String; Category String; SubCategory String; Language String; DurationMin Int; DurationMax Int; DurationMin Int; Type String;
 
     CoursesFilters courseFilters =
