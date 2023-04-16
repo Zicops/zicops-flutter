@@ -15,7 +15,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<LearningFolderCourseRequested>((event, emit) async {
       emit(LearningFolderCourseLoading());
       try {
-        final learningFolderCourses = await homeRepository.loadUserCourseData();
+        final learningFolderCourses = await homeRepository.loadUserCourseData({});
         emit(LearningFolderCourseLoaded(
             learningFolderCourses: learningFolderCourses));
       } catch (e) {
