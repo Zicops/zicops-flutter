@@ -23,26 +23,6 @@ class PersonalTabLoaded extends AccountSetupState {
   List<Object> get props => [user];
 }
 
-class UpdateUser extends AccountSetupState {
-  final String id;
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String phone;
-  final MultipartFile? image;
-
-  UpdateUser(
-      {required this.id,
-      required this.firstName,
-      required this.lastName,
-      required this.email,
-      required this.phone,
-      this.image});
-
-  @override
-  List<Object?> get props => [id, firstName, lastName, email, phone, image];
-}
-
 class PersonalTabError extends AccountSetupState {
   final String message;
 
@@ -96,6 +76,30 @@ class PreferencesTabError extends AccountSetupState {
   final String message;
 
   PreferencesTabError({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+// For Preferences of Home Screen Drawer
+class SelectedPreferenceLoading extends AccountSetupState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SelectedPreferenceLoaded extends AccountSetupState {
+  final List<String> selectedSubCategories;
+
+  SelectedPreferenceLoaded(this.selectedSubCategories);
+
+  @override
+  List<Object> get props => [selectedSubCategories];
+}
+
+class SelectedPreferenceError extends AccountSetupState {
+  final String message;
+
+  SelectedPreferenceError({required this.message});
 
   @override
   List<Object> get props => [message];

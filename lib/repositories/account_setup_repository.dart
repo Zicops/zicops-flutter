@@ -1,4 +1,3 @@
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../graphql_api.graphql.dart';
@@ -105,31 +104,31 @@ class AccountSetupRepository {
     return subCatMain;
   }
 
-  updatePersonalDetails(
-    String id,
-    String firstName,
-    String lastName,
-    String email,
-    String phone,
-    MultipartFile? image,
-  ) async {
-    final res = await userClient.client()?.execute(
-          UpdateUserMutation(
-            variables: UpdateUserArguments(
-              id: id,
-              first_name: firstName,
-              last_name: lastName,
-              status: "active",
-              role: 'learner',
-              is_verified: true,
-              is_active: true,
-              gender: 'male',
-              email: email,
-              phone: phone,
-              Photo: image,
-            ),
-          ),
-        );
-    return;
+  Future getSelectedPreferences() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? userId = sharedPreferences.getString('userId');
+    String? lspId = sharedPreferences.getString('lspId');
+    String? userLspId = sharedPreferences.getString('userLspId');
+
+    // Query to get selected preferences
+    final selectedPreferencesResult = await userClient.client()?.execute(
+        GetUserPreferencesQuery(
+            variables: GetUserPreferencesArguments(userId: userId!)));
+    List<String> selectedPreferences = [];
+    for (int i
+        in selectedPreferencesResult?.data?.getUserPreferences!.asMap().keys ??
+            []) {
+      if (selectedPreferencesResult?.data?.getUserPreferences![i]?.isBase ==
+          true) {
+        selectedPreferences.add(selectedPreferencesResult
+                ?.data?.getUserPreferences![i]?.subCategory ??
+            '');
+      }
+    }
+    for (int i = 0; i < selectedPreferences.length; i++) {
+      print(selectedPreferences[i]);
+    }
+    print(selectedPreferences.length);
+    return selectedPreferences;
   }
 }

@@ -2,7 +2,6 @@ import 'dart:core';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/org_model.dart';
@@ -42,6 +41,16 @@ class AccountSetupBloc extends Bloc<AccountSetupEvent, AccountSetupState> {
         emit(PreferencesTabLoaded(categories, subCategories));
       } catch (e) {
         emit(PreferencesTabError(message: e.toString()));
+      }
+    });
+    on<SelectedPreferenceRequested>((event, emit) async {
+      emit(SelectedPreferenceLoading());
+      try {
+        final selectedPreferences =
+            await accountSetupRepository.getSelectedPreferences();
+        emit(SelectedPreferenceLoaded(selectedPreferences));
+      } catch (e) {
+        emit(SelectedPreferenceError(message: e.toString()));
       }
     });
   }

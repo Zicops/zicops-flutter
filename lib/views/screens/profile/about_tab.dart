@@ -45,9 +45,6 @@ class _AboutTabScreen extends State<AboutTabScreen> {
   String? empId = "";
   String userLspId = "";
 
-  // Get UserStore
-  // final _zStore = ZStore();
-
   bool isEmailValidated = false;
 
   File? bgImage;
@@ -174,7 +171,6 @@ class _AboutTabScreen extends State<AboutTabScreen> {
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
-
     return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
       return CustomScrollView(slivers: [
         SliverFillRemaining(

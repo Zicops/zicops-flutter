@@ -7,6 +7,7 @@ import 'package:zicops/blocs/lsp_selection/lsp_bloc.dart';
 import 'package:zicops/repositories/auth_repository.dart';
 import 'package:zicops/repositories/lsp_selection_repository.dart';
 import 'package:zicops/utils/colors.dart';
+import 'package:zicops/views/screens/home/home.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
 
 import '../../../models/login/lsp_model.dart';
@@ -114,7 +115,7 @@ class _LspSelectionScreen extends State<LspSelectionScreen> {
                         PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    AccountSetupScreen(),
+                                    HomePage(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -125,10 +126,6 @@ class _LspSelectionScreen extends State<LspSelectionScreen> {
                                 child: child,
                               );
                             }));
-                    // Navigator.pushReplacement(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => const HomePage()));
                   } else if (state.lspModel.status.toLowerCase() == "disable") {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("The Selected LSP is Disabled"),

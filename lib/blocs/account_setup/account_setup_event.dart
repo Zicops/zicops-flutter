@@ -7,29 +7,9 @@ abstract class AccountSetupEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+/// For Account Setup Pages
 class PersonalTabRequested extends AccountSetupEvent {
   const PersonalTabRequested();
-}
-
-class UpdatePersonalDetailsRequested extends AccountSetupEvent {
-  const UpdatePersonalDetailsRequested();
-}
-
-class UpdatePersonalDetailsSuccess extends AccountSetupEvent {
-  final String id;
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String phone;
-  final MultipartFile? image;
-  const UpdatePersonalDetailsSuccess({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.email,
-    required this.phone,
-    this.image,
-  });
 }
 
 class OrgTabRequested extends AccountSetupEvent {
@@ -38,4 +18,9 @@ class OrgTabRequested extends AccountSetupEvent {
 
 class PreferencesTabRequested extends AccountSetupEvent {
   const PreferencesTabRequested();
+}
+
+/// For Home Screen drawer
+class SelectedPreferenceRequested extends AccountSetupEvent {
+  const SelectedPreferenceRequested();
 }
