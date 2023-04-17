@@ -87,80 +87,6 @@ class _AboutTabScreen extends State<AboutTabScreen> {
 
     return file;
   }
-  //
-  // Future getDetailsToDisplay() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   //
-  //   // print("id: ${_zStore.userDetailsModel?.id!}");
-  //   // var user = _zStore.userDetailsModel;
-  //
-  //   setState(() {
-  //     // userId = user?.id!;
-  //     name = zStoreInstance.userDetailsModel.firstName! +
-  //         " " +
-  //         zStoreInstance.userDetailsModel.lastName!;
-  //     phone = zStoreInstance.userDetailsModel.phone!;
-  //     email = zStoreInstance.userDetailsModel.email!;
-  //     imageUrl = zStoreInstance.userDetailsModel.photoUrl!;
-  //   });
-  //   userId = prefs.getString('userId')!;
-  //   userLspId = prefs.getString('userLspId')!;
-  //   Map<String, dynamic> jsonOrg = jsonDecode(prefs.getString('userOrg')!);
-  //   var userOrg = OrgModel.fromJson(jsonOrg);
-  //   if (jsonOrg.isNotEmpty) {
-  //     setState(() {
-  //       orgName = userOrg.orgName!;
-  //       orgUnit = userOrg.orgUnit!;
-  //       lspRole = userOrg.lspRole!;
-  //       // orgRole = userOrg.orgRole!;
-  //       // empId = userOrg.empId!;
-  //     });
-  //   }
-  //
-  //   final userResult = await userClient.client()?.execute(GetUserDetailsQuery(
-  //       variables: GetUserDetailsArguments(userId: [userId])));
-  //
-  //   print(userResult?.data?.getUserDetails![0]?.firstName);
-  //
-  //   // if (userResult?.data?.getUserDetails != null) {
-  //   //   setState(() {
-  //   //     name = userResult!.data!.getUserDetails?[0]?.firstName;
-  //   //     phone = userResult!.data!.getUserDetails?[0]?.phone!;
-  //   //     email = userResult!.data!.getUserDetails?[0]?.email!;
-  //   //   });
-  //   // }
-  //
-  //   // print(name);
-  //   // print(phone);
-  //   // print(email);
-  //
-  //   print('firestName is');
-  //
-  //   print(zStoreInstance.userDetailsModel.firstName!);
-  //
-  //   final orgResult = await userClient.client()?.execute(GetUserOrgDetailsQuery(
-  //           variables: GetUserOrgDetailsArguments(
-  //         userId: userId!,
-  //         user_lsp_id: userLspId,
-  //       )));
-  //   if (orgResult?.data?.getUserOrgDetails != null) {
-  //     setState(() {
-  //       // orgName = orgResult!.data!.getUserOrgDetails?.orgName!;
-  //       // orgUnit = orgResult!.data!.getUserOrgDetails?[0]?.orgUnit!;
-  //       // lspRole = orgResult!.data!.getUserOrgDetails?[0]?.lspRole!;
-  //       orgRole = orgResult!.data!.getUserOrgDetails?.organizationRole;
-  //       empId = orgResult.data!.getUserOrgDetails?.employeeId;
-  //       // empId = orgResult!.data!.getUserOrgDetails?[0]?.empId!;
-  //     });
-  //   }
-  //
-  //   // print(orgRole);
-  //   // print(empId);
-  //
-  //   if (imageUrl != null && imageUrl!.isNotEmpty) {
-  //     profileImage = await urlToFile(imageUrl!);
-  //   }
-  // }
 
   @override
   void initState() {
@@ -352,6 +278,11 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                         "controller": TextEditingController(
                                             text: state.user.email)
                                       },
+                                      {
+                                        "label": "Gender",
+                                        "controller": TextEditingController(
+                                            text: state.user.gender)
+                                      },
                                     ]),
                                     SizedBox(
                                       height: 16.sp,
@@ -376,6 +307,11 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                         "label": "Learning Space Role.",
                                         "controller": TextEditingController(
                                             text: state.org.lspRole)
+                                      },
+                                      {
+                                        "label": "Employee ID.",
+                                        "controller": TextEditingController(
+                                            text: state.org.empId)
                                       },
                                     ]),
                                   ],

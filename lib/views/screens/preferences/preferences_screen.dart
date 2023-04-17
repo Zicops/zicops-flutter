@@ -44,6 +44,7 @@ class _PreferencesScreen extends State<PreferencesScreen> {
           print(state);
           if (state is SelectedPreferenceLoaded) {
             print(state.selectedSubCategories);
+            print(state.baseCategory);
             return Scaffold(
               backgroundColor: secondaryColor,
               appBar: PreferredSize(
@@ -168,7 +169,7 @@ class _PreferencesScreen extends State<PreferencesScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 12.sp),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "UI/UX Design",
+                      state.baseCategory,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
@@ -225,11 +226,11 @@ class _PreferencesScreen extends State<PreferencesScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ...subCategories.map((e) => Container(
+                        ...state.selectedSubCategories.map((e) => Container(
                             height: 48.sp,
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              e.category!,
+                              e!,
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w400,

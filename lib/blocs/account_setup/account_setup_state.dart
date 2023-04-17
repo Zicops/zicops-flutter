@@ -89,11 +89,12 @@ class SelectedPreferenceLoading extends AccountSetupState {
 
 class SelectedPreferenceLoaded extends AccountSetupState {
   final List<String> selectedSubCategories;
+  final String baseCategory;
 
-  SelectedPreferenceLoaded(this.selectedSubCategories);
+  SelectedPreferenceLoaded(this.selectedSubCategories, this.baseCategory);
 
   @override
-  List<Object> get props => [selectedSubCategories];
+  List<Object> get props => [selectedSubCategories, baseCategory];
 }
 
 class SelectedPreferenceError extends AccountSetupState {

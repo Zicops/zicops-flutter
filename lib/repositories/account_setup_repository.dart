@@ -115,20 +115,34 @@ class AccountSetupRepository {
         GetUserPreferencesQuery(
             variables: GetUserPreferencesArguments(userId: userId!)));
     List<String> selectedPreferences = [];
+    String baseCategory = '';
+    // For isBase = true
     for (int i
         in selectedPreferencesResult?.data?.getUserPreferences!.asMap().keys ??
             []) {
       if (selectedPreferencesResult?.data?.getUserPreferences![i]?.isBase ==
           true) {
-        selectedPreferences.add(selectedPreferencesResult
+        baseCategory = selectedPreferencesResult
                 ?.data?.getUserPreferences![i]?.subCategory ??
-            '');
+            '';
+        break;
       }
     }
     for (int i = 0; i < selectedPreferences.length; i++) {
       print(selectedPreferences[i]);
     }
+    // For all selected preferences
+    for (int i
+        in selectedPreferencesResult?.data?.getUserPreferences!.asMap().keys ??
+            []) {
+      if (selectedPreferencesResult?.data?.getUserPreferences![i]?.isBase ==
+          false) {
+        selectedPreferences.add(selectedPreferencesResult
+                ?.data?.getUserPreferences![i]?.subCategory ??
+            '');
+      }
+    }
     print(selectedPreferences.length);
-    return selectedPreferences;
+    return [selectedPreferences, baseCategory];
   }
 }

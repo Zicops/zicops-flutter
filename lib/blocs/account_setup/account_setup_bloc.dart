@@ -48,7 +48,9 @@ class AccountSetupBloc extends Bloc<AccountSetupEvent, AccountSetupState> {
       try {
         final selectedPreferences =
             await accountSetupRepository.getSelectedPreferences();
-        emit(SelectedPreferenceLoaded(selectedPreferences));
+        print(selectedPreferences[1]);
+        emit(SelectedPreferenceLoaded(
+            selectedPreferences[0], selectedPreferences[1]));
       } catch (e) {
         emit(SelectedPreferenceError(message: e.toString()));
       }

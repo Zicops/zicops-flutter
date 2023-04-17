@@ -747,17 +747,17 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                 ),
                               ),
                               BlocBuilder<AccountSetupBloc, AccountSetupState>(
-  builder: (context, state) {
-    if(state is PreferencesTabLoading){
-      return Center(
+                                builder: (context, state) {
+                                  if(state is PreferencesTabLoading){
+                                    return Center(
           child: Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
             child: CircularProgressIndicator(),
           ));
-    }
-   return Container();
-  },
-),
+                                  }
+                                  return Container();
+                                  },
+                              ),
                               Padding(
                                 padding:
                                     EdgeInsets.symmetric(horizontal: 20.sp),
