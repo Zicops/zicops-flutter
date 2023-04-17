@@ -43,8 +43,6 @@ class _PreferencesScreen extends State<PreferencesScreen> {
         builder: (context, state) {
           print(state);
           if (state is SelectedPreferenceLoaded) {
-            print(state.selectedSubCategories);
-            print(state.baseCategory);
             return Scaffold(
               backgroundColor: secondaryColor,
               appBar: PreferredSize(
