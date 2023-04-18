@@ -12,6 +12,7 @@ import 'package:zicops/views/screens/search/search_screen.dart';
 import 'package:zicops/views/widgets/course_grid_item.dart';
 import 'package:zicops/views/widgets/course_grid_item_large.dart';
 
+import '../../../models/user/user_course_model.dart';
 import '../../../utils/time_format.dart';
 import '../../widgets/course_list_item_with_progress.dart';
 
@@ -33,6 +34,8 @@ class _HomeScreen extends State<HomeScreen> {
     {'path': 'assets/images/homePageBanner/Frame_4.png'},
     {'path': 'assets/images/homePageBanner/Frame_5.png'}
   ];
+  List<Course> ongoingCourse = [];
+
   CarouselController carouselController = CarouselController();
   Widget sectionHeader(String label, Function() action,
       {bool showSeeAll = true}) {
@@ -281,104 +284,129 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 14.25.sp,
             ),
+            // For ongoing courses
             BlocProvider(
               create: (context) => HomeBloc(homeRepository: HomeRepository())
-                ..add(LearningFolderCourseRequested()),
-              child: Column(
-                children: [
-                  BlocBuilder<HomeBloc, HomeState>(
-                    builder: (context, state) {
-                      if (state is LearningFolderCourseLoaded) {
-                        return sectionHeader("Ongoing Courses", () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NewCourseScreen(
-                                        courseList: state.learningFolderCourses
-                                            .where((course) =>
-                                                course
-                                                    .topicsStartedPercentage !=
-                                                0)
-                                            .toList(),
-                                        title: 'Ongoing Courses',
-                                      )));
-                        });
-                      }
-                      return sectionHeader("Ongoing Courses", () {});
-                    },
-                  ),
-                  SizedBox(
-                    height: 8.sp,
-                  ),
-                  Container(
-                    height: 156.sp,
-                    alignment: Alignment.centerLeft,
-                    child: BlocBuilder<HomeBloc, HomeState>(
-                      builder: (context, state) {
-                        if (state is LearningFolderCourseLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (state is LearningFolderCourseLoaded) {
-                          return ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                GridView(
-                                  scrollDirection: Axis.horizontal,
-                                  physics:
-                                      const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.only(left: 20.sp),
-                                  gridDelegate:
-                                      SliverGridDelegateWithMaxCrossAxisExtent(
-                                          childAspectRatio: 0.23,
-                                          crossAxisSpacing: 8.sp,
-                                          mainAxisSpacing: 8.sp,
-                                          maxCrossAxisExtent: 74.sp),
-                                  children: [
-                                    ...state.learningFolderCourses
-                                        .where((course) =>
-                                            course.topicsStartedPercentage != 0)
-                                        .toList()
-                                        .map((courseItem) => CourseListItem(
-                                              courseItem.name ?? '',
-                                              courseItem.owner ?? '',
-                                              formatDuration(
-                                                  courseItem.duration ?? 0),
-                                              courseItem.tileImage ?? '',
-                                              courseItem.id ?? '',
-                                              courseItem.expertiseLevel ?? '',
-                                              courseItem.completedPercentage ??
-                                                  0,
-                                            )),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 8.sp,
-                                ),
-                                viewAll(
-                                  () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => NewCourseScreen(
-                                                courseList: state
-                                                    .learningFolderCourses
-                                                    .where((course) =>
-                                                        course
-                                                            .topicsStartedPercentage !=
-                                                        0)
-                                                    .toList(),
-                                                title: 'Ongoing Courses',
-                                              ))),
-                                ),
-                              ]);
-                        }
-                        return const Text("No data");
-                      },
-                    ),
-                  ),
-                ],
+                ..add(OngoingCourseRequested()),
+              child: BlocConsumer<HomeBloc, HomeState>(
+                listener: (context, state) {
+                  if (state is OngoingCourseLoaded) {
+                    setState(() {
+                      ongoingCourse = state.ongoingCourses;
+                    });
+                  }
+                  print(ongoingCourse);
+                },
+                builder: (context, state) {
+                  if (state is OngoingCourseLoading) {
+                    return SizedBox(
+                      height: 156.sp,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  if (state is OngoingCourseLoaded) {
+                    return ongoingCourse.isNotEmpty
+                        ? Column(
+                            children: [
+                              ongoingCourse.length > 10
+                                  ? sectionHeader("Ongoing Courses", () {
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                      secondaryAnimation) =>
+                                                  NewCourseScreen(
+                                                    courseList:
+                                                        ongoingCourse.toList(),
+                                                    title: 'Ongoing Courses',
+                                                  ),
+                                              transitionsBuilder: (context,
+                                                  animation,
+                                                  secondaryAnimation,
+                                                  child) {
+                                                return SlideTransition(
+                                                  position: animation.drive(
+                                                      Tween(
+                                                              begin:
+                                                                  const Offset(
+                                                                      1, 0),
+                                                              end: Offset.zero)
+                                                          .chain(CurveTween(
+                                                              curve: Curves
+                                                                  .ease))),
+                                                  child: child,
+                                                );
+                                              }));
+                                    })
+                                  : sectionHeader("Ongoing Courses", () {},
+                                      showSeeAll: false),
+                              SizedBox(
+                                height: 8.sp,
+                              ),
+                              Container(
+                                height: 156.sp,
+                                alignment: Alignment.centerLeft,
+                                child: ListView(
+                                    scrollDirection: Axis.horizontal,
+                                    children: [
+                                      GridView(
+                                        scrollDirection: Axis.horizontal,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                                        shrinkWrap: true,
+                                        padding: EdgeInsets.only(left: 20.sp),
+                                        gridDelegate:
+                                            SliverGridDelegateWithMaxCrossAxisExtent(
+                                                childAspectRatio: 0.23,
+                                                crossAxisSpacing: 8.sp,
+                                                mainAxisSpacing: 8.sp,
+                                                maxCrossAxisExtent: 74.sp),
+                                        children: [
+                                          ...ongoingCourse.toList().map(
+                                              (courseItem) => CourseListItem(
+                                                    courseItem.name ?? '',
+                                                    courseItem.owner ?? '',
+                                                    formatDuration(
+                                                        courseItem.duration ??
+                                                            0),
+                                                    courseItem.tileImage ?? '',
+                                                    courseItem.id ?? '',
+                                                    courseItem.expertiseLevel ??
+                                                        '',
+                                                    courseItem
+                                                            .completedPercentage ??
+                                                        0,
+                                                  )),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        width: 8.sp,
+                                      ),
+                                      ongoingCourse.length > 10
+                                          ? viewAll(
+                                              () => Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          NewCourseScreen(
+                                                            courseList:
+                                                                ongoingCourse
+                                                                    .toList(),
+                                                            title:
+                                                                'Ongoing Courses',
+                                                          ))),
+                                            )
+                                          : Container(),
+                                    ]),
+                              ),
+                            ],
+                          )
+                        : Container();
+                  }
+                  return Container();
+                },
               ),
             ),
             SizedBox(

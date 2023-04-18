@@ -147,7 +147,7 @@ class _LoginScreen extends State<LoginScreen> {
                       SliverFillRemaining(
                           hasScrollBody: false,
                           child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 const SizedBox(height: 20),
                                 Row(
@@ -243,13 +243,11 @@ class _LoginScreen extends State<LoginScreen> {
                                     onPasswordChange();
                                   },
                                 ),
-                                !isFocusedOrNotEmpty()
+                                !isKeyboardVisible
                                     ? SizedBox(
-                                        height: 8.sp,
+                                        height: 20.sp,
                                       )
-                                    : SizedBox(
-                                        height: 8.sp,
-                                      ),
+                                    : Spacer(),
                                 Row(
                                   children: [
                                     Expanded(
@@ -336,6 +334,7 @@ class _LoginScreen extends State<LoginScreen> {
                                         ],
                                       )
                                     : const SizedBox.shrink(),
+                                const SizedBox(height: 70),
                               ]))
                     ]);
                   }),

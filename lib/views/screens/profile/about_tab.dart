@@ -167,16 +167,6 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                     ),
                                   ),
                                 ),
-
-                                // child: CircleAvatar(
-                                //
-                                //   foregroundImage: profileImage != null
-                                //       ? FileImage(profileImage!)
-                                //           as ImageProvider
-                                //       : const AssetImage(
-                                //           "assets/images/avatar_default.png"),
-                                //   radius: 56.sp,
-                                // )))),
                                 Positioned(
                                     top: 82.sp,
                                     right: 20.sp,

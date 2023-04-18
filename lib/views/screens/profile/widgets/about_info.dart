@@ -58,81 +58,90 @@ class _AboutInfo extends State<AboutInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      SizedBox(
-        height: 24.sp,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              widget.name.toUpperCase(),
-              style: TextStyle(
-                  color: textGrey2,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1,
-                  height: 1.33),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  isDisabled = !isDisabled;
-                });
-              },
-              child: Image.asset(
-                "assets/images/edit.png",
-                height: 15.sp,
-                width: 18.sp,
-              ),
-            )
-          ],
-        ),
-      ),
-      SizedBox(
-        height: 8.sp,
-      ),
-      Container(
-          padding: EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4.sp),
-              gradient: LinearGradient(colors: [
-                secondaryColorDarkOutline,
-                secondaryColorDarkOutline.withOpacity(0.15),
-              ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-          child: Container(
-            decoration: BoxDecoration(
-              color: secondaryColor,
-              borderRadius: BorderRadius.circular(4.sp),
-            ),
-            child: Column(
+    return Stack(
+      children: [
+        Column(children: [
+          SizedBox(
+            height: 24.sp,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ...widget.items
-                    .asMap()
-                    .map((i, item) => MapEntry(
-                        i,
-                        Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 16.sp, horizontal: 12.sp),
-                              child: itemField(item["label"],
-                                  item["controller"], isDisabled),
-                            ),
-                            widget.items.length - 1 > i
-                                ? Divider(
-                                    height: 0.5.sp,
-                                    thickness: 0.5,
-                                    color: lightGrey,
-                                  )
-                                : const SizedBox.shrink()
-                          ],
-                        )))
-                    .values
-                    .toList()
+                Text(
+                  widget.name.toUpperCase(),
+                  style: TextStyle(
+                      color: textGrey2,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1,
+                      height: 1.33),
+                ),
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isDisabled = !isDisabled;
+                      });
+                    },
+                    child: isDisabled
+                        ? Image.asset(
+                            "assets/images/edit.png",
+                            height: 15.sp,
+                            width: 18.sp,
+                          )
+                        : Icon(
+                            Icons.save,
+                            color: textPrimary,
+                            size: 18.sp,
+                          ))
               ],
             ),
-          ))
-    ]);
+          ),
+          SizedBox(
+            height: 8.sp,
+          ),
+          Container(
+              padding: EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.sp),
+                  gradient: LinearGradient(colors: [
+                    secondaryColorDarkOutline,
+                    secondaryColorDarkOutline.withOpacity(0.15),
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: secondaryColor,
+                  borderRadius: BorderRadius.circular(4.sp),
+                ),
+                child: Column(
+                  children: [
+                    ...widget.items
+                        .asMap()
+                        .map((i, item) => MapEntry(
+                            i,
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 16.sp, horizontal: 12.sp),
+                                  child: itemField(item["label"],
+                                      item["controller"], isDisabled),
+                                ),
+                                widget.items.length - 1 > i
+                                    ? Divider(
+                                        height: 0.5.sp,
+                                        thickness: 0.5,
+                                        color: lightGrey,
+                                      )
+                                    : const SizedBox.shrink()
+                              ],
+                            )))
+                        .values
+                        .toList()
+                  ],
+                ),
+              ))
+        ]),
+      ],
+    );
   }
 }
