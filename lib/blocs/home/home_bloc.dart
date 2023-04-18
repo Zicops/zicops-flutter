@@ -18,8 +18,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       try {
         final ongoingCourses = await homeRepository
             .loadUserCourseData({'status': CourseMapStatus['started']});
-        emit(OngoingCourseLoaded(
-            ongoingCourses: ongoingCourses));
+        emit(OngoingCourseLoaded(ongoingCourses: ongoingCourses));
       } catch (e) {
         emit(OngoingCourseError(error: e.toString()));
       }
@@ -83,6 +82,46 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ));
       } catch (e) {
         emit(SubCategoryCourseError(error: e.toString()));
+      }
+    });
+    on<QuickCourseRequested>((event, emit) async {
+      emit(QuickCourseLoading());
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        String lspId = prefs.getString('lspId') ?? '';
+
+        final quickCourses =
+            await homeRepository.loadCourses({"DurationMax": 60 * 60});
+
+        emit(QuickCourseLoaded(quickCourses: quickCourses));
+      } catch (e) {
+        emit(QuickCourseError(error: e.toString()));
+      }
+    });
+    on<SlowCourseRequested>((event, emit) async {
+      emit(SlowCourseLoading());
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        String lspId = prefs.getString('lspId') ?? '';
+
+        final slowCourses =
+            await homeRepository.loadCourses({"DurationMin": 360 * 60});
+
+        emit(SlowCourseLoaded(slowCourses: slowCourses));
+      } catch (e) {
+        emit(SlowCourseError(error: e.toString()));
+      }
+    });
+    on<SearchRequested>((event, emit) async {
+      emit(SearchLoading());
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        String lspId = prefs.getString('lspId') ?? '';
+        final searchCourses = await homeRepository.loadCourses(
+            {'SearchText': event.searchQuery, 'Language': event.language});
+        emit(SearchLoaded(searchCourses: searchCourses));
+      } catch (e) {
+        emit(SearchError(error: e.toString()));
       }
     });
   }

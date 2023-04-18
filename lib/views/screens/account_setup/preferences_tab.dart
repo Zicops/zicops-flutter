@@ -748,15 +748,16 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                               ),
                               BlocBuilder<AccountSetupBloc, AccountSetupState>(
                                 builder: (context, state) {
-                                  if(state is PreferencesTabLoading){
+                                  if (state is PreferencesTabLoading) {
                                     return Center(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 20.0),
-            child: CircularProgressIndicator(),
-          ));
+                                        child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 20.0),
+                                      child: CircularProgressIndicator(),
+                                    ));
                                   }
                                   return Container();
-                                  },
+                                },
                               ),
                               Padding(
                                 padding:
@@ -770,7 +771,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                           onTap: () {
                                             setState(() {
                                               updateSelectCategory(
-                                                  cat.parentCategory);
+                                                  cat.parentCategoryId);
                                             });
                                           },
                                           child: Container(
@@ -782,7 +783,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                   right: 12),
                                               decoration: BoxDecoration(
                                                   color: selectedCategories ==
-                                                          cat.parentCategory
+                                                          cat.parentCategoryId
                                                       ? primaryColor
                                                       : secondaryColor,
                                                   borderRadius:
@@ -794,7 +795,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                                 style: GoogleFonts.poppins(
                                                     fontSize: 14.sp,
                                                     color: selectedCategories ==
-                                                            cat.parentCategory
+                                                            cat.parentCategoryId
                                                         ? secondaryColorDark
                                                         : textPrimary,
                                                     fontWeight: FontWeight.w600,
@@ -832,7 +833,7 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                         children: [
                                           ...subCategories
                                               .where((element) =>
-                                                  element.parentCategory ==
+                                                  element.parentCategoryId ==
                                                   selectedCategories)
                                               .map(
                                                 (cat) => GestureDetector(

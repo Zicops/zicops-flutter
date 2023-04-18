@@ -21,16 +21,28 @@ class LearningSpaceCourseRequested extends HomeEvent {
   const LearningSpaceCourseRequested();
 }
 
-
 // Ongoing Course Events
 class OngoingCourseRequested extends HomeEvent {
   const OngoingCourseRequested();
 }
 
-
 // Sub Category Course Events
 class SubCategoryCourseRequested extends HomeEvent {
-
-
   const SubCategoryCourseRequested();
+}
+
+// Quick Course Events
+class QuickCourseRequested extends HomeEvent {
+  const QuickCourseRequested();
+}
+
+// Slow Course Events
+class SlowCourseRequested extends HomeEvent {
+  const SlowCourseRequested();
+}
+
+class SearchRequested extends HomeEvent {
+  final String searchQuery;
+  final String language;
+  const SearchRequested({required this.searchQuery, required this.language});
 }

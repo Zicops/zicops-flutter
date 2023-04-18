@@ -81,7 +81,6 @@ class LearningFolderCourseError extends HomeState {
   List<Object?> get props => [error];
 }
 
-
 // Learning Space Course States
 class LearningSpaceCourseLoading extends HomeState {
   @override
@@ -105,6 +104,7 @@ class LearningSpaceCourseError extends HomeState {
   @override
   List<Object?> get props => [error];
 }
+
 //Sub Category Course States
 class SubCategoryCourseLoading extends HomeState {
   @override
@@ -142,6 +142,74 @@ class SubCategoryCourseError extends HomeState {
 
   SubCategoryCourseError({required this.error});
 
+  @override
+  List<Object?> get props => [error];
+}
+
+// Quick Course states
+class QuickCourseLoading extends HomeState {
+  @override
+  List<Object?> get props => [];
+}
+
+class QuickCourseLoaded extends HomeState {
+  final List<Course> quickCourses;
+
+  QuickCourseLoaded({required this.quickCourses});
+
+  @override
+  List<Object?> get props => [quickCourses];
+}
+
+class QuickCourseError extends HomeState {
+  final String error;
+
+  QuickCourseError({required this.error});
+
+  @override
+  List<Object?> get props => [error];
+}
+
+// Slow Course states
+class SlowCourseLoading extends HomeState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SlowCourseLoaded extends HomeState {
+  final List<Course> slowCourses;
+
+  SlowCourseLoaded({required this.slowCourses});
+
+  @override
+  List<Object?> get props => [slowCourses];
+}
+
+class SlowCourseError extends HomeState {
+  final String error;
+
+  SlowCourseError({required this.error});
+
+  @override
+  List<Object?> get props => [error];
+}
+
+// For search
+class SearchLoading extends HomeState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SearchLoaded extends HomeState {
+  final List<Course> searchCourses;
+  SearchLoaded({required this.searchCourses});
+  @override
+  List<Object?> get props => [searchCourses];
+}
+
+class SearchError extends HomeState {
+  final String error;
+  SearchError({required this.error});
   @override
   List<Object?> get props => [error];
 }

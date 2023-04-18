@@ -1,7 +1,7 @@
 class Category {
   int id;
   String category;
-  String parentCategory;
+  String parentCategoryId;
 
-  Category(this.id, this.category, this.parentCategory);
+  Category(this.id, this.category, this.parentCategoryId);
 }

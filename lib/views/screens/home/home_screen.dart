@@ -14,6 +14,8 @@ import '../../../models/user/user_course_model.dart';
 import '../../../utils/time_format.dart';
 import '../../widgets/course_list_item_with_progress.dart';
 
+String selectedLanguage = "English";
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -33,6 +35,11 @@ class _HomeScreen extends State<HomeScreen> {
     {'path': 'assets/images/homePageBanner/Frame_5.png'}
   ];
   List<Course> ongoingCourse = [];
+  List<Course> learningFolderCourse = [];
+  List<Course> latestCourse = [];
+  List<Course> learningSpaceCourse = [];
+  List<Course> quickCourse = [];
+  List<Course> slowCourse = [];
 
   CarouselController carouselController = CarouselController();
   Widget sectionHeader(String label, Function() action,
@@ -362,8 +369,11 @@ class _HomeScreen extends State<HomeScreen> {
                                                 mainAxisSpacing: 8.sp,
                                                 maxCrossAxisExtent: 74.sp),
                                         children: [
-                                          ...ongoingCourse.toList().map(
-                                              (courseItem) => CourseListItem(
+                                          ...ongoingCourse
+                                              .toList()
+                                              .take(10)
+                                              .map((courseItem) =>
+                                                  CourseListItem(
                                                     courseItem.name ?? '',
                                                     courseItem.owner ?? '',
                                                     formatDuration(
@@ -410,251 +420,362 @@ class _HomeScreen extends State<HomeScreen> {
             SizedBox(
               height: 14.25.sp,
             ),
+            // For learning folder courses
             BlocProvider(
               create: (context) => HomeBloc(homeRepository: HomeRepository())
                 ..add(LearningFolderCourseRequested()),
-              child: Column(
-                children: [
-                  BlocBuilder<HomeBloc, HomeState>(
-                    builder: (context, state) {
-                      if (state is LearningFolderCourseLoaded) {
-                        return sectionHeader("Learning Folder", () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NewCourseScreen(
-                                        courseList: state.learningFolderCourses,
-                                        title: 'Learning Folder',
-                                      )));
-                        });
-                      }
-                      return sectionHeader("Learning Folder", () {});
-                    },
-                  ),
-                  SizedBox(
-                    height: 8.sp,
-                  ),
-                  Container(
-                    height: 156.sp,
-                    alignment: Alignment.centerLeft,
-                    child: BlocBuilder<HomeBloc, HomeState>(
-                      builder: (context, state) {
-                        if (state is LearningFolderCourseLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (state is LearningFolderCourseLoaded) {
-                          return ListView(
-                            scrollDirection: Axis.horizontal,
+              child: BlocConsumer<HomeBloc, HomeState>(
+                listener: (context, state) {
+                  if (state is LearningFolderCourseLoaded) {
+                    setState(() {
+                      learningFolderCourse = state.learningFolderCourses;
+                    });
+                  }
+                },
+                builder: (context, state) {
+                  if (state is LearningFolderCourseLoading) {
+                    return SizedBox(
+                      height: 156.sp,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  if (state is LearningFolderCourseLoaded) {
+                    return learningFolderCourse.isNotEmpty
+                        ? Column(
                             children: [
+                              learningFolderCourse.length > 10
+                                  ? sectionHeader("Learning Folder Courses",
+                                      () {
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                      secondaryAnimation) =>
+                                                  NewCourseScreen(
+                                                    courseList:
+                                                        learningFolderCourse
+                                                            .toList(),
+                                                    title:
+                                                        'Learning Folder Courses',
+                                                  ),
+                                              transitionsBuilder: (context,
+                                                  animation,
+                                                  secondaryAnimation,
+                                                  child) {
+                                                return SlideTransition(
+                                                  position: animation.drive(
+                                                      Tween(
+                                                              begin:
+                                                                  const Offset(
+                                                                      1, 0),
+                                                              end: Offset.zero)
+                                                          .chain(CurveTween(
+                                                              curve: Curves
+                                                                  .ease))),
+                                                  child: child,
+                                                );
+                                              }));
+                                    })
+                                  : sectionHeader(
+                                      "Learning Folder Courses", () {},
+                                      showSeeAll: false),
                               SizedBox(
-                                width: 20.sp,
+                                height: 8.sp,
                               ),
-                              ...state.learningFolderCourses
-                                  .map((courseItem) => Row(
-                                        children: [
-                                          CourseGridItem(
-                                            courseItem.name ?? '',
-                                            courseItem.owner ?? '',
-                                            courseItem.expertiseLevel ?? '',
-                                            formatDuration(
-                                                courseItem.duration ?? 0),
-                                            courseItem.tileImage ?? '',
-                                            courseItem.id ?? '',
-                                            //showPlusIcon: false,
-                                            isAssigned: true,
-                                          ),
-                                          SizedBox(
-                                            width: 8.sp,
+                              Container(
+                                height: 156.sp,
+                                alignment: Alignment.centerLeft,
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    SizedBox(
+                                      width: 20.sp,
+                                    ),
+                                    ...learningFolderCourse
+                                        .take(10)
+                                        .map((courseItem) => Row(
+                                              children: [
+                                                CourseGridItem(
+                                                  courseItem.name ?? '',
+                                                  courseItem.owner ?? '',
+                                                  courseItem.expertiseLevel ??
+                                                      '',
+                                                  formatDuration(
+                                                      courseItem.duration ?? 0),
+                                                  courseItem.tileImage ?? '',
+                                                  courseItem.id ?? '',
+                                                  //showPlusIcon: false,
+                                                  isAssigned: true,
+                                                ),
+                                                SizedBox(
+                                                  width: 8.sp,
+                                                )
+                                              ],
+                                            )),
+                                    learningFolderCourse.length > 10
+                                        ? viewAll(
+                                            () => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NewCourseScreen(
+                                                          courseList:
+                                                              learningFolderCourse
+                                                                  .toList(),
+                                                          title:
+                                                              'Learning Folder Courses',
+                                                        ))),
                                           )
-                                        ],
-                                      )),
-                              viewAll(
-                                () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NewCourseScreen(
-                                              courseList: state
-                                                  .learningFolderCourses
-                                                  .toList(),
-                                              title: 'Learning Folder courses',
-                                            ))),
+                                        : Container(),
+                                  ],
+                                ),
                               ),
                             ],
-                          );
-                        }
-                        return const Text("No data");
-                      },
-                    ),
-                  ),
-                ],
+                          )
+                        : Container();
+                  }
+                  return Container();
+                },
               ),
             ),
             SizedBox(
               height: 14.25.sp,
             ),
+            // For latest courses
             BlocProvider(
               create: (context) => HomeBloc(homeRepository: HomeRepository())
                 ..add(LatestCourseRequested()),
-              child: Column(
-                children: [
-                  BlocBuilder<HomeBloc, HomeState>(
-                    builder: (context, state) {
-                      if (state is LatestCourseLoaded) {
-                        return sectionHeader("Latest courses", () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NewCourseScreen(
-                                        courseList: state.latestCourses,
-                                        title: 'Latest courses',
-                                      )));
-                        });
-                      }
-                      return sectionHeader("Latest courses", () {});
-                    },
-                  ),
-                  SizedBox(
-                    height: 8.sp,
-                  ),
-                  Container(
-                    height: 156.sp,
-                    alignment: Alignment.centerLeft,
-                    child: BlocBuilder<HomeBloc, HomeState>(
-                      builder: (context, state) {
-                        // print("latest course $state");
-                        if (state is LatestCourseLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (state is LatestCourseLoaded) {
-                          return ListView(
-                            scrollDirection: Axis.horizontal,
+              child: BlocConsumer<HomeBloc, HomeState>(
+                listener: (context, state) {
+                  if (state is LatestCourseLoaded) {
+                    setState(() {
+                      latestCourse = state.latestCourses;
+                    });
+                  }
+                },
+                builder: (context, state) {
+                  if (state is LatestCourseLoading) {
+                    return SizedBox(
+                      height: 156.sp,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  if (state is LatestCourseLoaded) {
+                    return latestCourse.isNotEmpty
+                        ? Column(
                             children: [
+                              latestCourse.length > 10
+                                  ? sectionHeader("Latest Courses", () {
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                      secondaryAnimation) =>
+                                                  NewCourseScreen(
+                                                    courseList:
+                                                        latestCourse.toList(),
+                                                    title: 'Latest Courses',
+                                                  ),
+                                              transitionsBuilder: (context,
+                                                  animation,
+                                                  secondaryAnimation,
+                                                  child) {
+                                                return SlideTransition(
+                                                  position: animation.drive(
+                                                      Tween(
+                                                              begin:
+                                                                  const Offset(
+                                                                      1, 0),
+                                                              end: Offset.zero)
+                                                          .chain(CurveTween(
+                                                              curve: Curves
+                                                                  .ease))),
+                                                  child: child,
+                                                );
+                                              }));
+                                    })
+                                  : sectionHeader("Latest Courses", () {},
+                                      showSeeAll: false),
                               SizedBox(
-                                width: 20.sp,
+                                height: 8.sp,
                               ),
-                              ...state.latestCourses.map((courseItem) => Row(
-                                    children: [
-                                      CourseGridItem(
-                                        courseItem.name ?? '',
-                                        courseItem.owner ?? '',
-                                        courseItem.expertiseLevel ?? '',
-                                        formatDuration(
-                                            courseItem.duration ?? 0),
-                                        courseItem.tileImage ?? '',
-                                        courseItem.id ?? '',
-                                        showPlusIcon: true,
-                                      ),
-                                      SizedBox(
-                                        width: 8.sp,
-                                      )
-                                    ],
-                                  )),
-                              viewAll(
-                                () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NewCourseScreen(
-                                              courseList:
-                                                  state.latestCourses.toList(),
-                                              title: 'Latest courses',
-                                            ))),
+                              Container(
+                                height: 156.sp,
+                                alignment: Alignment.centerLeft,
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    SizedBox(
+                                      width: 20.sp,
+                                    ),
+                                    ...state.latestCourses
+                                        .take(10)
+                                        .map((courseItem) => Row(
+                                              children: [
+                                                CourseGridItem(
+                                                  courseItem.name ?? '',
+                                                  courseItem.owner ?? '',
+                                                  courseItem.expertiseLevel ??
+                                                      '',
+                                                  formatDuration(
+                                                      courseItem.duration ?? 0),
+                                                  courseItem.tileImage ?? '',
+                                                  courseItem.id ?? '',
+                                                  showPlusIcon: true,
+                                                ),
+                                                SizedBox(
+                                                  width: 8.sp,
+                                                )
+                                              ],
+                                            )),
+                                    latestCourse.length > 10
+                                        ? viewAll(
+                                            () => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NewCourseScreen(
+                                                          courseList:
+                                                              latestCourse
+                                                                  .toList(),
+                                                          title:
+                                                              'Latest Courses',
+                                                        ))),
+                                          )
+                                        : Container()
+                                  ],
+                                ),
                               ),
                             ],
-                          );
-                        }
-                        return const Text("No data");
-                      },
-                    ),
-                  ),
-                ],
+                          )
+                        : Container();
+                  }
+                  return Container();
+                },
               ),
             ),
             SizedBox(
               height: 14.25.sp,
             ),
+            // For learning space courses
             BlocProvider(
               create: (context) => HomeBloc(homeRepository: HomeRepository())
                 ..add(LearningSpaceCourseRequested()),
-              child: Column(
-                children: [
-                  BlocBuilder<HomeBloc, HomeState>(
-                    builder: (context, state) {
-                      if (state is LearningSpaceCourseLoaded) {
-                        return sectionHeader("Learning space", () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NewCourseScreen(
-                                        courseList: state.learningSpaceCourses,
-                                        title: 'Learning space',
-                                      )));
-                        });
-                      }
-                      return sectionHeader("Learning space", () {});
-                    },
-                  ),
-                  SizedBox(
-                    height: 8.sp,
-                  ),
-                  Container(
-                    height: 156.sp,
-                    alignment: Alignment.centerLeft,
-                    child: BlocBuilder<HomeBloc, HomeState>(
-                      builder: (context, state) {
-                        //    print("latest course $state");
-                        if (state is LearningSpaceCourseLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (state is LearningSpaceCourseLoaded) {
-                          return ListView(
-                            scrollDirection: Axis.horizontal,
+              child: BlocConsumer<HomeBloc, HomeState>(
+                listener: (context, state) {
+                  if (state is LearningSpaceCourseLoaded) {
+                    setState(() {
+                      learningSpaceCourse = state.learningSpaceCourses;
+                    });
+                  }
+                },
+                builder: (context, state) {
+                  if (state is LearningSpaceCourseLoading) {
+                    return SizedBox(
+                      height: 156.sp,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  if (state is LearningSpaceCourseLoaded) {
+                    return learningSpaceCourse.isNotEmpty
+                        ? Column(
                             children: [
+                              learningSpaceCourse.length > 10
+                                  ? sectionHeader("Learning Space Courses", () {
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                      secondaryAnimation) =>
+                                                  NewCourseScreen(
+                                                    courseList:
+                                                        learningSpaceCourse
+                                                            .toList(),
+                                                    title: 'Learning Space ',
+                                                  ),
+                                              transitionsBuilder: (context,
+                                                  animation,
+                                                  secondaryAnimation,
+                                                  child) {
+                                                return SlideTransition(
+                                                  position: animation.drive(
+                                                      Tween(
+                                                              begin:
+                                                                  const Offset(
+                                                                      1, 0),
+                                                              end: Offset.zero)
+                                                          .chain(CurveTween(
+                                                              curve: Curves
+                                                                  .ease))),
+                                                  child: child,
+                                                );
+                                              }));
+                                    })
+                                  : sectionHeader(
+                                      "Learning Space Courses", () {},
+                                      showSeeAll: false),
                               SizedBox(
-                                width: 20.sp,
+                                height: 8.sp,
                               ),
-                              ...state.learningSpaceCourses
-                                  .map((courseItem) => Row(
-                                        children: [
-                                          CourseGridItem(
-                                            courseItem.name ?? '',
-                                            courseItem.owner ?? '',
-                                            courseItem.expertiseLevel ?? '',
-                                            formatDuration(
-                                                courseItem.duration ?? 0),
-                                            courseItem.tileImage ?? '',
-                                            courseItem.id ?? '',
-                                            showPlusIcon: false,
-                                          ),
-                                          SizedBox(
-                                            width: 8.sp,
+                              Container(
+                                height: 156.sp,
+                                alignment: Alignment.centerLeft,
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    SizedBox(
+                                      width: 20.sp,
+                                    ),
+                                    ...learningSpaceCourse
+                                        .take(10)
+                                        .map((courseItem) => Row(
+                                              children: [
+                                                CourseGridItem(
+                                                  courseItem.name ?? '',
+                                                  courseItem.owner ?? '',
+                                                  courseItem.expertiseLevel ??
+                                                      '',
+                                                  formatDuration(
+                                                      courseItem.duration ?? 0),
+                                                  courseItem.tileImage ?? '',
+                                                  courseItem.id ?? '',
+                                                  showPlusIcon: false,
+                                                ),
+                                                SizedBox(
+                                                  width: 8.sp,
+                                                )
+                                              ],
+                                            )),
+                                    learningSpaceCourse.length > 10
+                                        ? viewAll(
+                                            () => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NewCourseScreen(
+                                                          courseList: state
+                                                              .learningSpaceCourses
+                                                              .toList(),
+                                                          title:
+                                                              'Learning space ',
+                                                        ))),
                                           )
-                                        ],
-                                      )),
-                              viewAll(
-                                () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NewCourseScreen(
-                                              courseList: state
-                                                  .learningSpaceCourses
-                                                  .toList(),
-                                              title: 'Learning space',
-                                            ))),
+                                        : Container(),
+                                  ],
+                                ),
                               ),
                             ],
-                          );
-                        }
-                        return const Text("No data");
-                      },
-                    ),
-                  ),
-                ],
+                          )
+                        : Container();
+                  }
+                  return Container();
+                },
               ),
             ),
             SizedBox(
@@ -675,7 +796,33 @@ class _HomeScreen extends State<HomeScreen> {
                   ),
                   Row(
                     children: [
-                      language("assets/images/english_bg.png", "English"),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedLanguage = "English";
+                            });
+                            Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        SearchScreen(
+                                          selectedLanguage,
+                                        ),
+                                    transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) {
+                                      return SlideTransition(
+                                        position: animation.drive(Tween(
+                                                begin: const Offset(1, 0),
+                                                end: Offset.zero)
+                                            .chain(CurveTween(
+                                                curve: Curves.ease))),
+                                        child: child,
+                                      );
+                                    }));
+                          },
+                          child: language(
+                              "assets/images/english_bg.png", "English")),
                       SizedBox(
                         width: 10.sp,
                       )
@@ -683,7 +830,14 @@ class _HomeScreen extends State<HomeScreen> {
                   ),
                   Row(
                     children: [
-                      language("assets/images/hindi_bg.png", "Hindi"),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedLanguage = "Hindi";
+                            });
+                          },
+                          child:
+                              language("assets/images/hindi_bg.png", "Hindi")),
                       SizedBox(
                         width: 10.sp,
                       )
@@ -691,7 +845,14 @@ class _HomeScreen extends State<HomeScreen> {
                   ),
                   Row(
                     children: [
-                      language("assets/images/arabic_bg.png", "Arabic"),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedLanguage = "Arabic";
+                            });
+                          },
+                          child: language(
+                              "assets/images/arabic_bg.png", "Arabic")),
                       SizedBox(
                         width: 10.sp,
                       )
@@ -1045,7 +1206,8 @@ class _HomeScreen extends State<HomeScreen> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const SearchScreen()))),
+                                                    SearchScreen(
+                                                        selectedLanguage)))),
                                       ],
                                     ),
                                   ),
@@ -1057,6 +1219,239 @@ class _HomeScreen extends State<HomeScreen> {
                             : Container(),
                       ],
                     );
+                  }
+                  return Container();
+                },
+              ),
+            ),
+            // Quick Courses
+            BlocProvider(
+              create: (context) => HomeBloc(homeRepository: HomeRepository())
+                ..add(QuickCourseRequested()),
+              child: BlocConsumer<HomeBloc, HomeState>(
+                listener: (context, state) {
+                  if (state is QuickCourseLoaded) {
+                    setState(() {
+                      quickCourse = state.quickCourses;
+                    });
+                  }
+                },
+                builder: (context, state) {
+                  if (state is QuickCourseLoading) {
+                    return SizedBox(
+                      height: 156.sp,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  if (state is QuickCourseLoaded) {
+                    return quickCourse.isNotEmpty
+                        ? Column(
+                            children: [
+                              quickCourse.length > 10
+                                  ? sectionHeader("Quick Courses", () {
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                      secondaryAnimation) =>
+                                                  NewCourseScreen(
+                                                    courseList:
+                                                        quickCourse.toList(),
+                                                    title: 'Quick Courses',
+                                                  ),
+                                              transitionsBuilder: (context,
+                                                  animation,
+                                                  secondaryAnimation,
+                                                  child) {
+                                                return SlideTransition(
+                                                  position: animation.drive(
+                                                      Tween(
+                                                              begin:
+                                                                  const Offset(
+                                                                      1, 0),
+                                                              end: Offset.zero)
+                                                          .chain(CurveTween(
+                                                              curve: Curves
+                                                                  .ease))),
+                                                  child: child,
+                                                );
+                                              }));
+                                    })
+                                  : sectionHeader("Quick Courses", () {},
+                                      showSeeAll: false),
+                              SizedBox(
+                                height: 8.sp,
+                              ),
+                              Container(
+                                height: 156.sp,
+                                alignment: Alignment.centerLeft,
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    SizedBox(
+                                      width: 20.sp,
+                                    ),
+                                    ...quickCourse
+                                        .take(10)
+                                        .map((courseItem) => Row(
+                                              children: [
+                                                CourseGridItem(
+                                                  courseItem.name ?? '',
+                                                  courseItem.owner ?? '',
+                                                  courseItem.expertiseLevel ??
+                                                      '',
+                                                  formatDuration(
+                                                      courseItem.duration ?? 0),
+                                                  courseItem.tileImage ?? '',
+                                                  courseItem.id ?? '',
+                                                  showPlusIcon: false,
+                                                  isAssigned: true,
+                                                ),
+                                                SizedBox(
+                                                  width: 8.sp,
+                                                )
+                                              ],
+                                            )),
+                                    quickCourse.length > 10
+                                        ? viewAll(
+                                            () => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NewCourseScreen(
+                                                          courseList:
+                                                              quickCourse
+                                                                  .toList(),
+                                                          title:
+                                                              'Quick Courses',
+                                                        ))),
+                                          )
+                                        : Container(),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container();
+                  }
+                  return Container();
+                },
+              ),
+            ),
+            SizedBox(
+              height: 14.25.sp,
+            ),
+            // Slow Courses
+            BlocProvider(
+              create: (context) => HomeBloc(homeRepository: HomeRepository())
+                ..add(SlowCourseRequested()),
+              child: BlocConsumer<HomeBloc, HomeState>(
+                listener: (context, state) {
+                  if (state is SlowCourseLoaded) {
+                    setState(() {
+                      slowCourse = state.slowCourses;
+                    });
+                  }
+                },
+                builder: (context, state) {
+                  if (state is SlowCourseLoading) {
+                    return SizedBox(
+                      height: 156.sp,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  if (state is SlowCourseLoaded) {
+                    return slowCourse.isNotEmpty
+                        ? Column(
+                            children: [
+                              slowCourse.length > 10
+                                  ? sectionHeader("Slow Courses", () {
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                      secondaryAnimation) =>
+                                                  NewCourseScreen(
+                                                    courseList:
+                                                        slowCourse.toList(),
+                                                    title: 'Slow Courses',
+                                                  ),
+                                              transitionsBuilder: (context,
+                                                  animation,
+                                                  secondaryAnimation,
+                                                  child) {
+                                                return SlideTransition(
+                                                  position: animation.drive(
+                                                      Tween(
+                                                              begin:
+                                                                  const Offset(
+                                                                      1, 0),
+                                                              end: Offset.zero)
+                                                          .chain(CurveTween(
+                                                              curve: Curves
+                                                                  .ease))),
+                                                  child: child,
+                                                );
+                                              }));
+                                    })
+                                  : sectionHeader("Slow Courses", () {},
+                                      showSeeAll: false),
+                              SizedBox(
+                                height: 8.sp,
+                              ),
+                              Container(
+                                height: 156.sp,
+                                alignment: Alignment.centerLeft,
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    SizedBox(
+                                      width: 20.sp,
+                                    ),
+                                    ...slowCourse
+                                        .take(10)
+                                        .map((courseItem) => Row(
+                                              children: [
+                                                CourseGridItem(
+                                                  courseItem.name ?? '',
+                                                  courseItem.owner ?? '',
+                                                  courseItem.expertiseLevel ??
+                                                      '',
+                                                  formatDuration(
+                                                      courseItem.duration ?? 0),
+                                                  courseItem.tileImage ?? '',
+                                                  courseItem.id ?? '',
+                                                  showPlusIcon: false,
+                                                  isAssigned: true,
+                                                ),
+                                                SizedBox(
+                                                  width: 8.sp,
+                                                )
+                                              ],
+                                            )),
+                                    slowCourse.length > 10
+                                        ? viewAll(
+                                            () => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NewCourseScreen(
+                                                          courseList: slowCourse
+                                                              .toList(),
+                                                          title: 'Slow Courses',
+                                                        ))),
+                                          )
+                                        : Container(),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container();
                   }
                   return Container();
                 },
@@ -1121,7 +1516,8 @@ class _HomeScreen extends State<HomeScreen> {
                     () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SearchScreen())),
+                            builder: (context) =>
+                                SearchScreen(selectedLanguage))),
                     height: 74,
                     width: 74,
                   ),

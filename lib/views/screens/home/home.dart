@@ -6,6 +6,7 @@ import 'package:zicops/repositories/auth_repository.dart';
 import 'package:zicops/repositories/profile_repository.dart';
 import 'package:zicops/views/screens/home/home_screen.dart';
 import 'package:zicops/views/screens/login_screen/login_screen.dart';
+import 'package:zicops/views/screens/login_screen/lsp_selection.dart';
 import 'package:zicops/views/screens/my_course/my_course_screen.dart';
 import 'package:zicops/views/screens/notifications/notification_screen.dart';
 import 'package:zicops/views/screens/preferences/preferences_screen.dart';
@@ -91,7 +92,8 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SearchScreen()));
+                              builder: (context) =>
+                                  SearchScreen(selectedLanguage)));
                     },
                     child: Container(
                         width: 24.sp,
@@ -151,7 +153,8 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SearchScreen()));
+                            builder: (context) =>
+                                SearchScreen(selectedLanguage)));
                   },
                   child: Container(
                       width: 24.sp,
@@ -465,68 +468,89 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          ...[1, 2].map(
-                            (e) => Container(
-                                height: 48.sp,
-                                alignment: Alignment.center,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("Adobe",
-                                        style: TextStyle(
-                                            color: textGrey2,
-                                            fontSize: 14.sp,
-                                            height: 1.43)),
-                                    Container(
-                                        width: 24.sp,
-                                        height: 24.sp,
-                                        alignment: Alignment.center,
-                                        child: Transform.rotate(
-                                            angle: -1.5,
-                                            child: Image.asset(
-                                              "assets/images/down_arrow.png",
-                                              width: 12.sp,
-                                              height: 8.sp,
+                          ...[1].map(
+                            (e) => GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            const LspSelectionScreen(),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          return SlideTransition(
+                                            position: animation.drive(Tween(
+                                              begin: const Offset(1, 0),
+                                              end: Offset.zero,
+                                            ).chain(CurveTween(
+                                                curve: Curves.ease))),
+                                            child: child,
+                                          );
+                                        }));
+                              },
+                              child: Container(
+                                  height: 48.sp,
+                                  alignment: Alignment.center,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("Change Lsp",
+                                          style: TextStyle(
                                               color: textGrey2,
-                                            ))),
-                                  ],
-                                )),
+                                              fontSize: 14.sp,
+                                              height: 1.43)),
+                                      Container(
+                                          width: 24.sp,
+                                          height: 24.sp,
+                                          alignment: Alignment.center,
+                                          child: Transform.rotate(
+                                              angle: -1.5,
+                                              child: Image.asset(
+                                                "assets/images/down_arrow.png",
+                                                width: 12.sp,
+                                                height: 8.sp,
+                                                color: textGrey2,
+                                              ))),
+                                    ],
+                                  )),
+                            ),
                           ),
                           SizedBox(
                             height: 8.sp,
                           ),
-                          Container(
-                            height: 36.sp,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.sp, horizontal: 20.sp),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.sp),
-                                border: Border.all(
-                                    color: secondaryColorDarkOutline,
-                                    width: 1.sp)),
-                            child: Text(
-                              "Add Organization".toUpperCase(),
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 2,
-                                height: 1.14,
-                                foreground: Paint()
-                                  ..shader = RadialGradient(
-                                    colors: [
-                                      primaryColor.withOpacity(0.88),
-                                      gradientTwo
-                                    ],
-                                    center: Alignment.topLeft,
-                                    radius: 55.sp,
-                                  ).createShader(const Rect.fromLTWH(
-                                      1.0, 1.0, 200.0, 24.0)),
-                              ),
-                            ),
-                          )
+                          // Container(
+                          //   height: 36.sp,
+                          //   padding: EdgeInsets.symmetric(
+                          //       vertical: 10.sp, horizontal: 20.sp),
+                          //   alignment: Alignment.center,
+                          //   decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(4.sp),
+                          //       border: Border.all(
+                          //           color: secondaryColorDarkOutline,
+                          //           width: 1.sp)),
+                          //   child: Text(
+                          //     "Add Organization".toUpperCase(),
+                          //     overflow: TextOverflow.ellipsis,
+                          //     style: TextStyle(
+                          //       fontSize: 14.sp,
+                          //       fontWeight: FontWeight.w600,
+                          //       letterSpacing: 2,
+                          //       height: 1.14,
+                          //       foreground: Paint()
+                          //         ..shader = RadialGradient(
+                          //           colors: [
+                          //             primaryColor.withOpacity(0.88),
+                          //             gradientTwo
+                          //           ],
+                          //           center: Alignment.topLeft,
+                          //           radius: 55.sp,
+                          //         ).createShader(const Rect.fromLTWH(
+                          //             1.0, 1.0, 200.0, 24.0)),
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       )),
                 ),

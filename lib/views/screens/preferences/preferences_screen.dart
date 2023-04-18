@@ -11,16 +11,16 @@ import '../account_setup/models/category.dart';
 import '../account_setup/preferences_tab.dart';
 
 List<Category> subCategories = [
-  Category(50, "UX Design", '1'),
-  Category(51, "Graphics Design", '1'),
-  Category(52, "Mobile Design", '1'),
-  Category(53, "App Design", '1'),
-  Category(54, "Technology Design", '2'),
-  Category(55, "Technology UX", '2'),
-  Category(56, " Architecture Design", '3'),
-  Category(57, "English", '6'),
-  Category(58, "German", '6'),
-  Category(59, "French", '6'),
+  // Category(50, "UX Design", '1'),
+  // Category(51, "Graphics Design", '1'),
+  // Category(52, "Mobile Design", '1'),
+  // Category(53, "App Design", '1'),
+  // Category(54, "Technology Design", '2'),
+  // Category(55, "Technology UX", '2'),
+  // Category(56, " Architecture Design", '3'),
+  // Category(57, "English", '6'),
+  // Category(58, "German", '6'),
+  // Category(59, "French", '6'),
 ];
 
 class PreferencesScreen extends StatefulWidget {
@@ -42,7 +42,9 @@ class _PreferencesScreen extends State<PreferencesScreen> {
       child: BlocBuilder<AccountSetupBloc, AccountSetupState>(
         builder: (context, state) {
           print(state);
+
           if (state is SelectedPreferenceLoaded) {
+            subCategories = state.subCategories;
             return Scaffold(
               backgroundColor: secondaryColor,
               appBar: PreferredSize(
