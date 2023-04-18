@@ -6,11 +6,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zicops/blocs/home/home_bloc.dart';
 import 'package:zicops/repositories/home_repository.dart';
 import 'package:zicops/utils/colors.dart';
-import 'package:zicops/utils/dummies.dart';
 import 'package:zicops/views/screens/new_course/new_course_screen.dart';
 import 'package:zicops/views/screens/search/search_screen.dart';
 import 'package:zicops/views/widgets/course_grid_item.dart';
-import 'package:zicops/views/widgets/course_grid_item_large.dart';
 
 import '../../../models/user/user_course_model.dart';
 import '../../../utils/time_format.dart';
@@ -1127,94 +1125,6 @@ class _HomeScreen extends State<HomeScreen> {
                     height: 74,
                     width: 74,
                   ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 14.25.sp,
-            ),
-            sectionHeader("Trending courses", () {}),
-            SizedBox(
-              height: 8.sp,
-            ),
-            Container(
-              width: width,
-              height: 248.sp,
-              alignment: Alignment.centerLeft,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  ...courseItems.map((courseItem) => Row(
-                        children: [
-                          CourseGridItemLarge(
-                            courseItem["courseName"],
-                            courseItem["org"],
-                            courseItem["difficulty"],
-                            courseItem["courseLength"],
-                            courseItem["preview"],
-                            courseItem["courseId"],
-                            showAddButton: true,
-                          ),
-                          SizedBox(
-                            width: 8.sp,
-                          )
-                        ],
-                      )),
-                  viewAll(
-                      () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SearchScreen())),
-                      height: 248,
-                      width: 320),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 14.25.sp,
-            ),
-            sectionHeader("Recommended courses", () {}),
-            SizedBox(
-              height: 8.sp,
-            ),
-            Container(
-              width: width,
-              height: 248.sp,
-              alignment: Alignment.centerLeft,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  ...courseItems.map(
-                    (courseItem) => Row(
-                      children: [
-                        CourseGridItemLarge(
-                          courseItem["courseName"],
-                          courseItem["org"],
-                          courseItem["difficulty"],
-                          courseItem["courseLength"],
-                          courseItem["preview"],
-                          courseItem["courseId"],
-                          showAddButton: true,
-                        ),
-                        SizedBox(
-                          width: 8.sp,
-                        )
-                      ],
-                    ),
-                  ),
-                  viewAll(
-                      () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SearchScreen())),
-                      height: 248,
-                      width: 320)
                 ],
               ),
             ),
