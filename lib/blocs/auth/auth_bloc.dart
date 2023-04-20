@@ -22,7 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(Authenticated(user));
       } catch (e) {
         emit(AuthError(error: e.toString()));
-        await Future.delayed(Duration(seconds: 5));
+        await Future.delayed(Duration(seconds: 1));
         emit(Unauthenticated());
       }
     });

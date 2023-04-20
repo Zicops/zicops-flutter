@@ -47,18 +47,40 @@ class _ProfileScreen extends State<ProfileScreen> {
             leading: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
+                  // Navigator.pushReplacement(
+                  //     context,
+                  //     PageRouteBuilder(
+                  //         pageBuilder:
+                  //             (context, animation, secondaryAnimation) =>
+                  //                 const HomePage(),
+                  //         transitionsBuilder:
+                  //             (context, animation, secondaryAnimation, child) {
+                  //           return SlideTransition(
+                  //             position: animation.drive(Tween(
+                  //               begin: const Offset(1, 0),
+                  //               end: Offset.zero,
+                  //             ).chain(CurveTween(curve: Curves.ease))),
+                  //             child: child,
+                  //           );
+                  //         }));
+                  //Navigator.pop(context);
                   if (Navigator.canPop(context)) Navigator.pop(context);
                 },
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      right: 4.sp, top: 16.sp, bottom: 16.sp, left: 20.sp),
-                  child: Image.asset(
-                    "assets/images/back_arrow.png",
-                    height: 16.sp,
-                    width: 16.sp,
-                  ),
-                )),
-            leadingWidth: 40.sp,
+                child: Navigator.canPop(context)
+                    ? Padding(
+                        padding: EdgeInsets.only(
+                            right: 4.sp,
+                            top: 16.sp,
+                            bottom: 16.sp,
+                            left: 20.sp),
+                        child: Image.asset(
+                          "assets/images/back_arrow.png",
+                          height: 16.sp,
+                          width: 16.sp,
+                        ),
+                      )
+                    : Container()),
+            leadingWidth: Navigator.canPop(context) ? 40.sp : 0,
             title: SizedBox(
               height: 24.sp,
               child: Text("Profile",

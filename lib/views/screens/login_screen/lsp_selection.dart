@@ -29,8 +29,8 @@ class _LspSelectionScreen extends State<LspSelectionScreen> {
     return Column(
       children: [
         SizedBox(
-          width: 216.sp,
-          height: 216.sp,
+          width: 216.sp / 3,
+          height: 216.sp / 3,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4.sp),
             child: preview.contains("https://")
@@ -60,7 +60,7 @@ class _LspSelectionScreen extends State<LspSelectionScreen> {
           ),
         ),
         SizedBox(
-          height: 20.sp,
+          height: 40.sp,
         )
       ],
     );
@@ -237,13 +237,16 @@ class _LspSelectionScreen extends State<LspSelectionScreen> {
 
                           if (state is LspSelectionNotSelected) {
                             return Expanded(
-                                child: ListView(children: [
-                              ...state.lspModelList.map((e) => GestureDetector(
-                                  onTap: () {
-                                    _lspSelected(context, e);
-                                  },
-                                  child: cohortCard(e.logoUrl, e.name)))
-                            ]));
+                                child: ListView(
+                                    //scrollDirection: Axis.horizontal,
+                                    children: [
+                                  ...state.lspModelList
+                                      .map((e) => GestureDetector(
+                                          onTap: () {
+                                            _lspSelected(context, e);
+                                          },
+                                          child: cohortCard(e.logoUrl, e.name)))
+                                ]));
                           }
 
                           return const Center(

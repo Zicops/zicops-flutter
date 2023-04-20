@@ -29,6 +29,7 @@ updateUser(
           ),
         ),
       );
+  print(res?.data?.toJson());
   return;
 }
 

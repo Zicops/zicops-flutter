@@ -27,6 +27,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
   int currentCarousel = 0;
+  List<String> banner = [
+    'assets/images/homePageBanner/Frame_1.png',
+    'assets/images/homePageBanner/Frame_2.png',
+    'assets/images/homePageBanner/Frame_3.png',
+    'assets/images/homePageBanner/Frame_4.png',
+    'assets/images/homePageBanner/Frame_5.png'
+  ];
   List homepageBannerList = [
     {'path': 'assets/images/homePageBanner/Frame_1.png'},
     {'path': 'assets/images/homePageBanner/Frame_2.png'},
@@ -249,7 +256,7 @@ class _HomeScreen extends State<HomeScreen> {
                         },
                         scrollDirection: Axis.horizontal,
                       ),
-                      items: [0, 1, 2, 3, 4]
+                      items: banner
                           .map((i) => Center(
                               child: AnimatedContainer(
                                   curve: Curves.easeInCubic,
@@ -264,8 +271,17 @@ class _HomeScreen extends State<HomeScreen> {
                                   clipBehavior: Clip.antiAlias,
                                   duration: const Duration(milliseconds: 800),
                                   child: Image.asset(
-                                    "assets/images/course_preview.png",
-                                    fit: BoxFit.fill,
+                                    i,
+                                    // "assets/images/course_preview.png",
+                                    //   fit: BoxFit.fill,
+                                    fit: BoxFit.cover,
+
+                                    alignment:
+                                        FractionalOffset.fromOffsetAndRect(
+                                            Offset(0, 0),
+                                            Rect.fromLTRB(-60, 180, 320.sp, 0)),
+
+                                    // for image crop
                                   ))))
                           .toList(),
                     ),
@@ -869,14 +885,15 @@ class _HomeScreen extends State<HomeScreen> {
                 ..add(SubCategoryCourseRequested()),
               child: BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
+                  print(state);
                   if (state is SubCategoryCourseLoading) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
-                  if (state is SubCategoryCourseError) {
-                    return Text(state.error.toString());
-                  }
+                  // if (state is SubCategoryCourseError) {
+                  //   return Text(state.error.toString());
+                  // }
                   if (state is SubCategoryCourseLoaded) {
                     return Column(
                       children: [

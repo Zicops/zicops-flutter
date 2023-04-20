@@ -558,9 +558,25 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
                       Navigator.push(
-                          this.context,
-                          MaterialPageRoute(
-                              builder: (context) => const ProfileScreen()));
+                          context,
+                          PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const ProfileScreen(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return SlideTransition(
+                                  position: animation.drive(Tween(
+                                    begin: const Offset(1, 0),
+                                    end: Offset.zero,
+                                  ).chain(CurveTween(curve: Curves.ease))),
+                                  child: child,
+                                );
+                              }));
+                      // Navigator.push(
+                      //     this.context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const ProfileScreen()));
                     },
                     child: drawerItem(
                       "assets/images/person.png",
