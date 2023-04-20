@@ -126,7 +126,7 @@ class HomeRepository {
       //     (courseDuration - (courseDuration * (topicProgress ?? 0)) / 100);
 
       userCourseData.add(Course(
-          id: _courseData?.id,
+          id: _courseData?.userId,
           name: _courseData?.name,
           publisher: _courseData?.publisher,
           courseProgress: _courseData?.courseProgress,

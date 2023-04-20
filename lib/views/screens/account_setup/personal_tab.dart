@@ -35,6 +35,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
 
   bool isEmailValidated = false;
 
@@ -45,6 +46,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
   String email = '';
   String phone = '';
   String id = "";
+  String gender = "";
   String? imageUrl = "";
 
   bool isloading = true;
@@ -77,7 +79,8 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
     FocusNode(),
     FocusNode(),
     FocusNode(),
-    FocusNode()
+    FocusNode(),
+    FocusNode(),
   ];
 
   @override
@@ -142,12 +145,14 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                 email = state.user.email.toString();
                 phone = state.user.phone.toString();
                 imageUrl = state.user.photoUrl.toString();
+                gender = state.user.gender.toString();
               });
               id = state.user.id.toString();
               _firstNameController.text = firstName;
               _lastNameController.text = lastName;
               _emailController.text = email;
               _phoneController.text = phone;
+              _genderController.text = gender;
             }
           },
           builder: (context, state) {
@@ -277,6 +282,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                                   "assets/images/person.png",
                                   "Firstname",
                                   true,
+                                  inputType: TextInputType.name,
                                 ),
                                 const SizedBox(height: 12),
                                 prefixInputField(
@@ -285,6 +291,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                                   "assets/images/person.png",
                                   "Lastname",
                                   true,
+                                  inputType: TextInputType.name,
                                 ),
                                 const SizedBox(height: 12),
                                 prefixInputField(
@@ -309,6 +316,16 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                                     true,
                                     inputType: TextInputType.phone),
                                 const SizedBox(height: 12),
+                                prefixInputField(
+                                  _focusNodes[4],
+                                  _genderController,
+                                  "assets/images/person.png",
+                                  "Gender",
+                                  true,
+                                  inputType: TextInputType.name,
+                                  textInputAction: TextInputAction.done,
+                                ),
+                                const SizedBox(height: 12),
                                 GestureDetector(
                                   onTap: () async {
                                     print(profileImage);
@@ -329,6 +346,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                                         _lastNameController.text,
                                         _emailController.text,
                                         _phoneController.text,
+                                        _genderController.text,
                                         multipartFile,
                                       );
                                     } else {
@@ -338,6 +356,7 @@ class _PersonalTabScreen extends State<PersonalTabScreen> {
                                         _lastNameController.text,
                                         _emailController.text,
                                         _phoneController.text,
+                                        _genderController.text,
                                         null,
                                       );
                                     }

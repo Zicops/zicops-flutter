@@ -133,7 +133,7 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                               courseItem.expertiseLevel ?? '',
                               formatDuration(courseItem.duration) ?? "",
                               courseItem.tileImage ?? '',
-                              courseItem.id ?? '',
+                              courseItem.userId ?? '',
                             ))
                       ])
                 : ListView(
@@ -146,7 +146,7 @@ class _NewCourseScreen extends State<NewCourseScreen> {
                                 courseItem.expertiseLevel ?? '',
                                 formatDuration(courseItem.duration) ?? "",
                                 courseItem.tileImage ?? '',
-                                courseItem.id ?? '',
+                                courseItem.userId ?? '',
                               ),
                               SizedBox(
                                 height: 8.sp,

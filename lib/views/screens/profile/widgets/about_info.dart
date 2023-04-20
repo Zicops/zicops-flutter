@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zicops/utils/colors.dart';
+
+import '../../../../controllers/mutation_controller.dart';
 
 class AboutInfo extends StatefulWidget {
   String name;
   List items;
+  String userId;
+  String orgId;
+  String userOrgId;
+  String userLspId;
 
-  AboutInfo(this.name, this.items, {Key? key}) : super(key: key);
+  AboutInfo(this.userId, this.orgId, this.userOrgId, this.userLspId, this.name,
+      this.items,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -37,7 +47,13 @@ class _AboutInfo extends State<AboutInfo> {
           height: 20.sp,
           child: TextField(
             controller: controller,
-            enabled: !isDisabled,
+            //  enabled: label == "Email ID." "Role in Organization."? false : !isDisabled,
+            enabled: (label == "Email ID." ||
+                    label == "Organization." ||
+                    label == "Organization Unit." ||
+                    label == "Learning Space Role.")
+                ? false
+                : !isDisabled,
             autofocus: true,
             cursorColor: textPrimary,
             decoration: InputDecoration(
@@ -76,10 +92,39 @@ class _AboutInfo extends State<AboutInfo> {
                       height: 1.33),
                 ),
                 GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       setState(() {
                         isDisabled = !isDisabled;
                       });
+                      if (isDisabled) {
+                        if (widget.name == "Personal") {
+                          print('hi');
+                          print(widget.items[3]["controller"].text);
+                          updateUser(
+                            widget.userId,
+                            widget.items[0]["controller"].text,
+                            widget.items[1]["controller"].text,
+                            widget.items[3]["controller"].text,
+                            widget.items[2]["controller"].text,
+                            widget.items[4]["controller"].text,
+                            null,
+                          );
+                        } else if (widget.name == "Organization") {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          String orgId = prefs.getString("orgId")!;
+                          print('hi');
+                          print(widget.items[3]["controller"].text);
+                          updateUserOrganizationMap(
+                            widget.userId,
+                            widget.orgId,
+                            widget.userOrgId,
+                            widget.userLspId,
+                            widget.items[2]["controller"].text,
+                            widget.items[4]["controller"].text,
+                          );
+                        }
+                      }
                     },
                     child: isDisabled
                         ? Image.asset(
@@ -99,7 +144,8 @@ class _AboutInfo extends State<AboutInfo> {
             height: 8.sp,
           ),
           Container(
-              padding: EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
+              padding:
+                  EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4.sp),

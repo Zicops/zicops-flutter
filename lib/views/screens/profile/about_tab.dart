@@ -28,10 +28,19 @@ class AboutTabScreen extends StatefulWidget {
 }
 
 class _AboutTabScreen extends State<AboutTabScreen> {
-  TextEditingController _controller1 = TextEditingController();
-  TextEditingController _controller2 = TextEditingController();
-  TextEditingController _controller3 = TextEditingController();
-  TextEditingController _controller4 = TextEditingController();
+  // Controllers for user details
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+
+  // Controllers for org details
+  final TextEditingController _orgNameController = TextEditingController();
+  final TextEditingController _orgUnitController = TextEditingController();
+  final TextEditingController _lspRoleController = TextEditingController();
+  final TextEditingController _roleController = TextEditingController();
+  final TextEditingController _employeeIdController = TextEditingController();
 
   // Variables for user details
   String? userId = "";
@@ -40,10 +49,13 @@ class _AboutTabScreen extends State<AboutTabScreen> {
   String? name = "";
   String? phone = "";
   String? email = "";
+  String? gender = "";
   String? imageUrl = "";
 
   // Variables for org details
   String orgName = "";
+  String orgId = "";
+  String userOrgId = "";
   String orgUnit = "";
   String lspRole = "";
   String? orgRole = "";
@@ -76,7 +88,8 @@ class _AboutTabScreen extends State<AboutTabScreen> {
       var multipartFile = MultipartFile.fromBytes('photo', byteData,
           filename: profileImage.path.split('/').last,
           contentType: MediaType('image', 'png'));
-      updateUser(userId!, firstName!, lastName!, email!, phone!, multipartFile);
+      updateUser(userId!, firstName!, lastName!, email!, phone!, gender!,
+          multipartFile);
     } catch (e) {
       print('Failed to pick image: $e');
     }
@@ -128,7 +141,11 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                               state.user.lastName!;
                           phone = state.user.phone;
                           email = state.user.email;
+                          gender = state.user.gender;
                           imageUrl = state.user.photoUrl;
+                          // For org tab
+                          orgId = state.org.orgId;
+                          userOrgId = state.org.userOrgId;
                           orgName = state.org.orgName;
                           orgUnit = state.org.lspName;
                           lspRole = state.org.lspRole;
@@ -136,6 +153,17 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                           empId = state.org.empId;
                           // userLspId = state.org.lspId!;
                         });
+                        _firstNameController.text = firstName!;
+                        _lastNameController.text = lastName!;
+                        _emailController.text = email!;
+                        _phoneController.text = phone!;
+                        _genderController.text = gender!;
+
+                        _orgNameController.text = orgName;
+                        _orgUnitController.text = orgUnit;
+                        _lspRoleController.text = lspRole;
+                        _roleController.text = orgRole!;
+                        _employeeIdController.text = empId!;
                       }
                     },
                     builder: (context, state) {
@@ -258,9 +286,9 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                           SizedBox(
                                             height: 28.sp,
                                             child: Text(
-                                              state.user.firstName! +
+                                              _firstNameController.text +
                                                   " " +
-                                                  state.user.lastName!,
+                                                  _lastNameController.text,
                                               style: TextStyle(
                                                   color: textPrimary,
                                                   fontSize: 20.sp,
@@ -270,7 +298,7 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                           SizedBox(
                                             height: 24.sp,
                                             child: Text(
-                                              state.org.orgName,
+                                              orgName,
                                               style: TextStyle(
                                                   color: textGrey2,
                                                   fontSize: 16.sp,
@@ -283,58 +311,53 @@ class _AboutTabScreen extends State<AboutTabScreen> {
                                     SizedBox(
                                       height: 8.sp,
                                     ),
-                                    AboutInfo("Personal", [
+                                    AboutInfo(userId!, orgId, userOrgId,
+                                        userLspId, "Personal", [
                                       {
-                                        "label": "Name.",
-                                        "controller": TextEditingController(
-                                            text: state.user.firstName! +
-                                                " " +
-                                                state.user.lastName!)
+                                        "label": "First Name.",
+                                        "controller": _firstNameController,
+                                      },
+                                      {
+                                        "label": "Last Name.",
+                                        "controller": _lastNameController,
                                       },
                                       {
                                         "label": "Phone No.",
-                                        "controller": TextEditingController(
-                                            text: state.user.phone)
+                                        "controller": _phoneController,
                                       },
                                       {
                                         "label": "Email ID.",
-                                        "controller": TextEditingController(
-                                            text: state.user.email)
+                                        "controller": _emailController,
                                       },
                                       {
                                         "label": "Gender",
-                                        "controller": TextEditingController(
-                                            text: state.user.gender)
+                                        "controller": _genderController,
                                       },
                                     ]),
                                     SizedBox(
                                       height: 16.sp,
                                     ),
-                                    AboutInfo("Organization", [
+                                    AboutInfo(userId!, orgId, userOrgId,
+                                        userLspId, "Organization", [
                                       {
                                         "label": "Organization.",
-                                        "controller": TextEditingController(
-                                            text: state.org.orgName)
+                                        "controller": _orgNameController
                                       },
                                       {
                                         "label": "Organization Unit.",
-                                        "controller": TextEditingController(
-                                            text: state.org.lspName)
+                                        "controller": _orgUnitController
                                       },
                                       {
                                         "label": "Role in Organization.",
-                                        "controller": TextEditingController(
-                                            text: state.org.orgRole)
+                                        "controller": _roleController
                                       },
                                       {
                                         "label": "Learning Space Role.",
-                                        "controller": TextEditingController(
-                                            text: state.org.lspRole)
+                                        "controller": _lspRoleController
                                       },
                                       {
                                         "label": "Employee ID.",
-                                        "controller": TextEditingController(
-                                            text: state.org.empId)
+                                        "controller": _employeeIdController
                                       },
                                     ]),
                                   ],

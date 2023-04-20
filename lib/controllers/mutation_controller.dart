@@ -10,6 +10,7 @@ updateUser(
   String lastName,
   String email,
   String phone,
+  String gender,
   MultipartFile? image,
 ) async {
   final res = await userClient.client()?.execute(
@@ -22,7 +23,7 @@ updateUser(
             role: 'learner',
             is_verified: true,
             is_active: true,
-            gender: 'male',
+            gender: gender,
             email: email,
             phone: phone,
             Photo: image,
