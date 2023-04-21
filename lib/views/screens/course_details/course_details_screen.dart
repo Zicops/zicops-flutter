@@ -135,7 +135,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                           SearchScreen(selectedLanguage)));
+                                          SearchScreen(selectedLanguage)));
                             },
                             child: Container(
                                 width: 24.sp,

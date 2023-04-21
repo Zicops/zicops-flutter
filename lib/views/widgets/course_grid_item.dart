@@ -41,7 +41,6 @@ class _CourseGridItem extends State<CourseGridItem> {
     final height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
-        print("Course Id: " + widget.courseId);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -50,7 +49,7 @@ class _CourseGridItem extends State<CourseGridItem> {
       },
       onLongPress: () {
         courseInfoBottomSheet(context, 596.sp, width, widget.courseName,
-            isCourseAssigned: true, isCourseStarted: true, coursePercent: 40);
+            isCourseAssigned: widget.isAssigned, isCourseStarted: true, coursePercent: 40);
       },
       child: Center(
           child: Container(

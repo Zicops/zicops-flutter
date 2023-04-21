@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:video_player/video_player.dart';
 import 'package:zicops/blocs/course/course_bloc.dart';
 import 'package:zicops/repositories/course_repository.dart';
 import 'package:zicops/utils/colors.dart';
@@ -30,16 +31,24 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreen extends State<AboutScreen> {
-  Widget courseInfo(String title, String image, String owner, String type) {
+  bool playVideo = false;
+  late VideoPlayerController _controller;
+
+  Widget courseInfo(String title, String image, String owner, String type,
+      bool playVideo, String videoUrl) {
     return SizedBox(
         height: 202.sp,
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.network(
-              image,
-              fit: BoxFit.fill,
-            ),
+            playVideo
+                ? ContentPlayerAbout(
+                    videoUrl: videoUrl,
+                  )
+                : Image.network(
+                    image,
+                    fit: BoxFit.fill,
+                  ),
             Container(
               color: Colors.black.withOpacity(0.43),
               height: 202.sp,
@@ -106,7 +115,7 @@ class _AboutScreen extends State<AboutScreen> {
               return const Center(child: CircularProgressIndicator());
             }
             if (state is CourseLoaded) {
-              print('course data${state.courseData}');
+              // print('course data${state.courseData}');
               var courseDetails = state.courseData?['getCourse'][0];
               var courseData = state.courseData;
               var assesmentTopic = courseData['getTopics']
@@ -114,11 +123,18 @@ class _AboutScreen extends State<AboutScreen> {
                   .toList();
               final height = MediaQuery.of(context).size.height;
               final width = MediaQuery.of(context).size.width;
+              print('course data ${courseDetails['previewVideo']}');
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    courseInfo(courseDetails['name'], courseDetails['image'],
-                        courseDetails['owner'], courseDetails['type']),
+                    courseInfo(
+                      courseDetails['name'],
+                      courseDetails['image'],
+                      courseDetails['owner'],
+                      courseDetails['type'],
+                      playVideo,
+                      courseDetails['previewVideo'],
+                    ),
                     SizedBox(
                       height: 20.sp,
                     ),
@@ -132,6 +148,17 @@ class _AboutScreen extends State<AboutScreen> {
                         children: [
                           // TODO: Course preview video player to be added
                           GestureDetector(
+                            onTap: () => {
+                              setState(() {
+                                playVideo = !playVideo;
+                                // _controller = VideoPlayerController.network(
+                                //     courseDetails['previewVideo'])
+                                //   ..initialize().then((_) {
+                                //     setState(() {});
+                                //     _controller.play();
+                                //   });
+                              })
+                            },
                             child: GradientButton('Course Preview'),
                           ),
                           SizedBox(
@@ -665,5 +692,85 @@ class _AboutScreen extends State<AboutScreen> {
             return Container();
           },
         ));
+  }
+}
+
+class ContentPlayerAbout extends StatefulWidget {
+  final String videoUrl;
+  const ContentPlayerAbout({
+    required this.videoUrl,
+    Key? key,
+  }) : super(key: key);
+
+  //final VideoPlayerController _controller;
+
+  @override
+  State<ContentPlayerAbout> createState() => _ContentPlayerAboutState();
+}
+
+class _ContentPlayerAboutState extends State<ContentPlayerAbout> {
+  late VideoPlayerController _controller;
+  bool _isPlaying = true;
+  @override
+  initState() {
+    _controller = VideoPlayerController.network(widget.videoUrl)
+      ..initialize().then((_) {
+        setState(() {
+          // Automatically start playing the video when it is initialized.
+          _controller.play();
+        });
+      });
+
+    // Future.delayed(Duration(milliseconds: 1000));
+
+    // _controller.initialize();
+
+    _controller.setLooping(true);
+    _controller.play();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      clipBehavior: Clip.none,
+      children: [
+        VideoPlayer(_controller),
+        // Container(
+        //   //color: Colors.black26,
+        //   height: 50,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: [
+        //       IconButton(
+        //         onPressed: () {
+        //           setState(() {
+        //             _isPlaying = !_isPlaying;
+        //             if (_isPlaying) {
+        //               _controller.play();
+        //             } else {
+        //               _controller.pause();
+        //             }
+        //           });
+        //         },
+        //         icon: Icon(
+        //           _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+        //           color: Colors.white,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+      ],
+    );
   }
 }

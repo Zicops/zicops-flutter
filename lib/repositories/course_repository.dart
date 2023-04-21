@@ -22,11 +22,13 @@ class CourseRepository {
     final result = await courseQClient.client()?.execute(GetCourseDataQuery(
         variables: GetCourseDataArguments(course_id: courseId)));
     final courseData = result?.data?.toJson();
+    //print(courseData);
     List courseModules = courseData?['getCourseModules'];
     List courseTopics = courseData?['getTopics'];
     List courseResouces = courseData?['getResourcesByCourseId'];
     List courseChapters = courseData?['getCourseChapters'];
     var courseDetails = courseData?['getCourse'];
+    print('courseDetails ${courseDetails}.');
     // print('rwehwrth ${courseChapters.length}.');
     return courseData;
   }
