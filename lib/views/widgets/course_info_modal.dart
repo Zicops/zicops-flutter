@@ -26,7 +26,7 @@ courseInfoBottomSheet(
               padding:
                   EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 20.sp),
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center ,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
@@ -38,7 +38,6 @@ courseInfoBottomSheet(
                           color: secondaryColorDark,
                           borderRadius: BorderRadius.circular(4.sp)),
                     ),
-
                     SizedBox(
                       width: width - 40.sp,
                       height: 180.sp,
@@ -55,15 +54,19 @@ courseInfoBottomSheet(
                     SizedBox(
                       height: 16.sp,
                     ),
-                    Row(children: [Text(
-                      title,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w500,
-                          color: textPrimary,
-                          height: 1.33),
-                    )],),
+                    Row(
+                      children: [
+                        Text(
+                          title,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w500,
+                              color: textPrimary,
+                              height: 1.33),
+                        )
+                      ],
+                    ),
                     SizedBox(
                       height: 16.sp,
                     ),
@@ -107,60 +110,61 @@ courseInfoBottomSheet(
                     SizedBox(
                       height: 16.sp,
                     ),
-                    SizedBox(height: 32.sp,child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        Container(
-                          height: 32.sp,
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 6.sp),
-                          decoration: BoxDecoration(
-                              color: secondaryColorDark,
-                              border: Border.all(color: lightGrey)),
-                          child: Text(
-                            "Intermediate",
-                            style:
-                                TextStyle(fontSize: 16.sp, color: textPrimary, height: 1.5),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8.sp,
-                        ),
-                        Container(
-                          height: 32.sp,
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 6.sp),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: lightGrey)),
-                          child: Text(
-                            "77 Modules",
-                            style:
-                                TextStyle(fontSize: 16.sp, color: textPrimary),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8.sp,
-                        ),
-                        Container(
-                          height: 32.sp,
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 6.sp),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: lightGrey)),
-                          child: Text(
-                            "77 Topics",
-                            style:
-                                TextStyle(fontSize: 16.sp, color: textPrimary),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8.sp,
-                        ),
-                      ],
-                    )),
+                    SizedBox(
+                        height: 32.sp,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            Container(
+                              height: 32.sp,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric(horizontal: 6.sp),
+                              decoration: BoxDecoration(
+                                  color: secondaryColorDark,
+                                  border: Border.all(color: lightGrey)),
+                              child: Text(
+                                "Intermediate",
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: textPrimary,
+                                    height: 1.5),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 8.sp,
+                            ),
+                            Container(
+                              height: 32.sp,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric(horizontal: 6.sp),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: lightGrey)),
+                              child: Text(
+                                "77 Modules",
+                                style: TextStyle(
+                                    fontSize: 16.sp, color: textPrimary),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 8.sp,
+                            ),
+                            Container(
+                              height: 32.sp,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric(horizontal: 6.sp),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: lightGrey)),
+                              child: Text(
+                                "77 Topics",
+                                style: TextStyle(
+                                    fontSize: 16.sp, color: textPrimary),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 8.sp,
+                            ),
+                          ],
+                        )),
                     SizedBox(
                       height: 16.sp,
                     ),
@@ -184,7 +188,7 @@ courseInfoBottomSheet(
                           SizedBox(
                             height: 20.sp,
                           ),
-                          ProgressBar(width - 40.sp, coursePercent/100),
+                          ProgressBar(width - 40.sp, coursePercent / 100),
                           SizedBox(
                             height: 20.sp,
                           ),
@@ -232,7 +236,7 @@ courseInfoBottomSheet(
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: gradientButton(isCourseAssigned
+                      child: GradientButton(isCourseAssigned
                           ? isCourseStarted
                               ? "Continue with the course"
                               : "Start with the course"

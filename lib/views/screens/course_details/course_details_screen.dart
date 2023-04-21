@@ -6,6 +6,7 @@ import 'package:zicops/models/courseDetails/user_course_details.dart';
 import 'package:zicops/repositories/course_repository.dart';
 import 'package:zicops/views/screens/course_details/resources/resources_screen.dart';
 import 'package:zicops/views/screens/course_details/topic/topic_screen.dart';
+import 'package:zicops/views/screens/home/home_screen.dart';
 
 import '../../../utils/colors.dart';
 import '../../widgets/main_tab.dart';
@@ -134,7 +135,7 @@ class _CourseDetailsScreen extends State<CourseDetailsScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const SearchScreen()));
+                                          SearchScreen(selectedLanguage)));
                             },
                             child: Container(
                                 width: 24.sp,

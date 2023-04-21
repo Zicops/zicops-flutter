@@ -47,18 +47,44 @@ class _ProfileScreen extends State<ProfileScreen> {
             leading: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  if (Navigator.canPop(context)) Navigator.pop(context);
+                  // Navigator.pushReplacement(
+                  //     context,
+                  //     PageRouteBuilder(
+                  //         pageBuilder:
+                  //             (context, animation, secondaryAnimation) =>
+                  //                 const HomePage(),
+                  //         transitionsBuilder:
+                  //             (context, animation, secondaryAnimation, child) {
+                  //           return SlideTransition(
+                  //             position: animation.drive(Tween(
+                  //               begin: const Offset(1, 0),
+                  //               end: Offset.zero,
+                  //             ).chain(CurveTween(curve: Curves.ease))),
+                  //             child: child,
+                  //           );
+                  //         }));
+                  //Navigator.pop(context);
+                  if (Navigator.canPop(context)) {
+                    int count = 2;
+                    Navigator.of(context).popUntil((_) => count-- <= 0);
+                    // Navigator.pop(context);
+                  }
                 },
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      right: 4.sp, top: 16.sp, bottom: 16.sp, left: 20.sp),
-                  child: Image.asset(
-                    "assets/images/back_arrow.png",
-                    height: 16.sp,
-                    width: 16.sp,
-                  ),
-                )),
-            leadingWidth: 40.sp,
+                child: Navigator.canPop(context)
+                    ? Padding(
+                        padding: EdgeInsets.only(
+                            right: 4.sp,
+                            top: 16.sp,
+                            bottom: 16.sp,
+                            left: 20.sp),
+                        child: Image.asset(
+                          "assets/images/back_arrow.png",
+                          height: 16.sp,
+                          width: 16.sp,
+                        ),
+                      )
+                    : Container()),
+            leadingWidth: Navigator.canPop(context) ? 40.sp : 0,
             title: SizedBox(
               height: 24.sp,
               child: Text("Profile",
@@ -69,33 +95,33 @@ class _ProfileScreen extends State<ProfileScreen> {
             ),
           ),
         ),
-        floatingActionButton: _selectedTab == 0? GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () {
-
-            },
-            child: Container(
-              height: 56.sp,
-              width: 56.sp,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                      colors: const [primaryColor, gradientTwo],
-                      center: Alignment.topLeft,
-                      radius: 2.5.sp)
-                      ,
-                  borderRadius: BorderRadius.circular(50.sp)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                        "assets/images/save.png",
-                    height: 18.sp,
-                    width: 18.sp,
-                  ),
-                ],
-              ),
-            )): const SizedBox.shrink(),
+        // floatingActionButton: _selectedTab == 0? GestureDetector(
+        //     behavior: HitTestBehavior.translucent,
+        //     onTap: () {
+        //
+        //     },
+        //     child: Container(
+        //       height: 56.sp,
+        //       width: 56.sp,
+        //       alignment: Alignment.center,
+        //       decoration: BoxDecoration(
+        //           gradient: RadialGradient(
+        //               colors: const [primaryColor, gradientTwo],
+        //               center: Alignment.topLeft,
+        //               radius: 2.5.sp)
+        //               ,
+        //           borderRadius: BorderRadius.circular(50.sp)),
+        //       child: Column(
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         children: [
+        //           Image.asset(
+        //                 "assets/images/save.png",
+        //             height: 18.sp,
+        //             width: 18.sp,
+        //           ),
+        //         ],
+        //       ),
+        //     )): const SizedBox.shrink(),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

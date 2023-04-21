@@ -168,8 +168,8 @@ class _MyCourseScreen extends State<MyCourseScreen> {
                                     courseItem.owner,
                                     courseItem.expertiseLevel,
                                     formatDuration(courseItem.duration),
-                                    courseItem.tileImage,
-                                    courseItem.id,
+                                    courseItem.tileImage ?? '',
+                                    courseItem.userId,
                                     showProgressBar:
                                         _selectedTab == 0 || _selectedTab == 3
                                             ? true

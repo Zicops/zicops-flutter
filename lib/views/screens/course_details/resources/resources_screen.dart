@@ -8,6 +8,7 @@ import 'package:zicops/views/screens/course_details/resources/topic/resource_top
 
 import '../../../../utils/colors.dart';
 import '../../../widgets/modules_dropdown.dart';
+import '../../../widgets/state_error_widget.dart';
 
 class ResourcesScreen extends StatefulWidget {
   String courseId;
@@ -171,9 +172,8 @@ class _ResourcesScreen extends State<ResourcesScreen> {
             );
           }
           if (state is ResourcesError) {
-            return Center(
-              child: Text(state.error),
-            );
+            print(state.error);
+            return StateErrorWidget();
           }
           return Container();
         },

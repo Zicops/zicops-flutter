@@ -5,7 +5,7 @@ abstract class AuthState extends Equatable {}
 
 /// For login page
 
-// When User Presses Login Button, the state will be changed to Loading
+// When User Presses Login Button, the state will be changed to Authenticating
 class Authenticating extends AuthState {
   @override
   List<Object?> get props => [];

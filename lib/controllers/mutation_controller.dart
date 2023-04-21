@@ -6,34 +6,31 @@ import '../main.dart';
 
 updateUser(
   String id,
-  String firstNameController,
-  String lastNameController,
-  String emailController,
-  String phoneController,
+  String firstName,
+  String lastName,
+  String email,
+  String phone,
+  String gender,
   MultipartFile? image,
 ) async {
-  print(image);
-  print(firstNameController);
   final res = await userClient.client()?.execute(
         UpdateUserMutation(
           variables: UpdateUserArguments(
             id: id,
-            first_name: firstNameController,
-            last_name: lastNameController,
+            first_name: firstName,
+            last_name: lastName,
             status: "active",
             role: 'learner',
             is_verified: true,
             is_active: true,
-            gender: 'male',
-            email: emailController,
-            phone: phoneController,
+            gender: gender,
+            email: email,
+            phone: phone,
             Photo: image,
           ),
         ),
       );
   print(res?.data?.toJson());
-
-  // print(res?.data?.toJson());
   return;
 }
 
@@ -80,6 +77,7 @@ addUserPreference(
         sub_category: subcategory ?? '',
         is_base: isBase,
       )));
+  print('$subcategory: $isBase');
   // print(res?.data?.toJson());
   return;
 }

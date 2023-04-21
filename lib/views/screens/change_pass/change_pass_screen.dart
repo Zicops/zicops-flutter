@@ -64,7 +64,9 @@ class _ChangePassScreen extends State<ChangePassScreen> {
                           ? MainAxisAlignment.start
                           : MainAxisAlignment.end,
                       children: [
-                        _focusNodes[0].hasFocus ||_focusNodes[1].hasFocus ||_focusNodes[2].hasFocus ||
+                        _focusNodes[0].hasFocus ||
+                                _focusNodes[1].hasFocus ||
+                                _focusNodes[2].hasFocus ||
                                 _currentPasswordController.text.isNotEmpty
                             ? const SizedBox.shrink()
                             : const Spacer(),
@@ -133,47 +135,48 @@ class _ChangePassScreen extends State<ChangePassScreen> {
                             false,
                             ''),
                         const SizedBox(height: 20),
-                        _keyboardVisible || _currentPasswordController.text.isNotEmpty
+                        _keyboardVisible ||
+                                _currentPasswordController.text.isNotEmpty
                             ? const Spacer()
                             : const SizedBox.shrink(),
                         GestureDetector(
                           onTap: () {
                             print("on login");
-                            if(_enterPasswordController.text != _reenterPasswordController.text){
+                            if (_enterPasswordController.text !=
+                                _reenterPasswordController.text) {
                               setState(() {
-                                showErrorP= true;
-                                errorMsgP='Password did not match';
+                                showErrorP = true;
+                                errorMsgP = 'Password did not match';
                               });
                             }
                           },
-                          child: gradientButton("Reset Password"),
+                          child: GradientButton("Reset Password"),
                         ),
-                        SizedBox(height: _keyboardVisible? 0: 35),
-
+                        SizedBox(height: _keyboardVisible ? 0 : 35),
                         _keyboardVisible
                             ? const SizedBox.shrink()
                             : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              "Privacy Policy",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: textGrey,
-                                  decoration: TextDecoration.underline),
-                            ),
-                            SizedBox(
-                              width: 24,
-                            ),
-                            Text(
-                              "Contact Us",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: textGrey,
-                                  decoration: TextDecoration.underline),
-                            )
-                          ],
-                        )
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    "Privacy Policy",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: textGrey,
+                                        decoration: TextDecoration.underline),
+                                  ),
+                                  SizedBox(
+                                    width: 24,
+                                  ),
+                                  Text(
+                                    "Contact Us",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: textGrey,
+                                        decoration: TextDecoration.underline),
+                                  )
+                                ],
+                              )
                       ]))
             ]))));
   }

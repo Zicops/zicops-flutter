@@ -5,6 +5,7 @@ import 'package:zicops/views/screens/course_details/notes/topic/bookmark_notes_s
 
 import '../../../../../utils/colors.dart';
 import '../../../../widgets/main_tab.dart';
+import '../../../home/home_screen.dart';
 import '../../../search/search_screen.dart';
 import 'notes_list_screen.dart';
 
@@ -103,7 +104,8 @@ class _NotesTopicScreen extends State<NotesTopicScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SearchScreen()));
+                                builder: (context) =>
+                                    SearchScreen(selectedLanguage)));
                       },
                       child: Container(
                           width: 24.sp,

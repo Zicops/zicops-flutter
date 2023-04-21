@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zicops/views/widgets/landscape_video_player.dart';
-import 'package:zicops/views/widgets/progress_bar.dart';
 
 import '../../utils/colors.dart';
 
 class PortraitVideoPlayer extends StatefulWidget {
-  PortraitVideoPlayer({Key? key, required this.controller}) : super(key: key);
+  const PortraitVideoPlayer({Key? key, required this.controller})
+      : super(key: key);
   final VideoPlayerController controller;
 
   @override
@@ -179,8 +179,8 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                                 showSkipBack = true;
                                 _controller.seekTo(Duration(
                                     milliseconds: (widget.controller.value
-                                        .position.inMilliseconds -
-                                        10000)
+                                                .position.inMilliseconds -
+                                            10000)
                                         .toInt()));
                               });
                               Future.delayed(const Duration(milliseconds: 300),
@@ -241,9 +241,9 @@ class _VideoPlayer extends State<PortraitVideoPlayer> {
                             isVisible = false;
                             showSkipForward = true;
                             _controller.seekTo(Duration(
-                                milliseconds: (widget.controller.value
-                                    .position.inMilliseconds +
-                                    10000)
+                                milliseconds: (widget.controller.value.position
+                                            .inMilliseconds +
+                                        10000)
                                     .toInt()));
                           });
                           Future.delayed(const Duration(milliseconds: 300), () {

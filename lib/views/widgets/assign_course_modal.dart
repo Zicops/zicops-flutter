@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:zicops/views/widgets/GradientButton.dart';
@@ -286,7 +285,7 @@ assignCourseBottomSheet(BuildContext context, double maxHeight, double width) {
                     Text(
                       "Course Mandatory",
                       style: TextStyle(
-                          color: isChecked? textPrimary : textGrey2,
+                          color: isChecked ? textPrimary : textGrey2,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           height: 1.33),
@@ -314,7 +313,7 @@ assignCourseBottomSheet(BuildContext context, double maxHeight, double width) {
               padding: EdgeInsets.symmetric(horizontal: 20.sp),
               margin: EdgeInsets.symmetric(vertical: 16.sp),
               child: Column(children: [
-                GestureDetector(child: gradientButton("Save")),
+                GestureDetector(child: GradientButton("Save")),
                 GestureDetector(
                     onTap: () {
                       Navigator.pop(context);

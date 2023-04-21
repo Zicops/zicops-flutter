@@ -49,7 +49,7 @@ class _CourseGridItem extends State<CourseGridItem> {
       },
       onLongPress: () {
         courseInfoBottomSheet(context, 596.sp, width, widget.courseName,
-            isCourseAssigned: true, isCourseStarted: true, coursePercent: 40);
+            isCourseAssigned: widget.isAssigned, isCourseStarted: true, coursePercent: 40);
       },
       child: Center(
           child: Container(
@@ -96,7 +96,7 @@ class _CourseGridItem extends State<CourseGridItem> {
                                   ],
                                 ))),
                         Container(
-                          height: 68.sp,
+                          height: 70.sp,
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.sp, vertical: 10.sp),
                           child: Column(

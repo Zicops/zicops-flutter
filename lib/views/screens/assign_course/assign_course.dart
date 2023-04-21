@@ -29,7 +29,7 @@ class _AssignCourseScreen extends State<AssignCourseScreen> {
             GestureDetector(
               onTap: () =>
                   {assignCourseBottomSheet(context, height - 120.sp, width)},
-              child: gradientButton("Assign"),
+              child: GradientButton("Assign"),
             )
           ],
         ),

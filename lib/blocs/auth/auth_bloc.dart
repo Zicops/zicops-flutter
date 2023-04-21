@@ -22,8 +22,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(Authenticated(user));
       } catch (e) {
         emit(AuthError(error: e.toString()));
+        await Future.delayed(Duration(seconds: 1));
         emit(Unauthenticated());
       }
+    });
+    // When User Presses the SignOut Button, we will send the SignOutRequested Event to the AuthBloc to handle it and emit the UnAuthenticated State
+    on<SignOutRequested>((event, emit) async {
+      emit(Authenticating());
+      await authRepository.logout();
+      emit(Unauthenticated());
     });
   }
 }

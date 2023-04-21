@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:zicops/views/screens/exam/congratulations_screen.dart';
 import 'package:zicops/views/widgets/bulleted_text.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../utils/colors.dart';
 import '../../widgets/GradientButton.dart';
@@ -60,24 +59,34 @@ class _ExamLandingScreen extends State<ExamLandingScreen> {
               ),
             ),
             continueWithLastAttempt
-                ? Container(margin: EdgeInsets.only(top: 8.sp),child: Text(
-                    'You will be redirected to the last attempted question to continue with your attempt. Are you sure you want to continue?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 16.sp, color: textGrey2, height: 1.5),
-                  ))
+                ? Container(
+                    margin: EdgeInsets.only(top: 8.sp),
+                    child: Text(
+                      'You will be redirected to the last attempted question to continue with your attempt. Are you sure you want to continue?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 16.sp, color: textGrey2, height: 1.5),
+                    ))
                 : const SizedBox.shrink(),
             SizedBox(height: 16.sp),
-            GestureDetector(onTap: (){
-              if (!continueWithLastAttempt) {
-                setState(() {
-                  maxPanelHeight = 400.sp;
-                  continueWithLastAttempt = true;
-                });
-              } else {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const CongratulationScreen()));
-              }
-            },child: gradientButton(continueWithLastAttempt? 'Yes' :'Continue with last attempt')),
+            GestureDetector(
+                onTap: () {
+                  if (!continueWithLastAttempt) {
+                    setState(() {
+                      maxPanelHeight = 400.sp;
+                      continueWithLastAttempt = true;
+                    });
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const CongratulationScreen()));
+                  }
+                },
+                child: GradientButton(continueWithLastAttempt
+                    ? 'Yes'
+                    : 'Continue with last attempt')),
             SizedBox(
               height: 16.sp,
             ),
@@ -114,7 +123,7 @@ class _ExamLandingScreen extends State<ExamLandingScreen> {
                   borderRadius: BorderRadius.circular(4.sp),
                   border: Border.all(color: lightGrey, width: 1.sp)),
               child: Text(
-                  'Skip exam'.toUpperCase(),
+                'Skip exam'.toUpperCase(),
                 style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -140,7 +149,6 @@ class _ExamLandingScreen extends State<ExamLandingScreen> {
                     letterSpacing: 2),
               ),
             ),
-
             SizedBox(
               height: 16.sp,
             ),
@@ -158,27 +166,33 @@ class _ExamLandingScreen extends State<ExamLandingScreen> {
                         colors: const [primaryColor, gradientTwo],
                         center: Alignment.center,
                         radius: 105.sp,
-                      ).createShader(
-                          const Rect.fromLTWH(0.0, 0.0, 50.0, 24.0),
+                      ).createShader(const Rect.fromLTWH(0.0, 0.0, 50.0, 24.0),
                           textDirection: TextDirection.ltr),
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 2),
               ),
             ),
-            SizedBox(height: 16.sp,),
-            gradientButton('take sample exam'),
-            SizedBox(height: 8.sp,),
-            Text('This link will be active 15 minutes before the exam', textAlign: TextAlign.center, style: TextStyle(fontSize: 14.sp, color: textGrey2),)
+            SizedBox(
+              height: 16.sp,
+            ),
+            GradientButton('take sample exam'),
+            SizedBox(
+              height: 8.sp,
+            ),
+            Text(
+              'This link will be active 15 minutes before the exam',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14.sp, color: textGrey2),
+            )
           ],
         ));
   }
 
   getBottomSheetChild(StateSetter setState) {
-    if(isChecked) {
+    if (isChecked) {
       return PreviousUnfinishedAttempt(setState);
-    }
-    else {
+    } else {
       return Options();
     }
   }
@@ -523,22 +537,23 @@ class _ExamLandingScreen extends State<ExamLandingScreen> {
               ],
             ),
             Positioned(
-              top: 0,
-              child: Center(child: Container(
-                width: width,
-                height: 64.sp,
-                alignment: Alignment.center,
-                color: secondaryColor,
-                padding:
-                    EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 12.sp),
-                child: Text("Exam1: IT development: Core java fundamentals",
-                    softWrap: true,
-                    style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                        color: textPrimary)),
-              ),
-            )),
+                top: 0,
+                child: Center(
+                  child: Container(
+                    width: width,
+                    height: 64.sp,
+                    alignment: Alignment.center,
+                    color: secondaryColor,
+                    padding: EdgeInsets.only(
+                        left: 20.sp, right: 20.sp, bottom: 12.sp),
+                    child: Text("Exam1: IT development: Core java fundamentals",
+                        softWrap: true,
+                        style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w500,
+                            color: textPrimary)),
+                  ),
+                )),
             Positioned(
                 bottom: 78.sp,
                 child: Container(
@@ -563,17 +578,19 @@ class _ExamLandingScreen extends State<ExamLandingScreen> {
                               topLeft: Radius.circular(4.sp),
                               topRight: Radius.circular(4.sp)),
                         ),
-                        child: GestureDetector(onTap: (){
-                          setState(() {
-                            if (isChecked) {
-                              maxPanelHeight = 296.sp;
-
-                            } else {
-                              maxPanelHeight = 328.sp;
-                            }
-                            _panelController.open();
-                          });
-                        },child: gradientButton(isChecked?"Start" :"Options")))))
+                        child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (isChecked) {
+                                  maxPanelHeight = 296.sp;
+                                } else {
+                                  maxPanelHeight = 328.sp;
+                                }
+                                _panelController.open();
+                              });
+                            },
+                            child: GradientButton(
+                                isChecked ? "Start" : "Options")))))
           ],
         ));
   }

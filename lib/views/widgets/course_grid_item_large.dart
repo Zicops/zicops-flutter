@@ -23,7 +23,6 @@ class CourseGridItemLarge extends StatefulWidget {
       this.showProgressBar = false,
       this.isCompleted = false,
       this.progress = 0.4,
-
       Key? key})
       : super(key: key);
 
@@ -38,169 +37,166 @@ class _CourseGridItemLarge extends State<CourseGridItemLarge> {
   Widget build(BuildContext context) {
     return Center(
         child: GestureDetector(
-          onTap: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CourseDetailsScreen(widget.courseId,
-                        widget.courseName, widget.difficulty, widget.preview)));
-          },
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CourseDetailsScreen(widget.courseId,
+                    widget.courseName, widget.difficulty, widget.preview)));
+      },
+      child: Container(
+          width: 320.sp,
+          height: 248.sp,
+          padding: EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.sp),
+              gradient: LinearGradient(colors: [
+                secondaryColorDarkOutline,
+                secondaryColorDarkOutline.withOpacity(0.15),
+              ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           child: Container(
-              width: 320.sp,
-              height: 248.sp,
-              padding: EdgeInsets.symmetric(vertical: 0.5.sp, horizontal: 0.5.sp),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.sp),
-                  gradient: LinearGradient(colors: [
-                    secondaryColorDarkOutline,
-                    secondaryColorDarkOutline.withOpacity(0.15),
-                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: secondaryColor,
-                    borderRadius: BorderRadius.circular(4.sp)),
-                child: Stack(
+            decoration: BoxDecoration(
+                color: secondaryColor,
+                borderRadius: BorderRadius.circular(4.sp)),
+            child: Stack(
+              children: [
+                Column(
                   children: [
-                    Column(
+                    Expanded(
+                        child: Stack(
+                      alignment: Alignment.center,
                       children: [
-                        Expanded(
-                            child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(4.sp),
-                                    topLeft: Radius.circular(4.sp)),
-                                child: widget.preview.contains("https://")
-                                    ? Image.network(
-                                        widget.preview,
-                                        fit: BoxFit.fill,
-                                        width: 320.sp,
-                                        height: 179.5.sp,
-                                      )
-                                    : Image.asset(
-                                        widget.preview,
-                                        fit: BoxFit.fill,
-                                        width: 320.sp,
-                                        height: 179.5.sp,
-                                      )),
-                            if (widget.showProgressBar)
-                              Positioned(
-                                  top: 176.sp,
-                                  child: ProgressBar(400, widget.progress)),
-                          ],
-                        )),
-                        Container(
-                          height: 68.sp,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15.sp, vertical: 11.sp),
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.courseName,
-                                style: TextStyle(
-                                    color: textPrimary,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.5),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(children: [
-                                      Text(
-                                        widget.org,
-                                        style: TextStyle(
-                                            color: textGrey2,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.42),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      SizedBox(
-                                        width: 8.sp,
-                                      ),
-                                      Image.asset(
-                                        "assets/images/dot.png",
-                                        width: 4.sp,
-                                        height: 4.sp,
-                                      ),
-                                      SizedBox(
-                                        width: 8.sp,
-                                      ),
-                                      Text(
-                                        widget.difficulty,
-                                        style: TextStyle(
-                                            color: textGrey2,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.42),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ]),
-                                    widget.isCompleted
-                                        ? Container(
-                                            width: 20.sp,
-                                            height: 20.sp,
-                                            alignment: Alignment.center,
-                                            child: Image.asset(
-                                              "assets/images/checkmark.png",
-                                              width: 15.sp,
-                                              height: 12.sp,
-                                            ),
-                                          )
-                                        : Text(
-                                            widget.courseLength,
-                                            style: TextStyle(
-                                                color: primaryColor,
-                                                fontSize: 14.sp,
-                                                height: 1.43),
-                                          )
-                                  ])
-                            ],
-                          ),
-                        )
+                        ClipRRect(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(4.sp),
+                                topLeft: Radius.circular(4.sp)),
+                            child: widget.preview.contains("https://")
+                                ? Image.network(
+                                    widget.preview,
+                                    fit: BoxFit.fill,
+                                    width: 320.sp,
+                                    height: 179.5.sp,
+                                  )
+                                : Image.asset(
+                                    'assets/images/course_fallback.jpg',
+                                    fit: BoxFit.fill,
+                                    width: 320.sp,
+                                    height: 179.5.sp,
+                                  )),
+                        if (widget.showProgressBar)
+                          Positioned(
+                              top: 176.sp,
+                              child: ProgressBar(400, widget.progress)),
                       ],
-                    ),
-                    Positioned(
-                        top: 16.sp,
-                        right: 16.sp,
-                        child: Container(
-                          height: 24.sp,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 6.sp, vertical: 4.sp),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2.sp),
-                              color: const Color(0xE6101012)),
-                          child: Text(
-                            widget.difficulty,
+                    )),
+                    Container(
+                      height: 68.sp,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.sp, vertical: 11.sp),
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.courseName,
                             style: TextStyle(
-                                fontSize: 12.sp,
                                 color: textPrimary,
-                                height: 1.33),
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                height: 1.5),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        )),
-                    if (widget.showAddButton)
-                      Positioned(
-                          bottom: 56.sp,
-                          right: 13.75.sp,
-                          child: Container(
-                              width: 28.sp,
-                              height: 28.sp,
-                              alignment: Alignment.center,
-                              child: Image.asset(
-                                "assets/images/add_button_big.png",
-                                width: 28.sp,
-                                height: 28.sp,
-                                fit: BoxFit.fill,
-                              )))
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(children: [
+                                  Text(
+                                    widget.org,
+                                    style: TextStyle(
+                                        color: textGrey2,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.42),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  SizedBox(
+                                    width: 8.sp,
+                                  ),
+                                  Image.asset(
+                                    "assets/images/dot.png",
+                                    width: 4.sp,
+                                    height: 4.sp,
+                                  ),
+                                  SizedBox(
+                                    width: 8.sp,
+                                  ),
+                                  Text(
+                                    widget.difficulty,
+                                    style: TextStyle(
+                                        color: textGrey2,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.42),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ]),
+                                widget.isCompleted
+                                    ? Container(
+                                        width: 20.sp,
+                                        height: 20.sp,
+                                        alignment: Alignment.center,
+                                        child: Image.asset(
+                                          "assets/images/checkmark.png",
+                                          width: 15.sp,
+                                          height: 12.sp,
+                                        ),
+                                      )
+                                    : Text(
+                                        widget.courseLength,
+                                        style: TextStyle(
+                                            color: primaryColor,
+                                            fontSize: 14.sp,
+                                            height: 1.43),
+                                      )
+                              ])
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              )),
-        ));
+                Positioned(
+                    top: 16.sp,
+                    right: 16.sp,
+                    child: Container(
+                      height: 24.sp,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 6.sp, vertical: 4.sp),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2.sp),
+                          color: const Color(0xE6101012)),
+                      child: Text(
+                        widget.difficulty,
+                        style: TextStyle(
+                            fontSize: 12.sp, color: textPrimary, height: 1.33),
+                      ),
+                    )),
+                if (widget.showAddButton)
+                  Positioned(
+                      bottom: 56.sp,
+                      right: 13.75.sp,
+                      child: Container(
+                          width: 28.sp,
+                          height: 28.sp,
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            "assets/images/add_button_big.png",
+                            width: 28.sp,
+                            height: 28.sp,
+                            fit: BoxFit.fill,
+                          )))
+              ],
+            ),
+          )),
+    ));
   }
 }
