@@ -355,8 +355,8 @@ class _PreferencesTabScreen extends State<PreferencesTabScreen> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 PrimarySubCategoryScreen(
-                                                    selectedSubCategories,
-                                                    categories)),
+                                                  selectedSubCategories,
+                                                )),
                                       );
                                     },
                                     child: Ink(

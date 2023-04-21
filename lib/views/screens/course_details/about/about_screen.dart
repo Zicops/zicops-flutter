@@ -11,6 +11,7 @@ import '../../../widgets/GradientButton.dart';
 import '../../../widgets/assign_course_modal.dart';
 import '../../../widgets/expansion_container.dart';
 import '../../../widgets/more_like_this.dart';
+import '../../../widgets/state_error_widget.dart';
 import '../../../widgets/unassign_course_modal.dart';
 
 class AboutScreen extends StatefulWidget {
@@ -658,15 +659,8 @@ class _AboutScreen extends State<AboutScreen> {
               );
             }
             if (state is CourseError) {
-              return Center(
-                child: Text(
-                  state.error,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.sp,
-                  ),
-                ),
-              );
+              print(state.error);
+              return StateErrorWidget();
             }
             return Container();
           },

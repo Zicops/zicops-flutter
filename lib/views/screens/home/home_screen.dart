@@ -316,7 +316,7 @@ class _HomeScreen extends State<HomeScreen> {
                       ongoingCourse = state.ongoingCourses;
                     });
                   }
-                  print(ongoingCourse);
+                  print("ongoing course1: ${ongoingCourse[0]}");
                 },
                 builder: (context, state) {
                   if (state is OngoingCourseLoading) {
@@ -396,7 +396,7 @@ class _HomeScreen extends State<HomeScreen> {
                                                         courseItem.duration ??
                                                             0),
                                                     courseItem.tileImage ?? '',
-                                                    courseItem.id ?? '',
+                                                    courseItem.courseId ?? '',
                                                     courseItem.expertiseLevel ??
                                                         '',
                                                     courseItem
@@ -447,6 +447,8 @@ class _HomeScreen extends State<HomeScreen> {
                       learningFolderCourse = state.learningFolderCourses;
                     });
                   }
+                  print(
+                      "learning folder course1: ${learningFolderCourse[0].id}");
                 },
                 builder: (context, state) {
                   if (state is LearningFolderCourseLoading) {
@@ -521,7 +523,7 @@ class _HomeScreen extends State<HomeScreen> {
                                                   formatDuration(
                                                       courseItem.duration ?? 0),
                                                   courseItem.tileImage ?? '',
-                                                  courseItem.id ?? '',
+                                                  courseItem.courseId ?? '',
                                                   //showPlusIcon: false,
                                                   isAssigned: true,
                                                 ),
@@ -570,6 +572,7 @@ class _HomeScreen extends State<HomeScreen> {
                       latestCourse = state.latestCourses;
                     });
                   }
+                  print("latest course1: ${latestCourse[0]}");
                 },
                 builder: (context, state) {
                   if (state is LatestCourseLoading) {
@@ -885,7 +888,6 @@ class _HomeScreen extends State<HomeScreen> {
                 ..add(SubCategoryCourseRequested()),
               child: BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
-                  print(state);
                   if (state is SubCategoryCourseLoading) {
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -937,7 +939,7 @@ class _HomeScreen extends State<HomeScreen> {
                                                               0),
                                                       courseItem.tileImage ??
                                                           '',
-                                                      courseItem.id ?? '',
+                                                      courseItem.courseId ?? '',
                                                     ),
                                                     SizedBox(
                                                       width: 8.sp,
@@ -1006,7 +1008,7 @@ class _HomeScreen extends State<HomeScreen> {
                                                               0),
                                                       courseItem.tileImage ??
                                                           '',
-                                                      courseItem.id ?? '',
+                                                      courseItem.courseId ?? '',
                                                     ),
                                                     SizedBox(
                                                       width: 8.sp,
@@ -1075,7 +1077,7 @@ class _HomeScreen extends State<HomeScreen> {
                                                               0),
                                                       courseItem.tileImage ??
                                                           '',
-                                                      courseItem.id ?? '',
+                                                      courseItem.courseId ?? '',
                                                     ),
                                                     SizedBox(
                                                       width: 8.sp,
@@ -1144,7 +1146,7 @@ class _HomeScreen extends State<HomeScreen> {
                                                               0),
                                                       courseItem.tileImage ??
                                                           '',
-                                                      courseItem.id ?? '',
+                                                      courseItem.courseId ?? '',
                                                     ),
                                                     SizedBox(
                                                       width: 8.sp,
@@ -1212,7 +1214,7 @@ class _HomeScreen extends State<HomeScreen> {
                                                               0),
                                                       courseItem.tileImage ??
                                                           '',
-                                                      courseItem.id ?? '',
+                                                      courseItem.courseId ?? '',
                                                     ),
                                                     SizedBox(
                                                       width: 8.sp,
@@ -1441,7 +1443,7 @@ class _HomeScreen extends State<HomeScreen> {
                                                   formatDuration(
                                                       courseItem.duration ?? 0),
                                                   courseItem.tileImage ?? '',
-                                                  courseItem.id ?? '',
+                                                  courseItem.courseId ?? '',
                                                   showPlusIcon: false,
                                                   isAssigned: true,
                                                 ),

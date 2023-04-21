@@ -64,7 +64,11 @@ class _ProfileScreen extends State<ProfileScreen> {
                   //           );
                   //         }));
                   //Navigator.pop(context);
-                  if (Navigator.canPop(context)) Navigator.pop(context);
+                  if (Navigator.canPop(context)) {
+                    int count = 2;
+                    Navigator.of(context).popUntil((_) => count-- <= 0);
+                    // Navigator.pop(context);
+                  }
                 },
                 child: Navigator.canPop(context)
                     ? Padding(

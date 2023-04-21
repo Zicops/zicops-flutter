@@ -114,7 +114,9 @@ class AccountSetupRepository {
     final selectedPreferencesResult = await userClient.client()?.execute(
         GetUserPreferencesQuery(
             variables: GetUserPreferencesArguments(userId: userId!)));
+    final allSubCat = await getAllSubCatMain();
     List<String> selectedPreferences = [];
+    List<Category> testSelectedPreferences = [];
     String baseCategory = '';
     // For isBase = true
     for (int i
@@ -142,7 +144,14 @@ class AccountSetupRepository {
             '');
       }
     }
+    for (int i = 0; i < selectedPreferences.length; i++) {
+      for (int j = 0; j < allSubCat.length; j++) {
+        if (selectedPreferences[i] == allSubCat[j].category) {
+          testSelectedPreferences.add(allSubCat[j]);
+        }
+      }
+    }
     print(selectedPreferences.length);
-    return [selectedPreferences, baseCategory];
+    return [testSelectedPreferences, baseCategory];
   }
 }

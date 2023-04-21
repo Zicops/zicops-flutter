@@ -374,87 +374,92 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
             backgroundColor: secondaryColor,
             child: ListView(
               children: [
-                Stack(
-                  children: [
-                    Image.asset(
-                      "assets/images/personal_bg.png",
-                      fit: BoxFit.fill,
-                      height: 155.sp,
-                      width: double.infinity,
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(16.sp),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            foregroundImage: NetworkImage(url),
-                            radius: 32.sp,
+                BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) {
+                    return Stack(
+                      children: [
+                        Image.asset(
+                          "assets/images/personal_bg.png",
+                          fit: BoxFit.fill,
+                          height: 155.sp,
+                          width: double.infinity,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(16.sp),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                foregroundImage: NetworkImage(url),
+                                radius: 32.sp,
+                              ),
+                              SizedBox(
+                                height: 14.sp,
+                              ),
+                              GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    setState(() {
+                                      showNavDrawerOrg = !showNavDrawerOrg;
+                                      showNavDrawerOrg
+                                          ? controller.forward()
+                                          : controller.reverse();
+                                    });
+                                  },
+                                  child: Text(
+                                    name,
+                                    style: TextStyle(
+                                        color: textPrimary,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500,
+                                        height: 1.5),
+                                  )),
+                              GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  setState(() {
+                                    showNavDrawerOrg = !showNavDrawerOrg;
+                                    showNavDrawerOrg
+                                        ? controller.forward()
+                                        : controller.reverse();
+                                  });
+                                },
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: 20.sp,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(orgName,
+                                            style: TextStyle(
+                                                color: textGrey2,
+                                                fontSize: 14.sp,
+                                                height: 1.43)),
+                                        Container(
+                                            width: 24.sp,
+                                            height: 24.sp,
+                                            alignment: Alignment.center,
+                                            child: Transform.rotate(
+                                                angle:
+                                                    showNavDrawerOrg ? 22 : 0,
+                                                child: Image.asset(
+                                                  "assets/images/down_arrow_filled.png",
+                                                  width: 10.sp,
+                                                  height: 5.sp,
+                                                  color: showNavDrawerOrg
+                                                      ? primaryColor
+                                                      : textPrimary,
+                                                ))),
+                                      ]),
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: 14.sp,
-                          ),
-                          GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                setState(() {
-                                  showNavDrawerOrg = !showNavDrawerOrg;
-                                  showNavDrawerOrg
-                                      ? controller.forward()
-                                      : controller.reverse();
-                                });
-                              },
-                              child: Text(
-                                name,
-                                style: TextStyle(
-                                    color: textPrimary,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.5),
-                              )),
-                          GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () {
-                              setState(() {
-                                showNavDrawerOrg = !showNavDrawerOrg;
-                                showNavDrawerOrg
-                                    ? controller.forward()
-                                    : controller.reverse();
-                              });
-                            },
-                            child: SizedBox(
-                              width: double.infinity,
-                              height: 20.sp,
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(orgName,
-                                        style: TextStyle(
-                                            color: textGrey2,
-                                            fontSize: 14.sp,
-                                            height: 1.43)),
-                                    Container(
-                                        width: 24.sp,
-                                        height: 24.sp,
-                                        alignment: Alignment.center,
-                                        child: Transform.rotate(
-                                            angle: showNavDrawerOrg ? 22 : 0,
-                                            child: Image.asset(
-                                              "assets/images/down_arrow_filled.png",
-                                              width: 10.sp,
-                                              height: 5.sp,
-                                              color: showNavDrawerOrg
-                                                  ? primaryColor
-                                                  : textPrimary,
-                                            ))),
-                                  ]),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                        )
+                      ],
+                    );
+                  },
                 ),
                 SizeTransition(
                   sizeFactor: CurvedAnimation(

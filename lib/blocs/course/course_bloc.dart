@@ -13,6 +13,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     on<CourseDataRequested>((event, emit) async {
       emit(CourseLoading());
       try {
+        print('courseId ${event.courseId}');
         var courseData = await courseRepository.courseDetails(event.courseId);
         var courseModules =
             await courseRepository.getCourseModule(event.courseId);

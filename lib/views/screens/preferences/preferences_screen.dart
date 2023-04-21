@@ -42,7 +42,9 @@ class _PreferencesScreen extends State<PreferencesScreen> {
       child: BlocBuilder<AccountSetupBloc, AccountSetupState>(
         builder: (context, state) {
           print(state);
-
+          if (state is SelectedPreferenceLoading) {
+            return Center(child: CircularProgressIndicator());
+          }
           if (state is SelectedPreferenceLoaded) {
             subCategories = state.subCategories;
             return Scaffold(
@@ -149,7 +151,7 @@ class _PreferencesScreen extends State<PreferencesScreen> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               PrimarySubCategoryScreen(
-                                                  subCategories, [])));
+                                                  subCategories)));
                                 },
                                 child: Container(
                                   width: 24.sp,
@@ -230,7 +232,7 @@ class _PreferencesScreen extends State<PreferencesScreen> {
                             height: 48.sp,
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              e!,
+                              e!.category,
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w400,

@@ -18,6 +18,7 @@ class CourseRepository {
   }
 
   Future courseDetails(courseId) async {
+    //print('courseId $courseId');
     final result = await courseQClient.client()?.execute(GetCourseDataQuery(
         variables: GetCourseDataArguments(course_id: courseId)));
     final courseData = result?.data?.toJson();
@@ -26,7 +27,7 @@ class CourseRepository {
     List courseResouces = courseData?['getResourcesByCourseId'];
     List courseChapters = courseData?['getCourseChapters'];
     var courseDetails = courseData?['getCourse'];
-    print('rwehwrth ${courseChapters.length}.');
+    // print('rwehwrth ${courseChapters.length}.');
     return courseData;
   }
 
@@ -34,7 +35,7 @@ class CourseRepository {
     final result = await courseQClient.client()?.execute(GetCourseDataQuery(
         variables: GetCourseDataArguments(course_id: courseId)));
     final courseData = result?.data?.toJson();
-    print(courseData);
+    //print(courseData);
     List courseResouces = courseData?['getResourcesByCourseId'];
     return courseResouces;
   }
@@ -115,7 +116,7 @@ class CourseRepository {
     topicData.addAll(data);
 
     topicData.sort((a, b) => a['sequence'].compareTo(b['sequence']));
-    print(topicData);
+    // print(topicData);
     // for topic data
     return topicData;
   }
@@ -215,7 +216,7 @@ class CourseRepository {
               userId: userId!,
               userCourseId: [userCourseId],
             )));
-    print(res);
+    // print(res);
     return res;
   }
 }

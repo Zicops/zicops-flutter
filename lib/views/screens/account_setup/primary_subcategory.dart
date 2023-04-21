@@ -12,9 +12,8 @@ import '../home/home.dart';
 
 class PrimarySubCategoryScreen extends StatefulWidget {
   final List<Category> subCategories;
-  final List<Category> categories;
-  const PrimarySubCategoryScreen(this.subCategories, this.categories,
-      {Key? key})
+  //final List<Category> categories;
+  const PrimarySubCategoryScreen(this.subCategories, {Key? key})
       : super(key: key);
   @override
   State<StatefulWidget> createState() {

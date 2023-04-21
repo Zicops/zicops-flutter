@@ -15,7 +15,7 @@ class HomeRepository {
     List<String>? userCourseIds = [];
     List<String?> courseIds = [];
 
-    /* userCourseMap filter 
+    /* userCourseMap filter
        {
     'lsp_id': '',
     'is_mandatory': '',
@@ -27,7 +27,7 @@ class HomeRepository {
     String? userId = sharedPreferences.getString('userId');
     String? lspId = sharedPreferences.getString('lspId');
 
-    List<String> allLspIds = [lspId!, zicopsLspId].toSet().toList();
+    List<String> allLspIds = {lspId!, zicopsLspId}.toList();
 
     List<UserCourseMap> assignedCourses = [];
 
@@ -126,6 +126,7 @@ class HomeRepository {
       //     (courseDuration - (courseDuration * (topicProgress ?? 0)) / 100);
 
       userCourseData.add(Course(
+          courseId: _courseData?.id,
           id: _courseData?.userId,
           name: _courseData?.name,
           publisher: _courseData?.publisher,
@@ -193,6 +194,7 @@ class HomeRepository {
       }
     }
 
+    print(courseData[0].id);
     if (courseIds.isNotEmpty) {
       List<Course> filteredCourseData = courseData
           .where((course) => !courseIds.contains(course.courseId))
@@ -266,12 +268,15 @@ class HomeRepository {
     Map<String, List<Course>> subCats = {};
 
     bool isEmpty = true;
+
     if (userPreferences.isNotEmpty) {
       for (var i in userPreferences.asMap().keys) {
+        //print("userPreferences[i] ${userPreferences[i]}");
+
         var index = i + 1;
         subCats['subCat$index'] =
             await loadCourses({"SubCategory": userPreferences[i]});
-
+        //print("subCats['subCat$index'] ${subCats['subCat$index']}");
         if (subCats['subCat$index']!.isNotEmpty) {
           isEmpty = false;
         }

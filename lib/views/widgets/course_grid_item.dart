@@ -41,6 +41,7 @@ class _CourseGridItem extends State<CourseGridItem> {
     final height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
+        print("Course Id: " + widget.courseId);
         Navigator.push(
             context,
             MaterialPageRoute(

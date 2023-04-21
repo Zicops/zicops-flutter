@@ -18,6 +18,7 @@ import '../../../widgets/comment_item.dart';
 import '../../../widgets/module_card.dart';
 import '../../../widgets/modules_dropdown.dart';
 import '../../../widgets/more_like_this.dart';
+import '../../../widgets/state_error_widget.dart';
 import '../../../widgets/video_player.dart';
 
 class TopicScreen extends StatefulWidget {
@@ -939,7 +940,8 @@ class _TopicScreen extends State<TopicScreen>
                 ));
           }
           if (state is TopicError) {
-            return Center(child: Text(state.error));
+            print(state.error);
+            return StateErrorWidget();
           }
           return Container();
         },

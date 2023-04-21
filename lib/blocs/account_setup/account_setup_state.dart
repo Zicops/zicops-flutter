@@ -88,7 +88,7 @@ class SelectedPreferenceLoading extends AccountSetupState {
 }
 
 class SelectedPreferenceLoaded extends AccountSetupState {
-  final List<String> selectedSubCategories;
+  final List<Category> selectedSubCategories;
   final String baseCategory;
   final List<Category> subCategories;
   SelectedPreferenceLoaded(
