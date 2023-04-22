@@ -778,6 +778,17 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     );
   }
 
+  // Future<void> tokenCheck() async {
+  //   final _prefs = await SharedPreferences.getInstance();
+  //   final token = _prefs.getString('token');
+  //   bool hasExpired = JwtDecoder.isExpired(token!);
+  //   final _firebaseAuth = FirebaseAuth.instance;
+  //   if (hasExpired) {
+  //     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+  //     await _prefs.setString('token', token!);
+  //   }
+  // }
+
   void _logout(BuildContext context) {
     BlocProvider.of<AuthBloc>(context).add(SignOutRequested());
   }

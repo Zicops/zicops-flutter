@@ -102,6 +102,7 @@ class _LoginScreen extends State<LoginScreen> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is Authenticated) {
+              print("pushing to lsp selection screen");
               Navigator.pushReplacement(
                   context,
                   PageRouteBuilder(
@@ -119,6 +120,7 @@ class _LoginScreen extends State<LoginScreen> {
             }
           },
           builder: (context, state) {
+            print(state);
             if (state is Unauthenticated ||
                 state is AuthError ||
                 state is Authenticating) {
