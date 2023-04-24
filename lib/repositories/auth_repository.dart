@@ -17,6 +17,7 @@ class AuthRepository {
           email: email, password: password);
       //    String lspId = '8ca0d540-aebc-5cb9-b7e0-a2f400b0e0c1';
       String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+
       final prefs = await SharedPreferences.getInstance();
       if (token != null) {
         await prefs.setString('token', token);

@@ -1,5 +1,7 @@
 import 'package:artemis/artemis.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // **************************************************************************
@@ -26,6 +28,11 @@ extension Artemis on ArtemisClient {
 
   Future<String> getToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String token = sharedPreferences.getString("token") ?? '';
+    if (JwtDecoder.isExpired(token)) {
+      token = await FirebaseAuth.instance.currentUser?.getIdToken() ?? '';
+      await saveToken(token);
+    }
     return sharedPreferences.getString("token") ?? '';
   }
 
@@ -40,6 +47,11 @@ extension Artemis on ArtemisClient {
 
   static Future<String> token() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String token = sharedPreferences.getString("token") ?? '';
+    if (token == '' || JwtDecoder.isExpired(token)) {
+      token = await FirebaseAuth.instance.currentUser?.getIdToken() ?? '';
+      await sharedPreferences.setString("token", token);
+    }
     return sharedPreferences.getString("token") ?? '';
   }
 

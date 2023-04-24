@@ -65,6 +65,7 @@ dependencies:
   video_player: ^2.5.1
   syncfusion_flutter_gauges: ^20.4.50
   syncfusion_flutter_datepicker: "20.4.44"
+  jwt_decoder: ^2.0.1
 
 
 dev_dependencies:

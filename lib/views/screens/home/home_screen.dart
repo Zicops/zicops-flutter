@@ -316,7 +316,9 @@ class _HomeScreen extends State<HomeScreen> {
                       ongoingCourse = state.ongoingCourses;
                     });
                   }
-                  print("ongoing course1: ${ongoingCourse[0]}");
+                  if (state is OngoingCourseError) {
+                    print("error: ${state.error}");
+                  }
                 },
                 builder: (context, state) {
                   if (state is OngoingCourseLoading) {
@@ -447,8 +449,6 @@ class _HomeScreen extends State<HomeScreen> {
                       learningFolderCourse = state.learningFolderCourses;
                     });
                   }
-                  print(
-                      "learning folder course1: ${learningFolderCourse[0].id}");
                 },
                 builder: (context, state) {
                   if (state is LearningFolderCourseLoading) {
@@ -572,7 +572,6 @@ class _HomeScreen extends State<HomeScreen> {
                       latestCourse = state.latestCourses;
                     });
                   }
-                  print("latest course1: ${latestCourse[0]}");
                 },
                 builder: (context, state) {
                   if (state is LatestCourseLoading) {
