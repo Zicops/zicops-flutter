@@ -122,14 +122,19 @@ class _NotesTopicScreen extends State<NotesTopicScreen> {
           ),
         ),
         backgroundColor: secondaryColorDark,
-        floatingActionButton: _selectedTab == 1
+        floatingActionButton: _selectedTab == 1 && widget.notes.isNotEmpty
             ? GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NewNoteScreen("", "", "")));
+                          builder: (context) => NewNoteScreen(
+                              "",
+                              "",
+                              widget.notes.isNotEmpty
+                                  ? widget.notes[0]
+                                  : null)));
                 },
                 child: Container(
                   height: 56.sp,

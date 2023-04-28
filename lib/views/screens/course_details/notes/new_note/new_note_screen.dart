@@ -101,7 +101,14 @@ class _NewNoteScreen extends State<NewNoteScreen> {
                                   noteController.text,
                                   'active',
                                 )
-                              : print("Note saved");
+                              : addUserNotes(
+                                  widget.courseItem['course_id'],
+                                  widget.courseItem['module_id'],
+                                  widget.courseItem['topic_id'],
+                                  widget.courseItem['sequence'],
+                                  noteController.text,
+                                );
+                      Navigator.pop(context);
                     },
                     child: Container(
                       width: 24.sp,
