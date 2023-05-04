@@ -115,6 +115,7 @@ addUserNotes(String courseId, String moduleId, String topicId, int sequence,
         details: details,
         is_active: true,
       )));
+  print(res);
   return;
 }
 
@@ -182,6 +183,7 @@ updateUserNotes(String userNotesId, String courseId, String moduleId,
         details: details,
         is_active: true,
       )));
+  print(res);
   return;
 }
 
